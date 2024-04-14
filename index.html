@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>123done</title>
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+  <style>
+      /* Custom styles */
+      .menu-toggle {
+        display: none;
+      }
+
+      @media (max-width: 640px) {
+        .menu-toggle {
+          display: block;
+        }
+        .menu-toggle:checked + .menu {
+          display: block;
+        }
+        .menu {
+          display: none;
+        }
+      }
+          /* Font for programmer style */
+    body {
+      font-family: 'Inter', monospace;
+    }
+    </style>
+</head>
+<body>
+  <div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center">
+      <h1 class="text-2xl font-bold flex items-center">
+        <img src="img/logoapri.jpg" alt="Logo" class="w-6 h-6 mr-2"><a href="index.html">
+          Apriprogram
+        </a>
+      </h1>
+      <!-- Hamburger menu -->
+      <input type="checkbox" id="menu-toggle" class="menu-toggle">
+      <label for="menu-toggle" class="cursor-pointer md:hidden">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </label>
+
+          <!-- End Hamburger menu -->
+          <nav class="menu">
+            <ul class="flex space-x-4">
+              <li>
+                <a
+                  href="projects.html"
+                  class="text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white"
+                  >MyProject</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white"
+                  >Github</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white"
+                  >Instagram</a
+                >
+              </li>
+              <li>
+                <a
+                  href="wallpapers.html"
+                  class="text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white"
+                  >Wallpapers</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white"
+                  >🌐</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div class="mt-8">
+          <p class="text-4xl">
+            Hi, I’m a web developer and a content creator <br>
+            posting regularly about my projects.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-8">
+          <img src="img/img-1.jpg" alt="Gallery Image" class="rounded-lg" />
+          <img src="img/img-1.jpg" alt="Gallery Image" class="rounded-lg" />
+          <img src="img/img-1.jpg" alt="Gallery Image" class="rounded-lg" />
+          <img src="img/img-1.jpg" alt="Gallery Image" class="rounded-lg" />
+          <img src="img/img-1.jpg" alt="Gallery Image" class="rounded-lg" />
+          <img src="img/img-1.jpg" alt="Gallery Image" class="rounded-lg" />
+        </div>
+        <div class="mt-8">
+          <p class="text-4xl">
+            Presently, I am actively developing and documenting <br>  my experimental projects on GitHub. 
+            My aim is to provide <br> value and establish them as beneficial references <br>for fellow developers.
+          </p>
+          <a href="projects.html" class="text-blue-500 hover:text-blue-700 mt-5 inline-block">View Project →</a>
+        </div>
+        <div class="flex flex-col sm:flex-row justify-between items-center mt-8 border-t pt-4">
+          <p class="text-lg font-bold">Apri</p>
+          <div class="flex flex-col sm:flex-row sm:items-center">
+            <a href="#" class="text-blue-500 hover:text-blue-700">Follow me on Instagram</a>
+            <span class="hidden sm:block mx-2">|</span>
+            <p class="text-zinc-600 dark:text-zinc-300">Business email</p>
+            <a href="mailto:business@withmarko.com" class="text-blue-500 hover:text-blue-700 ml-2"
+              >apriprogram@gmail.com</a
+            >
+          </div>
+        </div>
+      </div>
+</body>
+</html>
