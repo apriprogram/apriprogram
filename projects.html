@@ -1,105 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>123done</title>
-  <!-- Tailwind CSS -->
+  <title>Apriprogram</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <!-- Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
   <style>
-    /* Additional CSS */
-    .card img {
-      transition: transform 0.3s ease;
-    }
-    
-    .card:hover img {
-      transform: scale(1.05);
+    /* Custom styles */
+    .menu-toggle {
+      display: none;
     }
 
-    /* Font for programmer style */
-    body {
-      font-family: 'Inter', monospace;
+    .menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transform: translateY(-100%);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .menu.active {
+      transform: translateY(0);
+    }
+
+    .menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .menu li {
+      margin-bottom: 1rem;
+    }
+
+    .menu a {
+      font-size: 1.2rem;
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .menu a:hover {
+      color: #ccc;
+    }
+
+    /* Close button styles */
+    .close-button {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      outline: none;
+      z-index: 10000;
+    }
+
+    .close-button:hover {
+      color: #ccc;
     }
   </style>
 </head>
-<body class="bg-zinc-100 dark:bg-zinc-900">
-  <div class="container mx-auto px-4 py-12">
-    <div class="flex flex-col items-center">
-      <div class="mb-8">
-        <a href="index.html">
-            <img src="img/logoapri.jpg" alt="Logo" class="h-16" />
-          </a>
-        </div>
-        <h2 class="text-3xl font-semibold text-zinc-800 dark:text-white mb-4">
-          <a href="index.html" class="hover:text-blue-500">Apriprogram</a>
-        </h2>
-      <p class="text-zinc-600 dark:text-zinc-400 mb-6">Our Projects is here</p>
-      <div class="flex mb-12">
-        <input
-          type="search"
-          placeholder="Search..."
-          class="p-2 pl-3 border border-zinc-300 dark:border-zinc-600 rounded-l-lg focus:outline-none focus:border-blue-500 dark:focus:border-blue-300"
-          style="margin-right: -1px; outline: none;"
-        />
-        <button class="bg-blue-500 text-white px-4 rounded-r-lg">Search</button>
-      </div>
+
+<body>
+  <div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center">
+      <h1 class="text-2xl font-bold flex items-center">
+        <img src="img/logoapri.jpg" alt="Logo" class="w-6 h-6 mr-2"><a href="index.html">
+          Apriprogram
+        </a>
+      </h1>
+      <!-- Menu toggle checkbox and label -->
+      <input type="checkbox" id="menu-toggle" class="menu-toggle">
+      <label for="menu-toggle" class="cursor-pointer md:hidden">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </label>
+      <!-- End Hamburger menu toggle -->
+
+      <!-- Original menu -->
+      <nav class="hidden md:block">
+        <ul class="flex space-x-4">
+          <li>
+            <a href="projects.html"
+              class="text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white">My Projects</a>
+          </li>
+          <li>
+            <a href="github.html"
+              class="text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white">Github</a>
+          </li>
+          <li>
+            <a href="#" class="text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white">Instagram</a>
+          </li>
+          <li>
+            <a href="wallpapers.html"
+              class="text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white">Wallpapers</a>
+          </li>
+          <li>
+            <a href="#" class="text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white">🌐</a>
+          </li>
+        </ul>
+      </nav>
+      <!-- End Original menu -->
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div class="bg-white dark:bg-zinc-800 rounded-lg overflow-hidden shadow-lg card relative">
-        <img
-          src="img/projects/project-3.jpg"
-          alt="Product image"
-          class="w-full h-100 object-cover transition-transform duration-300 transform hover:scale-105"
-        />
-        <div class="p-6">
-          <h3 class="text-lg font-semibold text-zinc-800 dark:text-white mb-2">Campus Organization</h3>
-          <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-4">The Campus Organization website serves as a central platform for students, faculty, and staff to access information, resources, and updates related to various clubs, societies, and administrative bodies within the campus community. It provides details about the structure, objectives, and activities of different campus organizations, facilitating communication and collaboration among members. Additionally, the website may feature event calendars, membership registration forms, and announcements, fostering engagement and involvement in campus life. With a user-friendly interface and comprehensive content, the Campus Organization website aims to enhance the overall campus experience and promote a vibrant and inclusive community spirit.</p>
-          <div class="flex items-center justify-between">
-            <span class="text-zinc-800 dark:text-white font-bold">Done!</span>
-            <a href="index.html" class="text-blue-500 dark:text-blue-300 text-sm">Learn more</a>
-          </div>
-        </div>
-      </div>
-      <div class="bg-white dark:bg-zinc-800 rounded-lg overflow-hidden shadow-lg card relative">
-        <img
-          src="img/projects/project-2.jpg"
-          alt="Product image"
-          class="w-full h-100 object-cover transition-transform duration-300 transform hover:scale-105"
-        />
-        <div class="p-6">
-          <h3 class="text-lg font-semibold text-zinc-800 dark:text-white mb-2">Website Faculty of Computer Sciences</h3>
-          <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-4">The Faculty of Computer Sciences website is a digital platform that provides comprehensive information about the computer science faculty at an institution of higher education. This website encompasses various essential details such as the offered academic programs, faculty and staff members, curriculum, academic and non-academic activities, as well as available facilities. Additionally, the website offers up-to-date news and articles regarding the latest developments in the field of computer science, as well as job and internship opportunities for students and alumni. With a responsive and user-friendly design, this website facilitates prospective students, current students, staff, and the general public in accessing the necessary information about the computer science faculty. Through this website, the computer science faculty can extend its reach, enhance transparency, and strengthen relationships with stakeholders both within and outside the campus.</p>
-          <div class="flex items-center justify-between">
-            <span class="text-zinc-800 dark:text-white font-bold">Done!</span>
-            <a href="index.html" class="text-blue-500 dark:text-blue-300 text-sm">Learn more</a>
-          </div>
-        </div>
-      </div>
-      <div class="bg-white dark:bg-zinc-800 rounded-lg overflow-hidden shadow-lg card relative">
-        <img
-          src="img/projects/project-1.jpg"
-          alt="Product image"
-          class="w-full h-100 object-cover transition-transform duration-300 transform hover:scale-105"
-        />
-        <div class="p-6">
-          <h3 class="text-lg font-semibold text-zinc-800 dark:text-white mb-2">Sistem Visitasi</h3>
-          <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-4">
-            Sistem Visitasi berbasis website untuk unit pemasaran dan promosi di Universitas Muhammadiyah Metro Metro adalah platform digital yang memungkinkan staf marketing dan promosi untuk mengatur dan melacak kunjungan ke sekolah menengah, kampus, dan acara promosi lainnya. Dengan sistem ini, staf dapat melakukan penjadwalan kunjungan, mengirim konfirmasi kepada pihak yang dikunjungi, memantau riwayat kunjungan, dan menyimpan catatan hasil kunjungan. Selain itu, sistem ini juga dapat memberikan laporan dan analisis tentang efektivitas kampanye pemasaran dan promosi yang dilakukan, sehingga memungkinkan pengambilan keputusan yang lebih baik dalam perencanaan strategi pemasaran di masa depan. Dengan adanya sistem ini, proses visitasi dapat lebih terstruktur, efisien, dan terukur, sehingga mendukung pencapaian tujuan pemasaran dan promosi UM Metro secara lebih efektif.</p>
-          <div class="flex items-center justify-between">
-            <span class="text-zinc-800 dark:text-white font-bold">Done!</span>
-            <a href="index.html" class="text-blue-500 dark:text-blue-300 text-sm">Learn more</a>
-          </div>
-        </div>
-      </div>
-      
+    <div class="mt-8">
+      <p class="text-4xl">
+        MyProjects
+      </p>
     </div>
-  </div>
-  <div class="flex justify-center items-center py-6">
-    <span class="text-zinc-500 dark:text-zinc-400 text-xs">Powered by Apri</span>
-  </div>
+
+    <body class="bg-zinc-100 dark:bg-zinc-900">
+      <div class="container mx-auto px-4 py-12">
+        <div class="flex flex-col items-center">
+          <div class="flex mb-12">
+            <input type="search" placeholder="Search..."
+              class="p-2 pl-3 border border-zinc-300 dark:border-zinc-600 rounded-l-lg focus:outline-none focus:border-blue-500 dark:focus:border-blue-300"
+              style="margin-right: -1px; outline: none;" />
+            <button class="bg-blue-500 text-white px-4 rounded-r-lg">Search</button>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="bg-white dark:bg-zinc-800 rounded-lg overflow-hidden shadow-lg card relative">
+            <img src="img/projects/project-3.jpg" alt="Product image"
+              class="w-full h-100 object-cover transition-transform duration-300 transform hover:scale-105" />
+            <div class="p-6">
+              <h3 class="text-lg font-semibold text-zinc-800 dark:text-white mb-2">Campus Organization</h3>
+              <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-4">The Campus Organization website serves as a
+                central platform for students, faculty, and staff to access information, resources, and updates related
+                to various clubs, societies, and administrative bodies within the campus community. It provides details
+                about the structure, objectives, and activities of different campus organizations, facilitating
+                communication and collaboration among members. Additionally, the website may feature event calendars,
+                membership registration forms, and announcements, fostering engagement and involvement in campus life.
+                With a user-friendly interface and comprehensive content, the Campus Organization website aims to
+                enhance the overall campus experience and promote a vibrant and inclusive community spirit.</p>
+              <div class="flex items-center justify-between">
+                <span class="text-zinc-800 dark:text-white font-bold">Done!</span>
+                <a href="index.html" class="text-blue-500 dark:text-blue-300 text-sm">Learn more</a>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white dark:bg-zinc-800 rounded-lg overflow-hidden shadow-lg card relative">
+            <img src="img/projects/project-2.png" alt="Product image"
+              class="w-full h-100 object-cover transition-transform duration-300 transform hover:scale-105" />
+            <div class="p-6">
+              <h3 class="text-lg font-semibold text-zinc-800 dark:text-white mb-2">Website Faculty of Computer Sciences
+              </h3>
+              <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-4">The Faculty of Computer Sciences website is a
+                digital platform that provides comprehensive information about the computer science faculty at an
+                institution of higher education. This website encompasses various essential details such as the offered
+                academic programs, faculty and staff members, curriculum, academic and non-academic activities, as well
+                as available facilities. Additionally, the website offers up-to-date news and articles regarding the
+                latest developments in the field of computer science, as well as job and internship opportunities for
+                students and alumni. With a responsive and user-friendly design, this website facilitates prospective
+                students, current students, staff, and the general public in accessing the necessary information about
+                the computer science faculty. Through this website, the computer science faculty can extend its reach,
+                enhance transparency, and strengthen relationships with stakeholders both within and outside the campus.
+              </p>
+              <div class="flex items-center justify-between">
+                <span class="text-zinc-800 dark:text-white font-bold">Done!</span>
+                <a href="index.html" class="text-blue-500 dark:text-blue-300 text-sm">Learn more</a>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white dark:bg-zinc-800 rounded-lg overflow-hidden shadow-lg card relative">
+            <img src="img/projects/project-1.jpg" alt="Product image"
+              class="w-full h-100 object-cover transition-transform duration-300 transform hover:scale-105" />
+            <div class="p-6">
+              <h3 class="text-lg font-semibold text-zinc-800 dark:text-white mb-2">Sistem Visitasi</h3>
+              <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-4">
+                Sistem Visitasi berbasis website untuk unit pemasaran dan promosi di Universitas Muhammadiyah Metro
+                Metro adalah platform digital yang memungkinkan staf marketing dan promosi untuk mengatur dan melacak
+                kunjungan ke sekolah menengah, kampus, dan acara promosi lainnya. Dengan sistem ini, staf dapat
+                melakukan penjadwalan kunjungan, mengirim konfirmasi kepada pihak yang dikunjungi, memantau riwayat
+                kunjungan, dan menyimpan catatan hasil kunjungan. Selain itu, sistem ini juga dapat memberikan laporan
+                dan analisis tentang efektivitas kampanye pemasaran dan promosi yang dilakukan, sehingga memungkinkan
+                pengambilan keputusan yang lebih baik dalam perencanaan strategi pemasaran di masa depan. Dengan adanya
+                sistem ini, proses visitasi dapat lebih terstruktur, efisien, dan terukur, sehingga mendukung pencapaian
+                tujuan pemasaran dan promosi UM Metro secara lebih efektif.</p>
+              <div class="flex items-center justify-between">
+                <span class="text-zinc-800 dark:text-white font-bold">Done!</span>
+                <a href="index.html" class="text-blue-500 dark:text-blue-300 text-sm">Learn more</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-center mt-8">
+          <button
+            class="py-2 px-4 border border-gray-300 bg-transparent text-gray-700 rounded-md transition duration-300 ease-in-out hover:bg-gray-300 hover:text-gray-800 outline-none focus:outline-none">View
+            More</button>
+        </div>
+      </div>
+      <div class="flex justify-center items-center py-6">
+        <span class="text-zinc-500 dark:text-zinc-400 text-xs">Powered by Apri</span>
+      </div>
+
+    <!-- Menu -->
+    <nav class="menu">
+      <!-- Close button (X) -->
+      <button class="close-button">&times;</button>
+      <!-- Menu items -->
+      <ul class="flex flex-col items-center">
+        <li><a href="projects.html" class="text-white hover:text-gray-400">My Projects</a></li>
+        <li><a href="github.html" class="text-white hover:text-gray-400">Github</a></li>
+        <li><a href="#" class="text-white hover:text-gray-400">Instagram</a></li>
+        <li><a href="wallpapers.html" class="text-white hover:text-gray-400">Wallpapers</a></li>
+        <li><a href="#" class="text-white hover:text-gray-400">🌐</a></li>
+      </ul>
+    </nav>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const menuToggle = document.getElementById('menu-toggle');
+        const menu = document.querySelector('.menu');
+        const closeButton = document.querySelector('.close-button');
+    
+        menuToggle.addEventListener('change', function() {
+          if (this.checked) {
+            menu.classList.add('active');
+          } else {
+            menu.classList.remove('active');
+          }
+        });
+    
+        closeButton.addEventListener('click', function() {
+          menuToggle.checked = false;
+          window.location.href = 'index.html'; // Ganti 'index.html' dengan URL halaman utama Anda
+        });
+      });
+    </script>
+    
 </body>
 </html>
