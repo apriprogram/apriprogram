@@ -53,6 +53,8 @@ app.post("/api/auth/register", authController.register);
 app.post("/api/auth/login", authController.login);
 app.post("/api/auth/logout", authController.logout);
 app.get("/logout", authController.logout);
+app.get("/api/auth/google", authController.googleAuth);
+app.get("/api/auth/google/callback", authController.googleCallback);
 
 // Admin Pages Routes
 app.get("/admin", (req, res) => {

@@ -47,6 +47,8 @@ async function initDatabase() {
     await pool.query("ALTER TABLE users ADD COLUMN whatsapp VARCHAR(20) DEFAULT ''");
     await pool.query("ALTER TABLE users ADD COLUMN company VARCHAR(100) DEFAULT ''");
     await pool.query("ALTER TABLE users ADD COLUMN country VARCHAR(50) DEFAULT ''");
+    await pool.query("ALTER TABLE users ADD COLUMN google_id VARCHAR(255) DEFAULT NULL");
+    await pool.query("ALTER TABLE users ADD COLUMN avatar VARCHAR(255) DEFAULT NULL");
   } catch(e) {
     // Silently ignore if columns exist
   }

@@ -59,3 +59,37 @@ body {
 .faq-icon {
   transition: transform 220ms ease;
 }
+
+/* Scrolled Header Style for Light Mode */
+html:not(.dark) .header-scrolled {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  border-bottom-color: #e2e8f0 !important;
+  box-shadow: none !important;
+}
+
+html:not(.dark) .header-scrolled .nav-text {
+  color: #0f172a !important; /* text-slate-900 */
+}
+
+html:not(.dark) .header-scrolled .nav-link {
+  color: #475569 !important; /* text-slate-600 */
+}
+
+html:not(.dark) .header-scrolled .nav-link:hover {
+  color: #0f172a !important; /* text-slate-900 */
+}
+
+html:not(.dark) .header-scrolled #darkModeToggle {
+  color: #475569 !important;
+}
+
+html:not(.dark) .header-scrolled #darkModeToggle:hover {
+  color: #0f172a !important;
+}
+
+html:not(.dark) .header-scrolled #mobileMenuButton {
+}
+
+html:not(.dark) .header-scrolled #mobileMenuButton span {
+  background-color: #0f172a !important;
+}
