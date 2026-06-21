@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pesan Website - Apriprogram</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    // Theme setup to prevent FOUC
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Poppins', 'sans-serif'] },
+          colors: { brand: { blue: "#243CFF", cyan: "#22D3EE", card: "#0a111f", border: "rgba(255,255,255,0.05)" } }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-slate-50 dark:bg-[#050b14] text-slate-900 dark:text-white min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="w-full bg-white dark:bg-brand-card border-b border-slate-200 dark:border-brand-border py-4 px-6 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center gap-3">
+      <img src="/assets/logo/apriprogram.png" alt="Logo" class="h-8" onerror="this.style.display='none'">
+      <span class="font-semibold text-lg">Pemesanan Website</span>
+    </div>
+    <div class="flex items-center gap-4">
+      <div class="text-sm text-slate-500 dark:text-slate-400 hidden sm:block">Halo, <%= user.email %></div>
+      <button id="themeToggle" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-blue" aria-label="Toggle Dark Mode">
+        <svg id="themeIconDark" class="w-5 h-5 text-slate-600 dark:text-slate-300 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        <svg id="themeIconLight" class="w-5 h-5 text-slate-600 dark:text-slate-300 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+      </button>
+      <a href="/logout" class="text-sm font-medium text-red-500 hover:text-red-600 transition-colors">Logout</a>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-6xl w-full mx-auto p-6 lg:py-10">
+    
+    <!-- Steps Indicator -->
+    <div class="mb-14 relative w-full px-2 sm:px-6">
+      <!-- Background Line -->
+      <div class="absolute left-6 right-6 top-5 -translate-y-1/2 h-1 bg-slate-200 dark:bg-brand-border z-0 rounded-full"></div>
+      <!-- Progress Line -->
+      <div id="progress-bar" class="absolute left-6 top-5 -translate-y-1/2 h-1 bg-brand-blue z-0 rounded-full transition-all duration-500 ease-in-out" style="width: 0%; max-width: calc(100% - 3rem);"></div>
+      
+      <div class="relative z-10 flex justify-between items-center w-full">
+        <div class="relative flex flex-col items-center step-indicator" data-step="1">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm bg-brand-blue text-white ring-4 ring-slate-50 dark:ring-[#050b14] shadow-sm transition-colors duration-500 relative z-10">1</div>
+          <span class="absolute top-14 text-xs font-medium text-brand-blue whitespace-nowrap text-center">Jenis Web</span>
+        </div>
+        <div class="relative flex flex-col items-center step-indicator" data-step="2">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm bg-slate-200 dark:bg-slate-800 text-slate-400 ring-4 ring-slate-50 dark:ring-[#050b14] shadow-sm transition-colors duration-500 relative z-10">2</div>
+          <span class="absolute top-14 text-xs font-medium text-slate-500 dark:text-slate-500 whitespace-nowrap text-center">Paket</span>
+        </div>
+        <div class="relative flex flex-col items-center step-indicator" data-step="3">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm bg-slate-200 dark:bg-slate-800 text-slate-400 ring-4 ring-slate-50 dark:ring-[#050b14] shadow-sm transition-colors duration-500 relative z-10">3</div>
+          <span class="absolute top-14 text-xs font-medium text-slate-500 dark:text-slate-500 whitespace-nowrap text-center">Briefing</span>
+        </div>
+        <div class="relative flex flex-col items-center step-indicator" data-step="4">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm bg-slate-200 dark:bg-slate-800 text-slate-400 ring-4 ring-slate-50 dark:ring-[#050b14] shadow-sm transition-colors duration-500 relative z-10">4</div>
+          <span class="absolute top-14 text-xs font-medium text-slate-500 dark:text-slate-500 whitespace-nowrap text-center">Desain</span>
+        </div>
+        <div class="relative flex flex-col items-center step-indicator" data-step="5">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm bg-slate-200 dark:bg-slate-800 text-slate-400 ring-4 ring-slate-50 dark:ring-[#050b14] shadow-sm transition-colors duration-500 relative z-10">5</div>
+          <span class="absolute top-14 text-xs font-medium text-slate-500 dark:text-slate-500 whitespace-nowrap text-center">Ringkasan</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Forms Container -->
+    <div class="bg-white dark:bg-brand-card rounded-2xl border border-slate-200 dark:border-brand-border p-6 sm:p-10">
+      <form id="orderForm">
+        
+        <!-- STEP 1: Jenis Website -->
+        <div class="step-content block" id="step1">
+          <h2 class="text-2xl font-semibold mb-2">Pilih Jenis Website</h2>
+          <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Pilih kategori yang paling sesuai dengan kebutuhan proyek Anda.</p>
+          
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="websiteTypeGrid">
+            <!-- JS will populate options here -->
+          </div>
+          <input type="hidden" id="website_type" required>
+          <p id="err-step1" class="text-red-500 text-sm mt-3 hidden">Pilih salah satu jenis website terlebih dahulu.</p>
+        </div>
+
+        <!-- STEP 2: Pilih Paket -->
+        <div class="step-content hidden" id="step2">
+          <h2 class="text-2xl font-semibold mb-2">Pilih Paket Website</h2>
+          <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Pilih paket yang sesuai dengan fitur dan budget yang Anda inginkan.</p>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="packagesGrid">
+            <!-- JS will populate pricing cards here based on selected website type -->
+          </div>
+          <input type="hidden" id="package_name" required>
+          <p id="err-step2" class="text-red-500 text-sm mt-3 hidden">Pilih salah satu paket terlebih dahulu.</p>
+        </div>
+
+        <!-- STEP 3: Isi Brief & Upload -->
+        <div class="step-content hidden" id="step3">
+          <h2 class="text-2xl font-semibold mb-2">Brief Proyek</h2>
+          <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Ceritakan lebih detail tentang website yang ingin Anda buat.</p>
+          
+          <div class="space-y-5">
+            <div>
+              <label class="block text-sm font-semibold mb-2 text-slate-800 dark:text-slate-200">Nama Proyek / Website *</label>
+              <input type="text" id="project_name" required class="w-full px-4 py-3 bg-white dark:bg-[#0a111f] border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none text-sm transition-all text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500">
+            </div>
+            <div>
+              <label class="block text-sm font-semibold mb-2 text-slate-800 dark:text-slate-200">Deskripsi Singkat *</label>
+              <textarea id="description" rows="3" required class="w-full px-4 py-3 bg-white dark:bg-[#0a111f] border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none text-sm transition-all text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500" placeholder="Tujuan website ini untuk apa?"></textarea>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold mb-2 text-slate-800 dark:text-slate-200">Fitur yang Dibutuhkan</label>
+              <textarea id="features" rows="2" class="w-full px-4 py-3 bg-white dark:bg-[#0a111f] border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none text-sm transition-all text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500" placeholder="Contoh: Live Chat, Kalkulator Harga, dll."></textarea>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-sm font-semibold mb-2 text-slate-800 dark:text-slate-200">Target Penyelesaian (Opsional)</label>
+                <input type="date" id="target_date" class="w-full px-4 py-3 bg-white dark:bg-[#0a111f] border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none text-sm transition-all text-slate-900 dark:text-white">
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold mb-2 text-slate-800 dark:text-slate-200">Upload Document Project</label>
+              <div class="w-full border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-[#0a111f] p-8 text-center hover:bg-slate-100 dark:hover:bg-white/5 transition-colors cursor-pointer relative mt-2 group" id="dropzone">
+                 <input type="file" id="fileUpload" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt,.zip,.rar" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                 <div class="mb-3">
+                   <div class="w-12 h-12 bg-slate-200 dark:bg-slate-800 text-slate-500 rounded-full flex items-center justify-center mx-auto shadow-sm group-hover:scale-110 transition-transform">
+                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                   </div>
+                 </div>
+                 <h4 class="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1">Choose a file or drag & drop it here.</h4>
+                 <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">txt, docx, pdf, jpeg, xlsx, zip - Up to 50MB</p>
+                 <button type="button" class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 pointer-events-none shadow-sm">Browse files</button>
+              </div>
+              <input type="hidden" id="uploadedFileUrl">
+              <div id="uploadStatus" class="mt-3 space-y-2"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4: Desain & Referensi -->
+        <div class="step-content hidden" id="step4">
+          <h2 class="text-2xl font-semibold mb-2">Tema & Referensi Desain</h2>
+          <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Bantu kami memahami selera visual Anda.</p>
+          
+          <div class="space-y-5">
+            <div>
+              <label class="block text-sm font-semibold mb-2 text-slate-800 dark:text-slate-200">Link Website Referensi (Bila Ada)</label>
+              <textarea id="reference_links" rows="2" class="w-full px-4 py-3 bg-white dark:bg-[#0a111f] border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none text-sm transition-all text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500" placeholder="Sebutkan link website yang Anda jadikan contoh/inspirasi..."></textarea>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-sm font-semibold mb-2 text-slate-800 dark:text-slate-200">Warna Utama</label>
+                <input type="color" id="primary_color" value="#243CFF" class="w-full h-12 rounded-xl cursor-pointer bg-white dark:bg-[#0a111f] border border-slate-300 dark:border-slate-700 p-1">
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-2 text-slate-800 dark:text-slate-200">Gaya Desain</label>
+                <select id="design_style" class="w-full px-4 py-3 bg-white dark:bg-[#0a111f] border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none text-sm transition-all text-slate-900 dark:text-white">
+                  <option value="Modern Minimalis">Modern Minimalis</option>
+                  <option value="Elegan & Mewah">Elegan & Mewah</option>
+                  <option value="Ceria & Colorful">Ceria & Colorful</option>
+                  <option value="Korporat Profesional">Korporat Profesional</option>
+                  <option value="Bebas / Terserah Tim">Bebas / Terserah Tim</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold mb-2 text-slate-800 dark:text-slate-200">Catatan Tambahan Terkait Desain</label>
+              <textarea id="notes" rows="2" class="w-full px-4 py-3 bg-white dark:bg-[#0a111f] border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none text-sm transition-all text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500" placeholder="Contoh: Tolong buatkan animasi saat scroll..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 5: Ringkasan & Pembayaran -->
+        <div class="step-content hidden" id="step5">
+          <h2 class="text-2xl font-semibold mb-2">Ringkasan Pesanan</h2>
+          <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Review pesanan Anda sebelum melanjutkan ke pembayaran DP.</p>
+          
+          <div class="bg-slate-50 dark:bg-[#050b14] p-5 rounded-xl border border-slate-200 dark:border-white/10 mb-6 space-y-3 text-sm">
+            <div class="flex justify-between border-b border-slate-200 dark:border-white/5 pb-2">
+              <span class="text-slate-500 dark:text-slate-400">Jenis Website:</span>
+              <strong id="summary-type"></strong>
+            </div>
+            <div class="flex justify-between border-b border-slate-200 dark:border-white/5 pb-2">
+              <span class="text-slate-500 dark:text-slate-400">Nama Proyek:</span>
+              <strong id="summary-name"></strong>
+            </div>
+            <div class="flex justify-between pb-2">
+              <span class="text-slate-500 dark:text-slate-400">Paket:</span>
+              <strong id="summary-package" class="text-brand-blue"></strong>
+            </div>
+          </div>
+
+          <div class="bg-blue-50 dark:bg-brand-blue/10 border border-blue-200 dark:border-brand-blue/30 p-5 rounded-xl mb-6">
+            <h3 class="font-semibold text-blue-800 dark:text-blue-300 mb-2">Instruksi Pembayaran DP (Down Payment)</h3>
+            <p class="text-sm text-blue-700 dark:text-blue-400 mb-4">Untuk memulai pengerjaan, silakan lakukan pembayaran DP sebagai tanda jadi keseriusan.</p>
+            <div class="font-mono text-lg font-semibold text-slate-900 dark:text-white">BCA - 1234567890</div>
+            <div class="text-sm text-slate-600 dark:text-slate-300 mb-4">a.n PT Apriprogram Teknologi</div>
+            
+            <hr class="border-blue-200 dark:border-brand-blue/20 my-4">
+            
+            <label class="block text-sm font-semibold mb-2 text-blue-800 dark:text-blue-300">Upload Bukti Pembayaran *</label>
+            <input type="file" id="paymentProofUpload" accept="image/*,.pdf" class="block w-full text-sm text-slate-500 dark:text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 dark:file:bg-brand-blue/20 dark:file:text-brand-blue hover:file:bg-blue-200 transition-colors border border-blue-200 dark:border-brand-blue/30 rounded-lg bg-white dark:bg-[#0a111f] focus:ring-2 focus:ring-brand-blue">
+            <input type="hidden" id="paymentProofUrl">
+            <p id="paymentUploadStatus" class="text-xs text-green-600 mt-2 hidden font-semibold">Bukti pembayaran berhasil diunggah!</p>
+          </div>
+
+          <p class="text-xs text-slate-500 dark:text-slate-400">Dengan menekan tombol "Kirim Pesanan", Anda menyetujui syarat & ketentuan layanan kami. Tim Apriprogram akan segera memproses pesanan Anda dan mengabari via WhatsApp/Email.</p>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="mt-8 flex justify-between items-center pt-5 border-t border-slate-200 dark:border-brand-border">
+          <button type="button" id="btnPrev" class="hidden px-6 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-medium rounded-xl transition-colors">Kembali</button>
+          <button type="button" id="btnNext" class="px-6 py-2.5 bg-brand-blue hover:bg-blue-600 text-white font-medium rounded-xl transition-colors ml-auto">Lanjutkan</button>
+          <button type="submit" id="btnSubmit" class="hidden px-6 py-2.5 bg-brand-cyan hover:bg-cyan-500 text-slate-900 font-semibold rounded-xl transition-colors ml-auto flex items-center gap-2">Kirim Pesanan & Selesai</button>
+        </div>
+
+      </form>
+    </div>
+  </main>
+
+  <!-- Success Modal -->
+  <div id="successModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity">
+    <div class="bg-white dark:bg-brand-card w-full max-w-sm rounded-2xl p-8 text-center border border-slate-200 dark:border-brand-border">
+      <div class="w-20 h-20 bg-green-100 dark:bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-5">
+        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+      </div>
+      <h3 class="text-2xl font-semibold mb-2">Pesanan Diterima!</h3>
+      <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Terima kasih! Tim kami akan segera meninjau brief Anda dan menghubungi Anda secepatnya.</p>
+      <a href="/" class="block w-full py-3 bg-brand-blue text-white rounded-xl font-medium">Kembali ke Beranda</a>
+    </div>
+  </div>
+
+  <!-- File Viewer Modal -->
+  <div id="fileViewerModal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-sm z-[60] flex items-center justify-center hidden opacity-0 transition-opacity p-4 duration-300">
+    <div class="bg-white dark:bg-[#0a111f] w-full max-w-4xl rounded-2xl overflow-hidden flex flex-col max-h-[90vh] border border-slate-200 dark:border-slate-700 shadow-2xl scale-95 transform transition-transform duration-300" id="fileViewerContainer">
+      <div class="p-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50">
+        <h3 id="fileViewerTitle" class="font-semibold text-slate-800 dark:text-white truncate">View File</h3>
+        <button type="button" onclick="closeFileViewer()" class="text-slate-500 hover:text-red-500 transition-colors p-1 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      <div class="p-4 overflow-auto flex-1 flex items-center justify-center min-h-[300px] relative">
+        <div id="fileViewerContent" class="w-full h-full flex items-center justify-center"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Center Toast Notification -->
+  <div id="toastNotification" class="fixed top-5 left-1/2 -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-full shadow-2xl z-[100] flex items-center gap-3 transform -translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+    <span class="font-semibold text-sm">Silakan unggah bukti pembayaran Anda terlebih dahulu.</span>
+  </div>
+
+  <script>
+    // Constants
+    // Constants & Pricing Data
+    const websiteTypes = [
+      "Website Sekolah", "Website Kampus/Universitas", "Website Kursus & Bimbingan Belajar", "Website LPK",
+      "Website Desa", "Website Profil Perusahaan", "Website Kantor Hukum", "Website Bank", "Undangan Digital"
+    ];
+
+    const pricingData = {
+      "Website Sekolah": [
+        { name: "Paket Standard", price: "Rp. 4.000.000", target: "Cocok untuk SD, SMP, SMA, dan SMK yang membutuhkan website profil institusi.", isPopular: false, duration: "Estimasi pengerjaan: 15 - 30 hari kerja",
+          features: ["Panel Admin (CMS)", "Login Admin", "Profil Sekolah & Sejarah", "Visi & Misi", "Informasi Guru & Staff", "Informasi Program & Ekstrakurikuler", "Berita, Artikel & Pengumuman", "Galeri Foto/Video", "Formulir Kontak", "Page Builder", "Integrasi WhatsApp", "Integrasi Google Maps", "Responsive (Mobile & Desktop)", "Desain Website Profesional & Modern", "SEO Dasar"] },
+        { name: "Paket Profesional", price: "Rp. 8.000.000", target: "Cocok untuk sekolah yang membutuhkan sistem informasi dan layanan akademik yang lebih lengkap.", isPopular: true, duration: "Estimasi pengerjaan: 30 - 60 hari kerja",
+          features: ["Semua fitur Standard, ditambah:", "Sistem PPDB (Penerimaan Peserta Didik Baru)", "Portal Siswa", "Portal Guru", "Download Dokumen & Formulir", "Dashboard Statistik Pengunjung", "Dashboard Laporan & Statistik", "Integrasi Pembayaran SPP", "Multi User Admin", "Role & Permission Management", "Backup Database Berkala"] },
+        { name: "Paket Premium", price: "Rp. 15.000.000+", target: "Cocok untuk sekolah yang membutuhkan sistem akademik terintegrasi.", isPopular: false, duration: "Estimasi pengerjaan: 60 - 90 hari kerja",
+          features: ["Semua fitur Profesional, ditambah:", "E-Learning", "Absensi Online", "E-Rapor", "Jadwal Pelajaran Online", "Portal Orang Tua/Wali Murid", "Integrasi Pembayaran SPP", "Notifikasi Email & WhatsApp", "Dashboard Akademik", "Sistem Akademik Sesuai Kebutuhan", "SSL Premium & Security Hardening", "Fitur Kustom Sesuai Kebutuhan Sekolah"] }
+      ],
+      "Website Kampus/Universitas": [
+        { name: "Paket Standard", price: "Rp. 7.500.000", target: "Cocok untuk kampus, sekolah tinggi, atau akademi yang membutuhkan website profil institusi.", isPopular: false, duration: "Estimasi pengerjaan: 30 - 60 hari kerja",
+          features: ["Panel Admin (CMS)", "Profil Kampus & Sejarah", "Visi & Misi", "Informasi Program Studi", "Informasi Fakultas & Dosen", "Manajemen Berita, Artikel & Pengumuman", "Page Builder", "Galeri Foto/Video", "Formulir Kontak", "Integrasi WhatsApp", "Integrasi Google Maps", "Responsive (Mobile & Desktop)", "Desain Website Profesional & Modern", "SEO Dasar"] },
+        { name: "Paket Profesional", price: "Rp. 12.000.000+", target: "Cocok untuk kampus yang membutuhkan sistem informasi dan pengelolaan konten yang lebih lengkap.", isPopular: true, duration: "Estimasi pengerjaan: 60 - 90 hari kerja",
+          features: ["Semua fitur Standard, ditambah:", "Sistem PMB (Penerimaan Mahasiswa Baru) Online", "Portal Mahasiswa", "Integrasi Pembayaran UKT/SPP", "Portal Dosen", "Sistem Akademik Sesuai Kebutuhan", "Jadwal Perkuliahan", "Download Dokumen & Formulir", "Halaman Karir & Alumni", "Role & Permission Management", "Multi User Admin", "Dashboard Laporan & Statistik", "Dashboard Statistik Pengunjung", "Backup Database Berkala", "Fitur Kustom Sesuai Kebutuhan Kampus"] }
+      ],
+      "Website Kursus & Bimbingan Belajar": [
+        { name: "Paket Standard", price: "Rp. 6.000.000", target: "Cocok untuk lembaga kursus yang membutuhkan website profil dan informasi program belajar.", isPopular: false, duration: "Estimasi pengerjaan: 30 - 60 hari kerja",
+          features: ["Panel Admin (CMS)", "Login Admin", "Profil Lembaga Kursus", "Informasi Program & Kelas", "Profil Pengajar", "Jadwal Kelas", "Pendaftaran Siswa Online", "Manajemen Berita & Pengumuman", "Page Builder", "Integrasi WhatsApp", "Integrasi Google Maps", "Responsive (Mobile & Desktop)", "Desain Profesional & Modern", "SEO Dasar"] },
+        { name: "Paket Profesional", price: "Rp. 12.000.000+", target: "Cocok untuk lembaga kursus yang membutuhkan sistem pendaftaran dan pengelolaan siswa.", isPopular: true, duration: "Estimasi pengerjaan: 60 - 90 hari kerja",
+          features: ["Semua fitur Standard, ditambah:", "Portal Siswa", "Portal Pengajar", "E-Learning", "Video Pembelajaran Online", "Kuis & Ujian Online", "Sertifikat Digital Otomatis", "Absensi Online", "Dashboard Laporan & Statistik", "Integrasi Pembayaran", "Multi Users", "Role & Permission Management", "Backup Database Berkala", "Fitur Kustom Sesuai Kebutuhan Lembaga"] }
+      ],
+      "Website LPK": [
+        { name: "Paket Standard", price: "Rp. 6.000.000", target: "Cocok untuk LPK yang membutuhkan sistem profil dan pendaftaran peserta yang lebih lengkap.", isPopular: false, duration: "Estimasi pengerjaan: 30 - 60 hari kerja",
+          features: ["Panel Admin (CMS)", "Login Admin", "Profil LPK & Tentang Kami", "Visi & Misi", "Informasi Program Pelatihan", "Profil Instruktur/Pengajar", "Jadwal Pelatihan", "Informasi Penempatan Kerja", "Berita & Pengumuman", "Galeri Foto/Video", "Formulir Pendaftaran Online", "Page Builder", "Integrasi WhatsApp", "Integrasi Google Maps", "Responsive (Mobile & Desktop)", "Desain Website Profesional & Modern", "SEO Dasar"] },
+        { name: "Paket Profesional", price: "Rp. 10.000.000+", target: "Cocok untuk lembaga khusus yang membutuhkan sistem pendaftaran dan pengelolaan siswa.", isPopular: true, duration: "Estimasi pengerjaan: 60 - 90 hari kerja",
+          features: ["Semua fitur Standard, ditambah:", "Portal Peserta", "Portal Instruktur", "Dashboard Peserta", "Login Peserta & Instruktur", "Manajemen Materi Pelatihan", "Upload Modul & Dokumen", "Sertifikat Digital Otomatis", "Dashboard Laporan & Statistik", "Multi User Admin", "Role & Permission Management", "Backup Database Berkala", "Integrasi Pembayaran", "Fitur Kustom Sesuai Kebutuhan LPK"] }
+      ],
+      "Website Desa": [
+        { name: "Paket Standard", price: "Rp. 4.000.000", target: "Cocok untuk desa yang membutuhkan website profil dan media informasi desa.", isPopular: false, duration: "Estimasi pengerjaan: 15 - 30 hari kerja",
+          features: ["Panel Admin (CMS)", "Login Admin", "Profil Desa & Sejarah", "Visi & Misi Desa", "Profil Aparatur Desa", "Informasi Potensi Desa", "Berita & Pengumuman Desa", "Galeri Foto/Video", "Formulir Kontak", "Page Builder", "Integrasi WhatsApp", "Integrasi Google Maps", "Responsive (Mobile & Desktop)", "Desain Website Profesional & Modern", "SEO Dasar"] },
+        { name: "Paket Profesional", price: "Rp. 8.000.000", target: "Cocok untuk desa yang membutuhkan layanan administrasi dan informasi yang lebih lengkap.", isPopular: true, duration: "Estimasi pengerjaan: 30 - 60 hari kerja",
+          features: ["Semua fitur Standard, ditambah:", "Sistem Pengajuan Surat Online", "Download Formulir & Dokumen Desa", "Layanan Administrasi Desa", "Dashboard Statistik Pengunjung", "Dashboard Data Penduduk Dasar", "Multi User Admin", "Role & Permission Management", "Manajemen Berita, Pengumuman, Artikel", "Manajemen Laporan", "Backup Database Berkala"] },
+        { name: "Paket Premium", price: "Rp. 15.000.000+", target: "Cocok untuk desa yang membutuhkan sistem pelayanan masyarakat dan administrasi desa terintegrasi.", isPopular: false, duration: "Estimasi pengerjaan: 60 - 120 hari kerja",
+          features: ["Semua fitur Profesional, ditambah:", "Portal Warga", "Sistem Layanan Publik Online", "Tracking Status Pengajuan Surat", "Pengelolaan Data Penduduk", "Pengelolaan Data Kartu Keluarga (KK)", "Pengelolaan Data Wilayah Dusun, RT & RW", "Pengelolaan Dokumen Desa", "Dashboard Statistik Kependudukan", "Sistem Pengaduan Masyarakat", "Notifikasi Email & WhatsApp", "Dashboard Laporan & Statistik", "SSL Premium & Security Hardening", "Fitur Kustom Sesuai Kebutuhan Desa"] }
+      ],
+      "Website Profil Perusahaan": [
+        { name: "Paket Standard", price: "Rp. 3.500.000", target: "Cocok untuk UMKM, startup, dan perusahaan yang membutuhkan website company profile sederhana.", isPopular: false, duration: "Estimasi pengerjaan: 15 - 30 hari kerja",
+          features: ["Profil Perusahaan & Tentang Kami", "Visi & Misi", "Produk & Layanan", "Galeri Foto/Video", "Formulir Kontak", "Integrasi WhatsApp", "Integrasi Google Maps", "Responsive (Mobile & Desktop)", "Desain Profesional & Modern", "SEO Dasar"] },
+        { name: "Paket Profesional", price: "Rp. 7.000.000+", target: "Cocok untuk bisnis yang membutuhkan layanan digital dan integrasi sistem internal.", isPopular: true, duration: "Estimasi pengerjaan: 30 - 60 hari kerja",
+          features: ["Semua fitur standard, ditambah:", "Panel Admin (CMS)", "Manajemen Berita, Artikel, Pengumuman", "Manajemen Produk & Layanan", "Page Builder", "Halaman Karir & Rekrutmen", "Download Dokumen/Katalog", "Multi User Admin", "Data Staf/Pegawai", "AI Live Chat", "Dashboard Statistik Pengunjung", "Backup Database Berkala", "Fitur Kustom Sesuai Kebutuhan"] }
+      ],
+      "Website Kantor Hukum": [
+        { name: "Paket Standard", price: "Rp. 3.500.000", target: "Cocok untuk kantor hukum yang membutuhkan website company profile profesional.", isPopular: false, duration: "Estimasi pengerjaan: 15 - 30 hari kerja",
+          features: ["Profil Kantor Hukum", "Profil Advokat & Tim", "Layanan Bantuan Hukum", "Konsultasi Online", "Artikel & Informasi Hukum", "Galeri Foto/Video", "Formulir Konsultasi", "Integrasi WhatsApp", "Integrasi Google Maps", "Responsive (Mobile & Desktop)", "Desain Profesional & Modern", "SEO Dasar"] },
+        { name: "Paket Profesional", price: "Rp. 5.000.000", target: "Cocok untuk kantor hukum yang membutuhkan pengelolaan konten dan layanan konsultasi online.", isPopular: true, duration: "Estimasi pengerjaan: 30 - 60 hari kerja",
+          features: ["Semua fitur Standard, ditambah:", "Panel Admin (CMS)", "Login Admin", "Dashboard Laporan & Statistik", "Manajemen Profil Advokat", "Manajemen Berita", "Page Builder", "Form Booking Konsultasi Online", "Tracking Status Penanganan Perkara", "Data Advokat", "Download Dokumen & Legal Template"] },
+        { name: "Paket Premium", price: "Rp. 8.000.000+", target: "Cocok untuk firma hukum yang membutuhkan sistem layanan digital dan fitur khusus.", isPopular: false, duration: "Estimasi pengerjaan: 60 - 90 hari kerja",
+          features: ["Semua fitur Profesional, ditambah:", "Portal Klien", "Role & Permission Management Users", "Sistem Pengajuan Konsultasi Online", "Upload Dokumen Klien", "Dashboard Laporan & Statistik", "Manajemen Berita, Pengumuman & Artikel", "Halaman Karir & Rekrutmen", "Data Staf & Advokat", "AI Live Chat", "Backup Database Berkala", "SSL Premium & Security Hardening", "Fitur Kustom Sesuai Kebutuhan Kantor Hukum"] }
+      ],
+      "Website Bank": [
+        { name: "Paket Standard", price: "Rp. 10.000.000", target: "Cocok untuk BPR, BPRS, koperasi simpan pinjam, atau bank yang hanya membutuhkan company profile digital.", isPopular: false, duration: "Estimasi pengerjaan: 30 - 60 hari kerja",
+          features: ["Panel Admin (CMS)", "Profil perusahaan & sejarah bank", "Informasi produk tabungan & kredit", "Informasi layanan dan kantor cabang", "Manajemen Berita & Pengumuman & Banner", "Galeri foto/video", "Page Builder", "Formulir kontak", "Integrasi Google Maps", "Integrasi WhatsApp", "Responsive (Mobile & Desktop)", "Desain profesional dan modern", "SEO dasar"] },
+        { name: "Paket Profesional", price: "Rp. 18.000.000+", target: "Cocok untuk bank yang membutuhkan layanan digital dan integrasi sistem internal.", isPopular: true, duration: "Estimasi pengerjaan: 30 - 90 hari kerja",
+          features: ["Semua fitur Standard, ditambah:", "Form Pengajuan Pembiayaan/Kredit Online", "Form Pembukaan Rekening Online", "Download Formulir & Dokumen", "Fitur Produk & Layanan (tabungan, deposito, pembiayaan, Simulasi Angsuran/Kalkulator Pembiayaan)", "Halaman Karir & Rekrutmen", "AI Live Chat", "Sistem Login & Registrasi Pengguna", "Login Manual atau Akun Google (Google OAuth)", "Dashboard Pengguna/Nasabah", "Dashboard Statistik & Laporan", "Audit Log Aktivitas", "Backup Database Berkala", "Fitur kustom Sesuai Kebutuhan Bank"] }
+      ],
+      "Undangan Digital": [
+        { name: "Paket Standard", price: "Rp. 200.000", target: "Cocok untuk pasangan yang menginginkan undangan digital dengan desain siap pakai (template).", isPopular: false, duration: "Estimasi pengerjaan: 1 - 2 hari kerja",
+          features: ["Semua fitur admin panel tersedia", "Dashboard pengelolaan undangan", "Kelola data mempelai & acara", "Kelola foto & musik", "Buat link undangan tamu otomatis", "RSVP / Konfirmasi kehadiran", "Buku tamu & ucapan", "Statistik pengunjung (Page Views)", "Share ke WhatsApp & Media Sosial", "Menggunakan template yang sudah tersedia"] },
+        { name: "Paket Profesional", price: "Rp. 350.000", target: "Cocok untuk pasangan yang menginginkan tampilan undangan yang lebih eksklusif.", isPopular: true, duration: "Estimasi pengerjaan: 3 - 10 hari kerja",
+          features: ["Semua fitur standard, ditambah:", "Semua fitur Paket Basic", "Desain template custom sesuai permintaan", "Custom warna, font, dan layout", "Penyesuaian animasi dan elemen visual", "Tampilan undangan eksklusif dan unik", "Revisi desain maksimal 5 kali", "Prioritas pengerjaan"] }
+      ]
+    };
+
+    const defaultPricing = [
+      { name: "Basic Package", price: "Rp 2.000.000", target: "For SMEs & landing pages", isPopular: false, duration: "Duration: 4-7 Days", features: ["Max 5 Pages", "Form & WA Button", "1 Month Maintenance", "Basic SEO"] },
+      { name: "Professional Package", price: "Rp 4.500.000", target: "Exclusive custom design", isPopular: true, duration: "Duration: 10-14 Days", features: ["Max 10 Pages", "Custom Branding Design", "CMS & Blog", "Advanced SEO Optimization"] },
+      { name: "Premium Package", price: "Rp 8.500.000", target: "E-commerce & Custom Systems", isPopular: false, duration: "Duration: 21+ Days", features: ["Dynamic Web / E-Commerce", "Catalog & Cart", "Payment Gateway", "Membership / Account", "3 Months Maintenance"] }
+    ];
+
+    function renderPricing(type) {
+      const grid = document.getElementById('packagesGrid');
+      grid.innerHTML = '';
+      const packages = pricingData[type] || defaultPricing;
+      
+      // Dinamis grid: jika hanya 2 paket, pakai 2 kolom di tengah agar tidak ada ruang kosong
+      if (packages.length === 2) {
+        grid.className = "grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-6 w-full";
+      } else {
+        grid.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6";
+      }
+      
+      packages.forEach(pkg => {
+        const isPopular = pkg.isPopular;
+        const cardClass = isPopular 
+          ? 'package-card border-2 border-brand-blue bg-blue-50 dark:bg-[#0a0f1a] rounded-2xl p-6 sm:p-8 cursor-pointer relative transition-all transform hover:-translate-y-1'
+          : 'package-card border border-slate-200 dark:border-white/10 bg-white dark:bg-[#111111] rounded-2xl p-6 sm:p-8 cursor-pointer transition-all transform hover:-translate-y-1';
+        
+        const badgeHTML = isPopular ? `<div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-blue text-white text-[10px] sm:text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider whitespace-nowrap">POPULAR / BEST VALUE</div>` : '';
+        const btnClass = isPopular ? 'bg-brand-blue text-white w-full py-3 rounded-lg font-semibold mt-6 mb-8 hover:bg-blue-600 transition-colors' : 'bg-transparent border border-slate-300 dark:border-white/20 text-slate-800 dark:text-white w-full py-3 rounded-lg font-semibold mt-6 mb-8 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors';
+        
+        const featuresHTML = pkg.features.map(f => `
+          <li class="flex items-start gap-3">
+            <svg class="w-5 h-5 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <span class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">${f}</span>
+          </li>
+        `).join('');
+
+        const html = `
+          <div class="${cardClass}" data-pkg="${pkg.name}">
+            ${badgeHTML}
+            <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-2">${pkg.name}</h3>
+            <p class="text-xs text-slate-500 dark:text-[#a0a0a0] h-10 mb-6">${pkg.target}</p>
+            <div class="text-3xl font-extrabold text-slate-900 dark:text-white mb-2">${pkg.price}</div>
+            
+            <button type="button" class="select-pkg-btn ${btnClass}">Pilih Paket</button>
+            
+            <ul class="space-y-4 mb-8">
+              ${featuresHTML}
+            </ul>
+            <div class="flex items-start gap-3 mt-auto pt-6 border-t border-slate-100 dark:border-white/10">
+               <svg class="w-5 h-5 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+               <span class="text-sm text-slate-600 dark:text-slate-300">${pkg.duration}</span>
+            </div>
+          </div>
+        `;
+        grid.insertAdjacentHTML('beforeend', html);
+      });
+
+      // Bind events to new cards
+      document.querySelectorAll('.package-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          document.querySelectorAll('.package-card').forEach(el => el.classList.remove('ring-2', 'ring-brand-blue'));
+          card.classList.add('ring-2', 'ring-brand-blue');
+          document.getElementById('package_name').value = card.getAttribute('data-pkg');
+          document.getElementById('err-step2').classList.add('hidden');
+          
+          // Auto advance ONLY if the user clicked the 'Pilih Paket' button
+          if (e.target.closest('.select-pkg-btn')) {
+            document.getElementById('btnNext').click();
+          }
+        });
+      });
+    }
+
+    // Initialize Website Types
+    const gridType = document.getElementById('websiteTypeGrid');
+    websiteTypes.forEach(type => {
+      const div = document.createElement('div');
+      div.className = "type-card border border-slate-200 dark:border-slate-800 rounded-xl p-4 text-center cursor-pointer hover:border-brand-blue hover:bg-blue-50 dark:hover:bg-brand-blue/10 dark:bg-white/5 transition-colors text-slate-900 dark:text-white";
+      div.innerText = type;
+      div.onclick = () => {
+        document.querySelectorAll('.type-card').forEach(el => el.classList.remove('border-brand-blue', 'bg-blue-50', 'dark:bg-brand-blue/10'));
+        div.classList.add('border-brand-blue', 'bg-blue-50', 'dark:bg-brand-blue/10');
+        document.getElementById('website_type').value = type;
+        document.getElementById('err-step1').classList.add('hidden');
+        renderPricing(type); // Render dynamic pricing cards!
+      };
+      gridType.appendChild(div);
+    });
+
+    // File Upload Handler with Drag & Drop styling
+    const dropzone = document.getElementById('dropzone');
+    const fileUpload = document.getElementById('fileUpload');
+    
+    fileUpload.addEventListener('dragenter', () => dropzone.classList.add('border-brand-blue', 'bg-blue-50', 'dark:bg-brand-blue/10'));
+    fileUpload.addEventListener('dragleave', () => dropzone.classList.remove('border-brand-blue', 'bg-blue-50', 'dark:bg-brand-blue/10'));
+    fileUpload.addEventListener('drop', () => dropzone.classList.remove('border-brand-blue', 'bg-blue-50', 'dark:bg-brand-blue/10'));
+
+    fileUpload.addEventListener('change', async (e) => {
+      const files = e.target.files;
+      if (!files || files.length === 0) return;
+      
+      const formData = new FormData();
+      for (let i = 0; i < files.length; i++) {
+        formData.append("files", files[i]);
+      }
+      
+      const btnNext = document.getElementById('btnNext');
+      btnNext.innerText = "Mengunggah...";
+      btnNext.disabled = true;
+
+      try {
+        const res = await fetch('/api/upload/document', { method: 'POST', body: formData });
+        const data = await res.json();
+        if (data.success) {
+          // Append URLs to hidden input (comma separated if multiple uploads occur)
+          const currentUrls = document.getElementById('uploadedFileUrl').value;
+          document.getElementById('uploadedFileUrl').value = currentUrls ? currentUrls + ',' + data.url : data.url;
+          
+          const uploadedUrls = data.url.split(',');
+
+          // Render uploaded files UI
+          const statusContainer = document.getElementById('uploadStatus');
+          for (let i = 0; i < files.length; i++) {
+            const fileRow = document.createElement('div');
+            fileRow.className = "flex items-center justify-between bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3 rounded-lg shadow-sm";
+            fileRow.innerHTML = `
+              <div class="flex items-center gap-3 overflow-hidden">
+                <svg class="w-5 h-5 text-brand-blue shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <div class="truncate text-sm font-semibold text-slate-700 dark:text-slate-300">${files[i].name}</div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button type="button" class="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors p-1" onclick="viewUploadedFile('${uploadedUrls[i]}', '${files[i].name}')" title="Lihat File">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                </button>
+                <svg class="w-5 h-5 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              </div>
+            `;
+            statusContainer.appendChild(fileRow);
+          }
+        } else {
+          alert("Gagal mengunggah file.");
+        }
+      } catch (err) {
+        alert("Terjadi kesalahan koneksi saat unggah.");
+      } finally {
+        btnNext.innerText = "Lanjutkan";
+        btnNext.disabled = false;
+        fileUpload.value = ''; // Reset input to allow uploading same files again
+      }
+    });
+
+    // Navigation Logic
+    let currentStep = 1;
+    const totalSteps = 5;
+
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const btnSubmit = document.getElementById('btnSubmit');
+
+    // Payment Proof Upload Handler
+    document.getElementById('paymentProofUpload').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      const formData = new FormData();
+      formData.append("files", file);
+      
+      btnSubmit.innerHTML = "Mengunggah...";
+      btnSubmit.disabled = true;
+
+      try {
+        const res = await fetch('/api/upload/payment', { method: 'POST', body: formData });
+        const data = await res.json();
+        if (data.success) {
+          document.getElementById('paymentProofUrl').value = data.url;
+          document.getElementById('paymentUploadStatus').classList.remove('hidden');
+        } else {
+          alert("Gagal mengunggah bukti pembayaran.");
+        }
+      } catch (err) {
+        alert("Terjadi kesalahan koneksi saat unggah bukti pembayaran.");
+      } finally {
+        btnSubmit.innerHTML = "Kirim Pesanan & Selesai";
+        btnSubmit.disabled = false;
+      }
+    });
+
+    function updateUI() {
+      // Show/Hide steps
+      for (let i = 1; i <= totalSteps; i++) {
+        document.getElementById(`step${i}`).classList.toggle('hidden', i !== currentStep);
+      }
+      
+      // Update Progress & Indicators
+      const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+      document.getElementById('progress-bar').style.width = `${progress}%`;
+      
+      document.querySelectorAll('.step-indicator').forEach(ind => {
+        const stepNum = parseInt(ind.getAttribute('data-step'));
+        const circle = ind.querySelector('div');
+        const text = ind.querySelector('span');
+        
+        if (stepNum <= currentStep) {
+          circle.className = "w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm bg-brand-blue text-white ring-4 ring-slate-50 dark:ring-[#050b14] shadow-sm transition-colors duration-500 relative z-10";
+          text.className = "absolute top-14 text-xs font-medium text-brand-blue whitespace-nowrap text-center";
+        } else {
+          circle.className = "w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm bg-slate-200 dark:bg-slate-800 text-slate-400 ring-4 ring-slate-50 dark:ring-[#050b14] shadow-sm transition-colors duration-500 relative z-10";
+          text.className = "absolute top-14 text-xs font-medium text-slate-500 dark:text-slate-500 whitespace-nowrap text-center";
+        }
+      });
+
+      // Show/Hide Buttons
+      btnPrev.classList.toggle('hidden', currentStep === 1);
+      if (currentStep === totalSteps) {
+        btnNext.classList.add('hidden');
+        btnSubmit.classList.remove('hidden');
+        
+        // Populate Summary
+        document.getElementById('summary-type').innerText = document.getElementById('website_type').value;
+        document.getElementById('summary-package').innerText = document.getElementById('package_name').value;
+        document.getElementById('summary-name').innerText = document.getElementById('project_name').value;
+      } else {
+        btnNext.classList.remove('hidden');
+        btnSubmit.classList.add('hidden');
+      }
+    }
+
+    function validateStep() {
+      if (currentStep === 1 && !document.getElementById('website_type').value) {
+        document.getElementById('err-step1').classList.remove('hidden'); return false;
+      }
+      if (currentStep === 2 && !document.getElementById('package_name').value) {
+        document.getElementById('err-step2').classList.remove('hidden'); return false;
+      }
+      if (currentStep === 3) {
+        if (!document.getElementById('project_name').value || !document.getElementById('description').value) {
+          document.getElementById('project_name').reportValidity();
+          document.getElementById('description').reportValidity();
+          return false;
+        }
+      }
+      return true;
+    }
+
+    btnNext.addEventListener('click', () => {
+      if (validateStep() && currentStep < totalSteps) {
+        currentStep++;
+        updateUI();
+        window.scrollTo(0,0);
+      }
+    });
+
+    btnPrev.addEventListener('click', () => {
+      if (currentStep > 1) {
+        currentStep--;
+        updateUI();
+        window.scrollTo(0,0);
+      }
+    });
+
+    document.getElementById('orderForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const paymentProofUrl = document.getElementById('paymentProofUrl').value;
+      if (!paymentProofUrl) {
+        showToastNotification();
+        return;
+      }
+      
+      btnSubmit.innerHTML = "Memproses...";
+      btnSubmit.disabled = true;
+
+      const payload = {
+        website_type: document.getElementById('website_type').value,
+        package_name: document.getElementById('package_name').value,
+        project_name: document.getElementById('project_name').value,
+        description: document.getElementById('description').value,
+        features: document.getElementById('features').value,
+        target_date: document.getElementById('target_date').value,
+        notes: document.getElementById('notes').value,
+        files: document.getElementById('uploadedFileUrl').value ? document.getElementById('uploadedFileUrl').value.split(',') : [],
+        project_document: document.getElementById('uploadedFileUrl').value || '',
+        reference_links: document.getElementById('reference_links').value,
+        primary_color: document.getElementById('primary_color').value,
+        design_style: document.getElementById('design_style').value,
+        payment_proof: paymentProofUrl
+      };
+
+      try {
+        const res = await fetch('/api/orders', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.success) {
+          const modal = document.getElementById('successModal');
+          modal.classList.remove('hidden');
+          setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        } else {
+          alert(data.message || "Gagal menyimpan pesanan.");
+        }
+      } catch(err) {
+        alert("Kesalahan jaringan.");
+      } finally {
+        btnSubmit.innerHTML = "Kirim Pesanan & Selesai";
+        btnSubmit.disabled = false;
+      }
+    });
+
+  </script>
+  <script>
+    // Theme Toggle Logic
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const themeIconDark = document.getElementById('themeIconDark');
+    const themeIconLight = document.getElementById('themeIconLight');
+
+    function updateThemeIcon() {
+      if (document.documentElement.classList.contains('dark')) {
+        themeIconLight.classList.remove('hidden');
+        themeIconDark.classList.add('hidden');
+      } else {
+        themeIconDark.classList.remove('hidden');
+        themeIconLight.classList.add('hidden');
+      }
+    }
+    
+    // Initial icon state
+    updateThemeIcon();
+
+    themeToggleBtn.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      if (document.documentElement.classList.contains('dark')) {
+        localStorage.theme = 'dark';
+      } else {
+        localStorage.theme = 'light';
+      }
+      updateThemeIcon();
+    });
+
+    // Modal Viewer Functions
+    function showToastNotification() {
+      const toast = document.getElementById('toastNotification');
+      toast.classList.remove('-translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('-translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+
+    function viewUploadedFile(url, name) {
+      const modal = document.getElementById('fileViewerModal');
+      const container = document.getElementById('fileViewerContainer');
+      const title = document.getElementById('fileViewerTitle');
+      const content = document.getElementById('fileViewerContent');
+      
+      title.innerText = name;
+      content.innerHTML = ''; // clear previous
+      
+      const ext = url.split('.').pop().toLowerCase();
+      if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'].includes(ext)) {
+        content.innerHTML = `<img src="${url}" class="max-w-full max-h-[70vh] object-contain rounded-lg shadow-md" alt="${name}">`;
+      } else if (ext === 'pdf') {
+        content.innerHTML = `<iframe src="${url}" class="w-full h-[70vh] rounded-lg shadow-md border-0"></iframe>`;
+      } else {
+        content.innerHTML = `
+          <div class="text-center">
+            <svg class="w-16 h-16 text-slate-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            <p class="text-slate-600 dark:text-slate-300 mb-4">Pratinjau tidak tersedia untuk format file ini.</p>
+            <a href="${url}" target="_blank" class="px-6 py-2 bg-brand-blue text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors inline-block">Unduh File</a>
+          </div>`;
+      }
+      
+      modal.classList.remove('hidden');
+      // small delay to allow display:block to apply before animating opacity/transform
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        container.classList.remove('scale-95');
+        container.classList.add('scale-100');
+      }, 10);
+    }
+    
+    function closeFileViewer() {
+      const modal = document.getElementById('fileViewerModal');
+      const container = document.getElementById('fileViewerContainer');
+      
+      modal.classList.add('opacity-0');
+      container.classList.remove('scale-100');
+      container.classList.add('scale-95');
+      
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        document.getElementById('fileViewerContent').innerHTML = '';
+      }, 300);
+    }
+  </script>
+</body>
+</html>

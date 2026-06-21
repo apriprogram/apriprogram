@@ -1,0 +1,61 @@
+:root {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+}
+
+.hero-bg {
+  background-image:
+    linear-gradient(180deg, rgba(2, 6, 23, 0.18), rgba(2, 6, 23, 0.84)),
+    url("../assets/hero-bg.svg");
+  background-position: center;
+  background-size: cover;
+}
+
+.glass-panel {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.78), rgba(2, 6, 23, 0.88));
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  box-shadow: 0 24px 80px rgba(2, 6, 23, 0.45);
+}
+
+.dashboard-grid {
+  background-image:
+    linear-gradient(rgba(59, 130, 246, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.12) 1px, transparent 1px);
+  background-size: 34px 34px;
+}
+
+.card-hover {
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-6px);
+}
+
+.faq-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 260ms ease;
+}
+
+.faq-item.active .faq-content {
+  max-height: 220px;
+}
+
+.faq-item.active .faq-icon {
+  transform: rotate(180deg);
+}
+
+.faq-icon {
+  transition: transform 220ms ease;
+}
