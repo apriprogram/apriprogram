@@ -311,7 +311,7 @@
       <div class="mx-auto max-w-[85%] px-4 sm:px-6 lg:px-8">
         
         <div class="text-center max-w-2xl mx-auto mb-16 sm:mb-24">
-          <h2 class="text-3xl sm:text-5xl lg:text-[4.5rem] tracking-tight font-normal text-slate-900 dark:text-white leading-[1.05] mb-4 sm:mb-6">Timeline Developments</h2>
+          <h2 class="text-3xl sm:text-5xl lg:text-[4.5rem] tracking-tight font-normal text-slate-900 dark:text-white leading-[1.05] mb-4 sm:mb-6">Timeline<br>Developments</h2>
           <p class="text-sm sm:text-base text-slate-600 dark:text-[#a0a0a0]">Step-by-step process of our general website development to ensure your project is delivered on time with high quality.</p>
         </div>
 
@@ -679,10 +679,10 @@
         
         return `
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-            <div class="${isLeft ? 'order-2 lg:order-1' : 'order-1'} flex items-center justify-center relative">
+            <div class="${isLeft ? 'order-2 lg:order-1' : 'order-2 lg:order-2'} flex items-center justify-center relative">
                <img src="${escapeServiceHtml(t.image)}" alt="${escapeServiceHtml(t.image_alt || t.title)}" class="w-full h-auto object-cover rounded-2xl shadow-lg border border-slate-200 dark:border-[#222222]" onerror="this.style.display='none'"/>
             </div>
-            <div class="${isLeft ? 'order-1 lg:order-2 lg:ml-auto' : 'order-2 lg:order-1 lg:mr-auto'} flex flex-col gap-3 sm:gap-5 max-w-lg mx-auto lg:mx-0">
+            <div class="${isLeft ? 'order-1 lg:order-2 lg:ml-auto' : 'order-1 lg:order-1 lg:mr-auto'} flex flex-col gap-3 sm:gap-5 max-w-lg mx-auto lg:mx-0">
               <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-500 dark:text-[#a0a0a0]">
                 ${t.icon || ''}
                 ${escapeServiceHtml(t.step_label || `Step ${t.step_number}`)}
