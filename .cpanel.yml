@@ -3,3 +3,5 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/tanjunak/public/apriprogram.web.id
     - /bin/cp -R * $DEPLOYPATH/
+    - mkdir -p $DEPLOYPATH/tmp
+    - touch $DEPLOYPATH/tmp/restart.txt
