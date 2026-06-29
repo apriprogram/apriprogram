@@ -1,0 +1,1727 @@
+Created At: 2026-06-28T16:15:09Z
+Completed At: 2026-06-28T16:15:11Z
+The following changes were made by the multi_replace_file_content tool to: e:\WEBSITE APRIPROGRAM\Apriprogram\views\admin\dashboard.ejs. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -266,7 +266,7 @@
+     </div>
+ 
+     <div class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+-      <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item active w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-brand-blue dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-card transition-colors">
++      <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item active w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-brand-blue dark:hover:text-white hover:bg-slate-100 dark:hover:bg-brand-card transition-colors">
+         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+         Dasbor
+       </button>
+@@ -273,5 +273,5 @@
+       <p class="px-4 text-[11px] font-medium text-slate-400 dark:text-slate-500 mt-6 mb-2 uppercase tracking-wider">Pengaturan</p>
+-      <button onclick="switchTab('settings')" id="nav-settings" class="nav-item w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-brand-blue dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-card transition-colors">
++      <button onclick="switchTab('settings')" id="nav-settings" class="nav-item w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-brand-blue dark:hover:text-white hover:bg-slate-100 dark:hover:bg-brand-card transition-colors">
+         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
+         Site Settings
+       </button>
+@@ -278,9 +278,9 @@
+       <p class="px-4 text-[11px] font-medium text-slate-400 dark:text-slate-500 mt-6 mb-2 uppercase tracking-wider">Sistem</p>
+-      <button onclick="switchTab('orders')" id="nav-orders" class="nav-item w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-brand-blue dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-card transition-colors">
++      <button onclick="switchTab('orders')" id="nav-orders" class="nav-item w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-brand-blue dark:hover:text-white hover:bg-slate-100 dark:hover:bg-brand-card transition-colors">
+         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+         Pesanan Masuk
+       </button>
+-      <button onclick="switchTab('users')" id="nav-users" class="nav-item w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-brand-blue dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-card transition-colors">
++      <button onclick="switchTab('users')" id="nav-users" class="nav-item w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-brand-blue dark:hover:text-white hover:bg-slate-100 dark:hover:bg-brand-card transition-colors">
+         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+         Data Pengguna
+       </button>
+@@ -600,7 +600,7 @@
+         </div>
+ 
+         <!-- Vertical Grid Layout matching the old style requested -->
+-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
++        <div class="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-6 items-start">
+           
+           <!-- Setting Sections Nav (Vertical Sidebar Style) -->
+           <div class="bg-white dark:bg-brand-card p-2 rounded-2xl border border-slate-200 dark:border-brand-border sticky top-24">
+@@ -607,14 +607,14 @@
+-            <button onclick="showSettingSection('hero')" id="btn-hero" class="setting-nav w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-darker mb-1 transition-colors">Hero Section</button>
+-            <button onclick="showSettingSection('services')" id="btn-services" class="setting-nav w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-darker mb-1 transition-colors">Services</button>
+-            <button onclick="showSettingSection('projects')" id="btn-projects" class="setting-nav w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-darker mb-1 transition-colors">Projects</button>
+-            <button onclick="showSettingSection('timeline')" id="btn-timeline" class="setting-nav w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-darker mb-1 transition-colors">Timeline</button>
+-            <button onclick="showSettingSection('faq')" id="btn-faq" class="setting-nav w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-darker mb-1 transition-colors">FAQ</button>
+-            <button onclick="showSettingSection('cta')" id="btn-cta" class="setting-nav w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-darker mb-1 transition-colors">CTA</button>
+-            <button onclick="showSettingSection('footer')" id="btn-footer" class="setting-nav w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-darker mb-1 transition-colors">Footer</button>
++            <button onclick="showSettingSection('hero')" id="btn-hero" class="setting-nav w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-brand-darker mb-1 transition-colors">Hero Section</button>
++            <button onclick="showSettingSection('services')" id="btn-services" class="setting-nav w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-brand-darker mb-1 transition-colors">Services</button>
++            <button onclick="showSettingSection('projects')" id="btn-projects" class="setting-nav w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-brand-darker mb-1 transition-colors">Projects</button>
++            <button onclick="showSettingSection('timeline')" id="btn-timeline" class="setting-nav w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-brand-darker mb-1 transition-colors">Timeline</button>
++            <button onclick="showSettingSection('faq')" id="btn-faq" class="setting-nav w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-brand-darker mb-1 transition-colors">FAQ</button>
++            <button onclick="showSettingSection('cta')" id="btn-cta" class="setting-nav w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-brand-darker mb-1 transition-colors">CTA</button>
++            <button onclick="showSettingSection('footer')" id="btn-footer" class="setting-nav w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-brand-darker mb-1 transition-colors">Footer</button>
+           </div>
+ 
+           <!-- Forms Area -->
+-          <div class="lg:col-span-3">
++          <div class="min-w-0">
+             
+             <!-- Navbar Form -->
+             <form id="form-navbar" class="setting-form space-y-4">
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+
+---
+
+Created At: 2026-06-28T16:19:11Z
+Completed At: 2026-06-28T16:19:13Z
+The following changes were made by the multi_replace_file_content tool to: e:\WEBSITE APRIPROGRAM\Apriprogram\views\admin\dashboard.ejs. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -724,7 +724,7 @@
+                   </div>
+                 </div>
+ 
+-                <button type="submit" class="px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-semibold rounded-lg transition-colors">Simpan Header Services</button>
++                <button type="submit" class="hidden">Submit</button>
+               </div>
+ 
+               <div class="bg-white dark:bg-brand-card rounded-2xl border border-slate-200 dark:border-brand-border overflow-hidden">
+@@ -1806,6 +1806,7 @@
+     let usersData = [];
+     let ordersData = [];
+     let serviceItemsData = [];
++    let deletedServiceSlugs = [];
+     let usersPage = 1;
+     let ordersPage = 1;
+ 
+@@ -1986,23 +1986,17 @@
+         showToast('Title dan Slug wajib diisi.', 'orange', 'Data belum lengkap');
+         return;
+       }
+-      try {
+-        const res = await fetch('/api/admin/services', {
+-          method: 'POST',
+-          headers: { 'Content-Type': 'application/json' },
+-          body: JSON.stringify(payload)
+-        });
+-        const data = await res.json();
+-        if (data.success) {
+-          showToast(data.message || 'Service berhasil disimpan.', 'green', 'Simpan berhasil');
+-          await loadServiceItems();
+-          closeServiceModal();
+-        } else {
+-          showToast(getErrorMessage(data, 'Service gagal disimpan.'), 'red', 'Gagal menyimpan');
+-        }
+-      } catch (err) {
+-        showToast('Gagal menghubungi server saat menyimpan service.', 'red', 'Error koneksi');
+-      }
++      const originalKey = payload.original_key;
++      const existingIndex = serviceItemsData.findIndex(s => s.setting_key === originalKey || s.slug === originalKey);
++      if (existingIndex >= 0) {
++        serviceItemsData[existingIndex] = { ...serviceItemsData[existingIndex], ...payload };
++      } else {
++        serviceItemsData.push(payload);
++      }
++      deletedServiceSlugs = deletedServiceSlugs.filter(slug => slug !== originalKey && slug !== payload.slug);
++      renderServicesTable();
++      closeServiceModal();
++      showToast('Data service disimpan sementara. Klik "Simpan" di pojok kanan atas untuk menyimpan permanen.', 'green', 'Tersimpan Sementara');
+     }
+ 
+     async function deleteServiceItem(slug) {
+@@ -2009,16 +2009,9 @@
+-      try {
+-        const res = await fetch(`/api/admin/services/${encodeURIComponent(slug)}`, { method: 'DELETE' });
+-        const data = await res.json();
+-        if (data.success) {
+-          showToast(data.message || 'Service berhasil dihapus.', 'green', 'Hapus berhasil');
+-          await loadServiceItems();
+-          resetServiceForm();
+-        } else {
+-          showToast(getErrorMessage(data, 'Service gagal dihapus.'), 'red', 'Hapus gagal');
+-        }
+-      } catch (err) {
+-        showToast('Gagal menghubungi server saat menghapus service.', 'red', 'Error koneksi');
+-      }
++      serviceItemsData = serviceItemsData.filter(s => s.setting_key !== slug && s.slug !== slug);
++      if (!deletedServiceSlugs.includes(slug)) {
++        deletedServiceSlugs.push(slug);
++      }
++      renderServicesTable();
++      showToast('Service dihapus sementara. Klik "Simpan" di pojok kanan atas untuk menyimpan permanen.', 'green', 'Dihapus Sementara');
+     }
+ 
+     // Render Users Table
+@@ -2269,14 +2269,32 @@
+       });
+     });
+ 
+-    document.getElementById('form-services').addEventListener('submit', (e) => {
+-      e.preventDefault();
+-      saveSection('services', {
+-        title: document.getElementById('services-title').value,
+-        subtitle: document.getElementById('services-subtitle').value,
+-        button_text: document.getElementById('services-button_text').value,
+-        button_link: document.getElementById('services-button_link').value
+-      });
++    document.getElementById('form-services').addEventListener('submit', async (e) => {
++      e.preventDefault();
++      try {
++        await saveSection('services', {
++          title: document.getElementById('services-title').value,
++          subtitle: document.getElementById('services-subtitle').value,
++          button_text: document.getElementById('services-button_text').value,
++          button_link: document.getElementById('services-button_link').value
++        });
++        for (const slug of deletedServiceSlugs) {
++          await fetch(`/api/admin/services/${encodeURIComponent(slug)}`, { method: 'DELETE' });
++        }
++        deletedServiceSlugs = [];
++        for (const service of serviceItemsData) {
++          await fetch('/api/admin/services', {
++            method: 'POST',
++            headers: { 'Content-Type': 'application/json' },
++            body: JSON.stringify(service)
++          });
++        }
++        await loadServiceItems();
++        showToast('Seluruh data Services berhasil disimpan.', 'green', 'Simpan berhasil');
++      } catch (err) {
++        console.error(err);
++        showToast('Gagal menyimpan keseluruhan data Services.', 'red', 'Error');
++      }
+     });
+ 
+     document.getElementById('form-projects').addEventListener('submit', (e) => {
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+
+---
+
+Created At: 2026-06-28T16:23:30Z
+Completed At: 2026-06-28T16:23:32Z
+The following changes were made by the multi_replace_file_content tool to: e:\WEBSITE APRIPROGRAM\Apriprogram\views\admin\dashboard.ejs. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -356,22 +356,22 @@
+       
+       <!-- Dashboard Tab -->
+       <div id="tab-dashboard" class="tab-content space-y-6">
+-                        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 xl:gap-8">
++                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 xl:gap-8">
+           <!-- Card 1: Pengguna (Insights style) -->
+-          <div class="bg-white dark:bg-brand-card rounded-[24px] border-none shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] p-6 relative overflow-hidden flex flex-col justify-between min-h-[320px]">
+-            <div>
+-              <div class="flex justify-between items-center mb-6">
+-                <h4 class="text-[15px] font-bold text-slate-900 dark:text-white tracking-tight">Total Pengguna</h4>
+-                <div class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-full flex items-center gap-1.5 cursor-pointer hover:bg-slate-100 transition-colors">
+-                  <span class="text-[11px] font-semibold text-slate-500">Weekly</span>
+-                  <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+-                </div>
+-              </div>
+-              
+-              <div class="mb-2">
+-                <span class="text-[11px] font-medium text-slate-400 dark:text-slate-500 mb-1 block">User Growth</span>
+-                <div class="flex items-start gap-1.5">
+-                  <h3 class="text-[44px] font-extrabold text-slate-900 dark:text-white leading-none tracking-tighter" id="stat-users">-</h3>
++          <div class="bg-white dark:bg-brand-card rounded-[24px] border border-slate-200 dark:border-brand-border p-6 relative overflow-hidden flex flex-col justify-between min-h-[320px]">
++            <div>
++              <div class="flex justify-between items-center mb-6">
++                <h4 class="text-[15px] font-medium text-slate-900 dark:text-white tracking-tight">Total Pengguna</h4>
++                <div class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-full flex items-center gap-1.5 cursor-pointer hover:bg-slate-100 transition-colors">
++                  <span class="text-[11px] font-semibold text-slate-500">Weekly</span>
++                  <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
++                </div>
++              </div>
++              
++              <div class="mb-2">
++                <span class="text-[11px] font-normal text-slate-400 dark:text-slate-500 mb-1 block">User Growth</span>
++                <div class="flex items-start gap-1.5">
++                  <h3 class="text-[44px] font-medium text-slate-900 dark:text-white leading-none tracking-tighter" id="stat-users">-</h3>
+                   <svg class="w-4 h-4 text-orange-500 mt-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 19L19 5M19 5v10M19 5H9"></path></svg>
+                 </div>
+               </div>
+@@ -386,9 +386,9 @@
+                   </linearGradient>
+                 </defs>
+                 <path d="M0 80 L 100 20 L 250 20 L 250 100 L 0 100 Z" fill="url(#grad-orange)" />
+-                <path d="M0 80 L 100 20 L 250 20" fill="none" stroke="#f97316" stroke-width="3" stroke-linejoin="round" />
+-                <circle cx="250" cy="20" r="5" fill="#f97316" stroke="#fff" stroke-width="2.5" />
+-                <line x1="250" y1="25" x2="250" y2="100" stroke="#f97316" stroke-width="1.5" stroke-dasharray="3,3" stroke-opacity="0.4" />
++                <path d="M0 80 L 100 20 L 250 20" fill="none" stroke="#f97316" stroke-width="2" stroke-linejoin="round" />
++                <circle cx="250" cy="20" r="5" fill="#f97316" />
++                <line x1="250" y1="25" x2="250" y2="100" stroke="#f97316" stroke-width="1" stroke-dasharray="3,3" stroke-opacity="0.4" />
+               </svg>
+             </div>
+ 
+@@ -395,5 +395,5 @@
+             <div class="mt-auto pt-6 flex justify-between items-end relative z-10">
+-              <p class="text-[11px] font-medium text-slate-400 dark:text-slate-500 max-w-[130px] leading-relaxed">Expect your users to rise and shine before this month closes.</p>
++              <p class="text-[11px] font-normal text-slate-400 dark:text-slate-500 max-w-[130px] leading-relaxed">Expect your users to rise and shine before this month closes.</p>
+               <button class="w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-800/50 flex items-center justify-center text-orange-500 hover:bg-orange-50 transition-colors shrink-0">
+                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 12h14M12 5l7 7-7 7"></path></svg>
+               </button>
+@@ -408,20 +408,20 @@
+           </div>
+           
+           <!-- Card 2: Pesanan (Conversion style) -->
+-          <div class="bg-white dark:bg-brand-card rounded-[24px] border-none shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] p-6 relative overflow-hidden flex flex-col justify-between min-h-[320px]">
+-            <div>
+-              <div class="flex justify-between items-center mb-6">
+-                <h4 class="text-[15px] font-bold text-slate-900 dark:text-white tracking-tight">Total Pesanan</h4>
+-                <div class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-full flex items-center gap-1.5 cursor-pointer hover:bg-slate-100 transition-colors">
+-                  <span class="text-[11px] font-semibold text-slate-500">Weekly</span>
+-                  <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+-                </div>
+-              </div>
+-              
+-              <div class="mb-2">
+-                <span class="text-[11px] font-medium text-slate-400 dark:text-slate-500 mb-1 block">Order Rate</span>
+-                <div class="flex items-start gap-1.5">
+-                  <h3 class="text-[44px] font-extrabold text-slate-900 dark:text-white leading-none tracking-tighter" id="stat-orders">-</h3>
++          <div class="bg-white dark:bg-brand-card rounded-[24px] border border-slate-200 dark:border-brand-border p-6 relative overflow-hidden flex flex-col justify-between min-h-[320px]">
++            <div>
++              <div class="flex justify-between items-center mb-6">
++                <h4 class="text-[15px] font-medium text-slate-900 dark:text-white tracking-tight">Total Pesanan</h4>
++                <div class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-full flex items-center gap-1.5 cursor-pointer hover:bg-slate-100 transition-colors">
++                  <span class="text-[11px] font-semibold text-slate-500">Weekly</span>
++                  <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
++                </div>
++              </div>
++              
++              <div class="mb-2">
++                <span class="text-[11px] font-normal text-slate-400 dark:text-slate-500 mb-1 block">Order Rate</span>
++                <div class="flex items-start gap-1.5">
++                  <h3 class="text-[44px] font-medium text-slate-900 dark:text-white leading-none tracking-tighter" id="stat-orders">-</h3>
+                   <svg class="w-4 h-4 text-blue-500 mt-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 19L19 5M19 5v10M19 5H9"></path></svg>
+                 </div>
+               </div>
+@@ -428,21 +428,13 @@
+ 
+             <div class="absolute inset-x-0 bottom-24 h-28 pointer-events-none px-4">
+               <svg viewBox="0 0 300 100" class="w-full h-full" preserveAspectRatio="none">
+-                <defs>
+-                  <filter id="glow-blue" x="-20%" y="-20%" width="140%" height="140%">
+-                    <feGaussianBlur stdDeviation="8" result="blur" />
+-                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+-                  </filter>
+-                </defs>
+-                <path d="M0 70 C 60 70, 90 20, 150 20 C 210 20, 240 80, 300 80" fill="none" stroke="#3b82f6" stroke-width="14" stroke-linecap="round" stroke-opacity="0.15" filter="url(#glow-blue)" />
+-                <path d="M0 70 C 60 70, 90 20, 150 20 C 210 20, 240 80, 300 80" fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" />
+-                <circle cx="150" cy="20" r="8" fill="#3b82f6" filter="url(#glow-blue)" />
+-                <circle cx="150" cy="20" r="4" fill="#60a5fa" />
+-              </svg>
+-            </div>
+-
+-            <div class="mt-auto pt-6 flex justify-between items-end relative z-10">
+-              <p class="text-[11px] font-medium text-slate-400 dark:text-slate-500 max-w-[130px] leading-relaxed">Orders set to rise this month.</p>
++                <path d="M0 70 C 60 70, 90 20, 150 20 C 210 20, 240 80, 300 80" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" />
++                <circle cx="150" cy="20" r="5" fill="#3b82f6" />
++              </svg>
++            </div>
++
++            <div class="mt-auto pt-6 flex justify-between items-end relative z-10">
++              <p class="text-[11px] font-normal text-slate-400 dark:text-slate-500 max-w-[130px] leading-relaxed">Orders set to rise this month.</p>
+               <button class="w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-800/50 flex items-center justify-center text-blue-500 hover:bg-blue-50 transition-colors shrink-0">
+                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 12h14M12 5l7 7-7 7"></path></svg>
+               </button>
+@@ -456,10 +456,10 @@
+           </div>
+ 
+           <!-- Card 3: Status Pesanan (ROI minimal style) -->
+-          <div class="bg-white dark:bg-brand-card rounded-[24px] border-none shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] p-6 relative overflow-hidden flex flex-col justify-between min-h-[320px]">
+-            <div>
+-              <div class="flex justify-between items-center mb-6">
+-                <h4 class="text-[15px] font-bold text-slate-900 dark:text-white tracking-tight">Status Pesanan</h4>
++          <div class="bg-white dark:bg-brand-card rounded-[24px] border border-slate-200 dark:border-brand-border p-6 relative overflow-hidden flex flex-col justify-between min-h-[320px]">
++            <div>
++              <div class="flex justify-between items-center mb-6">
++                <h4 class="text-[15px] font-medium text-slate-900 dark:text-white tracking-tight">Status Pesanan</h4>
+                 <div class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-full flex items-center gap-1.5 cursor-pointer hover:bg-slate-100 transition-colors">
+                   <span class="text-[11px] font-semibold text-slate-500">Breakdown</span>
+                   <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+@@ -466,9 +466,9 @@
+               </div>
+               
+               <div class="mb-4">
+-                <span class="text-[11px] font-medium text-slate-400 dark:text-slate-500 mb-1 block">Total Orders</span>
+-                <div class="flex items-start gap-1.5">
+-                  <h3 class="text-[44px] font-extrabold text-slate-900 dark:text-white leading-none tracking-tighter" id="stat-status-total">-</h3>
++                <span class="text-[11px] font-normal text-slate-400 dark:text-slate-500 mb-1 block">Total Orders</span>
++                <div class="flex items-start gap-1.5">
++                  <h3 class="text-[44px] font-medium text-slate-900 dark:text-white leading-none tracking-tighter" id="stat-status-total">-</h3>
+                   <svg class="w-4 h-4 text-emerald-500 mt-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 19L19 5M19 5v10M19 5H9"></path></svg>
+                 </div>
+               </div>
+@@ -524,20 +524,20 @@
+           </div>
+ 
+           <!-- Card 4: Pengunjung -->
+-          <div class="bg-white dark:bg-brand-card rounded-[24px] border-none shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] p-6 relative overflow-hidden flex flex-col justify-between min-h-[320px]">
+-            <div>
+-              <div class="flex justify-between items-center mb-6">
+-                <h4 class="text-[15px] font-bold text-slate-900 dark:text-white tracking-tight">Total Pengunjung</h4>
+-                <div class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-full flex items-center gap-1.5 cursor-pointer hover:bg-slate-100 transition-colors">
+-                  <span class="text-[11px] font-semibold text-slate-500">Weekly</span>
+-                  <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+-                </div>
+-              </div>
+-              
+-              <div class="mb-2">
+-                <span class="text-[11px] font-medium text-slate-400 dark:text-slate-500 mb-1 block">Website Traffic</span>
+-                <div class="flex items-start gap-1.5">
+-                  <h3 class="text-[44px] font-extrabold text-slate-900 dark:text-white leading-none tracking-tighter" id="stat-visitors">-</h3>
++          <div class="bg-white dark:bg-brand-card rounded-[24px] border border-slate-200 dark:border-brand-border p-6 relative overflow-hidden flex flex-col justify-between min-h-[320px]">
++            <div>
++              <div class="flex justify-between items-center mb-6">
++                <h4 class="text-[15px] font-medium text-slate-900 dark:text-white tracking-tight">Total Pengunjung</h4>
++                <div class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-full flex items-center gap-1.5 cursor-pointer hover:bg-slate-100 transition-colors">
++                  <span class="text-[11px] font-semibold text-slate-500">Weekly</span>
++                  <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
++                </div>
++              </div>
++              
++              <div class="mb-2">
++                <span class="text-[11px] font-normal text-slate-400 dark:text-slate-500 mb-1 block">Website Traffic</span>
++                <div class="flex items-start gap-1.5">
++                  <h3 class="text-[44px] font-medium text-slate-900 dark:text-white leading-none tracking-tighter" id="stat-visitors">-</h3>
+                   <svg class="w-4 h-4 text-purple-500 mt-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 19L19 5M19 5v10M19 5H9"></path></svg>
+                 </div>
+               </div>
+@@ -544,21 +544,13 @@
+ 
+             <div class="absolute inset-x-0 bottom-24 h-28 pointer-events-none px-4">
+               <svg viewBox="0 0 300 100" class="w-full h-full" preserveAspectRatio="none">
+-                <defs>
+-                  <filter id="glow-purple" x="-20%" y="-20%" width="140%" height="140%">
+-                    <feGaussianBlur stdDeviation="8" result="blur" />
+-                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+-                  </filter>
+-                </defs>
+-                <path d="M0 90 C 80 90, 120 30, 220 30 C 260 30, 280 60, 300 60" fill="none" stroke="#a855f7" stroke-width="14" stroke-linecap="round" stroke-opacity="0.15" filter="url(#glow-purple)" />
+-                <path d="M0 90 C 80 90, 120 30, 220 30 C 260 30, 280 60, 300 60" fill="none" stroke="#a855f7" stroke-width="3" stroke-linecap="round" />
+-                <circle cx="220" cy="30" r="8" fill="#a855f7" filter="url(#glow-purple)" />
+-                <circle cx="220" cy="30" r="4" fill="#d8b4fe" />
+-              </svg>
+-            </div>
+-
+-            <div class="mt-auto pt-6 flex justify-between items-end relative z-10">
+-              <p class="text-[11px] font-medium text-slate-400 dark:text-slate-500 max-w-[130px] leading-relaxed">Website traffic is steadily increasing over time.</p>
++                <path d="M0 90 C 80 90, 120 30, 220 30 C 260 30, 280 60, 300 60" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round" />
++                <circle cx="220" cy="30" r="5" fill="#a855f7" />
++              </svg>
++            </div>
++
++            <div class="mt-auto pt-6 flex justify-between items-end relative z-10">
++              <p class="text-[11px] font-normal text-slate-400 dark:text-slate-500 max-w-[130px] leading-relaxed">Website traffic is steadily increasing over time.</p>
+               <button class="w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-800/50 flex items-center justify-center text-purple-500 hover:bg-purple-50 transition-colors shrink-0">
+                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 12h14M12 5l7 7-7 7"></path></svg>
+               </button>
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+
+---
+
+Created At: 2026-06-28T16:25:06Z
+Completed At: 2026-06-28T16:25:09Z
+The following changes were made by the multi_replace_file_content tool to: e:\WEBSITE APRIPROGRAM\Apriprogram\views\admin\dashboard.ejs. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -1589,6 +1589,7 @@
+       const titles = { 'dashboard': 'Dasbor', 'settings': 'Pengaturan', 'users': 'Data Pengguna', 'orders': 'Pesanan Masuk' };
+       document.getElementById('pageTitle').innerText = titles[tabId];
+ 
++      if (tabId === 'dashboard') loadDashboardStats();
+       if (tabId === 'users') loadUsers();
+       if (tabId === 'settings') loadSettings();
+       if (tabId === 'orders') loadOrders();
+@@ -2722,8 +2722,32 @@
+       }
+     }
+ 
++    async function loadDashboardStats() {
++      try {
++        const res = await fetch('/api/admin/dashboard-stats');
++        const data = await res.json();
++        if (data.success && data.stats) {
++          document.getElementById('stat-users').innerText = data.stats.users || 0;
++          document.getElementById('stat-orders').innerText = data.stats.orders || 0;
++          document.getElementById('stat-status-total').innerText = data.stats.total_orders || 0;
++          document.getElementById('stat-visitors').innerText = data.stats.visitors || 0;
++          
++          if (data.stats.statuses) {
++            document.getElementById('stat-pending').innerText = data.stats.statuses['pending dp'] || 0;
++            document.getElementById('stat-proses').innerText = data.stats.statuses['proses'] || 0;
++            document.getElementById('stat-revisi').innerText = data.stats.statuses['revisi'] || 0;
++            document.getElementById('stat-selesai').innerText = data.stats.statuses['selesai'] || 0;
++            document.getElementById('stat-batal').innerText = data.stats.statuses['batal'] || 0;
++          }
++        }
++      } catch (err) {
++        console.error('Failed to load dashboard stats', err);
++      }
++    }
++
+     // Initial load for dashboard stats
+     loadUsers();
++    loadDashboardStats();
+   </script>
+ 
+   <!-- Delete Confirmation Modal -->
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+
+---
+
+Created At: 2026-06-28T16:33:13Z
+Completed At: 2026-06-28T16:33:15Z
+The following changes were made by the multi_replace_file_content tool to: e:\WEBSITE APRIPROGRAM\Apriprogram\views\admin\dashboard.ejs. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -358,12 +358,12 @@
+       <div id="tab-dashboard" class="tab-content space-y-6">
+                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 xl:gap-8">
+           <!-- Card 1: Pengguna (Insights style) -->
+-          <div class="bg-white dark:bg-brand-card rounded-[24px] border border-slate-200 dark:border-brand-border p-6 relative overflow-hidden flex flex-col justify-between min-h-[320px]">
++          <div class="bg-white dark:bg-brand-card rounded-[24px] border border-slate-200 dark:border-brand-border p-6 relative overflow-hidden flex flex-col justify-between min-h-[320px] hover:border-brand-blue hover:shadow-xl transition-all duration-300 group">
+             <div>
+               <div class="flex justify-between items-center mb-6">
+                 <h4 class="text-[15px] font-medium text-slate-900 dark:text-white tracking-tight">Total Pengguna</h4>
+-                <div class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-full flex items-center gap-1.5 cursor-pointer hover:bg-slate-100 transition-colors">
+-                  <span class="text-[11px] font-semibold text-slate-500">Weekly</span>
++                <div onclick="cycleTimeframe('users')" class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-full flex items-center gap-1.5 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
++                  <span id="timeframe-users" class="text-[11px] font-semibold text-slate-500">Weekly</span>
+                   <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                 </div>
+               </div>
+@@ -378,18 +378,20 @@
+ 
+             <!-- SVG Chart -->
+             <div class="absolute inset-x-0 bottom-24 h-28 pointer-events-none px-6">
+-              <svg viewBox="0 0 300 100" class="w-full h-full" preserveAspectRatio="none">
+-                <defs>
+-                  <linearGradient id="grad-orange" x1="0" y1="0" x2="0" y2="1">
+-                    <stop offset="0%" stop-color="#f97316" stop-opacity="0.2"/>
+-                    <stop offset="100%" stop-color="#f97316" stop-opacity="0"/>
+-                  </linearGradient>
+-                </defs>
+-                <path d="M0 80 L 100 20 L 250 20 L 250 100 L 0 100 Z" fill="url(#grad-orange)" />
+-                <path d="M0 80 L 100 20 L 250 20" fill="none" stroke="#f97316" stroke-width="2" stroke-linejoin="round" />
+-                <circle cx="250" cy="20" r="5" fill="#f97316" />
+-                <line x1="250" y1="25" x2="250" y2="100" stroke="#f97316" stroke-width="1" stroke-dasharray="3,3" stroke-opacity="0.4" />
+-              </svg>
++              <div class="w-full h-full relative">
++                <svg viewBox="0 0 300 100" class="w-full h-full" preserveAspectRatio="none">
++                  <defs>
++                    <linearGradient id="grad-orange" x1="0" y1="0" x2="0" y2="1">
++                      <stop offset="0%" stop-color="#f97316" stop-opacity="0.2"/>
++                      <stop offset="100%" stop-color="#f97316" stop-opacity="0"/>
++                    </linearGradient>
++                  </defs>
++                  <path d="M0 80 L 100 20 L 250 20 L 250 100 L 0 100 Z" fill="url(#grad-orange)" />
++                  <path d="M0 80 L 100 20 L 250 20" fill="none" stroke="#f97316" stroke-width="2" stroke-linejoin="round" />
++                  <line x1="250" y1="25" x2="250" y2="100" stroke="#f97316" stroke-width="1" stroke-dasharray="3,3" stroke-opacity="0.4" />
++                </svg>
++                <div class="absolute w-2.5 h-2.5 bg-orange-500 rounded-full shadow-[0_0_12px_rgba(249,115,22,1)] ring-2 ring-white dark:ring-slate-900" style="left: 83.33%; top: 20%; transform: translate(-50%, -50%);"></div>
++              </div>
+             </div>
+ 
+             <!-- Footer -->
+@@ -396,15 +396,14 @@
+               <p class="text-[11px] font-normal text-slate-400 dark:text-slate-500 max-w-[130px] leading-relaxed">Expect your users to rise and shine before this month closes.</p>
+-              <button class="w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-800/50 flex items-center justify-center text-orange-500 hover:bg-orange-50 transition-colors shrink-0">
+-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 12h14M12 5l7 7-7 7"></path></svg>
+-              </button>
+-            </div>
+-            
+-            <!-- Indicators like image bottom -->
+-            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 opacity-30">
+-              <div class="w-2.5 h-1 bg-slate-300 rounded-full"></div>
+-              <div class="w-1 h-1 bg-slate-300 rounded-full"></div>
+-              <div class="w-1 h-1 bg-slate-800 rounded-full"></div>
+-              <div class="w-1 h-1 bg-slate-300 rounded-full"></div>
++              <button onclick="switchTab('users')" class="w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-800/50 flex items-center justify-center text-orange-500 hover:bg-orange-50 dark:hover:bg-slate-800 transition-colors shrink-0 cursor-pointer pointer-events-auto">
++                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 12h14M12 5l7 7-7 7"></path></svg>
++              </button>
++            </div>
++            
++            <!-- Indicators -->
++            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 transition-opacity duration-300">
++              <div id="dot-users-0" class="w-2.5 h-1 bg-slate-800 dark:bg-slate-300 rounded-full transition-all"></div>
++              <div id="dot-users-1" class="w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full transition-all"></div>
++              <div id="dot-users-2" class="w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full transition-all"></div>
+             </div>
+           </div>
+           
+@@ -411,9 +411,9 @@
+-          <div class="bg-white dark:bg-brand-card rounded-[24px] border border-slate-200 dark:border-brand-border p-6 relative overflow-hidden flex flex-col justify-between min-h-[320px]">
++          <div class="bg-white dark:bg-brand-card rounded-[24px] border border-slate-200 dark:border-brand-border p-6 relative overflow-hidden flex flex-col justify-between min-h-[320px] hover:border-brand-blue hover:shadow-xl transition-all duration-300 group">
+             <div>
+               <div class="flex justify-between items-center mb-6">
+                 <h4 class="text-[15px] font-medium text-slate-900 dark:text-white tracking-tight">Total Pesanan</h4>
+-                <div class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-full flex items-center gap-1.5 cursor-pointer hover:bg-slate-100 transition-colors">
+-                  <span class="text-[11px] font-semibold text-slate-500">Weekly</span>
++                <div onclick="cycleTimeframe('orders')" class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-full flex items-center gap-1.5 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
++                  <span id="timeframe-orders" class="text-[11px] font-semibold text-slate-500">Weekly</span>
+                   <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                 </div>
+               </div>
+@@ -427,10 +427,12 @@
+             </div>
+ 
+             <div class="absolute inset-x-0 bottom-24 h-28 pointer-events-none px-4">
+-              <svg viewBox="0 0 300 100" class="w-full h-full" preserveAspectRatio="none">
+-                <path d="M0 70 C 60 70, 90 20, 150 20 C 210 20, 240 80, 300 80" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" />
+-                <circle cx="150" cy="20" r="5" fill="#3b82f6" />
+-              </svg>
++              <div class="w-full h-full relative">
++                <svg viewBox="0 0 300 100" class="w-full h-full" preserveAspectRatio="none">
++                  <path d="M0 70 C 60 70, 90 20, 150 20 C 210 20, 240 80, 300 80" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" />
++                </svg>
++                <div class="absolute w-2.5 h-2.5 bg-blue-500 rounded-full shadow-[0_0_12px_rgba(59,130,246,1)] ring-2 ring-white dark:ring-slate-900" style="left: 50%; top: 20%; transform: translate(-50%, -50%);"></div>
++              </div>
+             </div>
+ 
+             <div class="mt-auto pt-6 flex justify-between items-end relative z-10">
+@@ -437,13 +437,12 @@
+-              <button class="w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-800/50 flex items-center justify-center text-blue-500 hover:bg-blue-50 transition-colors shrink-0">
+-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 12h14M12 5l7 7-7 7"></path></svg>
+-              </button>
+-            </div>
+-            
+-            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 opacity-30">
+-              <div class="w-1 h-1 bg-slate-300 rounded-full"></div>
+-              <div class="w-1 h-1 bg-slate-300 rounded-full"></div>
+-              <div class="w-1 h-1 bg-slate-800 rounded-full"></div>
+-              <div class="w-2.5 h-1 bg-slate-300 rounded-full"></div>
++              <button onclick="switchTab('orders')" class="w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-800/50 flex items-center justify-center text-blue-500 hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors shrink-0 cursor-pointer pointer-events-auto">
++                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 12h14M12 5l7 7-7 7"></path></svg>
++              </button>
++            </div>
++            
++            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 transition-opacity duration-300">
++              <div id="dot-orders-0" class="w-2.5 h-1 bg-slate-800 dark:bg-slate-300 rounded-full transition-all"></div>
++              <div id="dot-orders-1" class="w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full transition-all"></div>
++              <div id="dot-orders-2" class="w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full transition-all"></div>
+             </div>
+           </div>
+ 
+@@ -450,11 +450,8 @@
+-          <div class="bg-white dark:bg-brand-card rounded-[24px] border border-slate-200 dark:border-brand-border p-6 relative overflow-hidden flex flex-col justify-between min-h-[320px]">
++          <div class="bg-white dark:bg-brand-card rounded-[24px] border border-slate-200 dark:border-brand-border p-6 relative overflow-hidden flex flex-col justify-between min-h-[320px] hover:border-brand-blue hover:shadow-xl transition-all duration-300 group">
+             <div>
+               <div class="flex justify-between items-center mb-6">
+                 <h4 class="text-[15px] font-medium text-slate-900 dark:text-white tracking-tight">Status Pesanan</h4>
+-                <div class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-full flex items-center gap-1.5 cursor-pointer hover:bg-slate-100 transition-colors">
+-                  <span class="text-[11px] font-semibold text-slate-500">Breakdown</span>
+-                  <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+-                </div>
++                <!-- Removed dropdown for Breakdown as it's not needed -->
+               </div>
+               
+               <div class="mb-4">
+@@ -506,22 +506,15 @@
+ 
+             <!-- Soft gradient orb (like the ROI image) -->
+             <div class="absolute -right-8 top-1/3 w-40 h-40 bg-emerald-400/10 dark:bg-emerald-400/5 rounded-full blur-2xl pointer-events-none"></div>
+-            
+-            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 opacity-30">
+-              <div class="w-1 h-1 bg-slate-800 rounded-full"></div>
+-              <div class="w-2.5 h-1 bg-slate-300 rounded-full"></div>
+-              <div class="w-1 h-1 bg-slate-300 rounded-full"></div>
+-              <div class="w-1 h-1 bg-slate-300 rounded-full"></div>
+-            </div>
+           </div>
+ 
+           <!-- Card 4: Pengunjung -->
+-          <div class="bg-white dark:bg-brand-card rounded-[24px] border border-slate-200 dark:border-brand-border p-6 relative overflow-hidden flex flex-col justify-between min-h-[320px]">
++          <div class="bg-white dark:bg-brand-card rounded-[24px] border border-slate-200 dark:border-brand-border p-6 relative overflow-hidden flex flex-col justify-between min-h-[320px] hover:border-brand-blue hover:shadow-xl transition-all duration-300 group">
+             <div>
+               <div class="flex justify-between items-center mb-6">
+                 <h4 class="text-[15px] font-medium text-slate-900 dark:text-white tracking-tight">Total Pengunjung</h4>
+-                <div class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-full flex items-center gap-1.5 cursor-pointer hover:bg-slate-100 transition-colors">
+-                  <span class="text-[11px] font-semibold text-slate-500">Weekly</span>
++                <div onclick="cycleTimeframe('visitors')" class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-full flex items-center gap-1.5 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
++                  <span id="timeframe-visitors" class="text-[11px] font-semibold text-slate-500">Weekly</span>
+                   <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                 </div>
+               </div>
+@@ -535,10 +535,12 @@
+             </div>
+ 
+             <div class="absolute inset-x-0 bottom-24 h-28 pointer-events-none px-4">
+-              <svg viewBox="0 0 300 100" class="w-full h-full" preserveAspectRatio="none">
+-                <path d="M0 90 C 80 90, 120 30, 220 30 C 260 30, 280 60, 300 60" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round" />
+-                <circle cx="220" cy="30" r="5" fill="#a855f7" />
+-              </svg>
++              <div class="w-full h-full relative">
++                <svg viewBox="0 0 300 100" class="w-full h-full" preserveAspectRatio="none">
++                  <path d="M0 90 C 80 90, 120 30, 220 30 C 260 30, 280 60, 300 60" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round" />
++                </svg>
++                <div class="absolute w-2.5 h-2.5 bg-purple-500 rounded-full shadow-[0_0_12px_rgba(168,85,247,1)] ring-2 ring-white dark:ring-slate-900" style="left: 73.33%; top: 30%; transform: translate(-50%, -50%);"></div>
++              </div>
+             </div>
+ 
+             <div class="mt-auto pt-6 flex justify-between items-end relative z-10">
+@@ -545,13 +545,12 @@
+-              <button class="w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-800/50 flex items-center justify-center text-purple-500 hover:bg-purple-50 transition-colors shrink-0">
+-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 12h14M12 5l7 7-7 7"></path></svg>
+-              </button>
+-            </div>
+-            
+-            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 opacity-30">
+-              <div class="w-1 h-1 bg-slate-300 rounded-full"></div>
+-              <div class="w-1 h-1 bg-slate-300 rounded-full"></div>
+-              <div class="w-1 h-1 bg-slate-300 rounded-full"></div>
+-              <div class="w-2.5 h-1 bg-slate-800 rounded-full"></div>
++              <button onclick="window.open('/', '_blank')" class="w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-800/50 flex items-center justify-center text-purple-500 hover:bg-purple-50 dark:hover:bg-slate-800 transition-colors shrink-0 cursor-pointer pointer-events-auto">
++                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 12h14M12 5l7 7-7 7"></path></svg>
++              </button>
++            </div>
++            
++            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 transition-opacity duration-300">
++              <div id="dot-visitors-0" class="w-2.5 h-1 bg-slate-800 dark:bg-slate-300 rounded-full transition-all"></div>
++              <div id="dot-visitors-1" class="w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full transition-all"></div>
++              <div id="dot-visitors-2" class="w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full transition-all"></div>
+             </div>
+           </div>
+         </div>
+@@ -2737,6 +2737,32 @@
+       }
+     }
+ 
++    const timeframes = ['Weekly', 'Monthly', 'Yearly'];
++    const currentFrame = { users: 0, orders: 0, visitors: 0 };
++    
++    function cycleTimeframe(cardId) {
++      currentFrame[cardId] = (currentFrame[cardId] + 1) % timeframes.length;
++      const index = currentFrame[cardId];
++      document.getElementById(`timeframe-${cardId}`).innerText = timeframes[index];
++      
++      for(let i=0; i<3; i++) {
++        const dot = document.getElementById(`dot-${cardId}-${i}`);
++        if(dot) {
++          if(i === index) {
++            dot.className = "w-2.5 h-1 bg-slate-800 dark:bg-slate-300 rounded-full transition-all";
++          } else {
++            dot.className = "w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full transition-all";
++          }
++        }
++      }
++      
++      // Data would ideally refresh here if backend supported timeframe filters
++      loadDashboardStats();
++    }
++
++    // Auto refresh real-time (every 10 seconds)
++    setInterval(loadDashboardStats, 10000);
++
+     // Initial load for dashboard stats
+     loadUsers();
+     loadDashboardStats();
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+
+---
+
+Created At: 2026-06-28T16:38:06Z
+Completed At: 2026-06-28T16:38:08Z
+The following changes were made by the multi_replace_file_content tool to: e:\WEBSITE APRIPROGRAM\Apriprogram\views\admin\dashboard.ejs. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -363,7 +363,7 @@
+               <div class="flex justify-between items-center mb-6">
+                 <h4 class="text-[15px] font-medium text-slate-900 dark:text-white tracking-tight">Total Pengguna</h4>
+                 <div onclick="cycleTimeframe('users')" class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-full flex items-center gap-1.5 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+-                  <span id="timeframe-users" class="text-[11px] font-semibold text-slate-500">Weekly</span>
++                  <span id="timeframe-users" class="text-[11px] font-semibold text-slate-500">Mingguan</span>
+                   <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                 </div>
+               </div>
+@@ -404,9 +404,10 @@
+             
+             <!-- Indicators -->
+             <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 transition-opacity duration-300">
+-              <div id="dot-users-0" class="w-2.5 h-1 bg-slate-800 dark:bg-slate-300 rounded-full transition-all"></div>
+-              <div id="dot-users-1" class="w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full transition-all"></div>
++              <div id="dot-users-0" class="w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full transition-all"></div>
++              <div id="dot-users-1" class="w-2.5 h-1 bg-slate-800 dark:bg-slate-300 rounded-full transition-all"></div>
+               <div id="dot-users-2" class="w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full transition-all"></div>
++              <div id="dot-users-3" class="w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full transition-all"></div>
+             </div>
+           </div>
+           
+@@ -415,7 +415,7 @@
+               <div class="flex justify-between items-center mb-6">
+                 <h4 class="text-[15px] font-medium text-slate-900 dark:text-white tracking-tight">Total Pesanan</h4>
+                 <div onclick="cycleTimeframe('orders')" class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-full flex items-center gap-1.5 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+-                  <span id="timeframe-orders" class="text-[11px] font-semibold text-slate-500">Weekly</span>
++                  <span id="timeframe-orders" class="text-[11px] font-semibold text-slate-500">Mingguan</span>
+                   <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                 </div>
+               </div>
+@@ -445,9 +445,10 @@
+             </div>
+             
+             <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 transition-opacity duration-300">
+-              <div id="dot-orders-0" class="w-2.5 h-1 bg-slate-800 dark:bg-slate-300 rounded-full transition-all"></div>
+-              <div id="dot-orders-1" class="w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full transition-all"></div>
++              <div id="dot-orders-0" class="w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full transition-all"></div>
++              <div id="dot-orders-1" class="w-2.5 h-1 bg-slate-800 dark:bg-slate-300 rounded-full transition-all"></div>
+               <div id="dot-orders-2" class="w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full transition-all"></div>
++              <div id="dot-orders-3" class="w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full transition-all"></div>
+             </div>
+           </div>
+ 
+@@ -516,7 +516,7 @@
+               <div class="flex justify-between items-center mb-6">
+                 <h4 class="text-[15px] font-medium text-slate-900 dark:text-white tracking-tight">Total Pengunjung</h4>
+                 <div onclick="cycleTimeframe('visitors')" class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-full flex items-center gap-1.5 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+-                  <span id="timeframe-visitors" class="text-[11px] font-semibold text-slate-500">Weekly</span>
++                  <span id="timeframe-visitors" class="text-[11px] font-semibold text-slate-500">Mingguan</span>
+                   <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                 </div>
+               </div>
+@@ -546,9 +546,10 @@
+             </div>
+             
+             <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 transition-opacity duration-300">
+-              <div id="dot-visitors-0" class="w-2.5 h-1 bg-slate-800 dark:bg-slate-300 rounded-full transition-all"></div>
+-              <div id="dot-visitors-1" class="w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full transition-all"></div>
++              <div id="dot-visitors-0" class="w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full transition-all"></div>
++              <div id="dot-visitors-1" class="w-2.5 h-1 bg-slate-800 dark:bg-slate-300 rounded-full transition-all"></div>
+               <div id="dot-visitors-2" class="w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full transition-all"></div>
++              <div id="dot-visitors-3" class="w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full transition-all"></div>
+             </div>
+           </div>
+         </div>
+@@ -2711,6 +2711,10 @@
+       }
+     }
+ 
++    let latestStats = null;
++    const timeframes = ['Harian', 'Mingguan', 'Bulanan', 'Tahunan'];
++    const currentFrame = { users: 1, orders: 1, visitors: 1 }; // Default index 1 = Mingguan
++    
+     async function loadDashboardStats() {
+       try {
+         const res = await fetch('/api/admin/dashboard-stats');
+@@ -2717,16 +2717,6 @@
+         if (data.success && data.stats) {
+-          document.getElementById('stat-users').innerText = data.stats.users || 0;
+-          document.getElementById('stat-orders').innerText = data.stats.orders || 0;
+-          document.getElementById('stat-status-total').innerText = data.stats.total_orders || 0;
+-          document.getElementById('stat-visitors').innerText = data.stats.visitors || 0;
+-          
+-          if (data.stats.statuses) {
+-            document.getElementById('stat-pending').innerText = data.stats.statuses['pending dp'] || 0;
+-            document.getElementById('stat-proses').innerText = data.stats.statuses['proses'] || 0;
+-            document.getElementById('stat-revisi').innerText = data.stats.statuses['revisi'] || 0;
+-            document.getElementById('stat-selesai').innerText = data.stats.statuses['selesai'] || 0;
+-            document.getElementById('stat-batal').innerText = data.stats.statuses['batal'] || 0;
+-          }
++          latestStats = data.stats;
++          updateDashboardUI();
+         }
+       } catch (err) {
+         console.error('Failed to load dashboard stats', err);
+@@ -2733,8 +2733,26 @@
+     }
+ 
+-    const timeframes = ['Weekly', 'Monthly', 'Yearly'];
+-    const currentFrame = { users: 0, orders: 0, visitors: 0 };
+-    
++    function updateDashboardUI() {
++      if (!latestStats) return;
++      
++      const uf = timeframes[currentFrame.users];
++      const of = timeframes[currentFrame.orders];
++      const vf = timeframes[currentFrame.visitors];
++
++      document.getElementById('stat-users').innerText = latestStats.users[uf] || 0;
++      document.getElementById('stat-orders').innerText = latestStats.orders[of] || 0;
++      document.getElementById('stat-visitors').innerText = latestStats.visitors[vf] || 0;
++      document.getElementById('stat-status-total').innerText = latestStats.total_orders || 0;
++      
++      if (latestStats.statuses) {
++        document.getElementById('stat-pending').innerText = latestStats.statuses['pending dp'] || 0;
++        document.getElementById('stat-proses').innerText = latestStats.statuses['proses'] || 0;
++        document.getElementById('stat-revisi').innerText = latestStats.statuses['revisi'] || 0;
++        document.getElementById('stat-selesai').innerText = latestStats.statuses['selesai'] || 0;
++        document.getElementById('stat-batal').innerText = latestStats.statuses['batal'] || 0;
++      }
++    }
++
+     function cycleTimeframe(cardId) {
+       currentFrame[cardId] = (currentFrame[cardId] + 1) % timeframes.length;
+       const index = currentFrame[cardId];
+@@ -2741,5 +2741,5 @@
+       
+-      for(let i=0; i<3; i++) {
++      for(let i=0; i<4; i++) {
+         const dot = document.getElementById(`dot-${cardId}-${i}`);
+         if(dot) {
+           if(i === index) {
+@@ -2749,8 +2749,7 @@
+         }
+       }
+       
+-      // Data would ideally refresh here if backend supported timeframe filters
+-      loadDashboardStats();
++      updateDashboardUI();
+     }
+ 
+     // Auto refresh real-time (every 10 seconds)
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+
+---
+
+Created At: 2026-06-28T16:40:33Z
+Completed At: 2026-06-28T16:40:36Z
+The following changes were made by the multi_replace_file_content tool to: e:\WEBSITE APRIPROGRAM\Apriprogram\views\admin\dashboard.ejs. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -456,20 +456,20 @@
+             </div>
+           </div>
+ 
+-          <!-- Card 3: Status Pesanan (ROI minimal style) -->
+-          <div class="bg-white dark:bg-brand-card rounded-[24px] border border-slate-200 dark:border-brand-border p-6 relative overflow-hidden flex flex-col justify-between min-h-[320px] hover:border-brand-blue hover:shadow-xl transition-all duration-300 group">
+-            <div>
+-              <div class="flex justify-between items-center mb-6">
+-                <h4 class="text-[15px] font-medium text-slate-900 dark:text-white tracking-tight">Status Pesanan</h4>
+-                <!-- Removed dropdown for Breakdown as it's not needed -->
+-              </div>
+-              
+-              <div class="mb-4">
+-                <span class="text-[11px] font-normal text-slate-400 dark:text-slate-500 mb-1 block">Total Orders</span>
+-                <div class="flex items-start gap-1.5">
+-                  <h3 class="text-[44px] font-medium text-slate-900 dark:text-white leading-none tracking-tighter" id="stat-status-total">-</h3>
+-                  <svg class="w-4 h-4 text-emerald-500 mt-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 19L19 5M19 5v10M19 5H9"></path></svg>
+-                </div>
++          <!-- Card 3: Status Pesanan -->
++          <div class="bg-white dark:bg-brand-card rounded-[24px] border border-slate-200 dark:border-brand-border p-6 relative overflow-hidden flex flex-col min-h-[320px] hover:border-brand-blue hover:shadow-xl transition-all duration-300 group">
++            <div class="flex justify-between items-center mb-6">
++              <h4 class="text-[15px] font-medium text-slate-900 dark:text-white tracking-tight">Status Pesanan</h4>
++            </div>
++
++            <!-- Donut Chart Container -->
++            <div id="status-donut-container" class="relative w-36 h-36 mx-auto mb-6">
++              <svg viewBox="0 0 100 100" class="w-full h-full transform -rotate-90">
++                <circle cx="50" cy="50" r="38" fill="none" stroke="#f1f5f9" stroke-width="16" />
++              </svg>
++              <div class="absolute inset-0 flex flex-col items-center justify-center">
++                <span class="text-[22px] font-bold text-slate-800 dark:text-white leading-none tracking-tight" id="donut-total">0</span>
++                <span class="text-[11px] text-slate-400 font-medium mt-0.5">Orders</span>
+               </div>
+             </div>
+ 
+@@ -476,38 +476,38 @@
+-            <div class="space-y-3.5 z-10 relative mt-2 pb-6">
+-              <div class="flex items-center justify-between">
+-                <div class="flex items-center gap-2.5">
+-                  <div class="w-2 h-2 rounded-full bg-slate-300"></div>
+-                  <span class="text-[12px] font-semibold text-slate-500 dark:text-slate-400">Pending</span>
+-                </div>
+-                <span class="text-[14px] font-extrabold text-slate-800 dark:text-slate-200" id="stat-pending">0</span>
+-              </div>
+-              <div class="flex items-center justify-between">
+-                <div class="flex items-center gap-2.5">
+-                  <div class="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.6)]"></div>
+-                  <span class="text-[12px] font-semibold text-slate-500 dark:text-slate-400">Proses</span>
+-                </div>
+-                <span class="text-[14px] font-extrabold text-slate-800 dark:text-slate-200" id="stat-proses">0</span>
+-              </div>
+-              <div class="flex items-center justify-between">
+-                <div class="flex items-center gap-2.5">
+-                  <div class="w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.6)]"></div>
+-                  <span class="text-[12px] font-semibold text-slate-500 dark:text-slate-400">Revisi</span>
+-                </div>
+-                <span class="text-[14px] font-extrabold text-slate-800 dark:text-slate-200" id="stat-revisi">0</span>
+-              </div>
+-              <div class="flex items-center justify-between">
+-                <div class="flex items-center gap-2.5">
+-                  <div class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]"></div>
+-                  <span class="text-[12px] font-semibold text-slate-500 dark:text-slate-400">Selesai</span>
+-                </div>
+-                <span class="text-[14px] font-extrabold text-slate-800 dark:text-slate-200" id="stat-selesai">0</span>
+-              </div>
+-              <div class="flex items-center justify-between">
+-                <div class="flex items-center gap-2.5">
+-                  <div class="w-2 h-2 rounded-full bg-red-400"></div>
+-                  <span class="text-[12px] font-semibold text-slate-500 dark:text-slate-400">Batal</span>
+-                </div>
+-                <span class="text-[14px] font-extrabold text-slate-800 dark:text-slate-200" id="stat-batal">0</span>
++            <div class="space-y-2.5 z-10 relative">
++              <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/40 px-3 py-2 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
++                <div class="flex items-center gap-2.5">
++                  <div class="w-3 h-3 rounded-full bg-slate-400"></div>
++                  <span class="text-[13px] font-semibold text-slate-600 dark:text-slate-300">Pending</span>
++                </div>
++                <span class="text-[13px] font-bold text-slate-800 dark:text-slate-200"><span id="stat-pending">0</span> <span class="text-slate-400 dark:text-slate-500 font-normal ml-0.5">orders</span></span>
++              </div>
++              <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/40 px-3 py-2 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
++                <div class="flex items-center gap-2.5">
++                  <div class="w-3 h-3 rounded-full bg-blue-500"></div>
++                  <span class="text-[13px] font-semibold text-slate-600 dark:text-slate-300">Proses</span>
++                </div>
++                <span class="text-[13px] font-bold text-slate-800 dark:text-slate-200"><span id="stat-proses">0</span> <span class="text-slate-400 dark:text-slate-500 font-normal ml-0.5">orders</span></span>
++              </div>
++              <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/40 px-3 py-2 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
++                <div class="flex items-center gap-2.5">
++                  <div class="w-3 h-3 rounded-full bg-orange-500"></div>
++                  <span class="text-[13px] font-semibold text-slate-600 dark:text-slate-300">Revisi</span>
++                </div>
++                <span class="text-[13px] font-bold text-slate-800 dark:text-slate-200"><span id="stat-revisi">0</span> <span class="text-slate-400 dark:text-slate-500 font-normal ml-0.5">orders</span></span>
++              </div>
++              <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/40 px-3 py-2 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
++                <div class="flex items-center gap-2.5">
++                  <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
++                  <span class="text-[13px] font-semibold text-slate-600 dark:text-slate-300">Selesai</span>
++                </div>
++                <span class="text-[13px] font-bold text-slate-800 dark:text-slate-200"><span id="stat-selesai">0</span> <span class="text-slate-400 dark:text-slate-500 font-normal ml-0.5">orders</span></span>
++              </div>
++              <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/40 px-3 py-2 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
++                <div class="flex items-center gap-2.5">
++                  <div class="w-3 h-3 rounded-full bg-red-500"></div>
++                  <span class="text-[13px] font-semibold text-slate-600 dark:text-slate-300">Batal</span>
++                </div>
++                <span class="text-[13px] font-bold text-slate-800 dark:text-slate-200"><span id="stat-batal">0</span> <span class="text-slate-400 dark:text-slate-500 font-normal ml-0.5">orders</span></span>
+               </div>
+             </div>
+ 
+@@ -2745,9 +2745,9 @@
+       document.getElementById('stat-users').innerText = latestStats.users[uf] || 0;
+       document.getElementById('stat-orders').innerText = latestStats.orders[of] || 0;
+       document.getElementById('stat-visitors').innerText = latestStats.visitors[vf] || 0;
+-      document.getElementById('stat-status-total').innerText = latestStats.total_orders || 0;
+       
+       if (latestStats.statuses) {
++        drawStatusDonut(latestStats.statuses);
+         document.getElementById('stat-pending').innerText = latestStats.statuses['pending dp'] || 0;
+         document.getElementById('stat-proses').innerText = latestStats.statuses['proses'] || 0;
+         document.getElementById('stat-revisi').innerText = latestStats.statuses['revisi'] || 0;
+@@ -2755,6 +2755,65 @@
+       }
+     }
+ 
++    function drawStatusDonut(stats) {
++      const container = document.getElementById('status-donut-container');
++      if (!container) return;
++
++      const data = [
++        { label: 'pending dp', color: '#94a3b8' }, // slate-400
++        { label: 'proses', color: '#3b82f6' },     // blue-500
++        { label: 'revisi', color: '#f97316' },     // orange-500
++        { label: 'selesai', color: '#10b981' },    // emerald-500
++        { label: 'batal', color: '#ef4444' }       // red-500
++      ];
++
++      let total = 0;
++      data.forEach(d => {
++        d.value = stats[d.label] || 0;
++        total += d.value;
++      });
++
++      document.getElementById('donut-total').innerText = total;
++
++      if (total === 0) {
++        container.querySelector('svg').innerHTML = '<circle cx="50" cy="50" r="38" fill="none" stroke="#f1f5f9" stroke-width="16" />';
++        return;
++      }
++
++      let svgHtml = '';
++      const r = 38;
++      const circumference = 2 * Math.PI * r;
++      let offset = 0;
++
++      data.forEach(d => {
++        if (d.value === 0) return;
++        const ratio = d.value / total;
++        
++        // Gap size in pixels along circumference
++        const gap = 5;
++        let dashLength = (ratio * circumference) - gap;
++        if (dashLength < 0.1) dashLength = 0.1;
++
++        // Shift dash to center the gap
++        const dashOffset = -(offset + gap/2);
++
++        svgHtml += `<circle cx="50" cy="50" r="${r}" fill="none" stroke="${d.color}" stroke-width="16" stroke-dasharray="${dashLength} ${circumference}" stroke-dashoffset="${dashOffset}" stroke-linecap="round" class="transition-all duration-1000 ease-out" />`;
++
++        // Add percentage text inside the donut stroke
++        if (ratio > 0.05) { // Only show text if slice is big enough
++          const midAngle = ((offset + gap/2 + dashLength/2) / circumference) * 2 * Math.PI;
++          const textX = 50 + r * Math.cos(midAngle);
++          const textY = 50 + r * Math.sin(midAngle);
++          // Rotate text 90 deg clockwise to undo the SVG's -90 deg rotation
++          svgHtml += `<text x="${textX}" y="${textY}" fill="#ffffff" font-size="7.5" font-weight="bold" text-anchor="middle" dominant-baseline="central" transform="rotate(90, ${textX}, ${textY})">${Math.round(ratio * 100)}%</text>`;
++        }
++
++        offset += ratio * circumference;
++      });
++
++      container.querySelector('svg').innerHTML = svgHtml;
++    }
++
+     function cycleTimeframe(cardId) {
+       currentFrame[cardId] = (currentFrame[cardId] + 1) % timeframes.length;
+       const index = currentFrame[cardId];
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+
+---
+
+Created At: 2026-06-28T16:45:44Z
+Completed At: 2026-06-28T16:45:47Z
+The following changes were made by the multi_replace_file_content tool to: e:\WEBSITE APRIPROGRAM\Apriprogram\views\admin\dashboard.ejs. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -463,9 +463,9 @@
+             </div>
+ 
+             <!-- Donut Chart Container -->
+-            <div id="status-donut-container" class="relative w-36 h-36 mx-auto mb-6">
++            <div id="status-donut-container" class="relative w-40 h-40 mx-auto mb-5">
+               <svg viewBox="0 0 100 100" class="w-full h-full transform -rotate-90">
+-                <circle cx="50" cy="50" r="38" fill="none" stroke="#f1f5f9" stroke-width="16" />
++                <circle cx="50" cy="50" r="32" fill="none" stroke="#f1f5f9" stroke-width="22" />
+               </svg>
+               <div class="absolute inset-0 flex flex-col items-center justify-center">
+                 <span class="text-[22px] font-bold text-slate-800 dark:text-white leading-none tracking-tight" id="donut-total">0</span>
+@@ -473,41 +473,41 @@
+             </div>
+ 
+             <!-- Custom minimalist list for breakdown -->
+-            <div class="space-y-2.5 z-10 relative">
+-              <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/40 px-3 py-2 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
+-                <div class="flex items-center gap-2.5">
+-                  <div class="w-3 h-3 rounded-full bg-slate-400"></div>
+-                  <span class="text-[13px] font-semibold text-slate-600 dark:text-slate-300">Pending</span>
+-                </div>
+-                <span class="text-[13px] font-bold text-slate-800 dark:text-slate-200"><span id="stat-pending">0</span> <span class="text-slate-400 dark:text-slate-500 font-normal ml-0.5">orders</span></span>
+-              </div>
+-              <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/40 px-3 py-2 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
+-                <div class="flex items-center gap-2.5">
+-                  <div class="w-3 h-3 rounded-full bg-blue-500"></div>
+-                  <span class="text-[13px] font-semibold text-slate-600 dark:text-slate-300">Proses</span>
+-                </div>
+-                <span class="text-[13px] font-bold text-slate-800 dark:text-slate-200"><span id="stat-proses">0</span> <span class="text-slate-400 dark:text-slate-500 font-normal ml-0.5">orders</span></span>
+-              </div>
+-              <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/40 px-3 py-2 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
+-                <div class="flex items-center gap-2.5">
+-                  <div class="w-3 h-3 rounded-full bg-orange-500"></div>
+-                  <span class="text-[13px] font-semibold text-slate-600 dark:text-slate-300">Revisi</span>
+-                </div>
+-                <span class="text-[13px] font-bold text-slate-800 dark:text-slate-200"><span id="stat-revisi">0</span> <span class="text-slate-400 dark:text-slate-500 font-normal ml-0.5">orders</span></span>
+-              </div>
+-              <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/40 px-3 py-2 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
+-                <div class="flex items-center gap-2.5">
+-                  <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+-                  <span class="text-[13px] font-semibold text-slate-600 dark:text-slate-300">Selesai</span>
+-                </div>
+-                <span class="text-[13px] font-bold text-slate-800 dark:text-slate-200"><span id="stat-selesai">0</span> <span class="text-slate-400 dark:text-slate-500 font-normal ml-0.5">orders</span></span>
+-              </div>
+-              <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/40 px-3 py-2 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
+-                <div class="flex items-center gap-2.5">
+-                  <div class="w-3 h-3 rounded-full bg-red-500"></div>
+-                  <span class="text-[13px] font-semibold text-slate-600 dark:text-slate-300">Batal</span>
+-                </div>
+-                <span class="text-[13px] font-bold text-slate-800 dark:text-slate-200"><span id="stat-batal">0</span> <span class="text-slate-400 dark:text-slate-500 font-normal ml-0.5">orders</span></span>
++            <div class="space-y-1.5 z-10 relative">
++              <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/40 px-2.5 py-1.5 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
++                <div class="flex items-center gap-2.5">
++                  <div class="w-2.5 h-2.5 rounded-full bg-slate-400"></div>
++                  <span class="text-[12px] font-semibold text-slate-600 dark:text-slate-300">Pending</span>
++                </div>
++                <span class="text-[12px] font-bold text-slate-800 dark:text-slate-200"><span id="stat-pending">0</span> <span class="text-slate-400 dark:text-slate-500 font-normal ml-0.5">orders</span></span>
++              </div>
++              <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/40 px-2.5 py-1.5 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
++                <div class="flex items-center gap-2.5">
++                  <div class="w-2.5 h-2.5 rounded-full bg-blue-500"></div>
++                  <span class="text-[12px] font-semibold text-slate-600 dark:text-slate-300">Proses</span>
++                </div>
++                <span class="text-[12px] font-bold text-slate-800 dark:text-slate-200"><span id="stat-proses">0</span> <span class="text-slate-400 dark:text-slate-500 font-normal ml-0.5">orders</span></span>
++              </div>
++              <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/40 px-2.5 py-1.5 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
++                <div class="flex items-center gap-2.5">
++                  <div class="w-2.5 h-2.5 rounded-full bg-orange-500"></div>
++                  <span class="text-[12px] font-semibold text-slate-600 dark:text-slate-300">Revisi</span>
++                </div>
++                <span class="text-[12px] font-bold text-slate-800 dark:text-slate-200"><span id="stat-revisi">0</span> <span class="text-slate-400 dark:text-slate-500 font-normal ml-0.5">orders</span></span>
++              </div>
++              <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/40 px-2.5 py-1.5 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
++                <div class="flex items-center gap-2.5">
++                  <div class="w-2.5 h-2.5 rounded-full bg-emerald-500"></div>
++                  <span class="text-[12px] font-semibold text-slate-600 dark:text-slate-300">Selesai</span>
++                </div>
++                <span class="text-[12px] font-bold text-slate-800 dark:text-slate-200"><span id="stat-selesai">0</span> <span class="text-slate-400 dark:text-slate-500 font-normal ml-0.5">orders</span></span>
++              </div>
++              <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/40 px-2.5 py-1.5 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
++                <div class="flex items-center gap-2.5">
++                  <div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
++                  <span class="text-[12px] font-semibold text-slate-600 dark:text-slate-300">Batal</span>
++                </div>
++                <span class="text-[12px] font-bold text-slate-800 dark:text-slate-200"><span id="stat-batal">0</span> <span class="text-slate-400 dark:text-slate-500 font-normal ml-0.5">orders</span></span>
+               </div>
+             </div>
+ 
+@@ -2777,7 +2777,7 @@
+       document.getElementById('donut-total').innerText = total;
+ 
+       if (total === 0) {
+-        container.querySelector('svg').innerHTML = '<circle cx="50" cy="50" r="38" fill="none" stroke="#f1f5f9" stroke-width="16" />';
++        container.querySelector('svg').innerHTML = '<circle cx="50" cy="50" r="32" fill="none" stroke="#f1f5f9" stroke-width="22" />';
+         return;
+       }
+ 
+@@ -2784,6 +2784,9 @@
+-      const r = 38;
++      const r = 32;
++      const strokeW = 22;
+       const circumference = 2 * Math.PI * r;
+       let offset = 0;
++      
++      const maxVal = Math.max(...data.map(d => d.value));
+ 
+       data.forEach(d => {
+         if (d.value === 0) return;
+@@ -2790,6 +2790,6 @@
+         
+         // Gap size in pixels along circumference
+-        const gap = 5;
++        const gap = ratio === 1 ? 0 : 8;
+         let dashLength = (ratio * circumference) - gap;
+         if (dashLength < 0.1) dashLength = 0.1;
+ 
+@@ -2796,14 +2796,19 @@
+         const dashOffset = -(offset + gap/2);
+-
+-        svgHtml += `<circle cx="50" cy="50" r="${r}" fill="none" stroke="${d.color}" stroke-width="16" stroke-dasharray="${dashLength} ${circumference}" stroke-dashoffset="${dashOffset}" stroke-linecap="round" class="transition-all duration-1000 ease-out" />`;
++        const midAngle = ((offset + gap/2 + dashLength/2) / circumference) * 2 * Math.PI;
++
++        const isMax = (d.value === maxVal && total > 0 && data.filter(x => x.value === maxVal).length === 1);
++        const explodeDist = isMax ? 4 : 1.5;
++        const dx = explodeDist * Math.cos(midAngle);
++        const dy = explodeDist * Math.sin(midAngle);
++
++        svgHtml += `<circle cx="50" cy="50" r="${r}" fill="none" stroke="${d.color}" stroke-width="${strokeW}" stroke-dasharray="${dashLength} ${circumference}" stroke-dashoffset="${dashOffset}" stroke-linecap="round" class="transition-all duration-1000 ease-out" transform="translate(${dx}, ${dy})" />`;
+ 
+         // Add percentage text inside the donut stroke
+-        if (ratio > 0.05) { // Only show text if slice is big enough
+-          const midAngle = ((offset + gap/2 + dashLength/2) / circumference) * 2 * Math.PI;
+-          const textX = 50 + r * Math.cos(midAngle);
+-          const textY = 50 + r * Math.sin(midAngle);
++        if (ratio > 0.05) { 
++          const textX = 50 + dx + r * Math.cos(midAngle);
++          const textY = 50 + dy + r * Math.sin(midAngle);
+           // Rotate text 90 deg clockwise to undo the SVG's -90 deg rotation
+-          svgHtml += `<text x="${textX}" y="${textY}" fill="#ffffff" font-size="7.5" font-weight="bold" text-anchor="middle" dominant-baseline="central" transform="rotate(90, ${textX}, ${textY})">${Math.round(ratio * 100)}%</text>`;
++          svgHtml += `<text x="${textX}" y="${textY}" fill="#ffffff" font-size="8.5" font-weight="bold" text-anchor="middle" dominant-baseline="central" transform="rotate(90, ${textX}, ${textY})">${Math.round(ratio * 100)}%</text>`;
+         }
+ 
+         offset += ratio * circumference;
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+
+---
+
+Created At: 2026-06-28T16:48:06Z
+Completed At: 2026-06-28T16:48:08Z
+The following changes were made by the replace_file_content tool to: e:\WEBSITE APRIPROGRAM\Apriprogram\views\admin\dashboard.ejs. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -2795,14 +2795,16 @@
+         if (d.value === 0) return;
+         const ratio = d.value / total;
+         
+-        // Gap size in pixels along circumference
+-        const gap = ratio === 1 ? 0 : 8;
+-        let dashLength = (ratio * circumference) - gap;
+-        if (dashLength < 0.1) dashLength = 0.1;
+-
+-        // Shift dash to center the gap
+-        const dashOffset = -(offset + gap/2);
+-        const midAngle = ((offset + gap/2 + dashLength/2) / circumference) * 2 * Math.PI;
++        const isFull = ratio === 1;
++        const visualGap = isFull ? 0 : 8;
++        
++        // Subtract strokeW because stroke-linecap="round" adds strokeW/2 to each end of the dash
++        let dashLength = isFull ? circumference : (ratio * circumference) - visualGap - strokeW;
++        if (dashLength < 0.1 && !isFull) dashLength = 0.1;
++
++        // Shift dash to center the gap and compensate for the backward-extending round cap
++        const dashOffset = isFull ? 0 : -(offset + visualGap/2 + strokeW/2);
++        const midAngle = (offset + (ratio * circumference)/2) / circumference * 2 * Math.PI;
+ 
+         const isMax = (d.value === maxVal && total > 0 && data.filter(x => x.value === maxVal).length === 1);
+         const explodeDist = isMax ? 4 : 1.5;
+@@ -2810,11 +2810,9 @@
+ 
+         svgHtml += `<circle cx="50" cy="50" r="${r}" fill="none" stroke="${d.color}" stroke-width="${strokeW}" stroke-dasharray="${dashLength} ${circumference}" stroke-dashoffset="${dashOffset}" stroke-linecap="round" class="transition-all duration-1000 ease-out" transform="translate(${dx}, ${dy})" />`;
+ 
+-        // Add percentage text inside the donut stroke
+         if (ratio > 0.05) { 
+           const textX = 50 + dx + r * Math.cos(midAngle);
+           const textY = 50 + dy + r * Math.sin(midAngle);
+-          // Rotate text 90 deg clockwise to undo the SVG's -90 deg rotation
+           svgHtml += `<text x="${textX}" y="${textY}" fill="#ffffff" font-size="8.5" font-weight="bold" text-anchor="middle" dominant-baseline="central" transform="rotate(90, ${textX}, ${textY})">${Math.round(ratio * 100)}%</text>`;
+         }
+ 
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+
+---
+
+Created At: 2026-06-28T16:55:19Z
+Completed At: 2026-06-28T16:55:21Z
+The following changes were made by the multi_replace_file_content tool to: e:\WEBSITE APRIPROGRAM\Apriprogram\views\admin\dashboard.ejs. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -462,54 +462,17 @@
+               <h4 class="text-[15px] font-medium text-slate-900 dark:text-white tracking-tight">Status Pesanan</h4>
+             </div>
+ 
+-            <!-- Donut Chart Container -->
+-            <div id="status-donut-container" class="relative w-40 h-40 mx-auto mb-5">
+-              <svg viewBox="0 0 100 100" class="w-full h-full transform -rotate-90">
+-                <circle cx="50" cy="50" r="32" fill="none" stroke="#f1f5f9" stroke-width="22" />
+-              </svg>
+-              <div class="absolute inset-0 flex flex-col items-center justify-center">
+-                <span class="text-[22px] font-bold text-slate-800 dark:text-white leading-none tracking-tight" id="donut-total">0</span>
+-                <span class="text-[11px] text-slate-400 font-medium mt-0.5">Orders</span>
+-              </div>
+-            </div>
+-
+-            <!-- Custom minimalist list for breakdown -->
+-            <div class="space-y-1.5 z-10 relative">
+-              <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/40 px-2.5 py-1.5 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
+-                <div class="flex items-center gap-2.5">
+-                  <div class="w-2.5 h-2.5 rounded-full bg-slate-400"></div>
+-                  <span class="text-[12px] font-semibold text-slate-600 dark:text-slate-300">Pending</span>
+-                </div>
+-                <span class="text-[12px] font-bold text-slate-800 dark:text-slate-200"><span id="stat-pending">0</span> <span class="text-slate-400 dark:text-slate-500 font-normal ml-0.5">orders</span></span>
+-              </div>
+-              <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/40 px-2.5 py-1.5 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
+-                <div class="flex items-center gap-2.5">
+-                  <div class="w-2.5 h-2.5 rounded-full bg-blue-500"></div>
+-                  <span class="text-[12px] font-semibold text-slate-600 dark:text-slate-300">Proses</span>
+-                </div>
+-                <span class="text-[12px] font-bold text-slate-800 dark:text-slate-200"><span id="stat-proses">0</span> <span class="text-slate-400 dark:text-slate-500 font-normal ml-0.5">orders</span></span>
+-              </div>
+-              <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/40 px-2.5 py-1.5 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
+-                <div class="flex items-center gap-2.5">
+-                  <div class="w-2.5 h-2.5 rounded-full bg-orange-500"></div>
+-                  <span class="text-[12px] font-semibold text-slate-600 dark:text-slate-300">Revisi</span>
+-                </div>
+-                <span class="text-[12px] font-bold text-slate-800 dark:text-slate-200"><span id="stat-revisi">0</span> <span class="text-slate-400 dark:text-slate-500 font-normal ml-0.5">orders</span></span>
+-              </div>
+-              <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/40 px-2.5 py-1.5 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
+-                <div class="flex items-center gap-2.5">
+-                  <div class="w-2.5 h-2.5 rounded-full bg-emerald-500"></div>
+-                  <span class="text-[12px] font-semibold text-slate-600 dark:text-slate-300">Selesai</span>
+-                </div>
+-                <span class="text-[12px] font-bold text-slate-800 dark:text-slate-200"><span id="stat-selesai">0</span> <span class="text-slate-400 dark:text-slate-500 font-normal ml-0.5">orders</span></span>
+-              </div>
+-              <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/40 px-2.5 py-1.5 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
+-                <div class="flex items-center gap-2.5">
+-                  <div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
+-                  <span class="text-[12px] font-semibold text-slate-600 dark:text-slate-300">Batal</span>
+-                </div>
+-                <span class="text-[12px] font-bold text-slate-800 dark:text-slate-200"><span id="stat-batal">0</span> <span class="text-slate-400 dark:text-slate-500 font-normal ml-0.5">orders</span></span>
+-              </div>
++            <div class="flex flex-col gap-6 items-center w-full z-10 relative mt-4">
++              <div class="relative w-[180px] h-[180px] flex-shrink-0 mx-auto">
++                <svg viewBox="0 0 180 180" class="w-full h-full">
++                  <g id="segs"></g>
++                </svg>
++                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
++                  <div class="text-[26px] font-medium text-[#0b0b0b] dark:text-white leading-none" id="center-num">0</div>
++                  <div class="text-[12px] text-[#888] mt-1" id="center-lbl">Orders</div>
++                </div>
++              </div>
++              <div class="flex-1 w-full flex flex-col" id="list-area"></div>
+             </div>
+ 
+             <!-- Soft gradient orb (like the ROI image) -->
+@@ -2749,11 +2749,6 @@
+       
+       if (latestStats.statuses) {
+         drawStatusDonut(latestStats.statuses);
+-        document.getElementById('stat-pending').innerText = latestStats.statuses['pending dp'] || 0;
+-        document.getElementById('stat-proses').innerText = latestStats.statuses['proses'] || 0;
+-        document.getElementById('stat-revisi').innerText = latestStats.statuses['revisi'] || 0;
+-        document.getElementById('stat-selesai').innerText = latestStats.statuses['selesai'] || 0;
+-        document.getElementById('stat-batal').innerText = latestStats.statuses['batal'] || 0;
+       }
+     }
+ 
+@@ -2760,67 +2760,102 @@
+-      const container = document.getElementById('status-donut-container');
+-      if (!container) return;
+-
+-      const data = [
+-        { label: 'pending dp', color: '#94a3b8' }, // slate-400
+-        { label: 'proses', color: '#3b82f6' },     // blue-500
+-        { label: 'revisi', color: '#f97316' },     // orange-500
+-        { label: 'selesai', color: '#10b981' },    // emerald-500
+-        { label: 'batal', color: '#ef4444' }       // red-500
++      const g = document.getElementById('segs');
++      const listArea = document.getElementById('list-area');
++      const centerNum = document.getElementById('center-num');
++      const centerLbl = document.getElementById('center-lbl');
++      if (!g || !listArea) return;
++
++      const statuses = [
++        { name: 'Pending',  count: stats['pending dp'] || 0,  color: '#B4B2A9' },
++        { name: 'Proses',   count: stats['proses'] || 0,      color: '#2a78d6' },
++        { name: 'Revisi',   count: stats['revisi'] || 0,      color: '#eda100' },
++        { name: 'Selesai',  count: stats['selesai'] || 0,     color: '#1baf7a' },
++        { name: 'Batal',    count: stats['batal'] || 0,       color: '#e34948' },
+       ];
+ 
+-      let total = 0;
+-      data.forEach(d => {
+-        d.value = stats[d.label] || 0;
+-        total += d.value;
+-      });
+-
+-      document.getElementById('donut-total').innerText = total;
++      const total = statuses.reduce((s, x) => s + x.count, 0);
++      const CX = 90, CY = 90, R = 80, ri = 54, GAP = 3;
++
++      function toRad(d) { return d * Math.PI / 180; }
++
++      function arcPath(s, e, Ro, Ri) {
++        if (e - s >= 360) e = s + 359.99;
++        const s1 = toRad(s), e1 = toRad(e);
++        const lg = (e - s) > 180 ? 1 : 0;
++        const x1 = CX + Ro * Math.cos(s1);
++        const y1 = CY + Ro * Math.sin(s1);
++        const x2 = CX + Ro * Math.cos(e1);
++        const y2 = CY + Ro * Math.sin(e1);
++        const x3 = CX + Ri * Math.cos(e1);
++        const y3 = CY + Ri * Math.sin(e1);
++        const x4 = CX + Ri * Math.cos(s1);
++        const y4 = CY + Ri * Math.sin(s1);
++        return `M${x1},${y1} A${Ro},${Ro},0,${lg},1,${x2},${y2} L${x3},${y3} A${Ri},${Ri},0,${lg},0,${x4},${y4} Z`;
++      }
++
++      g.innerHTML = '';
++      listArea.innerHTML = '';
++      centerNum.textContent = total;
++      centerLbl.textContent = 'Orders';
+ 
+       if (total === 0) {
+-        container.querySelector('svg').innerHTML = '<circle cx="50" cy="50" r="32" fill="none" stroke="#f1f5f9" stroke-width="22" />';
+-        return;
+-      }
+-
+-      let svgHtml = '';
+-      const r = 32;
+-      const strokeW = 22;
+-      const circumference = 2 * Math.PI * r;
+-      let offset = 0;
+-      
+-      const maxVal = Math.max(...data.map(d => d.value));
+-
+-      data.forEach(d => {
+-        if (d.value === 0) return;
+-        const ratio = d.value / total;
+-        
+-        const isFull = ratio === 1;
+-        const visualGap = isFull ? 0 : 8;
+-        
+-        // Subtract strokeW because stroke-linecap="round" adds strokeW/2 to each end of the dash
+-        let dashLength = isFull ? circumference : (ratio * circumference) - visualGap - strokeW;
+-        if (dashLength < 0.1 && !isFull) dashLength = 0.1;
+-
+-        // Shift dash to center the gap and compensate for the backward-extending round cap
+-        const dashOffset = isFull ? 0 : -(offset + visualGap/2 + strokeW/2);
+-        const midAngle = (offset + (ratio * circumference)/2) / circumference * 2 * Math.PI;
+-
+-        const isMax = (d.value === maxVal && total > 0 && data.filter(x => x.value === maxVal).length === 1);
+-        const explodeDist = isMax ? 4 : 1.5;
+-        const dx = explodeDist * Math.cos(midAngle);
+-        const dy = explodeDist * Math.sin(midAngle);
+-
+-        svgHtml += `<circle cx="50" cy="50" r="${r}" fill="none" stroke="${d.color}" stroke-width="${strokeW}" stroke-dasharray="${dashLength} ${circumference}" stroke-dashoffset="${dashOffset}" stroke-linecap="round" class="transition-all duration-1000 ease-out" transform="translate(${dx}, ${dy})" />`;
+-
+-        if (ratio > 0.05) { 
+-          const textX = 50 + dx + r * Math.cos(midAngle);
+-          const textY = 50 + dy + r * Math.sin(midAngle);
+-          svgHtml += `<text x="${textX}" y="${textY}" fill="#ffffff" font-size="8.5" font-weight="bold" text-anchor="middle" dominant-baseline="central" transform="rotate(90, ${textX}, ${textY})">${Math.round(ratio * 100)}%</text>`;
+-        }
+-
+-        offset += ratio * circumference;
+-      });
+-
+-      container.querySelector('svg').innerHTML = svgHtml;
++        g.innerHTML = `<path d="${arcPath(0, 360, R, ri)}" fill="#f1f5f9" class="dark:fill-slate-800"></path>`;
++        return;
++      }
++
++      let cur = -90;
++
++      statuses.forEach((seg) => {
++        if (seg.count === 0) return;
++        const pct = Math.round(seg.count / total * 100);
++        const spanDeg = (seg.count / total) * 360;
++        const actualGap = (spanDeg === 360) ? 0 : GAP;
++        
++        const startD = cur + actualGap / 2;
++        const endD = cur + spanDeg - actualGap / 2;
++        cur += spanDeg;
++
++        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
++        path.setAttribute('d', arcPath(startD, endD, R, ri));
++        path.setAttribute('fill', seg.color);
++        path.setAttribute('class', 'transition-all duration-200 cursor-pointer origin-[90px_90px] hover:opacity-85 hover:scale-105');
++
++        const midRad = toRad((startD + endD) / 2);
++        const lR = (R + ri) / 2;
++        const txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
++        txt.setAttribute('x', CX + lR * Math.cos(midRad));
++        txt.setAttribute('y', CY + lR * Math.sin(midRad) + 4);
++        txt.setAttribute('text-anchor', 'middle');
++        txt.setAttribute('font-size', '11');
++        txt.setAttribute('font-weight', '500');
++        txt.setAttribute('fill', '#ffffff');
++        txt.setAttribute('pointer-events', 'none');
++        if (spanDeg > 15) txt.textContent = pct + '%';
++
++        path.addEventListener('mouseenter', () => {
++          centerNum.textContent = seg.count;
++          centerLbl.textContent = seg.name;
++        });
++        path.addEventListener('mouseleave', () => {
++          centerNum.textContent = total;
++          centerLbl.textContent = 'Orders';
++        });
++
++        g.appendChild(path);
++        if (spanDeg > 15) g.appendChild(txt);
++      });
++      
++      // Render the list items dynamically
++      statuses.forEach((seg) => {
++        const row = document.createElement('div');
++        row.className = `flex items-center justify-between py-[9px] border-b border-[#e5e5e5] dark:border-slate-700 last:border-b-0 ${seg.count === 0 ? 'opacity-40' : ''}`;
++        row.innerHTML = `
++          <div class="flex items-center gap-[10px]">
++            <span class="w-[10px] h-[10px] rounded-full flex-shrink-0" style="background:${seg.color}"></span>
++            <span class="text-[14px] text-[#0b0b0b] dark:text-slate-300 font-medium">${seg.name}</span>
++          </div>
++          <span class="text-[13px] text-[#52514e] dark:text-slate-400">${seg.count} orders</span>
++        `;
++        listArea.appendChild(row);
++      });
+     }
+ 
+     function cycleTimeframe(cardId) {
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+
+---
+
+Created At: 2026-06-28T16:57:51Z
+Completed At: 2026-06-28T16:57:53Z
+The following changes were made by the replace_file_content tool to: e:\WEBSITE APRIPROGRAM\Apriprogram\views\admin\dashboard.ejs. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -2803,16 +2803,24 @@
+         if (spanDeg > 15) g.appendChild(txt);
+       });
+       
++      listArea.className = 'flex-1 w-full flex flex-col gap-2 mt-2';
++      
+       // Render the list items dynamically
+       statuses.forEach((seg) => {
+         const row = document.createElement('div');
+-        row.className = `flex items-center justify-between py-[9px] border-b border-[#e5e5e5] dark:border-slate-700 last:border-b-0 ${seg.count === 0 ? 'opacity-40' : ''}`;
++        row.className = `flex items-center justify-between px-3.5 py-2.5 bg-white dark:bg-slate-800/40 border border-slate-100 dark:border-slate-700/50 rounded-xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.04)] ${seg.count === 0 ? 'opacity-50' : ''}`;
++        
+         row.innerHTML = `
+-          <div class="flex items-center gap-[10px]">
+-            <span class="w-[10px] h-[10px] rounded-full flex-shrink-0" style="background:${seg.color}"></span>
+-            <span class="text-[14px] text-[#0b0b0b] dark:text-slate-300 font-medium">${seg.name}</span>
+-          </div>
+-          <span class="text-[13px] text-[#52514e] dark:text-slate-400">${seg.count} orders</span>
++          <div class="flex items-center gap-3">
++            <div class="w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-700/50 border border-slate-100 dark:border-slate-600 flex items-center justify-center text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
++              ${seg.name.substring(0,2)}
++            </div>
++            <span class="text-[14px] text-slate-700 dark:text-slate-200 font-medium">${seg.name}</span>
++          </div>
++          <div class="flex items-center gap-2.5">
++            <span class="w-[9px] h-[9px] rounded-full flex-shrink-0" style="background:${seg.color}"></span>
++            <span class="text-[13px] text-slate-500 dark:text-slate-400 w-14 text-right">${seg.count} orders</span>
++          </div>
+         `;
+         listArea.appendChild(row);
+       });
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+
+---
+
+Created At: 2026-06-28T17:06:15Z
+Completed At: 2026-06-28T17:06:35Z
+The following changes were made by the multi_replace_file_content tool to: e:\WEBSITE APRIPROGRAM\Apriprogram\views\admin\dashboard.ejs. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -1992,7 +1992,6 @@
+         tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-500">Tidak ada data ditemukan.</td></tr>`;
+       }
+ 
+-      document.getElementById('stat-users').innerText = usersData.length;
+       document.getElementById('users-info').innerText = `Menampilkan ${start + 1} hingga ${Math.min(start + limit, filtered.length)} dari ${filtered.length} data`;
+       
+       let controls = '';
+@@ -2114,7 +2114,6 @@
+         tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-500">Tidak ada data ditemukan.</td></tr>`;
+       }
+ 
+-      document.getElementById('stat-orders').innerText = ordersData.length;
+       document.getElementById('orders-info').innerText = `Menampilkan ${start + 1} hingga ${Math.min(start + limit, filtered.length)} dari ${filtered.length} data`;
+       
+       let controls = '';
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+
+We did our best to apply changes despite some inaccuracies. Double check if the edit applied is what you intended.
+
+---
+
+Created At: 2026-06-28T17:13:15Z
+Completed At: 2026-06-28T17:13:18Z
+The following changes were made by the replace_file_content tool to: e:\WEBSITE APRIPROGRAM\Apriprogram\views\admin\dashboard.ejs. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -356,7 +356,24 @@
+       
+       <!-- Dashboard Tab -->
+       <div id="tab-dashboard" class="tab-content space-y-6">
+-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 xl:gap-8">
++        
++        <!-- Dashboard Header -->
++        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-2">
++          <div>
++            <h2 class="text-2xl font-semibold text-slate-900 dark:text-white tracking-tight">Dashboard Overview</h2>
++            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Welcome back, Admin</p>
++          </div>
++          <a href="/" target="_blank" class="px-5 py-2.5 bg-[#e6e6e6] hover:bg-[#d4d4d4] dark:bg-slate-800 dark:hover:bg-slate-700 text-black dark:text-white font-semibold rounded-[14px] shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),_0_2px_5px_rgba(0,0,0,0.05)] border border-[#d1d1d1] dark:border-slate-700 transition-all flex items-center gap-2 text-sm tracking-wide">
++            View Website
++            <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
++              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
++              <polyline points="15 3 21 3 21 9"></polyline>
++              <line x1="10" y1="14" x2="21" y2="3"></line>
++            </svg>
++          </a>
++        </div>
++
++        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 xl:gap-8">
+           <!-- Card 1: Pengguna (Insights style) -->
+           <div class="bg-white dark:bg-brand-card rounded-[24px] border border-slate-200 dark:border-brand-border p-6 relative overflow-hidden flex flex-col justify-between min-h-[320px] hover:border-brand-blue hover:shadow-xl transition-all duration-300 group">
+             <div>
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+
+---
+
+Created At: 2026-06-28T17:14:51Z
+Completed At: 2026-06-28T17:14:53Z
+The following changes were made by the multi_replace_file_content tool to: e:\WEBSITE APRIPROGRAM\Apriprogram\views\admin\dashboard.ejs. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -251,7 +251,7 @@
+     }
+   </style>
+ </head>
+-<body class="bg-slate-50 dark:bg-brand-dark text-slate-700 dark:text-slate-300 font-sans h-screen flex overflow-hidden selection:bg-brand-blue selection:text-white transition-colors duration-200">
++<body class="bg-[#EFEFEF] dark:bg-brand-dark text-slate-700 dark:text-slate-300 font-sans h-screen flex overflow-hidden selection:bg-brand-blue selection:text-white transition-colors duration-200">
+   
+   <!-- Sidebar -->
+   <aside id="sidebar" class="w-64 bg-white dark:bg-brand-darker border-r border-slate-200 dark:border-brand-border flex flex-col transition-all duration-300 z-20 flex-shrink-0">
+@@ -296,7 +296,7 @@
+   </aside>
+ 
+   <!-- Main Content -->
+-  <main class="flex-1 flex flex-col min-w-0 bg-slate-50 dark:bg-brand-dark">
++  <main class="flex-1 flex flex-col min-w-0 bg-[#EFEFEF] dark:bg-brand-dark">
+     <!-- Top Nav -->
+     <header class="h-16 flex items-center justify-between px-6 border-b border-slate-200 dark:border-brand-border bg-white dark:bg-brand-dark z-10 sticky top-0">
+       <div class="flex items-center gap-4">
+@@ -361,9 +361,9 @@
+             <h2 class="text-2xl font-semibold text-slate-900 dark:text-white tracking-tight">Dashboard Overview</h2>
+             <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Welcome back, Admin</p>
+           </div>
+-          <a href="/" target="_blank" class="px-5 py-2.5 bg-[#e6e6e6] hover:bg-[#d4d4d4] dark:bg-slate-800 dark:hover:bg-slate-700 text-black dark:text-white font-semibold rounded-[14px] shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),_0_2px_5px_rgba(0,0,0,0.05)] border border-[#d1d1d1] dark:border-slate-700 transition-all flex items-center gap-2 text-sm tracking-wide">
++          <a href="/" target="_blank" class="px-4 py-2 bg-[#e6e6e6] hover:bg-[#d4d4d4] dark:bg-slate-800 dark:hover:bg-slate-700 text-black dark:text-white font-medium rounded-lg shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),_0_2px_5px_rgba(0,0,0,0.05)] border border-[#d1d1d1] dark:border-slate-700 transition-all flex items-center gap-2 text-xs shrink-0">
+             View Website
+-            <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
++            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+               <polyline points="15 3 21 3 21 9"></polyline>
+               <line x1="10" y1="14" x2="21" y2="3"></line>
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+
+---
+
+Created At: 2026-06-28T17:22:56Z
+Completed At: 2026-06-28T17:23:21Z
+The following changes were made by the multi_replace_file_content tool to: e:\WEBSITE APRIPROGRAM\Apriprogram\views\admin\dashboard.ejs. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -41,7 +41,7 @@
+     .dark ::-webkit-scrollbar-thumb:hover { background: #3f3f4e; }
+     
+     /* Sidebar Active State */
+-    .nav-item.active { background-color: #f1f5f9; color: #3b82f6; }
++    .nav-item.active { background-color: #F5F5F5; color: #0f172a; font-weight: 600; }
+     .dark .nav-item.active { background-color: #1C1E26; color: #ffffff; }
+     
+     /* Upload Button Styles */
+@@ -71,7 +71,7 @@
+     </div>
+ 
+     <div class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+-      <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item active w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-brand-blue dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-card transition-colors">
++      <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item active w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-[#F5F5F5] dark:hover:bg-brand-card transition-colors">
+         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+         Dasbor
+       </button>
+@@ -78,5 +78,5 @@
+       <p class="px-4 text-[11px] font-medium text-slate-400 dark:text-slate-500 mt-6 mb-2 uppercase tracking-wider">Pengaturan</p>
+-      <button onclick="switchTab('settings')" id="nav-settings" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-brand-blue dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-card transition-colors">
++      <button onclick="switchTab('settings')" id="nav-settings" class="nav-item w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-[#F5F5F5] dark:hover:bg-brand-card transition-colors">
+         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
+         Site Settings
+       </button>
+@@ -83,9 +83,9 @@
+       <p class="px-4 text-[11px] font-medium text-slate-400 dark:text-slate-500 mt-6 mb-2 uppercase tracking-wider">Sistem</p>
+-      <button onclick="switchTab('orders')" id="nav-orders" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-brand-blue dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-card transition-colors">
++      <button onclick="switchTab('orders')" id="nav-orders" class="nav-item w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-[#F5F5F5] dark:hover:bg-brand-card transition-colors">
+         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+         Pesanan Masuk
+       </button>
+-      <button onclick="switchTab('users')" id="nav-users" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-brand-blue dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-card transition-colors">
++      <button onclick="switchTab('users')" id="nav-users" class="nav-item w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-[#F5F5F5] dark:hover:bg-brand-card transition-colors">
+         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+         Data Pengguna
+       </button>
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+
+We did our best to apply changes despite some inaccuracies. Double check if the edit applied is what you intended.
+
+---
+
+Created At: 2026-06-28T17:23:43Z
+Completed At: 2026-06-28T17:24:04Z
+The following changes were made by the multi_replace_file_content tool to: e:\WEBSITE APRIPROGRAM\Apriprogram\views\admin\dashboard.ejs. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+
+We did our best to apply changes despite some inaccuracies. Double check if the edit applied is what you intended.

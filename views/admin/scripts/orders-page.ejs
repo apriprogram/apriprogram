@@ -1,0 +1,514 @@
+<script>
+let ordersPage = 1;
+
+function downloadOrdersPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'landscape' });
+  doc.setFontSize(14);
+  doc.text('Data Orders - Apriprogram', 14, 15);
+  doc.setFontSize(9);
+  doc.text(`Diekspor pada: ${new Date().toLocaleString('id-ID')}`, 14, 22);
+
+  const rows = ordersData.map((o, i) => [
+    i + 1,
+    o.full_name || o.email || '-',
+    o.project_name || '-',
+    o.website_type || '-',
+    o.package_name || '-',
+    o.status || '-',
+    o.created_at ? new Date(o.created_at).toLocaleDateString('id-ID') : '-'
+  ]);
+
+  doc.autoTable({
+    startY: 27,
+    head: [['No', 'Klien', 'Proyek', 'Jenis Website', 'Paket', 'Status', 'Tanggal']],
+    body: rows,
+    theme: 'striped',
+    headStyles: { fillColor: [59, 130, 246], fontSize: 8, fontStyle: 'bold' },
+    bodyStyles: { fontSize: 7.5 },
+    alternateRowStyles: { fillColor: [248, 250, 252] },
+    margin: { left: 14, right: 14 }
+  });
+
+  doc.save(`orders_${new Date().toISOString().slice(0,10)}.pdf`);
+  showToast('PDF berhasil diunduh!', 'green');
+}
+
+function downloadOrdersExcel() {
+  const data = [
+    ['No', 'Klien', 'Email', 'Nama Proyek', 'Jenis Website', 'Paket', 'Harga', 'Status', 'Domain', 'Tanggal Start', 'Target Selesai', 'Tanggal Order'],
+    ...ordersData.map((o, i) => [
+      i + 1,
+      o.full_name || '-',
+      o.email || '-',
+      o.project_name || '-',
+      o.website_type || '-',
+      o.package_name || '-',
+      o.package_price || '-',
+      o.status || '-',
+      o.domain_name || '-',
+      o.start_date || '-',
+      o.target_date || '-',
+      o.created_at ? new Date(o.created_at).toLocaleDateString('id-ID') : '-'
+    ])
+  ];
+
+  const ws = XLSX.utils.aoa_to_sheet(data);
+  ws['!cols'] = [{ wch: 4 }, { wch: 18 }, { wch: 22 }, { wch: 18 }, { wch: 15 }, { wch: 12 }, { wch: 12 }, { wch: 12 }, { wch: 18 }, { wch: 14 }, { wch: 14 }, { wch: 14 }];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Orders');
+  XLSX.writeFile(wb, `orders_${new Date().toISOString().slice(0,10)}.xlsx`);
+  showToast('Excel berhasil diunduh!', 'green');
+}
+
+function deleteOrder(id) {
+  openDeleteModal(id, 'order');
+}
+
+function openSideModal(modalId, panelId) {
+  const modal = document.getElementById(modalId);
+  const panel = document.getElementById(panelId);
+  if (!modal || !panel) return;
+
+  modal.classList.remove('hidden');
+  panel.classList.add('translate-x-full');
+
+  requestAnimationFrame(() => {
+    modal.classList.remove('opacity-0');
+    panel.classList.remove('translate-x-full');
+  });
+}
+
+function closeSideModal(modalId, panelId) {
+  const modal = document.getElementById(modalId);
+  const panel = document.getElementById(panelId);
+  if (!modal || !panel) return;
+
+  modal.classList.add('opacity-0');
+  panel.classList.add('translate-x-full');
+  setTimeout(() => modal.classList.add('hidden'), 500);
+}
+
+function renderOrders() {
+  const tbody = document.getElementById('orders-table-body');
+  const limitEl = document.getElementById('orders-limit');
+  const searchEl = document.getElementById('orders-search');
+  const sortEl = document.getElementById('orders-sort');
+  const filterEl = document.getElementById('orders-filter');
+  if (!tbody || !limitEl || !searchEl) return;
+
+  const limit = parseInt(limitEl.value, 10) || 10;
+  const search = searchEl.value.toLowerCase();
+  const sort = sortEl ? sortEl.value : 'newest';
+  const statusFilter = filterEl ? filterEl.value.toLowerCase() : '';
+
+  let filtered = ordersData.filter(o => {
+    const matchSearch = (o.full_name || o.email || '').toLowerCase().includes(search) ||
+                        (o.project_name || '').toLowerCase().includes(search) ||
+                        (o.package_name || '').toLowerCase().includes(search) ||
+                        (o.website_type || '').toLowerCase().includes(search);
+    const matchStatus = statusFilter === '' || (o.status || '').toLowerCase() === statusFilter;
+    return matchSearch && matchStatus;
+  });
+
+  if (sort === 'oldest') {
+    filtered.sort((a, b) => new Date(a.created_at || 0) - new Date(b.created_at || 0));
+  } else {
+    // Newest
+    filtered.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+  }
+
+  const totalPages = Math.ceil(filtered.length / limit) || 1;
+  if (ordersPage > totalPages) ordersPage = totalPages;
+
+  const start = (ordersPage - 1) * limit;
+  const paginated = filtered.slice(start, start + limit);
+
+  tbody.innerHTML = paginated.map((o, idx) => `
+    <tr class="border-b border-slate-200 dark:border-brand-border hover:bg-slate-50 dark:hover:bg-[#1a1c23] transition-colors">
+      <td class="py-1.5 px-2 sm:py-2 sm:px-3 font-medium whitespace-nowrap text-[10px] sm:text-xs">${start + idx + 1}</td>
+      <td class="py-1.5 px-2 sm:py-2 sm:px-3 whitespace-nowrap text-[10px] sm:text-xs">
+        <div class="font-medium text-slate-900 dark:text-white">${o.full_name || o.email || 'Klien'}</div>
+        <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 uppercase tracking-wider">${o.project_name || '-'}</div>
+      </td>
+      <td class="py-1.5 px-2 sm:py-2 sm:px-3 whitespace-nowrap text-[10px] sm:text-xs">
+        <span class="text-[10px] sm:text-xs font-medium text-slate-700 dark:text-slate-300">${o.website_type || '-'}</span>
+      </td>
+      <td class="py-1.5 px-2 sm:py-2 sm:px-3 whitespace-nowrap text-[10px] sm:text-xs">
+        <span class="px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider rounded bg-brand-blue/10 dark:bg-brand-blue/20 text-brand-blue dark:text-blue-400">${o.package_name || '-'}</span>
+      </td>
+      <td class="py-1.5 px-2 sm:py-2 sm:px-3 whitespace-nowrap text-[10px] sm:text-xs">
+        <span class="font-semibold text-slate-800 dark:text-slate-200">${o.package_price ? 'Rp ' + Number(String(o.package_price).replace(/[^0-9]/g,'')).toLocaleString('id-ID') : '-'}</span>
+      </td>
+      <td class="py-1.5 px-2 sm:py-2 sm:px-3 whitespace-nowrap text-[10px] sm:text-xs">${getStatusBadgeHtml(o.status || '-')}</td>
+      <td class="py-1.5 px-2 sm:py-2 sm:px-3 whitespace-nowrap text-[10px] sm:text-xs">${o.created_at ? new Date(o.created_at).toLocaleDateString('id-ID') : '-'}</td>
+      <td class="py-1.5 px-2 sm:py-2 sm:px-3 text-center flex justify-center gap-1.5 whitespace-nowrap">
+        ${getActionButtonHtml('view', `viewOrderDetail(${o.id})`, 'Lihat Detail')}
+        ${getActionButtonHtml('invoice', `openInvoiceModal(${o.id})`, 'Buat Invoice')}
+        ${getActionButtonHtml('edit', `openOrderModal(${o.id})`, 'Edit Data')}
+        ${getActionButtonHtml('delete', `deleteOrder(${o.id})`, 'Hapus')}
+      </td>
+    </tr>
+  `).join('');
+
+  if (paginated.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" class="py-8 text-center text-slate-500">Tidak ada data ditemukan.</td></tr>';
+  }
+
+  const paginationEl = document.getElementById('orders-pagination');
+  if (paginationEl) {
+    let pageOptions = '';
+    for (let i = 1; i <= totalPages; i++) {
+      pageOptions += `<option value="${i}" ${i === ordersPage ? 'selected' : ''}>${i} / ${totalPages}</option>`;
+    }
+    
+    paginationEl.innerHTML = `
+      <div class="flex items-center gap-3 w-full sm:w-auto justify-center sm:justify-start">
+        <span class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">Rows per page</span>
+        <div class="relative">
+          <select onchange="document.getElementById('orders-limit').value = this.value; filterOrders()" class="pl-3 pr-7 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium shadow-sm">
+            <option value="10" ${limit === 10 ? 'selected' : ''}>10</option>
+            <option value="25" ${limit === 25 ? 'selected' : ''}>25</option>
+            <option value="50" ${limit === 50 ? 'selected' : ''}>50</option>
+          </select>
+          <svg class="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4 sm:gap-6 w-full sm:w-auto justify-center sm:justify-end mt-2 sm:mt-0">
+        <div class="flex items-center gap-3">
+          <span class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">Page</span>
+          <div class="relative">
+            <select onchange="ordersPage = parseInt(this.value); renderOrders()" class="pl-3 pr-7 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium shadow-sm">
+               ${pageOptions}
+            </select>
+            <svg class="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
+          </div>
+        </div>
+        
+        <div class="flex items-center rounded-lg border border-slate-200 dark:border-brand-border bg-white dark:bg-[#14151a] shadow-sm overflow-hidden shrink-0">
+          <button onclick="ordersPage = 1; renderOrders()" ${ordersPage === 1 ? 'disabled' : ''} class="px-2.5 py-1.5 border-r border-slate-200 dark:border-brand-border text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
+          </button>
+          <button onclick="ordersPage--; renderOrders()" ${ordersPage === 1 ? 'disabled' : ''} class="px-2.5 py-1.5 border-r border-slate-200 dark:border-brand-border text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+          </button>
+          <button onclick="ordersPage++; renderOrders()" ${ordersPage === totalPages ? 'disabled' : ''} class="px-2.5 py-1.5 border-r border-slate-200 dark:border-brand-border text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+          <button onclick="ordersPage = ${totalPages}; renderOrders()" ${ordersPage === totalPages ? 'disabled' : ''} class="px-2.5 py-1.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+          </button>
+        </div>
+      </div>
+    `;
+  }
+}
+
+function filterOrders() {
+  ordersPage = 1;
+  renderOrders();
+}
+
+async function loadOrders() {
+  try {
+    const res = await fetch('/api/orders');
+    const data = await res.json();
+    if (data.success) {
+      ordersData = data.orders || [];
+      const badge = document.getElementById('badge-orders');
+      if (badge) {
+        badge.innerText = ordersData.length;
+        if (ordersData.length > 0) {
+          badge.classList.remove('hidden');
+        } else {
+          badge.classList.add('hidden');
+        }
+      }
+      renderOrders();
+      loadDashboardStats();
+    }
+  } catch (err) {
+    console.error('Failed to load orders', err);
+  }
+}
+
+async function viewOrderDetail(id) {
+  let order = ordersData.find(o => Number(o.id) === Number(id));
+  if (!order) {
+    await loadOrders();
+    order = ordersData.find(o => Number(o.id) === Number(id));
+  }
+  if (!order) {
+    showToast('Data pesanan tidak ditemukan.', 'red');
+    return;
+  }
+
+  openSideModal('detail-modal', 'detail-modal-content');
+
+  const user = usersData.find(usr => Number(usr.id) === Number(order.user_id));
+  const clientName = order.full_name || order.email || (user ? user.email : 'Unknown');
+
+  setText('detail-id', order.id);
+  setText('detail-client_name', clientName);
+  setText('detail-project_name', order.project_name || '-');
+  setText('detail-website_type_package', `${order.website_type || '-'} - ${order.package_name || '-'}`);
+  setText('detail-package_price', order.package_price ? `Rp ${order.package_price}` : '-');
+  setText('detail-domain_name', order.domain_name || '-');
+  document.getElementById('detail-status').innerHTML = getStatusBadgeHtml(order.status || '-');
+  setText('detail-start_date', order.start_date || '-');
+  setText('detail-target_date', order.target_date || '-');
+  document.getElementById('detail-description').innerText =
+    `Deskripsi: ${order.description || '-'}\n\nFitur: ${order.features || '-'}\n\nCatatan: ${order.notes || '-'}\n\nReferensi: ${order.reference_links || '-'}`;
+
+  renderDetailDocuments(order);
+  renderDetailPaymentProof(order);
+}
+
+function renderDetailDocuments(order) {
+  const docContainer = document.getElementById('detail-project_document');
+  if (!docContainer) return;
+
+  const urls = (order.project_document || '').split(',').filter(url => url.trim() !== '');
+  if (urls.length === 0) {
+    docContainer.innerHTML = '<span class="text-slate-400 text-sm italic">Belum ada dokumen</span>';
+    return;
+  }
+
+  docContainer.innerHTML = `
+    <div class="flex flex-col gap-2 w-full text-left">
+      ${urls.map(url => {
+        const filename = url.substring(url.lastIndexOf('/') + 1);
+        return `
+          <a href="${url}" target="_blank" class="flex items-center justify-between px-4 py-2.5 bg-slate-50 dark:bg-[#14151a] hover:bg-slate-100 dark:hover:bg-slate-800 text-brand-blue font-medium rounded-xl border border-slate-200 dark:border-[#2A2B36] transition-colors text-xs truncate">
+            <span class="truncate max-w-[240px]">${filename}</span>
+            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 ml-2 shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+          </a>
+        `;
+      }).join('')}
+    </div>
+  `;
+}
+
+function renderDetailPaymentProof(order) {
+  const proofContainer = document.getElementById('detail-payment_proof');
+  if (!proofContainer) return;
+
+  if (!order.payment_proof) {
+    proofContainer.innerHTML = '<span class="text-slate-400 text-sm italic">Belum ada unggahan</span>';
+    return;
+  }
+
+  if (order.payment_proof.endsWith('.pdf')) {
+    proofContainer.innerHTML = `<a href="${order.payment_proof}" target="_blank" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-brand-blue font-medium rounded-lg hover:bg-slate-200 transition-colors">Lihat PDF Bukti Bayar</a>`;
+  } else {
+    proofContainer.innerHTML = `<a href="${order.payment_proof}" target="_blank"><img src="${order.payment_proof}" class="max-h-24 rounded border border-slate-200 dark:border-brand-border object-contain" alt="Bukti Transfer"></a>`;
+  }
+}
+
+function closeOrderDetailModal() {
+  closeSideModal('detail-modal', 'detail-modal-content');
+}
+
+// Alias for backdrop click handler
+function closeDetailModal() {
+  closeSideModal('detail-modal', 'detail-modal-content');
+}
+
+async function openOrderModal(id = null) {
+  openSideModal('order-modal', 'order-modal-content');
+
+  const form = document.getElementById('order-form');
+  if (form) form.reset();
+
+  const userSelect = document.getElementById('order-user_id');
+  if (userSelect) userSelect.innerHTML = '<option value="">Memuat user...</option>';
+
+  if (usersData.length === 0) await loadUsers();
+  if (id && ordersData.length === 0) await loadOrders();
+
+  const order = id ? ordersData.find(o => Number(o.id) === Number(id)) : null;
+  if (userSelect) {
+    userSelect.innerHTML = usersData.length > 0
+      ? usersData.map(u => `<option value="${u.id}">${u.email}</option>`).join('')
+      : '<option value="">Tidak ada user tersedia</option>';
+  }
+
+  if (id && !order) {
+    document.getElementById('order-modal-title').innerText = 'Edit Pesanan';
+    showToast('Data pesanan tidak ditemukan.', 'red');
+    return;
+  }
+
+  if (order) {
+    document.getElementById('order-modal-title').innerText = 'Edit Pesanan';
+    fillOrderForm(order);
+  } else {
+    document.getElementById('order-modal-title').innerText = 'Tambah Pesanan';
+    document.getElementById('order-id').value = '';
+    document.getElementById('payment-proof-display').innerHTML = '';
+    document.getElementById('order-project_document').value = '';
+    document.getElementById('order-payment_proof').value = '';
+    renderAdminUploadedDocs();
+  }
+}
+
+function fillOrderForm(order) {
+  const fields = [
+    'id', 'user_id', 'project_name', 'website_type', 'domain_name', 'package_name',
+    'package_price', 'status', 'start_date', 'target_date', 'description', 'features', 'notes',
+    'reference_links', 'primary_color', 'secondary_color', 'typography', 'design_style',
+    'project_document', 'payment_proof'
+  ];
+
+  fields.forEach(field => {
+    const el = document.getElementById(`order-${field}`);
+    if (el) el.value = order[field] || '';
+  });
+  document.getElementById('order-status').value = order.status || 'Pending DP';
+  document.getElementById('order-primary_color').value = order.primary_color || '#000000';
+  document.getElementById('order-secondary_color').value = order.secondary_color || '#000000';
+  renderAdminUploadedDocs();
+
+  const paymentProofDisplay = document.getElementById('payment-proof-display');
+  if (!order.payment_proof) {
+    paymentProofDisplay.innerHTML = '<span class="text-slate-400 text-xs italic">Belum ada unggahan</span>';
+  } else if (order.payment_proof.endsWith('.pdf')) {
+    paymentProofDisplay.innerHTML = `<a href="${order.payment_proof}" target="_blank" class="text-brand-blue hover:underline font-medium text-xs mt-2">Lihat PDF Bukti Bayar</a>`;
+  } else {
+    paymentProofDisplay.innerHTML = `<a href="${order.payment_proof}" target="_blank" class="mt-2 block"><img src="${order.payment_proof}" class="h-16 w-auto rounded border border-slate-200 dark:border-brand-border object-contain" alt="Bukti"></a>`;
+  }
+}
+
+function closeOrderModal() {
+  closeSideModal('order-modal', 'order-modal-content');
+}
+
+async function submitOrderForm(e) {
+  if (e) e.preventDefault();
+  try {
+    const id = document.getElementById('order-id').value;
+    const payload = {
+      user_id: document.getElementById('order-user_id')?.value || '',
+      project_name: document.getElementById('order-project_name')?.value || '',
+      website_type: document.getElementById('order-website_type')?.value || '',
+      domain_name: document.getElementById('order-domain_name')?.value || '',
+      package_name: document.getElementById('order-package_name')?.value || '',
+      package_price: document.getElementById('order-package_price')?.value || '',
+      status: document.getElementById('order-status')?.value || '',
+      start_date: document.getElementById('order-start_date')?.value || '',
+      target_date: document.getElementById('order-target_date')?.value || '',
+      description: document.getElementById('order-description')?.value || '',
+      features: document.getElementById('order-features')?.value || '',
+      notes: document.getElementById('order-notes')?.value || '',
+      reference_links: document.getElementById('order-reference_links')?.value || '',
+      primary_color: document.getElementById('order-primary_color')?.value || '',
+      secondary_color: document.getElementById('order-secondary_color')?.value || '',
+      typography: document.getElementById('order-typography')?.value || '',
+      design_style: document.getElementById('order-design_style')?.value || '',
+      project_document: document.getElementById('order-project_document')?.value || '',
+      payment_proof: document.getElementById('order-payment_proof')?.value || ''
+    };
+
+    const method = id ? 'PUT' : 'POST';
+    const url = id ? `/api/orders/${id}` : '/api/orders';
+    const res = await fetch(url, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      showToast(data.message, 'green');
+      closeOrderModal();
+      loadOrders();
+    } else {
+      showToast(data.message || 'Terjadi kesalahan.', 'red');
+    }
+  } catch (err) {
+    console.error('Error submitting order form:', err);
+    showToast(`Gagal memproses form: ${err.message}`, 'red');
+  }
+}
+
+function renderAdminUploadedDocs() {
+  const docInput = document.getElementById('order-project_document');
+  const docDisplay = document.getElementById('project-doc-display');
+  if (!docInput || !docDisplay) return;
+
+  const urls = docInput.value.trim().split(',').filter(url => url.trim() !== '');
+  if (urls.length === 0) {
+    docDisplay.innerHTML = '<span class="text-slate-400 text-xs italic">Tidak ada dokumen.</span>';
+    return;
+  }
+
+  docDisplay.innerHTML = `
+    <div class="space-y-2 mt-2 max-h-[150px] overflow-y-auto px-1">
+      ${urls.map((url, idx) => {
+        const filename = url.substring(url.lastIndexOf('/') + 1);
+        return `
+          <div class="flex items-center justify-between bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-brand-border p-2 rounded-lg text-xs gap-2 relative z-20">
+            <a href="${url}" target="_blank" class="hover:underline font-semibold text-brand-blue truncate max-w-[180px]">${filename}</a>
+            <button type="button" class="text-red-500 hover:text-red-700 transition-colors p-1" onclick="removeAdminDoc(${idx}); event.stopPropagation();" title="Hapus Dokumen">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+            </button>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+}
+
+function removeAdminDoc(idx) {
+  const docInput = document.getElementById('order-project_document');
+  const urls = docInput.value.trim().split(',').filter(url => url.trim() !== '');
+  urls.splice(idx, 1);
+  docInput.value = urls.join(',');
+  renderAdminUploadedDocs();
+}
+
+async function uploadOrderFile(input, type) {
+  if (!input.files || input.files.length === 0) return;
+
+  const formData = new FormData();
+  const fieldname = type === 'document' ? 'project_document' : 'payment_proof';
+  Array.from(input.files).forEach(file => formData.append(fieldname, file));
+
+  const displayId = type === 'document' ? 'project-doc-display' : 'payment-proof-display';
+  const hiddenInputId = type === 'document' ? 'order-project_document' : 'order-payment_proof';
+  const displayEl = document.getElementById(displayId);
+  const originalHtml = displayEl.innerHTML;
+  displayEl.innerHTML = '<span class="text-slate-500 font-medium animate-pulse">Mengunggah...</span>';
+
+  try {
+    const uploadUrl = type === 'document' ? '/api/upload/document' : '/api/upload/payment';
+    const res = await fetch(uploadUrl, { method: 'POST', body: formData });
+    const data = await res.json();
+
+    if (data.success) {
+      const hiddenInput = document.getElementById(hiddenInputId);
+      if (type === 'document') {
+        const currentVal = hiddenInput.value.trim();
+        hiddenInput.value = currentVal ? `${currentVal},${data.url}` : data.url;
+        renderAdminUploadedDocs();
+      } else {
+        hiddenInput.value = data.url;
+        displayEl.innerHTML = data.url.endsWith('.pdf')
+          ? `<a href="${data.url}" target="_blank" class="text-brand-blue hover:underline font-medium text-xs mt-2">Lihat PDF Bukti Bayar</a>`
+          : `<a href="${data.url}" target="_blank" class="mt-2 block"><img src="${data.url}" class="h-16 w-auto rounded border border-slate-200 dark:border-brand-border object-contain" alt="Bukti"></a>`;
+      }
+      showToast('Berkas berhasil diunggah.', 'green');
+    } else {
+      displayEl.innerHTML = originalHtml;
+      showToast(data.message || 'Gagal mengunggah berkas.', 'red');
+    }
+  } catch (err) {
+    displayEl.innerHTML = originalHtml;
+    showToast('Terjadi kesalahan saat mengunggah berkas.', 'red');
+  } finally {
+    input.value = '';
+  }
+}
+
+</script>

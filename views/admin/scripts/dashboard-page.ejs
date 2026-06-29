@@ -1,0 +1,52 @@
+<script>
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.innerText = value;
+}
+
+function setBar(id, count, total) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const width = total > 0 ? Math.round((Number(count || 0) / total) * 100) : 0;
+  el.style.width = `${width}%`;
+}
+
+function updateDashboardStatusStats(statuses, total) {
+  const statusTotal = Number(total || 0);
+  const pending = Number(statuses['pending dp'] || 0);
+  const proses = Number(statuses.proses || 0);
+  const revisi = Number(statuses.revisi || 0);
+  const selesai = Number(statuses.selesai || 0);
+  const batal = Number(statuses.batal || 0);
+
+  setText('stat-status-total', statusTotal);
+  setText('stat-pending', pending);
+  setText('stat-proses', proses);
+  setText('stat-revisi', revisi);
+  setText('stat-selesai', selesai);
+  setText('stat-batal', batal);
+
+  setBar('bar-pending', pending, statusTotal);
+  setBar('bar-proses', proses, statusTotal);
+  setBar('bar-revisi', revisi, statusTotal);
+  setBar('bar-selesai', selesai, statusTotal);
+  setBar('bar-batal', batal, statusTotal);
+}
+
+async function loadDashboardStats() {
+  try {
+    const res = await fetch('/api/admin/dashboard-stats');
+    const data = await res.json();
+    if (!data.success) return;
+
+    const stats = data.stats || {};
+    setText('stat-users', stats.users ? stats.users.Tahunan : usersData.length);
+    setText('stat-orders', stats.orders ? stats.orders.Tahunan : ordersData.length);
+    setText('stat-visitors', stats.visitors ? stats.visitors.Tahunan : 0);
+    updateDashboardStatusStats(stats.statuses || {}, stats.total_orders || 0);
+  } catch (err) {
+    console.error('Failed to load dashboard stats', err);
+  }
+}
+
+</script>

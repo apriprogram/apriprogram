@@ -52,8 +52,14 @@ exports.login = async (req, res) => {
     }
 
     req.session.userId = user.id;
+    req.session.id_user = user.id;
     req.session.role = user.role;
     req.session.email = user.email;
+    req.session.full_name = user.full_name || '';
+    req.session.whatsapp = user.whatsapp || '';
+    req.session.company = user.company || '';
+    req.session.country = user.country || '';
+    req.session.avatar = user.avatar || null;
 
     res.status(200).json({ 
       success: true, 

@@ -85,6 +85,10 @@ async function initDatabase() {
     await pool.query("ALTER TABLE orders ADD COLUMN project_document VARCHAR(255) DEFAULT ''");
     await pool.query("ALTER TABLE orders ADD COLUMN domain_name VARCHAR(100) DEFAULT ''");
     await pool.query("ALTER TABLE orders ADD COLUMN package_price VARCHAR(50) DEFAULT ''");
+    await pool.query("ALTER TABLE orders ADD COLUMN start_date VARCHAR(50) DEFAULT ''");
+    await pool.query("ALTER TABLE orders ADD COLUMN invoice_data LONGTEXT DEFAULT NULL");
+    await pool.query("ALTER TABLE orders ADD COLUMN discount DECIMAL(15,2) DEFAULT 0");
+    await pool.query("ALTER TABLE orders ADD COLUMN tax_pct DECIMAL(5,2) DEFAULT 0");
   } catch(e) {
     // Silently ignore if columns exist
   }
@@ -104,6 +108,15 @@ async function initDatabase() {
       setting_key VARCHAR(100) NOT NULL,
       setting_value TEXT,
       UNIQUE KEY unique_setting (section, setting_key)
+    )
+  `);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS visitors (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      ip_address VARCHAR(45) NOT NULL,
+      user_agent TEXT,
+      visited_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
   `);
 
@@ -143,13 +156,224 @@ async function initDatabase() {
     ['cta', 'button_text', 'Hubungi WhatsApp'],
     ['cta', 'button_link', '#'],
     ['footer', 'description', 'Membantu perusahaan, agensi, dan startup menciptakan ekosistem digital terbaik yang modern dan fungsional.'],
-    ['footer', 'copyright', '2026 PT. Apriprogram Teknologi. All rights reserved.']
+    ['footer', 'copyright', '2026 PT. Apriprogram Teknologi. All rights reserved.'],
+    ['services', 'title', 'Our services<br>to help you'],
+    ['services', 'subtitle', 'Kami menyediakan berbagai layanan digital profesional, mulai dari desain antarmuka hingga pengembangan sistem yang dirancang khusus untuk pertumbuhan bisnis Anda.'],
+    ['services', 'button_text', 'View all services'],
+    ['services', 'button_link', '#contact'],
+    ['projects', 'title', 'Our projects<br>portfolio'],
+    ['projects', 'subtitle', 'Lihat beberapa karya terbaik kami yang telah membantu berbagai bisnis mencapai tujuannya dengan solusi digital modern.']
   ];
 
   for (const [section, key, value] of defaultSettings) {
     await pool.query(
       "INSERT IGNORE INTO settings (section, setting_key, setting_value) VALUES (?, ?, ?)",
       [section, key, value]
+    );
+  }
+
+  const defaultServices = [
+    {
+      title: 'Website Company Profile',
+      slug: 'website-company-profile',
+      category: 'Web Design',
+      short_description: 'Website profil perusahaan yang rapi, cepat, dan siap membangun kepercayaan calon pelanggan.',
+      description: 'Layanan pembuatan website company profile untuk menampilkan profil bisnis, layanan, portofolio, kontak, dan kebutuhan branding digital secara profesional.',
+      image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80',
+      publish_date: '2026-05-19',
+      button_text: 'Read details',
+      button_link: '#contact',
+      sort_order: 1,
+      status: 'active',
+      featured: 'featured',
+      meta_title: 'Website Company Profile - Apriprogram',
+      meta_description: 'Jasa pembuatan website company profile profesional untuk bisnis, UMKM, sekolah, dan perusahaan.'
+    },
+    {
+      title: 'Aplikasi Web & Dashboard',
+      slug: 'aplikasi-web-dashboard',
+      category: 'Web App',
+      short_description: 'Sistem web dan dashboard custom untuk mengelola data, operasional, dan proses bisnis.',
+      description: 'Pengembangan aplikasi web custom, dashboard admin, sistem internal, dan integrasi fitur sesuai alur kerja bisnis Anda.',
+      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80',
+      publish_date: '2026-05-20',
+      button_text: 'Read details',
+      button_link: '#contact',
+      sort_order: 2,
+      status: 'active',
+      featured: 'featured',
+      meta_title: 'Aplikasi Web dan Dashboard Custom - Apriprogram',
+      meta_description: 'Bangun aplikasi web dan dashboard custom untuk kebutuhan operasional bisnis Anda.'
+    },
+    {
+      title: 'Toko Online Custom',
+      slug: 'toko-online-custom',
+      category: 'E-Commerce',
+      short_description: 'Toko online custom yang responsif, mudah digunakan, dan siap mendukung penjualan.',
+      description: 'Pembuatan toko online custom dengan katalog produk, halaman transaksi, integrasi pembayaran, dan fitur pendukung e-commerce lainnya.',
+      image: 'https://images.unsplash.com/photo-1522199755839-a2bacb67c546?auto=format&fit=crop&w=600&q=80',
+      publish_date: '2026-05-21',
+      button_text: 'Read details',
+      button_link: '#contact',
+      sort_order: 3,
+      status: 'active',
+      featured: 'featured',
+      meta_title: 'Toko Online Custom - Apriprogram',
+      meta_description: 'Jasa pembuatan toko online custom untuk bisnis yang ingin berjualan secara digital.'
+    },
+    {
+      title: 'SEO Optimization',
+      slug: 'seo-optimization',
+      category: 'Marketing',
+      short_description: 'Optimasi struktur website agar lebih mudah ditemukan dan dipahami mesin pencari.',
+      description: 'Optimasi SEO teknis, meta tag, struktur konten, performa halaman, dan fondasi website agar lebih siap bersaing di pencarian.',
+      image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=80',
+      publish_date: '2026-05-22',
+      button_text: 'Read details',
+      button_link: '#contact',
+      sort_order: 4,
+      status: 'active',
+      featured: 'not-featured',
+      meta_title: 'SEO Optimization - Apriprogram',
+      meta_description: 'Layanan optimasi SEO untuk meningkatkan fondasi pencarian website bisnis Anda.'
+    }
+  ];
+
+  for (const service of defaultServices) {
+    await pool.query(
+      "INSERT IGNORE INTO settings (section, setting_key, setting_value) VALUES ('service_items', ?, ?)",
+      [service.slug, JSON.stringify(service)]
+    );
+  }
+
+  const defaultProjects = [
+    {
+      title: 'Website Company Profile',
+      slug: 'website-company-profile',
+      category: 'Web Design',
+      short_description: 'Bangun kredibilitas digital perusahaan Anda dengan desain yang profesional.',
+      description: 'Bangun kredibilitas digital perusahaan Anda dengan desain yang profesional, responsif, dan mencerminkan identitas unik brand Anda.',
+      image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
+      image_alt: 'Website Company Profile',
+      client_name: 'PT Contoh Makmur',
+      technology_stack: 'React, Node.js, Tailwind',
+      project_url: 'https://example.com',
+      detail_url: '#',
+      button_text: 'Lihat detail',
+      sort_order: 1,
+      status: 'active',
+      featured: 'featured',
+      meta_title: 'Website Company Profile Project - Apriprogram',
+      meta_description: 'Proyek pembuatan website company profile responsif dan profesional.'
+    },
+    {
+      title: 'Aplikasi Web & Dashboard',
+      slug: 'aplikasi-web-dashboard',
+      category: 'Web App',
+      short_description: 'Otomatisasi operasional bisnis dengan sistem manajemen internal.',
+      description: 'Otomatisasi operasional bisnis dengan sistem manajemen internal, analitik data real-time, dan antarmuka pengguna yang terstruktur.',
+      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
+      image_alt: 'Aplikasi Web & Dashboard',
+      client_name: 'Startup XYZ',
+      technology_stack: 'Vue.js, Laravel, MySQL',
+      project_url: 'https://example.com/app',
+      detail_url: '#',
+      button_text: 'Lihat detail',
+      sort_order: 2,
+      status: 'active',
+      featured: 'featured',
+      meta_title: 'Web Dashboard Project - Apriprogram',
+      meta_description: 'Proyek pengembangan aplikasi web internal dan analitik.'
+    },
+    {
+      title: 'Toko Online Custom',
+      slug: 'toko-online-custom',
+      category: 'E-Commerce',
+      short_description: 'Platform e-commerce yang cepat dan terintegrasi dengan payment gateway.',
+      description: 'Tingkatkan konversi penjualan Anda dengan platform e-commerce yang cepat, dapat disesuaikan, dan terintegrasi dengan payment gateway.',
+      image: 'https://images.unsplash.com/photo-1522199755839-a2bacb67c546?auto=format&fit=crop&w=800&q=80',
+      image_alt: 'Toko Online E-Commerce',
+      client_name: 'Store Global',
+      technology_stack: 'Next.js, Node.js, PostgreSQL',
+      project_url: 'https://example-store.com',
+      detail_url: '#',
+      button_text: 'Lihat detail',
+      sort_order: 3,
+      status: 'active',
+      featured: 'featured',
+      meta_title: 'E-Commerce Custom Project - Apriprogram',
+      meta_description: 'Proyek toko online custom dengan integrasi lengkap payment gateway.'
+    }
+  ];
+
+  for (const project of defaultProjects) {
+    await pool.query(
+      "INSERT IGNORE INTO settings (section, setting_key, setting_value) VALUES ('project_items', ?, ?)",
+      [project.slug, JSON.stringify(project)]
+    );
+  }
+
+  const defaultTimelines = [
+    {
+      step_number: '1',
+      step_label: 'Step 1 &bull; Planning & Analysis',
+      icon: '<svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-slate-900 dark:text-white w-4 h-4 sm:w-[18px] sm:h-[18px]"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>',
+      title: 'Requirement Gathering',
+      slug: 'requirement-gathering',
+      short_description: 'Kami memulai dengan memahami tujuan bisnis, target audiens, dan kebutuhan fitur spesifik Anda.',
+      description: 'Kami memulai dengan memahami tujuan bisnis, target audiens, dan kebutuhan fitur spesifik Anda. Tahap ini memastikan kami membangun solusi yang tepat untuk pertumbuhan bisnis Anda.',
+      image: '/assets/timeline/step1.jpg',
+      image_alt: 'Planning & Analysis',
+      button_text: 'Learn More',
+      button_link: '#',
+      layout_position: 'left',
+      sort_order: 1,
+      status: 'active',
+      meta_title: 'Timeline - Planning & Analysis',
+      meta_description: 'Tahap awal perencanaan proyek dan analisis kebutuhan.'
+    },
+    {
+      step_number: '2',
+      step_label: 'Step 2 &bull; Design & Development',
+      icon: '<svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-slate-900 dark:text-white w-4 h-4 sm:w-[18px] sm:h-[18px]"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>',
+      title: 'UI/UX & Coding',
+      slug: 'ui-ux-coding',
+      short_description: 'Tim kami mendesain antarmuka yang intuitif lalu menerjemahkannya ke dalam kode.',
+      description: 'Tim kami mendesain antarmuka yang intuitif lalu menerjemahkannya ke dalam kode yang bersih dan terstruktur. Anda akan selalu dilibatkan dalam proses revisi hingga hasil sempurna.',
+      image: '/assets/timeline/step2.jpg',
+      image_alt: 'Design & Development',
+      button_text: 'Learn More',
+      button_link: '#',
+      layout_position: 'right',
+      sort_order: 2,
+      status: 'active',
+      meta_title: 'Timeline - Design & Development',
+      meta_description: 'Proses desain antarmuka dan pengembangan kode.'
+    },
+    {
+      step_number: '3',
+      step_label: 'Step 3 &bull; Testing & Launch',
+      icon: '<svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-slate-900 dark:text-white w-4 h-4 sm:w-[18px] sm:h-[18px]"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>',
+      title: 'Deployment & Support',
+      slug: 'deployment-support',
+      short_description: 'Sebelum peluncuran, website melalui uji coba ketat di berbagai perangkat.',
+      description: 'Sebelum peluncuran, website melalui uji coba ketat di berbagai perangkat. Setelah rilis, kami memberikan panduan penggunaan serta dukungan pemeliharaan jangka panjang.',
+      image: '/assets/timeline/step3.jpg',
+      image_alt: 'Testing & Launch',
+      button_text: 'Learn More',
+      button_link: '#',
+      layout_position: 'left',
+      sort_order: 3,
+      status: 'active',
+      meta_title: 'Timeline - Testing & Launch',
+      meta_description: 'Uji coba ketat dan rilis proyek ke publik.'
+    }
+  ];
+
+  for (const timeline of defaultTimelines) {
+    await pool.query(
+      "INSERT IGNORE INTO settings (section, setting_key, setting_value) VALUES ('timeline_items', ?, ?)",
+      [timeline.slug, JSON.stringify(timeline)]
     );
   }
 }

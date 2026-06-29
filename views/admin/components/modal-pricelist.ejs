@@ -1,0 +1,54 @@
+<!-- Pricelist Modal -->
+<div id="pricelist-modal" class="fixed inset-0 bg-slate-900/45 z-[9999] hidden opacity-0 transition-opacity duration-300" onclick="if(event.target===this)closePricelistModal()">
+  <div class="fixed right-0 top-0 h-screen w-full sm:max-w-md bg-white dark:bg-brand-card border-l border-slate-200 dark:border-brand-border shadow-[-18px_0_60px_rgba(15,23,42,0.22)] transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col z-[10000]" id="pricelist-modal-content">
+    
+    <div class="flex items-center justify-between px-6 py-5 border-b border-slate-200 dark:border-brand-border shrink-0">
+      <div>
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white" id="pricelist-modal-title">Tambah Pricelist</h3>
+        <p class="text-xs text-slate-500 mt-0.5">Lengkapi form untuk mengelola pricelist</p>
+      </div>
+      <button onclick="closePricelistModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+    </div>
+    
+    <div class="overflow-y-auto flex-1 p-6">
+      <form id="pricelist-form" class="space-y-5" onsubmit="submitPricelistForm(event)">
+        <input type="hidden" id="pricelist-id">
+        
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Nama Paket</label>
+          <input type="text" id="pricelist-name" required class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors" placeholder="Contoh: Basic Plan">
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Jenis Layanan</label>
+          <input type="text" id="pricelist-service_type" required class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors" placeholder="Contoh: Web Company Profile">
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Harga</label>
+          <input type="text" id="pricelist-price" required class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors" placeholder="Contoh: Rp 2.500.000">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Fitur (pisahkan dengan koma/enter)</label>
+          <textarea id="pricelist-features" rows="4" class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors" placeholder="Fitur A, Fitur B, Fitur C"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Status</label>
+          <select id="pricelist-status" class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+        </div>
+        
+        <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-100 dark:border-brand-border/50">
+          <button type="button" onclick="closePricelistModal()" class="px-5 py-2.5 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">Batal</button>
+          <button type="submit" class="px-2.5 py-1.5 sm:px-5 sm:py-2.5 bg-brand-blue text-center hover:bg-blue-600 text-white text-xs sm:text-sm font-medium rounded-full sm:rounded-full sm:rounded-lg transition-colors shadow-lg shadow-brand-blue/20">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

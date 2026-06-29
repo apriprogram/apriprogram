@@ -1,0 +1,108 @@
+<!-- Detail Order Modal (View Only) -->
+  <div id="detail-modal" class="fixed inset-0 bg-slate-900/45 z-[9999] hidden opacity-0 transition-opacity duration-300" onclick="if(event.target===this)closeDetailModal()">
+    <div class="fixed right-0 top-0 h-screen w-full sm:max-w-[720px] bg-white dark:bg-brand-card border-l border-slate-200 dark:border-brand-border shadow-[-18px_0_60px_rgba(15,23,42,0.22)] overflow-hidden transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col rounded-none z-[10000]" id="detail-modal-content">
+      
+      <!-- Detail Header -->
+      <div class="flex items-center justify-between px-8 py-5 border-b border-slate-200 dark:border-brand-border shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center border border-slate-200 dark:border-slate-700">
+            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white leading-tight">Detail Pesanan</h3>
+            <p class="text-xs font-medium text-slate-500 mt-0.5">Ringkasan data pesanan dan dokumen pendukung klien.</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeOrderDetailModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+          <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      
+      <div class="overflow-y-auto flex-1 p-8">
+        
+        <div class="flex items-center justify-between mb-8">
+            <p class="text-sm font-medium text-slate-500 dark:text-slate-400">ID Pesanan: <span id="detail-id" class="text-brand-blue font-bold"></span></p>
+            <div id="detail-status"></div>
+        </div>
+
+        <div class="space-y-8">
+          <!-- Recipient / Requester Section (Klien & Proyek) -->
+          <div>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-4">Recipient Contact Details</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Nama Klien (Email)</label>
+                <div class="w-full px-4 py-2.5 bg-slate-50 dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-xl text-slate-900 dark:text-white text-sm" id="detail-client_name">-</div>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Nama Proyek</label>
+                <div class="w-full px-4 py-2.5 bg-slate-50 dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-xl text-slate-900 dark:text-white text-sm font-medium" id="detail-project_name">-</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="border-t border-dashed border-slate-200 dark:border-slate-700"></div>
+
+          <!-- Layanan & Harga -->
+          <div>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-4">Request Details</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
+              <div class="col-span-2">
+                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Jenis & Paket Website</label>
+                <div class="w-full px-4 py-2.5 bg-slate-50 dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-xl text-slate-900 dark:text-white text-sm" id="detail-website_type_package">-</div>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Nominal Harga</label>
+                <div class="w-full px-4 py-2.5 bg-slate-50 dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-xl text-slate-900 dark:text-white text-sm font-bold" id="detail-package_price">-</div>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Domain Name</label>
+                <div class="w-full px-4 py-2.5 bg-slate-50 dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-xl text-slate-900 dark:text-white text-sm text-brand-blue truncate" id="detail-domain_name">-</div>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Tanggal Start</label>
+                <div class="w-full px-4 py-2.5 bg-slate-50 dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-xl text-slate-900 dark:text-white text-sm truncate" id="detail-start_date">-</div>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Target Selesai</label>
+                <div class="w-full px-4 py-2.5 bg-slate-50 dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-xl text-slate-900 dark:text-white text-sm truncate" id="detail-target_date">-</div>
+              </div>
+            </div>
+            
+            <div class="mt-5">
+              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Description / Spesifikasi Lengkap</label>
+              <div class="w-full px-4 py-3 bg-slate-50 dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-xl text-slate-800 dark:text-slate-300 text-sm whitespace-pre-wrap" id="detail-description">-</div>
+            </div>
+          </div>
+
+          <div class="border-t border-dashed border-slate-200 dark:border-slate-700"></div>
+
+          <!-- Document & Payment Proof -->
+          <div>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-4">Support Documents</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Document Project</label>
+                <div id="detail-project_document" class="flex items-center justify-center min-h-[100px] bg-white dark:bg-[#14151a] rounded-xl border border-dashed border-slate-300 dark:border-brand-border p-4 text-center">
+                  <!-- Injected via JS -->
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Bukti Pembayaran DP</label>
+                <div id="detail-payment_proof" class="flex items-center justify-center min-h-[100px] bg-white dark:bg-[#14151a] rounded-xl border border-dashed border-slate-300 dark:border-brand-border p-4 text-center">
+                  <!-- Injected via JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="pt-6 flex flex-wrap items-center justify-end gap-3 mt-8 border-t border-slate-100 dark:border-slate-800">
+          <button type="button" onclick="closeOrderDetailModal()" class="px-8 py-2.5 bg-[#111827] dark:bg-brand-blue text-white text-sm font-bold rounded-xl hover:bg-black dark:hover:bg-blue-600 transition-colors shadow-lg shadow-black/10">Tutup</button>
+        </div>
+      </div>
+    </div>
+</div>

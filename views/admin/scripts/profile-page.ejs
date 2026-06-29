@@ -1,0 +1,100 @@
+<script>
+
+async function uploadAvatarFile(input) {
+  if (!input.files || input.files.length === 0) return;
+
+  const file = input.files[0];
+
+
+  // Show spinner
+  const spinner = document.getElementById('avatar-upload-spinner');
+  if (spinner) {
+    spinner.classList.remove('hidden');
+    spinner.classList.add('flex');
+  }
+
+  try {
+    let uploadFile = file;
+    if (file.size > 2 * 1024 * 1024) {
+      // compress to fit size limit
+      uploadFile = await compressImage(file);
+    }
+    const formData = new FormData();
+    formData.append('avatar', uploadFile);
+
+    const res = await fetch('/api/upload/avatar', {
+      method: 'POST',
+      body: formData
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      // Update hidden input
+      document.getElementById('profile-avatar').value = data.url;
+
+      // Update preview
+      const preview = document.getElementById('profile-avatar-preview');
+      preview.innerHTML = `<img src="${data.url}" alt="Avatar" class="w-full h-full object-cover">`;
+
+      showToast('Foto berhasil diunggah. Klik Simpan untuk menyimpan perubahan.', 'green');
+    } else {
+      showToast(data.message || 'Gagal mengunggah foto.', 'red');
+    }
+  } catch (err) {
+    console.error(err);
+    showToast('Terjadi kesalahan saat mengunggah foto.', 'red');
+  } finally {
+    if (spinner) {
+      spinner.classList.add('hidden');
+      spinner.classList.remove('flex');
+    }
+    input.value = '';
+  }
+}
+
+async function handleProfileSubmit(e, userId) {
+  e.preventDefault();
+
+  const email      = document.getElementById('profile-email').value;
+  const password   = document.getElementById('profile-password').value;
+  const role       = document.getElementById('profile-role').value;
+  const full_name  = document.getElementById('profile-fullname').value;
+  const whatsapp   = document.getElementById('profile-whatsapp').value;
+  const company    = document.getElementById('profile-company').value;
+  const country    = document.getElementById('profile-country').value;
+  const avatar     = document.getElementById('profile-avatar').value;
+
+  const btn = document.getElementById('btn-save-profile');
+  const originalHTML = btn.innerHTML;
+  btn.innerHTML = `<svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg> Menyimpan...`;
+  btn.disabled = true;
+
+  try {
+    const payload = { email, role, full_name, whatsapp, company, country, avatar };
+    if (password) payload.password = password;
+
+    const res = await fetch(`/api/admin/users/${userId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      showToast('Profil berhasil diperbarui.', 'green');
+      document.getElementById('profile-password').value = '';
+      // Update navbar name display
+      const nameSpan = document.querySelector('.text-xs.font-semibold.text-slate-900.dark\\:text-white');
+      if (nameSpan) nameSpan.innerText = email.split('@')[0];
+    } else {
+      showToast(data.message || 'Gagal memperbarui profil.', 'red');
+    }
+  } catch (error) {
+    console.error(error);
+    showToast('Terjadi kesalahan pada server.', 'red');
+  } finally {
+    btn.innerHTML = originalHTML;
+    btn.disabled = false;
+  }
+}
+</script>

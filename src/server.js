@@ -10,6 +10,7 @@ const { pool, initDatabase } = require("./config/db");
 const authController = require("./controllers/authController");
 const adminController = require("./controllers/adminController");
 const orderController = require("./controllers/orderController");
+const pricelistController = require("./controllers/pricelistController");
 const { requireLogin, requireAdmin } = require("./middleware/auth");
 
 const app = express();
@@ -30,6 +31,20 @@ app.use(session({
   cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 } // 1 day
 }));
 
+// Visitor Tracking Middleware
+app.use(async (req, res, next) => {
+  if (!req.session.visited_today) {
+    req.session.visited_today = true;
+    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    const userAgent = req.headers['user-agent'] || '';
+    try {
+      await pool.query("INSERT INTO visitors (ip_address, user_agent) VALUES (?, ?)", [ip, userAgent]);
+    } catch (err) {
+      console.warn("Visitor tracking failed:", err.message);
+    }
+  }
+  next();
+});
 // API Contact
 app.post("/api/contact", async (req, res) => {
   const { name, email, message } = req.body;
@@ -67,12 +82,30 @@ app.get("/admin/dashboard", requireAdmin, (req, res) => {
 // Admin API Routes
 app.get("/api/settings", adminController.getSettings); // Public to fetch settings
 app.post("/api/admin/settings", requireAdmin, adminController.updateSettings);
+app.get("/api/admin/services", requireAdmin, adminController.getServiceItems);
+app.post("/api/admin/services", requireAdmin, adminController.saveServiceItem);
+app.delete("/api/admin/services/:slug", requireAdmin, adminController.deleteServiceItem);
+app.get("/api/admin/projects", requireAdmin, adminController.getProjectItems);
+app.post("/api/admin/projects", requireAdmin, adminController.saveProjectItem);
+app.delete("/api/admin/projects/:slug", requireAdmin, adminController.deleteProjectItem);
+app.get("/api/admin/timeline", requireAdmin, adminController.getTimelineItems);
+app.post("/api/admin/timeline", requireAdmin, adminController.saveTimelineItem);
+app.delete("/api/admin/timeline/:slug", requireAdmin, adminController.deleteTimelineItem);
+app.get("/api/admin/dashboard-stats", requireAdmin, adminController.getDashboardStats);
+
+// Pricelist API Routes
+app.get("/api/admin/pricelists", requireAdmin, pricelistController.getPricelists);
+app.post("/api/admin/pricelists", requireAdmin, pricelistController.createPricelist);
+app.put("/api/admin/pricelists/:id", requireAdmin, pricelistController.updatePricelist);
+app.delete("/api/admin/pricelists/:id", requireAdmin, pricelistController.deletePricelist);
+
 // Uploads config
 const uploadDir = path.join(__dirname, "..", "public", "uploads");
 const docDir = path.join(__dirname, "..", "public", "assets", "dokumen_client");
 const paymentDir = path.join(__dirname, "..", "public", "assets", "bukti_pembayaran");
+const avatarDir = path.join(__dirname, "..", "public", "assets", "avatars");
 
-[uploadDir, docDir, paymentDir].forEach(dir => {
+[uploadDir, docDir, paymentDir, avatarDir].forEach(dir => {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
@@ -111,12 +144,48 @@ const paymentStorage = multer.diskStorage({
 });
 const paymentUpload = multer({ storage: paymentStorage });
 
+const avatarStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, avatarDir);
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'avatar-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+const avatarUpload = multer({
+  storage: avatarStorage,
+  limits: { fileSize: 2 * 1024 * 1024 }, // 2MB max
+  fileFilter: function (req, file, cb) {
+    const allowed = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
+    if (allowed.includes(file.mimetype)) cb(null, true);
+    else cb(new Error('Hanya file gambar (JPG, PNG, WebP, GIF) yang diizinkan.'));
+  }
+});
+
 app.post("/api/admin/upload", requireAdmin, upload.single("image"), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ success: false, message: "No file uploaded" });
   }
   const fileUrl = `/uploads/${req.file.filename}`;
   res.json({ success: true, url: fileUrl });
+});
+
+// Avatar Upload Route
+app.post("/api/upload/avatar", requireLogin, avatarUpload.single("avatar"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ success: false, message: "Tidak ada file yang diunggah" });
+  }
+  const fileUrl = `/assets/avatars/${req.file.filename}`;
+  res.json({ success: true, url: fileUrl });
+});
+
+// Avatar Upload Error Handler
+app.use((err, req, res, next) => {
+  if (err.message && err.message.includes('gambar')) {
+    return res.status(400).json({ success: false, message: err.message });
+  }
+  next(err);
 });
 
 // Document Upload Route (Client & Admin)
@@ -150,12 +219,16 @@ app.get("/api/admin/users", requireAdmin, adminController.getUsers);
 app.post("/api/admin/users", requireAdmin, adminController.createUser);
 app.put("/api/admin/users/:id", requireAdmin, adminController.updateUser);
 app.delete("/api/admin/users/:id", requireAdmin, adminController.deleteUser);
+app.get("/api/admin/dashboard-stats", requireAdmin, adminController.getDashboardStats);
 
 // Order API Routes
 app.post("/api/orders", requireLogin, orderController.createOrder);
 app.get("/api/orders", requireLogin, orderController.getOrders);
 app.put("/api/orders/:id", requireAdmin, orderController.updateOrder);
 app.delete("/api/orders/:id", requireAdmin, orderController.deleteOrder);
+
+// Invoice Route
+app.post("/api/orders/:id/invoice", requireAdmin, orderController.saveInvoice);
 
 // Views Routes
 app.get("/order", requireLogin, (req, res) => {

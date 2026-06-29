@@ -1,0 +1,116 @@
+<script>
+async function downloadInvoicePDF() {
+  const number = document.getElementById('inv-number')?.value || 'invoice';
+
+  // Ensure preview is rendered and visible (make it visible temporarily if hidden on mobile)
+  if (typeof updateInvoicePreview === 'function') updateInvoicePreview();
+  const previewPanel = document.getElementById('inv-panel-preview');
+  const wasHidden = previewPanel && previewPanel.style.display === 'none';
+  if (wasHidden) {
+    previewPanel.style.display = 'flex';
+    previewPanel.style.position = 'absolute';
+    previewPanel.style.left = '-9999px';
+    previewPanel.style.top = '0';
+    previewPanel.style.width = '600px';
+  }
+
+  const preview = document.getElementById('invoice-preview');
+  if (!preview) { showToast('Preview tidak ditemukan.', 'red'); return; }
+
+  showToast('Membuat PDF...', 'blue');
+
+  try {
+    await new Promise(r => setTimeout(r, 200)); // wait for render
+    const canvas = await html2canvas(preview, {
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      backgroundColor: '#ffffff',
+      width: preview.scrollWidth,
+      height: preview.scrollHeight
+    });
+
+    const imgData = canvas.toDataURL('image/png');
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [105, 165] });
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const imgHeight = (canvas.height * pageWidth) / canvas.width;
+    let y = 0;
+    let heightLeft = imgHeight;
+    pdf.addImage(imgData, 'PNG', 0, y, pageWidth, imgHeight);
+    heightLeft -= pageHeight;
+    while (heightLeft > 0) {
+      y = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, 'PNG', 0, y, pageWidth, imgHeight);
+      heightLeft -= pageHeight;
+    }
+    pdf.save(`${number}.pdf`);
+    showToast('Invoice PDF berhasil diunduh!', 'green');
+  } catch (err) {
+    console.error('PDF error:', err);
+    showToast('Gagal generate PDF: ' + err.message, 'red');
+  } finally {
+    if (wasHidden && previewPanel) {
+      previewPanel.style.display = 'none';
+      previewPanel.style.position = '';
+      previewPanel.style.left = '';
+      previewPanel.style.top = '';
+      previewPanel.style.width = '';
+    }
+  }
+}
+
+async function downloadInvoiceJPG() {
+  const number = document.getElementById('inv-number')?.value || 'invoice';
+
+  // Ensure preview is rendered and visible
+  if (typeof updateInvoicePreview === 'function') updateInvoicePreview();
+  const previewPanel = document.getElementById('inv-panel-preview');
+  const wasHidden = previewPanel && previewPanel.style.display === 'none';
+  if (wasHidden) {
+    previewPanel.style.display = 'flex';
+    previewPanel.style.position = 'absolute';
+    previewPanel.style.left = '-9999px';
+    previewPanel.style.top = '0';
+    previewPanel.style.width = '600px';
+  }
+
+  const preview = document.getElementById('invoice-preview');
+  if (!preview) { showToast('Preview tidak ditemukan.', 'red'); return; }
+
+  showToast('Membuat JPG...', 'blue');
+
+  try {
+    await new Promise(r => setTimeout(r, 200));
+    const canvas = await html2canvas(preview, {
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      backgroundColor: '#ffffff',
+      width: preview.scrollWidth,
+      height: preview.scrollHeight
+    });
+    const imgData = canvas.toDataURL('image/jpeg', 0.92);
+    const link = document.createElement('a');
+    link.download = `${number}.jpg`;
+    link.href = imgData;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showToast('Invoice JPG berhasil diunduh!', 'green');
+  } catch (err) {
+    console.error('JPG error:', err);
+    showToast('Gagal generate JPG: ' + err.message, 'red');
+  } finally {
+    if (wasHidden && previewPanel) {
+      previewPanel.style.display = 'none';
+      previewPanel.style.position = '';
+      previewPanel.style.left = '';
+      previewPanel.style.top = '';
+      previewPanel.style.width = '';
+    }
+  }
+}
+</script>

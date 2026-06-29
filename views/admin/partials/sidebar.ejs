@@ -1,0 +1,55 @@
+<!-- Sidebar -->
+  <aside id="sidebar" class="fixed sm:relative inset-y-0 left-0 w-64 sm:w-56 bg-white dark:bg-brand-darker border-r border-slate-200 dark:border-brand-border flex flex-col transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] z-[60] sm:z-20 flex-shrink-0">
+    <div class="h-16 flex items-center px-6 border-b border-slate-200 dark:border-brand-border gap-3">
+      <div class="flex items-center justify-center">
+        <img src="/assets/logo/apriprogram.png" alt="Apriprogram Logo" class="h-6 w-auto" />
+      </div>
+      <div>
+        <span class="font-bold text-[15px] text-slate-900 dark:text-white tracking-wide block">Admin Panel</span>
+      </div>
+    </div>
+
+    <div class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+      <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item active w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-brand-blue dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-card transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+        Dasbor
+      </button>
+
+      <p class="px-4 text-[11px] font-medium text-slate-400 dark:text-slate-500 mt-6 mb-2 uppercase tracking-wider">Order</p>
+      <button onclick="switchTab('orders')" id="nav-orders" class="nav-item w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-brand-blue dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-card transition-colors">
+        <div class="flex items-center gap-2.5">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+          Orders
+        </div>
+        <span id="badge-orders" class="hidden px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#A8E6CF] text-[#2D5A47] dark:bg-[#A8E6CF]/20 dark:text-[#A8E6CF]"></span>
+      </button>
+      <button onclick="switchTab('pricelist')" id="nav-pricelist" class="nav-item w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-brand-blue dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-card transition-colors">
+        <div class="flex items-center gap-2.5">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          Pricelist
+        </div>
+        <span id="badge-pricelist" class="hidden px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#FFD3B6] text-[#8A5A3C] dark:bg-[#FFD3B6]/20 dark:text-[#FFD3B6]"></span>
+      </button>
+
+      <p class="px-4 text-[11px] font-medium text-slate-400 dark:text-slate-500 mt-6 mb-2 uppercase tracking-wider">Settings</p>
+      <button onclick="switchTab('settings')" id="nav-settings" class="nav-item w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-brand-blue dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-card transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+        Site Settings
+      </button>
+      <button onclick="switchTab('users')" id="nav-users" class="nav-item w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-brand-blue dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-card transition-colors">
+        <div class="flex items-center gap-2.5">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          Users
+        </div>
+        <span id="badge-users" class="hidden px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#B5C0FF] text-[#2C3E8A] dark:bg-[#B5C0FF]/20 dark:text-[#B5C0FF]"></span>
+      </button>
+    </div>
+
+    <div class="p-4 border-t border-slate-200 dark:border-brand-border">
+      <a href="/logout" class="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+        Keluar
+      </a>
+    </div>
+  </aside>
+

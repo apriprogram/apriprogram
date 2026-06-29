@@ -1,0 +1,252 @@
+<script>
+let pricelistsData = [];
+let pricelistPage = 1;
+
+function deletePricelist(id) {
+  openDeleteModal(id, 'pricelist');
+}
+
+function openPricelistModal(id = null) {
+  openSideModal('pricelist-modal', 'pricelist-modal-content');
+  
+  const form = document.getElementById('pricelist-form');
+  if (form) form.reset();
+  
+  if (id) {
+    const p = pricelistsData.find(item => Number(item.id) === Number(id));
+    if (p) {
+      document.getElementById('pricelist-modal-title').innerText = 'Edit Pricelist';
+      document.getElementById('pricelist-id').value = p.id;
+      document.getElementById('pricelist-name').value = p.name || '';
+      document.getElementById('pricelist-service_type').value = p.service_type || '';
+      document.getElementById('pricelist-price').value = p.price || '';
+      document.getElementById('pricelist-features').value = p.features || '';
+      document.getElementById('pricelist-status').value = p.status || 'Active';
+    }
+  } else {
+    document.getElementById('pricelist-modal-title').innerText = 'Tambah Pricelist';
+    document.getElementById('pricelist-id').value = '';
+    document.getElementById('pricelist-status').value = 'Active';
+  }
+}
+
+function closePricelistModal() {
+  closeSideModal('pricelist-modal', 'pricelist-modal-content');
+}
+
+async function submitPricelistForm(e) {
+  e.preventDefault();
+  const id = document.getElementById('pricelist-id').value;
+  const payload = {
+    name: document.getElementById('pricelist-name').value,
+    service_type: document.getElementById('pricelist-service_type').value,
+    price: document.getElementById('pricelist-price').value,
+    features: document.getElementById('pricelist-features').value,
+    status: document.getElementById('pricelist-status').value,
+  };
+
+  try {
+    const url = id ? `/api/admin/pricelists/${id}` : '/api/admin/pricelists';
+    const method = id ? 'PUT' : 'POST';
+    const res = await fetch(url, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      showToast(data.message, 'green');
+      closePricelistModal();
+      loadPricelists();
+    } else {
+      showToast(data.message || 'Terjadi kesalahan', 'red');
+    }
+  } catch (err) {
+    showToast('Terjadi kesalahan pada server', 'red');
+  }
+}
+
+async function loadPricelists() {
+  try {
+    const res = await fetch('/api/admin/pricelists');
+    const data = await res.json();
+    if (data.success) {
+      pricelistsData = data.pricelists || [];
+      const badge = document.getElementById('badge-pricelist');
+      if (badge) {
+        badge.innerText = pricelistsData.length;
+        if (pricelistsData.length > 0) {
+          badge.classList.remove('hidden');
+        } else {
+          badge.classList.add('hidden');
+        }
+      }
+      renderPricelists();
+    }
+  } catch (err) {
+    console.error('Failed to load pricelists:', err);
+  }
+}
+
+function filterPricelists() {
+  pricelistPage = 1;
+  renderPricelists();
+}
+
+function renderPricelists() {
+  const tbody = document.getElementById('pricelist-table-body');
+  const limitEl = document.getElementById('pricelist-limit');
+  const searchEl = document.getElementById('pricelist-search');
+  const sortEl = document.getElementById('pricelist-sort');
+  const filterEl = document.getElementById('pricelist-filter');
+  if (!tbody || !limitEl || !searchEl) return;
+
+  const limit = parseInt(limitEl.value, 10) || 10;
+  const search = searchEl.value.toLowerCase();
+  const sort = sortEl ? sortEl.value : 'newest';
+  const statusFilter = filterEl ? filterEl.value.toLowerCase() : '';
+  
+  let filtered = pricelistsData.filter(p => {
+    const matchSearch = (p.name || '').toLowerCase().includes(search) ||
+                        (p.service_type || '').toLowerCase().includes(search);
+    const matchStatus = statusFilter === '' || (p.status || '').toLowerCase() === statusFilter;
+    return matchSearch && matchStatus;
+  });
+
+  if (sort === 'oldest') {
+    filtered.sort((a, b) => new Date(a.created_at || 0) - new Date(b.created_at || 0));
+  } else {
+    // Newest
+    filtered.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+  }
+  
+  const totalPages = Math.ceil(filtered.length / limit) || 1;
+  if (pricelistPage > totalPages) pricelistPage = totalPages;
+
+  const start = (pricelistPage - 1) * limit;
+  const paginated = filtered.slice(start, start + limit);
+
+  tbody.innerHTML = paginated.map((p, idx) => {
+  const statusCls = p.status === 'Active' 
+      ? 'bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20' 
+      : 'bg-slate-100 dark:bg-slate-500/10 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-500/20';
+      
+    return `
+      <tr class="border-b border-slate-200 dark:border-brand-border hover:bg-slate-50 dark:hover:bg-[#1a1c23] transition-colors">
+        <td class="py-1.5 px-2 sm:py-2 sm:px-3 font-medium whitespace-nowrap text-[10px] sm:text-xs">${start + idx + 1}</td>
+        <td class="py-1.5 px-2 sm:py-2 sm:px-3 font-semibold text-slate-900 dark:text-white whitespace-nowrap text-[10px] sm:text-xs">${p.name || '-'}</td>
+        <td class="py-1.5 px-2 sm:py-2 sm:px-3 text-brand-blue dark:text-blue-400 font-medium whitespace-nowrap text-[10px] sm:text-xs">${p.service_type || '-'}</td>
+        <td class="py-1.5 px-2 sm:py-2 sm:px-3 font-bold text-slate-900 dark:text-white whitespace-nowrap text-[10px] sm:text-xs">${p.price || '-'}</td>
+        <td class="py-1.5 px-2 sm:py-2 sm:px-3 whitespace-nowrap">
+          <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-bold uppercase tracking-wider ${statusCls}">${p.status}</span>
+        </td>
+        <td class="py-1.5 px-2 sm:py-2 sm:px-3 text-center flex justify-center gap-1.5 whitespace-nowrap">
+          ${getActionButtonHtml('edit', `openPricelistModal(${p.id})`, 'Edit Pricelist')}
+          ${getActionButtonHtml('delete', `deletePricelist(${p.id})`, 'Hapus Pricelist')}
+        </td>
+      </tr>
+    `;
+  }).join('');
+
+  if (paginated.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" class="py-8 text-center text-slate-500">Tidak ada data pricelist.</td></tr>';
+  }
+
+  const paginationEl = document.getElementById('pricelist-pagination');
+  if (paginationEl) {
+    let pageOptions = '';
+    for (let i = 1; i <= totalPages; i++) {
+      pageOptions += `<option value="${i}" ${i === pricelistPage ? 'selected' : ''}>${i} / ${totalPages}</option>`;
+    }
+    
+    paginationEl.innerHTML = `
+      <div class="flex items-center gap-3 w-full sm:w-auto justify-center sm:justify-start">
+        <span class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">Rows per page</span>
+        <div class="relative">
+          <select onchange="document.getElementById('pricelist-limit').value = this.value; filterPricelists()" class="pl-3 pr-7 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium shadow-sm">
+            <option value="10" ${limit === 10 ? 'selected' : ''}>10</option>
+            <option value="25" ${limit === 25 ? 'selected' : ''}>25</option>
+            <option value="50" ${limit === 50 ? 'selected' : ''}>50</option>
+          </select>
+          <svg class="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4 sm:gap-6 w-full sm:w-auto justify-center sm:justify-end mt-2 sm:mt-0">
+        <div class="flex items-center gap-3">
+          <span class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">Page</span>
+          <div class="relative">
+            <select onchange="pricelistPage = parseInt(this.value); renderPricelists()" class="pl-3 pr-7 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium shadow-sm">
+               ${pageOptions}
+            </select>
+            <svg class="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
+          </div>
+        </div>
+        
+        <div class="flex items-center rounded-lg border border-slate-200 dark:border-brand-border bg-white dark:bg-[#14151a] shadow-sm overflow-hidden shrink-0">
+          <button onclick="pricelistPage = 1; renderPricelists()" ${pricelistPage === 1 ? 'disabled' : ''} class="px-2.5 py-1.5 border-r border-slate-200 dark:border-brand-border text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
+          </button>
+          <button onclick="pricelistPage--; renderPricelists()" ${pricelistPage === 1 ? 'disabled' : ''} class="px-2.5 py-1.5 border-r border-slate-200 dark:border-brand-border text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+          </button>
+          <button onclick="pricelistPage++; renderPricelists()" ${pricelistPage === totalPages ? 'disabled' : ''} class="px-2.5 py-1.5 border-r border-slate-200 dark:border-brand-border text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+          <button onclick="pricelistPage = ${totalPages}; renderPricelists()" ${pricelistPage === totalPages ? 'disabled' : ''} class="px-2.5 py-1.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+          </button>
+        </div>
+      </div>
+    `;
+  }
+}
+
+async function loadPaymentSettings() {
+  try {
+    const res = await fetch('/api/settings');
+    const data = await res.json();
+    if (data.success && data.settings && data.settings.payment) {
+      const s = data.settings.payment;
+      const bankNameEl = document.getElementById('setting-bank_name');
+      const accountNameEl = document.getElementById('setting-account_name');
+      const accountNumberEl = document.getElementById('setting-account_number');
+      if (bankNameEl) bankNameEl.value = s.bank_name || '';
+      if (accountNameEl) accountNameEl.value = s.account_name || '';
+      if (accountNumberEl) accountNumberEl.value = s.account_number || '';
+    }
+  } catch (err) {
+    console.warn('Could not load payment settings:', err);
+  }
+}
+
+async function savePaymentSettings() {
+  const bankName = document.getElementById('setting-bank_name')?.value || '';
+  const accountName = document.getElementById('setting-account_name')?.value || '';
+  const accountNumber = document.getElementById('setting-account_number')?.value || '';
+
+  try {
+    const res = await fetch('/api/admin/settings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        section: 'payment',
+        settings: {
+          bank_name: bankName,
+          account_name: accountName,
+          account_number: accountNumber
+        }
+      })
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast('Info Pembayaran berhasil disimpan!', 'green');
+    } else {
+      showToast(data.message || 'Gagal menyimpan.', 'red');
+    }
+  } catch (err) {
+    showToast('Gagal menyimpan Info Pembayaran.', 'red');
+  }
+}
+</script>

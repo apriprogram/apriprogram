@@ -1,0 +1,247 @@
+<script>
+// Shared UI state
+let usersData = [];
+let ordersData = [];
+
+function jsStringLiteral(value) {
+  return `'${String(value || '')
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")
+    .replace(/\r/g, '\\r')
+    .replace(/\n/g, '\\n')
+    .replace(/</g, '\\x3C')}'`;
+}
+function toggleDarkMode() {
+  document.documentElement.classList.toggle('dark');
+  const isDark = document.documentElement.classList.contains('dark');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+}
+
+let sidebarOpen = window.innerWidth >= 640;
+function initSidebarToggle() {
+  const toggle = document.getElementById('toggle-sidebar');
+  const sidebar = document.getElementById('sidebar');
+  if (!toggle || !sidebar) return;
+
+  if (!sidebarOpen) {
+    sidebar.classList.add('-ml-64', 'sm:-ml-56');
+  }
+
+  toggle.addEventListener('click', () => {
+    sidebarOpen = !sidebarOpen;
+    if (sidebarOpen) {
+      sidebar.classList.remove('-ml-64', 'sm:-ml-56');
+    } else {
+      sidebar.classList.add('-ml-64', 'sm:-ml-56');
+    }
+  });
+
+  // Auto close on mobile when clicking a menu item
+  const navItems = sidebar.querySelectorAll('.nav-item');
+  navItems.forEach(item => {
+    item.addEventListener('click', () => {
+      if (window.innerWidth < 640 && sidebarOpen) {
+        sidebarOpen = false;
+        sidebar.classList.add('-ml-64', 'sm:-ml-56');
+      }
+    });
+  });
+
+  // Close sidebar when clicking outside on mobile
+  document.addEventListener('click', (e) => {
+    if (window.innerWidth < 640 && sidebarOpen) {
+      if (!sidebar.contains(e.target) && !toggle.contains(e.target)) {
+        sidebarOpen = false;
+        sidebar.classList.add('-ml-64', 'sm:-ml-56');
+      }
+    }
+  });
+}
+
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+
+  const tab = document.getElementById(`tab-${tabId}`);
+  const activeNav = document.getElementById(`nav-${tabId}`);
+  if (!tab) return;
+
+  tab.classList.remove('hidden');
+  if (activeNav) activeNav.classList.add('active');
+
+  const titles = { dashboard: 'Dasbor', settings: 'Pengaturan', users: 'Users', orders: 'Orders', profile: 'Profile Settings' };
+  const pageTitle = document.getElementById('pageTitle');
+  if (pageTitle) pageTitle.innerText = titles[tabId] || 'Dasbor';
+
+  if (tabId === 'dashboard') loadDashboardStats();
+  if (tabId === 'users') loadUsers();
+  if (tabId === 'orders') loadOrders();
+  if (tabId === 'settings') {
+    loadSettings();
+    loadServices();
+    loadProjects();
+    loadTimelines();
+  }
+}
+
+async function uploadImage(input, hiddenInputId, labelId) {
+  if (!input.files || input.files.length === 0) return;
+
+  const file = input.files[0];
+  const formData = new FormData();
+  formData.append('image', file);
+
+  const label = document.getElementById(labelId);
+  if (label) label.innerText = 'Mengunggah...';
+
+  try {
+    const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById(hiddenInputId).value = data.url;
+      if (label) label.innerText = file.name;
+      showToast("Gambar berhasil diunggah. Klik 'Simpan' untuk menerapkan.", 'green');
+    } else {
+      if (label) label.innerText = 'Gagal mengunggah';
+      showToast(data.message || 'Gagal mengunggah gambar.', 'red');
+    }
+  } catch (err) {
+    if (label) label.innerText = 'Error';
+    showToast('Terjadi kesalahan saat mengunggah gambar.', 'red');
+  }
+}
+
+async function compressImage(file, maxSize = 2 * 1024 * 1024) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let { width, height } = img;
+        const scaleFactor = 0.9;
+        const mime = file.type;
+        const quality = mime === 'image/jpeg' ? 0.8 : 0.8;
+        const step = () => {
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          canvas.toBlob((blob) => {
+            if (blob.size <= maxSize || (width <= 100 && height <= 100)) {
+              resolve(blob);
+            } else {
+              width = Math.floor(width * scaleFactor);
+              height = Math.floor(height * scaleFactor);
+              step();
+            }
+          }, mime, quality);
+        };
+        step();
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function showToast(message, color = 'green') {
+  const toast = document.getElementById('toast');
+  const toastMsg = document.getElementById('toast-msg');
+  const toastIcon = document.getElementById('toast-icon');
+  if (!toast || !toastMsg || !toastIcon) return;
+
+  const isSuccess = color === 'green' || color === 'blue';
+  
+  // Set initial hidden/animated-out state
+  toast.className = `fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-[99999] w-[90%] max-w-[340px] sm:w-auto sm:min-w-[300px] p-3 sm:p-4 rounded-xl sm:rounded-2xl text-[11px] sm:text-sm shadow-[0_8px_30px_rgb(0,0,0,0.12)] flex items-center gap-3 border transition-all duration-500 ease-out transform -translate-y-6 scale-95 opacity-0 bg-white/70 dark:bg-[#1C1E26]/70 backdrop-blur-md ${isSuccess ? 'border-green-500/30 dark:border-green-500/30' : 'border-red-500/30 dark:border-red-500/30'} text-slate-800 dark:text-white`;
+  
+  toastIcon.className = `w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center shrink-0 ${isSuccess ? 'bg-green-500/20 dark:bg-green-500/30 text-green-600 dark:text-green-400' : 'bg-red-500/20 dark:bg-red-500/30 text-red-600 dark:text-red-400'}`;
+  toastIcon.innerHTML = isSuccess
+    ? '<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>'
+    : '<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>';
+
+  toastMsg.innerText = message;
+
+  // Trigger animation entry
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      toast.classList.remove('-translate-y-6', 'scale-95', 'opacity-0');
+      toast.classList.add('translate-y-0', 'scale-100', 'opacity-100');
+    });
+  });
+
+  // Clear any existing timeout
+  if (window.toastTimeout) clearTimeout(window.toastTimeout);
+
+  window.toastTimeout = setTimeout(() => {
+    toast.classList.remove('translate-y-0', 'scale-100', 'opacity-100');
+    toast.classList.add('-translate-y-6', 'scale-95', 'opacity-0');
+    setTimeout(() => {
+      toast.className = 'fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 hidden z-[99999] w-[90%] sm:w-auto';
+    }, 500);
+  }, 3500);
+}
+
+function openDeleteModal(id, type) {
+  document.getElementById('delete-id').value = id;
+  document.getElementById('delete-type').value = type;
+
+  const modal = document.getElementById('delete-modal');
+  const content = document.getElementById('delete-modal-content');
+  modal.classList.remove('hidden');
+  setTimeout(() => {
+    modal.classList.remove('opacity-0');
+    content.classList.remove('scale-95');
+  }, 10);
+}
+
+function closeDeleteModal() {
+  const modal = document.getElementById('delete-modal');
+  const content = document.getElementById('delete-modal-content');
+  modal.classList.add('opacity-0');
+  content.classList.add('scale-95');
+  setTimeout(() => modal.classList.add('hidden'), 200);
+}
+
+async function executeDelete() {
+  const id = document.getElementById('delete-id').value;
+  const type = document.getElementById('delete-type').value;
+  const url = type === 'user' ? `/api/admin/users/${id}` : `/api/orders/${id}`;
+
+  try {
+    const res = await fetch(url, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' }
+    });
+
+    const contentType = res.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      const data = await res.json();
+      if (data.success) {
+        showToast(data.message || 'Data berhasil dihapus.', 'green');
+        closeDeleteModal();
+        if (type === 'user') loadUsers();
+        if (type === 'order') loadOrders();
+        loadDashboardStats();
+      } else {
+        showToast(data.message || 'Gagal menghapus data.', 'red');
+      }
+      return;
+    }
+
+    if (res.status === 401) {
+      showToast('Sesi telah berakhir. Silakan login kembali.', 'red');
+      setTimeout(() => window.location.href = '/login', 2000);
+    } else if (res.status === 403) {
+      showToast('Akses ditolak. Anda bukan admin atau sesi telah berakhir.', 'red');
+    } else {
+      showToast('Terjadi kesalahan server saat menghapus.', 'red');
+    }
+  } catch (err) {
+    console.error('Delete error:', err);
+    showToast('Gagal menghubungi server.', 'red');
+  }
+}
+
+</script>

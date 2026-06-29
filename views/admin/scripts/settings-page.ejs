@@ -1,0 +1,605 @@
+<script>
+const settingFields = {
+  navbar: ['logo_text'],
+  hero: ['image_url', 'title_main', 'title_gradient', 'subtitle', 'cta_text', 'cta_link'],
+  services: ['title', 'subtitle', 'button_text', 'button_link'],
+  projects: ['title', 'subtitle'],
+  timeline: ['title', 'subtitle'],
+  faq: ['title', 'subtitle'],
+  cta: ['title', 'subtitle', 'button_text', 'button_link'],
+  footer: ['description', 'copyright']
+};
+
+let servicesData = [];
+
+function showSettingSection(section) {
+  document.querySelectorAll('.setting-form').forEach(el => el.classList.add('hidden'));
+  document.querySelectorAll('.setting-nav').forEach(el => {
+    el.className = 'setting-nav w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-darker mb-0.5 transition-colors';
+  });
+
+  const form = document.getElementById(`form-${section}`);
+  const activeBtn = document.getElementById(`btn-${section}`);
+  if (form) form.classList.remove('hidden');
+  if (activeBtn) {
+    activeBtn.className = 'setting-nav active w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium bg-slate-100 dark:bg-brand-darker text-brand-blue dark:text-white mb-0.5 transition-colors';
+  }
+}
+
+async function loadSettings() {
+  try {
+    const res = await fetch('/api/settings');
+    const data = await res.json();
+    if (!data.success) return;
+
+    Object.keys(data.settings || {}).forEach(section => {
+      const sectionData = data.settings[section] || {};
+      Object.keys(sectionData).forEach(key => {
+        const el = document.getElementById(`${section}-${key}`);
+        if (!el) return;
+        if (el.tagName === 'IMG') el.src = sectionData[key];
+        else el.value = sectionData[key] || '';
+      });
+    });
+  } catch (err) {
+    console.error('Failed to load settings', err);
+  }
+}
+
+async function saveSection(section, settings) {
+  try {
+    const res = await fetch('/api/admin/settings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ section, settings })
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast(`Berhasil menyimpan pengaturan ${section}`, 'green');
+    } else {
+      showToast(`Gagal menyimpan: ${data.message}`, 'red');
+    }
+  } catch (err) {
+    showToast('Terjadi kesalahan koneksi saat menyimpan.', 'red');
+  }
+}
+
+function collectSettings(section) {
+  return (settingFields[section] || []).reduce((result, key) => {
+    const el = document.getElementById(`${section}-${key}`);
+    result[key] = el ? el.value : '';
+    return result;
+  }, {});
+}
+
+function initSettingsForms() {
+  Object.keys(settingFields).forEach(section => {
+    const form = document.getElementById(`form-${section}`);
+    if (!form) return;
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      saveSection(section, collectSettings(section));
+    });
+  });
+}
+
+async function loadServices() {
+  try {
+    const res = await fetch('/api/admin/services');
+    const data = await res.json();
+    if (data.success) {
+      servicesData = data.services || [];
+      renderServicesTable();
+    }
+  } catch (err) {
+    console.error('Failed to load services', err);
+  }
+}
+
+function renderServicesTable() {
+  const tbody = document.getElementById('services-table-body');
+  if (!tbody) return;
+
+  if (servicesData.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" class="py-8 text-center text-slate-400">Belum ada data service.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = servicesData.map(s => `
+    <tr class="border-b border-slate-200 dark:border-brand-border hover:bg-slate-50 dark:hover:bg-[#1a1c23] transition-colors">
+      <td class="py-1.5 px-2 sm:py-3 sm:px-5 whitespace-nowrap text-[10px] sm:text-xs">
+        <div class="flex items-center gap-3">
+          ${s.image ? `<img src="${s.image}" class="w-10 h-10 rounded-lg object-cover shrink-0 border border-slate-200 dark:border-brand-border" onerror="this.style.display='none'">` : '<div class="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 shrink-0"></div>'}
+          <div>
+            <div class="font-medium text-slate-900 dark:text-white text-sm">${s.title || '-'}</div>
+            <div class="text-[11px] text-slate-400 font-mono">${s.slug || ''}</div>
+          </div>
+        </div>
+      </td>
+      <td class="py-1.5 px-2 sm:py-3 sm:px-5 text-sm text-slate-500 whitespace-nowrap">${s.category || '-'}</td>
+      <td class="py-1.5 px-2 sm:py-3 sm:px-5 whitespace-nowrap text-[10px] sm:text-xs"><span class="inline-flex px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider border ${s.status === 'active' ? 'bg-green-100 dark:bg-green-500/10 text-green-600 dark:text-green-400 border-green-200/50 dark:border-green-500/20' : 'bg-slate-100 dark:bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-200/50 dark:border-slate-500/20'}">${s.status || 'active'}</span></td>
+      <td class="py-1.5 px-2 sm:py-3 sm:px-5 whitespace-nowrap text-[10px] sm:text-xs"><span class="inline-flex px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider border ${s.featured === 'featured' ? 'bg-amber-100 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-200/50 dark:border-amber-500/20' : 'bg-slate-100 dark:bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-200/50 dark:border-slate-500/20'}">${s.featured || '-'}</span></td>
+      <td class="py-1.5 px-2 sm:py-3 sm:px-5 text-center whitespace-nowrap"><div class="flex justify-center gap-2">${getActionButtonHtml('edit', `openServiceModal(${jsStringLiteral(s.slug)})`, 'Edit')}${getActionButtonHtml('delete', `deleteService(${jsStringLiteral(s.slug)})`, 'Hapus')}</div></td>
+    </tr>
+  `).join('');
+}
+
+function openServiceModal(slug = '') {
+  const modal = document.getElementById('service-modal');
+  const content = document.getElementById('service-modal-content');
+  document.getElementById('service-modal-title').textContent = slug ? 'Edit Service' : 'Tambah Service';
+
+  ['title', 'slug', 'category', 'short_description', 'description', 'image', 'button_text', 'button_link', 'sort_order', 'meta_title', 'meta_description', 'publish_date'].forEach(field => {
+    const el = document.getElementById(`service-${field}`);
+    if (el) el.value = field === 'button_text' ? 'Read details' : field === 'button_link' ? '#contact' : field === 'sort_order' ? '1' : '';
+  });
+  document.getElementById('service-status').value = 'active';
+  document.getElementById('service-featured').value = 'featured';
+  document.getElementById('service-original-key').value = '';
+
+  if (slug) {
+    const svc = servicesData.find(s => s.slug === slug);
+    if (svc) {
+      document.getElementById('service-original-key').value = slug;
+      Object.keys(svc).forEach(field => {
+        const el = document.getElementById(`service-${field}`);
+        if (el && svc[field] !== undefined && svc[field] !== null) el.value = svc[field];
+      });
+      document.getElementById('service-status').value = svc.status || 'active';
+      document.getElementById('service-featured').value = svc.featured || 'featured';
+    }
+  }
+
+  document.getElementById('service-title').oninput = function() {
+    if (!document.getElementById('service-original-key').value) {
+      document.getElementById('service-slug').value = this.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    }
+  };
+
+  modal.classList.remove('hidden');
+  setTimeout(() => {
+    modal.classList.remove('opacity-0');
+    content.classList.remove('translate-x-full');
+  }, 10);
+}
+
+function closeServiceModal() {
+  const modal = document.getElementById('service-modal');
+  const content = document.getElementById('service-modal-content');
+  modal.classList.add('opacity-0');
+  content.classList.add('translate-x-full');
+  setTimeout(() => modal.classList.add('hidden'), 300);
+}
+
+async function saveServiceItem() {
+  const value = id => document.getElementById(`service-${id}`).value;
+  const payload = {
+    original_key: document.getElementById('service-original-key').value,
+    title: value('title'),
+    slug: value('slug'),
+    category: value('category'),
+    short_description: value('short_description'),
+    description: value('description'),
+    image: value('image'),
+    button_text: value('button_text'),
+    button_link: value('button_link'),
+    sort_order: value('sort_order'),
+    status: value('status'),
+    featured: value('featured'),
+    meta_title: value('meta_title'),
+    meta_description: value('meta_description'),
+    publish_date: document.getElementById('service-publish_date') ? value('publish_date') : null
+  };
+
+  if (!payload.title || !payload.slug) {
+    showToast('Judul dan Slug wajib diisi!', 'red');
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/admin/services', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast('Service berhasil disimpan!', 'green');
+      closeServiceModal();
+      loadServices();
+    } else {
+      showToast(data.message || 'Gagal menyimpan.', 'red');
+    }
+  } catch (err) {
+    showToast('Gagal menghubungi server.', 'red');
+  }
+}
+
+async function deleteService(slug) {
+  if (!confirm(`Hapus service "${slug}"?`)) return;
+  try {
+    const res = await fetch(`/api/admin/services/${slug}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (data.success) {
+      showToast('Service dihapus.', 'green');
+      loadServices();
+    } else {
+      showToast(data.message || 'Gagal menghapus.', 'red');
+    }
+  } catch (err) {
+    showToast('Gagal menghubungi server.', 'red');
+  }
+}
+
+async function uploadServiceImage(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  const fd = new FormData();
+  fd.append('image', file);
+  try {
+    const res = await fetch('/api/admin/upload', { method: 'POST', body: fd });
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById('service-image').value = data.url;
+      showToast('Gambar diupload!', 'green');
+    } else {
+      showToast(data.message || 'Gagal upload.', 'red');
+    }
+  } catch (err) {
+    showToast('Gagal upload.', 'red');
+  } finally {
+    input.value = '';
+  }
+}
+
+let projectsData = [];
+
+async function loadProjects() {
+  try {
+    const res = await fetch('/api/admin/projects');
+    const data = await res.json();
+    if (data.success) {
+      projectsData = data.projects || [];
+      renderProjectsTable();
+    }
+  } catch (err) {
+    console.error('Failed to load projects', err);
+  }
+}
+
+function renderProjectsTable() {
+  const tbody = document.getElementById('projects-table-body');
+  if (!tbody) return;
+
+  if (projectsData.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" class="py-8 text-center text-slate-400">Belum ada data project.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = projectsData.map(p => `
+    <tr class="border-b border-slate-200 dark:border-brand-border hover:bg-slate-50 dark:hover:bg-[#1a1c23] transition-colors">
+      <td class="py-1.5 px-2 sm:py-3 sm:px-5 whitespace-nowrap text-[10px] sm:text-xs">
+        <div class="flex items-center gap-3">
+          ${p.image ? `<img src="${p.image}" class="w-10 h-10 rounded-lg object-cover shrink-0 border border-slate-200 dark:border-brand-border" onerror="this.style.display='none'">` : '<div class="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 shrink-0"></div>'}
+          <div>
+            <div class="font-medium text-slate-900 dark:text-white text-sm">${p.title || '-'}</div>
+            <div class="text-[11px] text-slate-400 font-mono">${p.slug || ''}</div>
+          </div>
+        </div>
+      </td>
+      <td class="py-1.5 px-2 sm:py-3 sm:px-5 text-sm text-slate-500 whitespace-nowrap">${p.category || '-'}</td>
+      <td class="py-1.5 px-2 sm:py-3 sm:px-5 whitespace-nowrap text-[10px] sm:text-xs"><span class="inline-flex px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider border ${p.status === 'active' ? 'bg-green-100 dark:bg-green-500/10 text-green-600 dark:text-green-400 border-green-200/50 dark:border-green-500/20' : 'bg-slate-100 dark:bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-200/50 dark:border-slate-500/20'}">${p.status || 'active'}</span></td>
+      <td class="py-1.5 px-2 sm:py-3 sm:px-5 whitespace-nowrap text-[10px] sm:text-xs"><span class="inline-flex px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider border ${p.featured === 'featured' ? 'bg-amber-100 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-200/50 dark:border-amber-500/20' : 'bg-slate-100 dark:bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-200/50 dark:border-slate-500/20'}">${p.featured || '-'}</span></td>
+      <td class="py-1.5 px-2 sm:py-3 sm:px-5 text-center whitespace-nowrap"><div class="flex justify-center gap-2">${getActionButtonHtml('edit', `openProjectModal('${p.slug}')`, 'Edit')}${getActionButtonHtml('delete', `deleteProject('${p.slug}')`, 'Hapus')}</div></td>
+    </tr>
+  `).join('');
+}
+
+function openProjectModal(slug = '') {
+  const modal = document.getElementById('project-modal');
+  const content = document.getElementById('project-modal-content');
+  document.getElementById('project-modal-title').textContent = slug ? 'Edit Project' : 'Tambah Project';
+
+  ['title', 'slug', 'client_name', 'category', 'short_description', 'description', 'image', 'image_alt', 'technology_stack', 'project_url', 'detail_url', 'button_text', 'sort_order', 'meta_title', 'meta_description'].forEach(field => {
+    const el = document.getElementById(`project-${field}`);
+    if (el) el.value = field === 'button_text' ? 'Lihat detail' : field === 'sort_order' ? '1' : '';
+  });
+  document.getElementById('project-status').value = 'active';
+  document.getElementById('project-featured').value = 'featured';
+  document.getElementById('project-original-key').value = '';
+
+  if (slug) {
+    const proj = projectsData.find(p => p.slug === slug);
+    if (proj) {
+      document.getElementById('project-original-key').value = slug;
+      Object.keys(proj).forEach(field => {
+        const el = document.getElementById(`project-${field}`);
+        if (el && proj[field] !== undefined && proj[field] !== null) el.value = proj[field];
+      });
+      document.getElementById('project-status').value = proj.status || 'active';
+      document.getElementById('project-featured').value = proj.featured || 'featured';
+    }
+  }
+
+  document.getElementById('project-title').oninput = function() {
+    if (!document.getElementById('project-original-key').value) {
+      document.getElementById('project-slug').value = this.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    }
+  };
+
+  modal.classList.remove('hidden');
+  setTimeout(() => {
+    modal.classList.remove('opacity-0');
+    content.classList.remove('translate-x-full');
+  }, 10);
+}
+
+function closeProjectModal() {
+  const modal = document.getElementById('project-modal');
+  const content = document.getElementById('project-modal-content');
+  modal.classList.add('opacity-0');
+  content.classList.add('translate-x-full');
+  setTimeout(() => modal.classList.add('hidden'), 300);
+}
+
+async function saveProjectItem() {
+  const value = id => document.getElementById(`project-${id}`).value;
+  const payload = {
+    original_key: document.getElementById('project-original-key').value,
+    title: value('title'),
+    slug: value('slug'),
+    client_name: value('client_name'),
+    category: value('category'),
+    short_description: value('short_description'),
+    description: value('description'),
+    image: value('image'),
+    image_alt: value('image_alt'),
+    technology_stack: value('technology_stack'),
+    project_url: value('project_url'),
+    detail_url: value('detail_url'),
+    button_text: value('button_text'),
+    sort_order: value('sort_order'),
+    status: value('status'),
+    featured: value('featured'),
+    meta_title: value('meta_title'),
+    meta_description: value('meta_description')
+  };
+
+  if (!payload.title || !payload.slug) {
+    showToast('Title dan Slug wajib diisi!', 'red');
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/admin/projects', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast('Project berhasil disimpan!', 'green');
+      closeProjectModal();
+      loadProjects();
+    } else {
+      showToast(data.message || 'Gagal menyimpan.', 'red');
+    }
+  } catch (err) {
+    showToast('Gagal menghubungi server.', 'red');
+  }
+}
+
+async function deleteProject(slug) {
+  if (!confirm(`Hapus project "${slug}"?`)) return;
+  try {
+    const res = await fetch(`/api/admin/projects/${slug}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (data.success) {
+      showToast('Project dihapus.', 'green');
+      loadProjects();
+    } else {
+      showToast(data.message || 'Gagal menghapus.', 'red');
+    }
+  } catch (err) {
+    showToast('Gagal menghubungi server.', 'red');
+  }
+}
+
+async function uploadProjectImage(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  const fd = new FormData();
+  fd.append('image', file);
+  try {
+    const res = await fetch('/api/admin/upload', { method: 'POST', body: fd });
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById('project-image').value = data.url;
+      showToast('Gambar diupload!', 'green');
+    } else {
+      showToast(data.message || 'Gagal upload.', 'red');
+    }
+  } catch (err) {
+    showToast('Gagal upload.', 'red');
+  } finally {
+    input.value = '';
+  }
+}
+
+// --- Timeline Logic ---
+
+let timelinesData = [];
+
+async function loadTimelines() {
+  try {
+    const res = await fetch('/api/admin/timeline');
+    const data = await res.json();
+    if (data.success) {
+      timelinesData = data.data || [];
+      renderTimelinesTable();
+    }
+  } catch (err) {
+    console.error('Failed to load timelines', err);
+  }
+}
+
+function renderTimelinesTable() {
+  const tbody = document.getElementById('timeline-table-body');
+  if (!tbody) return;
+
+  if (timelinesData.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="4" class="py-8 text-center text-slate-400">Belum ada data timeline.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = timelinesData.sort((a,b)=>a.sort_order - b.sort_order).map(t => `
+    <tr class="border-b border-slate-200 dark:border-brand-border hover:bg-slate-50 dark:hover:bg-[#1a1c23] transition-colors">
+      <td class="py-1.5 px-2 sm:py-3 sm:px-5 whitespace-nowrap text-[10px] sm:text-xs">
+        <span class="font-bold text-slate-900 dark:text-white">Step ${t.step_number || '-'}</span>
+      </td>
+      <td class="py-1.5 px-2 sm:py-3 sm:px-5 whitespace-nowrap text-[10px] sm:text-xs">
+        <div class="flex items-center gap-3">
+          ${t.image ? `<img src="${t.image}" class="w-10 h-10 rounded-lg object-cover shrink-0 border border-slate-200 dark:border-brand-border" onerror="this.style.display='none'">` : '<div class="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 shrink-0"></div>'}
+          <div>
+            <div class="font-medium text-slate-900 dark:text-white text-sm">${t.title || '-'}</div>
+            <div class="text-[11px] text-slate-400 font-mono">${t.slug || ''}</div>
+          </div>
+        </div>
+      </td>
+      <td class="py-1.5 px-2 sm:py-3 sm:px-5 whitespace-nowrap text-[10px] sm:text-xs"><span class="inline-flex px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider border ${t.status === 'active' ? 'bg-green-100 dark:bg-green-500/10 text-green-600 dark:text-green-400 border-green-200/50 dark:border-green-500/20' : 'bg-slate-100 dark:bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-200/50 dark:border-slate-500/20'}">${t.status || 'active'}</span></td>
+      <td class="py-1.5 px-2 sm:py-3 sm:px-5 text-center whitespace-nowrap"><div class="flex justify-center gap-2">${getActionButtonHtml('edit', `openTimelineModal('${t.slug}')`, 'Edit')}${getActionButtonHtml('delete', `deleteTimeline('${t.slug}')`, 'Hapus')}</div></td>
+    </tr>
+  `).join('');
+}
+
+function openTimelineModal(slug = '') {
+  const modal = document.getElementById('timeline-modal');
+  const content = document.getElementById('timeline-modal-content');
+  document.getElementById('timeline-modal-title').textContent = slug ? 'Edit Timeline' : 'Tambah Timeline';
+
+  ['step_number', 'step_label', 'icon', 'title', 'slug', 'short_description', 'description', 'image', 'image_alt', 'layout_position', 'button_text', 'button_link', 'sort_order', 'meta_title', 'meta_description'].forEach(field => {
+    const el = document.getElementById(`timeline-${field}`);
+    if (el) el.value = field === 'sort_order' ? '1' : field === 'layout_position' ? 'left' : '';
+  });
+  document.getElementById('timeline-status').value = 'active';
+  document.getElementById('timeline-original-key').value = '';
+
+  if (slug) {
+    const tItem = timelinesData.find(t => t.slug === slug);
+    if (tItem) {
+      document.getElementById('timeline-original-key').value = slug;
+      Object.keys(tItem).forEach(field => {
+        const el = document.getElementById(`timeline-${field}`);
+        if (el && tItem[field] !== undefined && tItem[field] !== null) el.value = tItem[field];
+      });
+      document.getElementById('timeline-status').value = tItem.status || 'active';
+    }
+  }
+
+  document.getElementById('timeline-title').oninput = function() {
+    if (!document.getElementById('timeline-original-key').value) {
+      document.getElementById('timeline-slug').value = this.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    }
+  };
+
+  modal.classList.remove('hidden');
+  setTimeout(() => {
+    modal.classList.remove('opacity-0');
+    content.classList.remove('translate-x-full');
+  }, 10);
+}
+
+function closeTimelineModal() {
+  const modal = document.getElementById('timeline-modal');
+  const content = document.getElementById('timeline-modal-content');
+  modal.classList.add('opacity-0');
+  content.classList.add('translate-x-full');
+  setTimeout(() => modal.classList.add('hidden'), 300);
+}
+
+async function saveTimelineItem() {
+  const value = id => document.getElementById(`timeline-${id}`).value;
+  const payload = {
+    original_key: document.getElementById('timeline-original-key').value,
+    step_number: value('step_number'),
+    step_label: value('step_label'),
+    icon: value('icon'),
+    title: value('title'),
+    slug: value('slug'),
+    short_description: value('short_description'),
+    description: value('description'),
+    image: value('image'),
+    image_alt: value('image_alt'),
+    layout_position: value('layout_position'),
+    button_text: value('button_text'),
+    button_link: value('button_link'),
+    sort_order: value('sort_order'),
+    status: value('status'),
+    meta_title: value('meta_title'),
+    meta_description: value('meta_description')
+  };
+
+  if (!payload.title || !payload.slug) {
+    showToast('Title dan Slug wajib diisi!', 'red');
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/admin/timeline', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast('Timeline berhasil disimpan!', 'green');
+      closeTimelineModal();
+      loadTimelines();
+    } else {
+      showToast(data.message || 'Gagal menyimpan.', 'red');
+    }
+  } catch (err) {
+    showToast('Gagal menghubungi server.', 'red');
+  }
+}
+
+async function deleteTimeline(slug) {
+  if (!confirm(`Hapus timeline "${slug}"?`)) return;
+  try {
+    const res = await fetch(`/api/admin/timeline/${slug}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (data.success) {
+      showToast('Timeline dihapus.', 'green');
+      loadTimelines();
+    } else {
+      showToast(data.message || 'Gagal menghapus.', 'red');
+    }
+  } catch (err) {
+    showToast('Gagal menghubungi server.', 'red');
+  }
+}
+
+async function uploadTimelineImage(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  const fd = new FormData();
+  fd.append('image', file);
+  try {
+    const res = await fetch('/api/admin/upload', { method: 'POST', body: fd });
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById('timeline-image').value = data.url;
+      showToast('Gambar diupload!', 'green');
+    } else {
+      showToast(data.message || 'Gagal upload.', 'red');
+    }
+  } catch (err) {
+    showToast('Gagal upload.', 'red');
+  } finally {
+    input.value = '';
+  }
+}
+</script>

@@ -2,7 +2,7 @@ const { pool } = require("../config/db");
 
 exports.createOrder = async (req, res) => {
   const { 
-    user_id: reqBodyUserId, website_type, package_name, package_price, project_name, domain_name, description, features, target_date, notes, 
+    user_id: reqBodyUserId, website_type, package_name, package_price, project_name, domain_name, description, features, target_date, start_date, notes, 
     files, project_document, reference_links, primary_color, secondary_color, typography, design_style, payment_proof
   } = req.body;
   
@@ -17,11 +17,11 @@ exports.createOrder = async (req, res) => {
   try {
     await pool.query(
       `INSERT INTO orders (
-        user_id, website_type, package_name, package_price, project_name, domain_name, description, features, target_date, notes, 
+        user_id, website_type, package_name, package_price, project_name, domain_name, description, features, target_date, start_date, notes, 
         files, project_document, reference_links, primary_color, secondary_color, typography, design_style, payment_proof
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
-        user_id, website_type, package_name, package_price, project_name, domain_name, description, features, target_date, notes, 
+        user_id, website_type, package_name, package_price, project_name, domain_name, description, features, target_date, start_date, notes, 
         JSON.stringify(files || []), project_document, reference_links, primary_color, secondary_color, typography, design_style, payment_proof
       ]
     );
@@ -55,7 +55,7 @@ exports.getOrders = async (req, res) => {
 exports.updateOrder = async (req, res) => {
   const orderId = req.params.id;
   const { 
-    website_type, package_name, package_price, project_name, domain_name, description, features, target_date, notes, 
+    website_type, package_name, package_price, project_name, domain_name, description, features, target_date, start_date, notes, 
     reference_links, primary_color, secondary_color, typography, design_style, status, user_id, project_document, payment_proof
   } = req.body;
 
@@ -63,11 +63,11 @@ exports.updateOrder = async (req, res) => {
     let updateQuery = `
       UPDATE orders SET 
         website_type = ?, package_name = ?, package_price = ?, project_name = ?, domain_name = ?, description = ?, features = ?, 
-        target_date = ?, notes = ?, reference_links = ?, primary_color = ?, secondary_color = ?, 
+        target_date = ?, start_date = ?, notes = ?, reference_links = ?, primary_color = ?, secondary_color = ?, 
         typography = ?, design_style = ?, status = ?, project_document = ?, payment_proof = ?
     `;
     let queryParams = [
-      website_type, package_name, package_price, project_name, domain_name, description, features, target_date, notes, 
+      website_type, package_name, package_price, project_name, domain_name, description, features, target_date, start_date, notes, 
       reference_links, primary_color, secondary_color, typography, design_style, status, project_document, payment_proof
     ];
 
@@ -94,14 +94,70 @@ exports.updateOrder = async (req, res) => {
 
 exports.deleteOrder = async (req, res) => {
   const orderId = req.params.id;
+  const path = require('path');
+  const fs = require('fs');
+
   try {
-    const [result] = await pool.query("DELETE FROM orders WHERE id = ?", [orderId]);
-    if (result.affectedRows === 0) {
+    // Fetch file paths before deleting record
+    const [rows] = await pool.query(
+      "SELECT project_document, payment_proof FROM orders WHERE id = ?",
+      [orderId]
+    );
+    if (rows.length === 0) {
       return res.status(404).json({ success: false, message: "Pesanan tidak ditemukan." });
     }
-    res.json({ success: true, message: "Pesanan berhasil dihapus." });
+
+    const order = rows[0];
+
+    // Delete attached files from disk (multiple files separated by comma)
+    const deleteFiles = (filePaths) => {
+      if (!filePaths) return;
+      filePaths.split(',').forEach(filePath => {
+        const trimmed = filePath.trim();
+        if (!trimmed) return;
+        // Convert URL path to filesystem path
+        const relPath = trimmed.startsWith('/') ? trimmed.slice(1) : trimmed;
+        const absPath = path.join(__dirname, '../../public', relPath.replace(/^public\//, ''));
+        if (fs.existsSync(absPath)) {
+          fs.unlinkSync(absPath);
+        }
+      });
+    };
+
+    deleteFiles(order.project_document);
+    deleteFiles(order.payment_proof);
+
+    // Now delete the order record only (user remains untouched)
+    await pool.query("DELETE FROM orders WHERE id = ?", [orderId]);
+    res.json({ success: true, message: "Pesanan berhasil dihapus beserta file terkait." });
   } catch (error) {
     console.error("Delete order error:", error);
     res.status(500).json({ success: false, message: "Terjadi kesalahan saat menghapus pesanan." });
+  }
+};
+
+exports.saveInvoice = async (req, res) => {
+  const orderId = req.params.id;
+  const invoiceData = req.body;
+
+  if (!invoiceData) {
+    return res.status(400).json({ success: false, message: "Data invoice tidak ditemukan." });
+  }
+
+  try {
+    const discount = parseFloat(invoiceData.discount) || 0;
+    const taxPct = parseFloat(invoiceData.tax_pct) || 0;
+
+    const [result] = await pool.query(
+      "UPDATE orders SET invoice_data = ?, discount = ?, tax_pct = ? WHERE id = ?",
+      [JSON.stringify(invoiceData), discount, taxPct, orderId]
+    );
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ success: false, message: "Pesanan tidak ditemukan." });
+    }
+    res.json({ success: true, message: "Invoice berhasil disimpan." });
+  } catch (error) {
+    console.error("Save invoice error:", error);
+    res.status(500).json({ success: false, message: "Terjadi kesalahan saat menyimpan invoice." });
   }
 };

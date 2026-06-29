@@ -1,0 +1,97 @@
+<div id="tab-pricelist" class="tab-content hidden space-y-6">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
+    <div>
+      <h3 class="text-lg sm:text-2xl font-semibold text-slate-900 dark:text-white">Pricelist</h3>
+      <p class="text-[10px] sm:text-xs whitespace-nowrap text-slate-500 dark:text-slate-400 mt-1 font-medium">Kelola daftar harga layanan (paket) untuk klien</p>
+    </div>
+    <button onclick="openPricelistModal()" class="flex items-center gap-1.5 px-2.5 py-1.5 sm:px-4 sm:py-2 bg-brand-blue hover:bg-blue-600 text-white text-[10px] sm:text-xs font-medium rounded-lg transition-colors flex items-center justify-center gap-2 shrink-0">
+      <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+      Tambah Pricelist
+    </button>
+  </div>
+
+  <div class="bg-white dark:bg-brand-card rounded-2xl border border-slate-200 dark:border-brand-border overflow-hidden">
+    <div class="flex items-center py-2 px-3 sm:py-3 sm:px-4 border-b border-slate-200 dark:border-brand-border gap-2 bg-slate-50/50 dark:bg-brand-card overflow-x-auto">
+      <div class="relative group shrink-0">
+        <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        <input type="text" id="pricelist-search" onkeyup="filterPricelists()" placeholder="Search" class="pl-7 pr-3 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue transition-all w-24 sm:w-28 focus:w-40 sm:focus:w-48 text-[11px] sm:text-xs shadow-sm">
+      </div>
+      <div class="relative shrink-0">
+        <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg>
+        <select id="pricelist-sort" onchange="filterPricelists()" class="pl-7 pr-6 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium shadow-sm">
+          <option value="newest">Sort</option>
+          <option value="oldest">Terlama</option>
+        </select>
+      </div>
+      <div class="relative shrink-0">
+        <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path></svg>
+        <select id="pricelist-limit" onchange="filterPricelists()" class="pl-7 pr-6 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium shadow-sm">
+          <option value="10">Columns</option>
+          <option value="25">25 Baris</option>
+          <option value="50">50 Baris</option>
+        </select>
+      </div>
+      <div class="relative shrink-0">
+        <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+        <select id="pricelist-filter" onchange="filterPricelists()" class="pl-7 pr-6 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border border-dashed rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium shadow-sm">
+          <option value="">Add Filter</option>
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-slate-100 dark:bg-[#0D0E12] border-y border-slate-200 dark:border-brand-border text-slate-500 dark:text-slate-400 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest">
+            <th class="py-1 px-2 sm:py-2.5 sm:px-3 whitespace-nowrap">No</th>
+            <th class="py-1 px-2 sm:py-2.5 sm:px-3 whitespace-nowrap">Nama Paket</th>
+            <th class="py-1 px-2 sm:py-2.5 sm:px-3 whitespace-nowrap">Jenis Layanan</th>
+            <th class="py-1 px-2 sm:py-2.5 sm:px-3 whitespace-nowrap">Harga</th>
+            <th class="py-1 px-2 sm:py-2.5 sm:px-3 whitespace-nowrap">Status</th>
+            <th class="py-1 px-2 sm:py-2.5 sm:px-3 text-center w-28 whitespace-nowrap">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="pricelist-table-body" class="text-[10px] sm:text-xs whitespace-nowrap text-slate-600 dark:text-slate-300">
+          <!-- Data Pricelists -->
+        </tbody>
+      </table>
+      
+      <div id="pricelist-pagination" class="py-2 px-3 sm:py-3 sm:px-4 border-t border-slate-200 dark:border-brand-border flex flex-col sm:flex-row items-center justify-between text-[10px] sm:text-sm text-slate-500 dark:text-slate-400 bg-slate-50/50 dark:bg-brand-card gap-4">
+        <!-- Pagination controls will be injected here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Payment Info Card (separate) -->
+  <div class="bg-white dark:bg-brand-card rounded-2xl border border-slate-200 dark:border-brand-border overflow-hidden">
+    <div class="p-5 sm:p-6 border-b border-slate-200 dark:border-brand-border">
+      <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-1">
+        <svg class="w-4 h-4 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+        Info Pembayaran Global
+      </h4>
+      <p class="text-xs text-slate-500 dark:text-slate-400 mb-5">Data ini akan otomatis disisipkan pada setiap invoice baru.</p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Nama Bank</label>
+          <input type="text" id="setting-bank_name" placeholder="BCA, Mandiri, BNI..." class="w-full px-4 py-2.5 bg-slate-50 dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Nama Rekening</label>
+          <input type="text" id="setting-account_name" placeholder="Atas Nama..." class="w-full px-4 py-2.5 bg-slate-50 dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">No. Rekening</label>
+          <input type="text" id="setting-account_number" placeholder="123-456-7890" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors">
+        </div>
+      </div>
+      <div class="mt-5 flex justify-end">
+        <button type="button" onclick="savePaymentSettings()" class="flex items-center gap-1.5 px-4 py-2 bg-brand-blue hover:bg-blue-600 text-white text-xs font-bold rounded-lg transition-colors shadow-sm">
+          Simpan Info Pembayaran
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

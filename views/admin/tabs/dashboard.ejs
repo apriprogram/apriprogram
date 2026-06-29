@@ -1,0 +1,71 @@
+      <div id="tab-dashboard" class="tab-content space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Stat Card 1 -->
+          <%- include('../components/stat-card', {
+            title: 'Total Pengguna',
+            idName: 'stat-users',
+            trendText: '+5 bulan ini',
+            svgPath: '<path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />'
+          }) %>
+          
+          <!-- Stat Card 2 -->
+          <%- include('../components/stat-card', {
+            title: 'Total Pesanan',
+            idName: 'stat-orders',
+            trendText: '+12 bulan ini',
+            svgPath: '<path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />'
+          }) %>
+
+          <!-- Stat Card 3 (Status Pesanan) -->
+          <div class="bg-white dark:bg-brand-card p-5 rounded-2xl border border-slate-200 dark:border-brand-border">
+            <div class="flex items-center justify-between mb-3">
+              <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Status Pesanan</p>
+              <span class="text-xs font-bold text-slate-800 dark:text-white" id="stat-status-total">-</span>
+            </div>
+            <div class="space-y-2.5">
+              <div>
+                <div class="flex justify-between text-[10px] font-semibold text-slate-500 mb-1">
+                  <span>Pending</span><span id="stat-pending">0</span>
+                </div>
+                <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5"><div id="bar-pending" class="bg-orange-400 h-1.5 rounded-full" style="width: 0%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-[10px] font-semibold text-slate-500 mb-1">
+                  <span>Proses</span><span id="stat-proses">0</span>
+                </div>
+                <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5"><div id="bar-proses" class="bg-blue-400 h-1.5 rounded-full" style="width: 0%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-[10px] font-semibold text-slate-500 mb-1">
+                  <span>Revisi</span><span id="stat-revisi">0</span>
+                </div>
+                <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5"><div id="bar-revisi" class="bg-yellow-400 h-1.5 rounded-full" style="width: 0%"></div></div>
+              </div>
+              <div class="flex gap-2">
+                <div class="flex-1">
+                  <div class="flex justify-between text-[10px] font-semibold text-slate-500 mb-1">
+                    <span>Selesai</span><span id="stat-selesai">0</span>
+                  </div>
+                  <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5"><div id="bar-selesai" class="bg-green-400 h-1.5 rounded-full" style="width: 0%"></div></div>
+                </div>
+                <div class="flex-1">
+                  <div class="flex justify-between text-[10px] font-semibold text-slate-500 mb-1">
+                    <span>Batal</span><span id="stat-batal">0</span>
+                  </div>
+                  <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5"><div id="bar-batal" class="bg-red-400 h-1.5 rounded-full" style="width: 0%"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stat Card 4 (Visitors) -->
+          <div class="bg-white dark:bg-brand-card p-6 rounded-2xl border border-slate-200 dark:border-brand-border relative overflow-hidden group">
+            <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">Total Pengunjung</p>
+            <div class="flex items-end gap-3">
+              <h3 class="text-5xl font-medium text-slate-900 dark:text-white tracking-tight" id="stat-visitors">-</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Tab -->

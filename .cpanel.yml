@@ -1,4 +1,5 @@
 ---
 deployment:
   tasks:
-    - echo "Deploying Apriprogram Node.js App..."
+    - export DEPLOYPATH=/home/tanjunak/public/apriprogram.web.id
+    - /bin/cp -R * $DEPLOYPATH/

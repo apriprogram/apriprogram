@@ -1,0 +1,72 @@
+<div id="user-modal" class="fixed inset-0 bg-slate-900/50 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-200" onclick="if(event.target===this)closeUserModal()">
+    <div class="bg-white dark:bg-brand-card w-full max-w-2xl rounded-2xl border border-slate-200 dark:border-brand-border shadow-2xl overflow-hidden transform scale-95 transition-transform duration-200" id="user-modal-content">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-brand-border bg-slate-50 dark:bg-brand-dark">
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white" id="user-modal-title">Tambah Pengguna</h3>
+        <button onclick="closeUserModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors">
+          <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      <form id="user-form" class="p-6 space-y-4">
+        <input type="hidden" id="user-id">
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Kolom 1 -->
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Nama Lengkap</label>
+              <input type="text" id="user-fullname" class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Email</label>
+              <input type="email" id="user-email" required class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">WhatsApp</label>
+              <input type="text" id="user-whatsapp" class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Perusahaan</label>
+              <input type="text" id="user-company" class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors">
+            </div>
+          </div>
+          
+          <!-- Kolom 2 -->
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Alamat</label>
+              <input type="text" id="user-country" placeholder="Masukkan alamat..." class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Avatar</label>
+              <div class="flex items-center gap-3">
+                <div id="modal-avatar-preview" class="w-10 h-10 rounded-lg bg-gradient-to-br from-brand-blue to-blue-700 flex items-center justify-center text-white text-xs font-bold overflow-hidden border border-brand-blue/30 shrink-0">
+                  <span id="modal-avatar-initials">--</span>
+                </div>
+                <label for="modal-avatar-file" class="flex-1 cursor-pointer border border-dashed border-slate-300 dark:border-brand-border rounded-xl px-3 py-2 flex items-center gap-2 hover:border-brand-blue transition-colors">
+                  <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                  <span id="modal-avatar-label" class="text-xs text-slate-500 dark:text-slate-400">Pilih foto...</span>
+                </label>
+                <input type="file" id="modal-avatar-file" accept="image/jpeg,image/jpg,image/png,image/webp" class="hidden" onchange="uploadModalAvatar(this)">
+                <input type="hidden" id="user-avatar">
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Role</label>
+              <select id="user-role" required class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors">
+                <option value="client">Client</option>
+                <option value="super admin">Super Admin</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Password <span class="text-xs text-slate-400 font-normal" id="user-pass-note">(Wajib untuk user baru)</span></label>
+              <input type="password" id="user-password" class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors" placeholder="Masukkan password...">
+            </div>
+          </div>
+        </div>
+        <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-100 dark:border-brand-border/50">
+          <button type="button" onclick="closeUserModal()" class="px-5 py-2.5 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">Batal</button>
+          <button type="submit" class="px-2.5 py-1.5 sm:px-5 sm:py-2.5 bg-brand-blue text-center hover:bg-blue-600 text-white text-xs sm:text-sm font-medium rounded-full sm:rounded-full sm:rounded-lg transition-colors shadow-lg shadow-brand-blue/20">Simpan</button>
+        </div>
+      </form>
+    </div>
+</div>
