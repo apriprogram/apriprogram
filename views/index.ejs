@@ -89,7 +89,7 @@
     }
     .rounded-2xl:hover, .faq-item:hover {
       transform: translateY(-8px);
-      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
       z-index: 10;
     }
   </style>
@@ -680,7 +680,7 @@
         return `
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
             <div class="${isLeft ? 'order-2 lg:order-1' : 'order-2 lg:order-2'} flex items-center justify-center relative">
-               <img src="${escapeServiceHtml(t.image)}" alt="${escapeServiceHtml(t.image_alt || t.title)}" class="w-full h-auto object-cover rounded-2xl shadow-lg border border-slate-200 dark:border-[#222222]" onerror="this.style.display='none'"/>
+               <img src="${escapeServiceHtml(t.image)}" alt="${escapeServiceHtml(t.image_alt || t.title)}" class="w-full h-auto object-cover rounded-2xl border border-slate-200 dark:border-[#222222]" onerror="this.style.display='none'"/>
             </div>
             <div class="${isLeft ? 'order-1 lg:order-2 lg:ml-auto' : 'order-1 lg:order-1 lg:mr-auto'} flex flex-col gap-3 sm:gap-5 max-w-lg mx-auto lg:mx-0">
               <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-500 dark:text-[#a0a0a0]">
