@@ -58,7 +58,13 @@ function initSidebarToggle() {
   });
 }
 
+let currentActiveTab = 'dashboard';
+
 function switchTab(tabId) {
+  currentActiveTab = tabId;
+  const globalSearch = document.getElementById('global-search');
+  if (globalSearch) globalSearch.value = '';
+
   document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
   document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
 
@@ -83,6 +89,22 @@ function switchTab(tabId) {
     loadProjects();
     loadTimelines();
     loadFaqs();
+  }
+}
+
+function handleGlobalSearch(val) {
+  if (currentActiveTab === 'orders') {
+    const s = document.getElementById('orders-search');
+    if (s) { s.value = val; ordersPage = 1; renderOrders(); }
+  } else if (currentActiveTab === 'users') {
+    const s = document.getElementById('users-search');
+    if (s) { s.value = val; usersPage = 1; renderUsers(); }
+  } else if (currentActiveTab === 'pricelist') {
+    const s = document.getElementById('pricelist-search');
+    if (s) { s.value = val; pricelistPage = 1; renderPricelists(); }
+  } else if (currentActiveTab === 'contents') {
+    const s = document.getElementById('contents-search');
+    if (s) { s.value = val; contentsPage = 1; renderContentsTable(); }
   }
 }
 

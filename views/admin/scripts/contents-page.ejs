@@ -81,7 +81,7 @@ function renderContentsTable() {
       <td class="py-1.5 px-2 sm:py-2 sm:px-3 font-medium whitespace-nowrap text-[10px] sm:text-xs">${start + idx + 1}</td>
       <td class="py-1.5 px-2 sm:py-2 sm:px-3 whitespace-nowrap text-[10px] sm:text-xs">
         <div class="font-medium text-slate-900 dark:text-white truncate max-w-[200px] sm:max-w-xs">${item.title}</div>
-        <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 tracking-wider truncate max-w-[200px] sm:max-w-xs">${item.idea_summary || '-'}</div>
+        <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 truncate max-w-[200px] sm:max-w-xs">${item.idea_summary || '-'}</div>
       </td>
       <td class="py-1.5 px-2 sm:py-2 sm:px-3 whitespace-nowrap text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 truncate max-w-[150px]">${item.target_audience || '-'}</td>
       <td class="py-1.5 px-2 sm:py-2 sm:px-3 text-center whitespace-nowrap">
@@ -108,7 +108,7 @@ function renderContentsTable() {
       <div class="flex items-center gap-2 sm:gap-3 shrink-0">
         <span class="whitespace-nowrap text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">Rows per page</span>
         <div class="relative">
-          <select onchange="document.getElementById('contents-limit').value = this.value; contentsPage = 1; renderContentsTable()" class="pl-3 pr-7 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium shadow-sm">
+          <select onchange="document.getElementById('contents-limit').value = this.value; contentsPage = 1; renderContentsTable()" class="pl-3 pr-7 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium">
             <option value="10" ${limit === 10 ? 'selected' : ''}>10</option>
             <option value="20" ${limit === 20 ? 'selected' : ''}>20</option>
             <option value="30" ${limit === 30 ? 'selected' : ''}>30</option>
@@ -122,14 +122,14 @@ function renderContentsTable() {
         <div class="flex items-center gap-3">
           <span class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">Page</span>
           <div class="relative">
-            <select onchange="contentsPage = parseInt(this.value); renderContentsTable()" class="pl-3 pr-7 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium shadow-sm">
+            <select onchange="contentsPage = parseInt(this.value); renderContentsTable()" class="pl-3 pr-7 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium">
                ${pageOptions}
             </select>
             <svg class="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
           </div>
         </div>
         
-        <div class="flex items-center rounded-lg border border-slate-200 dark:border-brand-border bg-white dark:bg-[#14151a] shadow-sm overflow-hidden shrink-0">
+        <div class="flex items-center rounded-lg border border-slate-200 dark:border-brand-border bg-white dark:bg-[#14151a] overflow-hidden shrink-0">
           <button onclick="contentsPage = 1; renderContentsTable()" ${contentsPage === 1 ? 'disabled' : ''} class="px-2.5 py-1.5 border-r border-slate-200 dark:border-brand-border text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
           </button>
