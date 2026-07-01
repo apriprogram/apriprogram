@@ -2,7 +2,7 @@ const { pool } = require("../config/db");
 
 exports.getContents = async (req, res) => {
   try {
-    const [rows] = await pool.query("SELECT * FROM contents ORDER BY created_at DESC");
+    const [rows] = await pool.query("SELECT * FROM contents ORDER BY sort_order ASC, created_at DESC");
     res.json({ success: true, data: rows });
   } catch (err) {
     console.error("Error fetching contents:", err);
@@ -98,5 +98,35 @@ exports.toggleCompleted = async (req, res) => {
   } catch (err) {
     console.error("Error updating content status:", err);
     res.status(500).json({ success: false, message: "Gagal memperbarui status konten." });
+  }
+};
+
+exports.reorderContents = async (req, res) => {
+  try {
+    const { items } = req.body;
+    if (!Array.isArray(items)) {
+      return res.status(400).json({ success: false, message: "Invalid payload." });
+    }
+
+    const connection = await pool.getConnection();
+    try {
+      await connection.beginTransaction();
+      for (const item of items) {
+        await connection.execute(
+          "UPDATE contents SET sort_order = ? WHERE id = ?",
+          [item.sort_order, item.id]
+        );
+      }
+      await connection.commit();
+      res.json({ success: true, message: "Urutan berhasil diperbarui." });
+    } catch (err) {
+      await connection.rollback();
+      throw err;
+    } finally {
+      connection.release();
+    }
+  } catch (err) {
+    console.error("Error reordering contents:", err);
+    res.status(500).json({ success: false, message: "Gagal memperbarui urutan." });
   }
 };

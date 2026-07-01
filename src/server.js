@@ -102,6 +102,7 @@ app.delete("/api/admin/faq/:slug", requireAdmin, adminController.deleteFaqItem);
 app.get("/api/admin/contents", requireAdmin, contentController.getContents);
 app.post("/api/admin/contents", requireAdmin, contentController.saveContent);
 app.put("/api/admin/contents", requireAdmin, contentController.saveContent);
+app.put("/api/admin/contents/reorder", requireAdmin, contentController.reorderContents);
 app.delete("/api/admin/contents/:id", requireAdmin, contentController.deleteContent);
 app.put("/api/admin/contents/:id/toggle-completed", requireAdmin, contentController.toggleCompleted);
 

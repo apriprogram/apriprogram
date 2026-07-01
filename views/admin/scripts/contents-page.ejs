@@ -53,7 +53,7 @@ function renderContentsTable() {
   if (sort === 'oldest') {
     filtered.sort((a, b) => new Date(a.created_at || 0) - new Date(b.created_at || 0));
   } else {
-    filtered.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+    filtered.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
   }
 
   const totalPages = Math.ceil(filtered.length / limit) || 1;
@@ -77,8 +77,19 @@ function renderContentsTable() {
   }
 
   tbody.innerHTML = paginated.map((item, idx) => `
-    <tr class="border-b border-slate-200 dark:border-brand-border hover:bg-slate-50 dark:hover:bg-[#1a1c23] transition-colors">
-      <td class="py-1.5 px-2 sm:py-2 sm:px-3 font-medium whitespace-nowrap text-[10px] sm:text-xs">${start + idx + 1}</td>
+    <tr class="border-b border-slate-200 dark:border-brand-border hover:bg-slate-50 dark:hover:bg-[#1a1c23] transition-colors"
+        draggable="true" 
+        ondragstart="handleContentDragStart(event, ${start + idx})" 
+        ondragover="handleContentDragOver(event)" 
+        ondrop="handleContentDrop(event, ${start + idx})"
+        ondragenter="handleContentDragEnter(event)"
+        ondragleave="handleContentDragLeave(event)">
+      <td class="py-1.5 px-2 sm:py-2 sm:px-3 font-medium whitespace-nowrap text-[10px] sm:text-xs">
+        <div class="flex items-center gap-2 text-slate-400 hover:text-brand-blue cursor-grab" title="Drag untuk mengurutkan">
+          <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"></path></svg>
+          <span class="text-slate-900 dark:text-white">${filtered.length - (start + idx)}</span>
+        </div>
+      </td>
       <td class="py-1.5 px-2 sm:py-2 sm:px-3 whitespace-nowrap text-[10px] sm:text-xs">
         <div class="font-medium text-slate-900 dark:text-white truncate max-w-[200px] sm:max-w-xs">${item.title}</div>
         <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 truncate max-w-[200px] sm:max-w-xs">${item.idea_summary || '-'}</div>
@@ -549,5 +560,122 @@ function confirmDeleteContent(id) {
       };
     }
   }
+}
+</script>
+
+<script>
+let draggedContentIndex = null;
+
+function handleContentDragStart(e, idx) {
+  draggedContentIndex = idx;
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', idx);
+  e.target.classList.add('opacity-50', 'bg-slate-100', 'dark:bg-brand-card');
+}
+
+function handleContentDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  return false;
+}
+
+function handleContentDragEnter(e) {
+  e.preventDefault();
+  const tr = e.target.closest('tr');
+  if (tr) {
+    tr.classList.add('border-t-2', 'border-t-brand-blue');
+  }
+}
+
+function handleContentDragLeave(e) {
+  const tr = e.target.closest('tr');
+  if (tr) {
+    tr.classList.remove('border-t-2', 'border-t-brand-blue');
+  }
+}
+
+async function handleContentDrop(e, droppedIdx) {
+  e.stopPropagation();
+  e.preventDefault();
+  const tr = e.target.closest('tr');
+  if (tr) {
+    tr.classList.remove('border-t-2', 'border-t-brand-blue');
+  }
+
+  if (draggedContentIndex === null || draggedContentIndex === droppedIdx) {
+    const allTrs = document.querySelectorAll('#contents-table-body tr');
+    allTrs.forEach(t => t.classList.remove('opacity-50', 'bg-slate-100', 'dark:bg-brand-card'));
+    return false;
+  }
+
+  const limitEl = document.getElementById('contents-limit');
+  const limit = limitEl ? (parseInt(limitEl.value, 10) || 10) : 10;
+  const start = (contentsPage - 1) * limit;
+
+  // We are dragging in filtered/paginated view, but modifying global contentsData
+  // For safety, let's reorder based on global data.
+  // Wait, contentsData might be differently sorted than what's on screen.
+  // Since we sorted it on render, it's safer to just sort contentsData globally 
+  // based on the new logic before manipulating.
+  contentsData.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+
+  // The dragged item and dropped item global indexes are not necessarily start + draggedContentIndex.
+  // Wait, droppedIdx and draggedContentIndex passed from the HTML ARE global indexes relative to `filtered` array (start + idx).
+  // But wait, the HTML passes `start + idx` which is the index in `filtered` array!
+  
+  // So we first apply the current sort & filter to get the exact `filtered` array
+  const searchInput = document.getElementById('contents-search');
+  const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+  let filtered = contentsData.filter(item => 
+    (item.title || '').toLowerCase().includes(searchTerm) || 
+    (item.target_audience || '').toLowerCase().includes(searchTerm)
+  );
+  filtered.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+
+  const draggedItem = filtered[draggedContentIndex];
+  if (!draggedItem) return;
+
+  // Remove dragged item from contentsData
+  const draggedGlobalIdx = contentsData.findIndex(i => i.id === draggedItem.id);
+  if (draggedGlobalIdx > -1) {
+    contentsData.splice(draggedGlobalIdx, 1);
+  }
+
+  // Find drop target item in global
+  const droppedItem = filtered[droppedIdx];
+  let droppedGlobalIdx = contentsData.length;
+  if (droppedItem) {
+    droppedGlobalIdx = contentsData.findIndex(i => i.id === droppedItem.id);
+  }
+
+  // Insert at dropped Global Idx
+  contentsData.splice(droppedGlobalIdx > -1 ? droppedGlobalIdx : contentsData.length, 0, draggedItem);
+
+  // Recalculate all sort orders
+  contentsData.forEach((item, idx) => {
+    item.sort_order = idx + 1;
+  });
+
+  renderContentsTable();
+
+  // Save to DB
+  try {
+    const itemsToUpdate = contentsData.map(item => ({ id: item.id, sort_order: item.sort_order }));
+    const response = await fetch('/api/admin/contents/reorder', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: itemsToUpdate })
+    });
+    const res = await response.json();
+    if (!res.success) {
+      showToast(res.message || 'Gagal menyimpan urutan.', 'error');
+    }
+  } catch (err) {
+    console.error('Error reordering:', err);
+    showToast('Terjadi kesalahan koneksi.', 'error');
+  }
+
+  draggedContentIndex = null;
+  return false;
 }
 </script>
