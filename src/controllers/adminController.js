@@ -9,7 +9,7 @@ exports.getSettings = async (req, res) => {
       if (!settings[row.section]) {
         settings[row.section] = {};
       }
-      if (row.section === 'service_items' || row.section === 'project_items' || row.section === 'timeline_items') {
+      if (row.section === 'service_items' || row.section === 'project_items' || row.section === 'timeline_items' || row.section === 'hero_items' || row.section === 'faq_items') {
         try {
           settings[row.section][row.setting_key] = JSON.parse(row.setting_value || '{}');
         } catch (error) {
@@ -499,3 +499,181 @@ exports.deleteTimelineItem = async (req, res) => {
     res.status(500).json({ success: false, message: "Gagal menghapus timeline." });
   }
 };
+
+// --- Hero Sections API ---
+
+exports.getHeroItems = async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      "SELECT setting_key, setting_value FROM settings WHERE section = 'hero_items'"
+    );
+    const heroes = rows.map(r => {
+      try {
+        return { ...JSON.parse(r.setting_value), setting_key: r.setting_key };
+      } catch (error) {
+        return { setting_key: r.setting_key };
+      }
+    }).sort((a, b) => (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0));
+    res.json({ success: true, data: heroes });
+  } catch (error) {
+    console.error("Get heroes error:", error);
+    res.status(500).json({ success: false, message: "Gagal mengambil data hero sections." });
+  }
+};
+
+exports.saveHeroItem = async (req, res) => {
+  try {
+    const { 
+      badge, title, highlight_title, description, button_text, button_link, 
+      background_image, background_overlay, sort_order, status, slug 
+    } = req.body;
+    
+    // Use slug as setting_key. If not provided, generate a unique one.
+    const heroSlug = (slug || title || "hero-" + Date.now()).trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    const originalKey = (req.body.original_key || "").trim();
+
+    if (!heroSlug) {
+      return res.status(400).json({ success: false, message: "Slug atau Judul Utama wajib diisi." });
+    }
+
+    const heroData = {
+      badge: (badge || "").trim(), 
+      title: (title || "").trim(), 
+      highlight_title: (highlight_title || "").trim(), 
+      description: (description || "").trim(), 
+      button_text: (button_text || "").trim(), 
+      button_link: (button_link || "").trim(), 
+      background_image: (background_image || "").trim(), 
+      background_overlay: (background_overlay || "").trim(), 
+      sort_order: Number.parseInt(sort_order, 10) || 0, 
+      status: status === "non-active" ? "non-active" : "active", 
+      slug: heroSlug 
+    };
+
+    const connection = await pool.getConnection();
+    await connection.beginTransaction();
+
+    try {
+      if (originalKey && originalKey !== heroSlug) {
+        await connection.query("DELETE FROM settings WHERE section = 'hero_items' AND setting_key = ?", [originalKey]);
+      }
+
+      await connection.query(
+        "INSERT INTO settings (section, setting_key, setting_value) VALUES ('hero_items', ?, ?) ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value)",
+        [heroSlug, JSON.stringify(heroData)]
+      );
+
+      await connection.commit();
+      res.json({ success: true, message: "Hero Section berhasil disimpan." });
+    } catch (error) {
+      await connection.rollback();
+      throw error;
+    } finally {
+      connection.release();
+    }
+  } catch (error) {
+    console.error("Save hero error:", error);
+    res.status(500).json({ success: false, message: "Gagal menyimpan hero section." });
+  }
+};
+
+exports.deleteHeroItem = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    if (!slug) return res.status(400).json({ success: false, message: "Slug diperlukan." });
+
+    await pool.query(
+      "DELETE FROM settings WHERE section = 'hero_items' AND setting_key = ?",
+      [slug]
+    );
+    res.json({ success: true, message: "Hero Section berhasil dihapus." });
+  } catch (error) {
+    console.error("Delete hero error:", error);
+    res.status(500).json({ success: false, message: "Gagal menghapus hero section." });
+  }
+};
+
+// --- FAQ API ---
+
+exports.getFaqItems = async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      "SELECT setting_key, setting_value FROM settings WHERE section = 'faq_items'"
+    );
+    const faqs = rows.map(r => {
+      try {
+        return { ...JSON.parse(r.setting_value), setting_key: r.setting_key };
+      } catch (error) {
+        return { setting_key: r.setting_key };
+      }
+    }).sort((a, b) => (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0));
+    res.json({ success: true, data: faqs });
+  } catch (error) {
+    console.error("Get faqs error:", error);
+    res.status(500).json({ success: false, message: "Gagal mengambil data FAQ." });
+  }
+};
+
+exports.saveFaqItem = async (req, res) => {
+  try {
+    const { question, answer, sort_order, status, slug } = req.body;
+    
+    // Use slug as setting_key. If not provided, generate a unique one based on question.
+    const faqSlug = (slug || question || "faq-" + Date.now()).trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    const originalKey = (req.body.original_key || "").trim();
+
+    if (!faqSlug || !question) {
+      return res.status(400).json({ success: false, message: "Pertanyaan wajib diisi." });
+    }
+
+    const faqData = {
+      question: question.trim(), 
+      answer: (answer || "").trim(), 
+      sort_order: Number.parseInt(sort_order, 10) || 0, 
+      status: status === "non-active" ? "non-active" : "active", 
+      slug: faqSlug 
+    };
+
+    const connection = await pool.getConnection();
+    await connection.beginTransaction();
+
+    try {
+      if (originalKey && originalKey !== faqSlug) {
+        await connection.query("DELETE FROM settings WHERE section = 'faq_items' AND setting_key = ?", [originalKey]);
+      }
+
+      await connection.query(
+        "INSERT INTO settings (section, setting_key, setting_value) VALUES ('faq_items', ?, ?) ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value)",
+        [faqSlug, JSON.stringify(faqData)]
+      );
+
+      await connection.commit();
+      res.json({ success: true, message: "FAQ berhasil disimpan." });
+    } catch (error) {
+      await connection.rollback();
+      throw error;
+    } finally {
+      connection.release();
+    }
+  } catch (error) {
+    console.error("Save faq error:", error);
+    res.status(500).json({ success: false, message: "Gagal menyimpan FAQ." });
+  }
+};
+
+exports.deleteFaqItem = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    if (!slug) return res.status(400).json({ success: false, message: "Slug diperlukan." });
+
+    await pool.query(
+      "DELETE FROM settings WHERE section = 'faq_items' AND setting_key = ?",
+      [slug]
+    );
+    res.json({ success: true, message: "FAQ berhasil dihapus." });
+  } catch (error) {
+    console.error("Delete faq error:", error);
+    res.status(500).json({ success: false, message: "Gagal menghapus FAQ." });
+  }
+};
+

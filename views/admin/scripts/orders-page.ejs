@@ -163,8 +163,8 @@ function renderOrders() {
     }
     
     paginationEl.innerHTML = `
-      <div class="flex items-center gap-3 w-full sm:w-auto justify-center sm:justify-start">
-        <span class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">Rows per page</span>
+      <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+        <span class="whitespace-nowrap text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">Rows per page</span>
         <div class="relative">
           <select onchange="document.getElementById('orders-limit').value = this.value; filterOrders()" class="pl-3 pr-7 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium shadow-sm">
             <option value="10" ${limit === 10 ? 'selected' : ''}>10</option>
@@ -175,7 +175,7 @@ function renderOrders() {
         </div>
       </div>
 
-      <div class="flex items-center gap-4 sm:gap-6 w-full sm:w-auto justify-center sm:justify-end mt-2 sm:mt-0">
+      <div class="flex items-center gap-3 sm:gap-6 shrink-0">
         <div class="flex items-center gap-3">
           <span class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">Page</span>
           <div class="relative">
@@ -370,14 +370,7 @@ function fillOrderForm(order) {
   document.getElementById('order-secondary_color').value = order.secondary_color || '#000000';
   renderAdminUploadedDocs();
 
-  const paymentProofDisplay = document.getElementById('payment-proof-display');
-  if (!order.payment_proof) {
-    paymentProofDisplay.innerHTML = '<span class="text-slate-400 text-xs italic">Belum ada unggahan</span>';
-  } else if (order.payment_proof.endsWith('.pdf')) {
-    paymentProofDisplay.innerHTML = `<a href="${order.payment_proof}" target="_blank" class="text-brand-blue hover:underline font-medium text-xs mt-2">Lihat PDF Bukti Bayar</a>`;
-  } else {
-    paymentProofDisplay.innerHTML = `<a href="${order.payment_proof}" target="_blank" class="mt-2 block"><img src="${order.payment_proof}" class="h-16 w-auto rounded border border-slate-200 dark:border-brand-border object-contain" alt="Bukti"></a>`;
-  }
+  renderAdminPaymentProof();
 }
 
 function closeOrderModal() {
@@ -444,15 +437,23 @@ function renderAdminUploadedDocs() {
   }
 
   docDisplay.innerHTML = `
-    <div class="space-y-2 mt-2 max-h-[150px] overflow-y-auto px-1">
+    <div class="space-y-2 w-full">
       ${urls.map((url, idx) => {
         const filename = url.substring(url.lastIndexOf('/') + 1);
         return `
-          <div class="flex items-center justify-between bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-brand-border p-2 rounded-lg text-xs gap-2 relative z-20">
-            <a href="${url}" target="_blank" class="hover:underline font-semibold text-brand-blue truncate max-w-[180px]">${filename}</a>
-            <button type="button" class="text-red-500 hover:text-red-700 transition-colors p-1" onclick="removeAdminDoc(${idx}); event.stopPropagation();" title="Hapus Dokumen">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-            </button>
+          <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/80 px-4 py-3 rounded-full text-xs shadow-sm w-full">
+            <div class="flex items-center gap-3 overflow-hidden">
+              <svg class="w-4 h-4 text-slate-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
+              <span class="truncate font-medium text-slate-700 dark:text-slate-300">${filename}</span>
+            </div>
+            <div class="flex items-center gap-3 shrink-0 ml-4">
+              <a href="${url}" target="_blank" class="text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors" title="Lihat">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+              </a>
+              <button type="button" class="text-slate-400 hover:text-red-500 transition-colors" onclick="removeAdminDoc(${idx}); event.stopPropagation();" title="Hapus Dokumen">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+              </button>
+            </div>
           </div>
         `;
       }).join('')}
@@ -494,9 +495,7 @@ async function uploadOrderFile(input, type) {
         renderAdminUploadedDocs();
       } else {
         hiddenInput.value = data.url;
-        displayEl.innerHTML = data.url.endsWith('.pdf')
-          ? `<a href="${data.url}" target="_blank" class="text-brand-blue hover:underline font-medium text-xs mt-2">Lihat PDF Bukti Bayar</a>`
-          : `<a href="${data.url}" target="_blank" class="mt-2 block"><img src="${data.url}" class="h-16 w-auto rounded border border-slate-200 dark:border-brand-border object-contain" alt="Bukti"></a>`;
+        renderAdminPaymentProof();
       }
       showToast('Berkas berhasil diunggah.', 'green');
     } else {
@@ -509,6 +508,58 @@ async function uploadOrderFile(input, type) {
   } finally {
     input.value = '';
   }
+}
+
+function renderAdminPaymentProof() {
+  const proofInput = document.getElementById('order-payment_proof');
+  const proofDisplay = document.getElementById('payment-proof-display');
+  if (!proofInput || !proofDisplay) return;
+
+  const url = proofInput.value.trim();
+  if (!url) {
+    proofDisplay.innerHTML = '<span class="text-slate-400 text-xs italic">Belum ada bukti pembayaran.</span>';
+    return;
+  }
+
+  const filename = url.substring(url.lastIndexOf('/') + 1);
+  const isPdf = url.endsWith('.pdf');
+
+  if (isPdf) {
+    proofDisplay.innerHTML = `
+      <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/80 px-4 py-3 rounded-full text-xs shadow-sm w-full">
+        <div class="flex items-center gap-3 overflow-hidden">
+          <svg class="w-4 h-4 text-slate-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
+          <span class="truncate font-medium text-slate-700 dark:text-slate-300">${filename}</span>
+        </div>
+        <div class="flex items-center gap-3 shrink-0 ml-4">
+          <a href="${url}" target="_blank" class="text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors" title="Lihat">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+          </a>
+          <button type="button" class="text-slate-400 hover:text-red-500 transition-colors" onclick="removeAdminPaymentProof(); event.stopPropagation();" title="Hapus Bukti">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+      </div>
+    `;
+  } else {
+    proofDisplay.innerHTML = `
+      <div class="relative group w-24 h-24 rounded-2xl overflow-hidden shadow-sm border border-slate-200 dark:border-slate-700 inline-block bg-slate-50 dark:bg-slate-800 shrink-0">
+        <img src="${url}" class="w-full h-full object-cover">
+        <button type="button" onclick="removeAdminPaymentProof(); event.stopPropagation();" class="absolute top-1.5 right-1.5 bg-white/90 dark:bg-black/60 text-slate-700 dark:text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity hover:text-red-500 dark:hover:text-red-400 shadow-sm" title="Hapus Bukti">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent pt-4 pb-1.5 px-2 text-center opacity-0 group-hover:opacity-100 transition-opacity">
+          <a href="${url}" target="_blank" class="text-[10px] font-medium text-white hover:underline">View</a>
+        </div>
+      </div>
+    `;
+  }
+}
+
+function removeAdminPaymentProof() {
+  const proofInput = document.getElementById('order-payment_proof');
+  proofInput.value = '';
+  renderAdminPaymentProof();
 }
 
 </script>

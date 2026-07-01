@@ -1,16 +1,83 @@
 <script>
 const settingFields = {
-  navbar: ['logo_text'],
-  hero: ['image_url', 'title_main', 'title_gradient', 'subtitle', 'cta_text', 'cta_link'],
+  navbar: ['logo_text', 'logo_image', 'link1_text', 'link2_text', 'link3_text', 'link4_text', 'link5_text'],
+  hero: ['title_main', 'title_gradient', 'subtitle', 'cta_text', 'cta_link', 'backgrounds_data'],
   services: ['title', 'subtitle', 'button_text', 'button_link'],
   projects: ['title', 'subtitle'],
   timeline: ['title', 'subtitle'],
-  faq: ['title', 'subtitle'],
+  faq: ['title', 'subtitle', 'button_text', 'button_link'],
   cta: ['title', 'subtitle', 'button_text', 'button_link'],
   footer: ['description', 'copyright']
 };
 
+function updateImagePreview(prefix) {
+  let url = '';
+  if (prefix === 'navbar-logo') {
+    const el = document.getElementById('navbar-logo_image');
+    if (el) url = el.value;
+  } else {
+    const el = document.getElementById(`${prefix}-image`);
+    if (el) url = el.value;
+  }
+  const container = document.getElementById(`${prefix}-preview-container`);
+  const img = document.getElementById(`${prefix}-preview`);
+  if (container && img) {
+    if (url && url.trim() !== '') {
+      img.src = url;
+      container.classList.remove('hidden');
+    } else {
+      img.src = '';
+      container.classList.add('hidden');
+    }
+  }
+}
+
 let servicesData = [];
+let navbarLinks = [];
+
+function renderNavbarLinks() {
+  const container = document.getElementById('navbarLinksList');
+  if (!container) return;
+  
+  if (navbarLinks.length === 0) {
+    container.innerHTML = '<p class="text-[10px] sm:text-xs text-slate-500 text-center py-4 bg-slate-50 dark:bg-brand-dark rounded-xl border border-dashed border-slate-200 dark:border-brand-border">Belum ada menu navigasi.</p>';
+  } else {
+    container.innerHTML = navbarLinks.map((link, index) => `
+      <div class="flex gap-2 items-center bg-slate-50 dark:bg-brand-dark p-2 rounded-xl border border-slate-200 dark:border-brand-border">
+        <div class="flex-1">
+          <input type="text" placeholder="Teks Menu (cth: Layanan)" value="${link.text}" onchange="updateNavbarLink(${index}, 'text', this.value)" class="w-full px-3 py-1.5 bg-white dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-lg focus:border-brand-blue outline-none text-slate-900 dark:text-white text-xs mb-2">
+          <input type="text" placeholder="Link/ID (cth: #services)" value="${link.url}" onchange="updateNavbarLink(${index}, 'url', this.value)" class="w-full px-3 py-1.5 bg-white dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-lg focus:border-brand-blue outline-none text-slate-900 dark:text-white text-xs">
+        </div>
+        <button type="button" onclick="removeNavbarLink(${index})" class="w-8 h-8 rounded-lg bg-red-100 text-red-500 hover:bg-red-500 hover:text-white dark:bg-red-500/10 dark:hover:bg-red-500/20 flex items-center justify-center shrink-0 transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+        </button>
+      </div>
+    `).join('');
+  }
+  
+  const hiddenInput = document.getElementById('navbar-nav_links_data');
+  if (hiddenInput) {
+    hiddenInput.value = JSON.stringify(navbarLinks);
+  }
+}
+
+function addNavbarLink() {
+  navbarLinks.push({ text: '', url: '' });
+  renderNavbarLinks();
+}
+
+function updateNavbarLink(index, field, value) {
+  if (navbarLinks[index]) {
+    navbarLinks[index][field] = value;
+    document.getElementById('navbar-nav_links_data').value = JSON.stringify(navbarLinks);
+  }
+}
+
+function removeNavbarLink(index) {
+  navbarLinks.splice(index, 1);
+  renderNavbarLinks();
+}
+
 
 function showSettingSection(section) {
   document.querySelectorAll('.setting-form').forEach(el => el.classList.add('hidden'));
@@ -39,8 +106,29 @@ async function loadSettings() {
         if (!el) return;
         if (el.tagName === 'IMG') el.src = sectionData[key];
         else el.value = sectionData[key] || '';
+
+        if (section === 'hero' && key === 'backgrounds_data' && sectionData[key]) {
+          try {
+            heroBackgrounds = JSON.parse(sectionData[key]);
+            if (!Array.isArray(heroBackgrounds)) heroBackgrounds = [];
+            renderHeroBackgrounds();
+          } catch(e) {
+            heroBackgrounds = [];
+          }
+        }
+        
+        if (section === 'navbar' && key === 'nav_links_data' && sectionData[key]) {
+          try {
+            navbarLinks = JSON.parse(sectionData[key]);
+            if (!Array.isArray(navbarLinks)) navbarLinks = [];
+            renderNavbarLinks();
+          } catch(e) {
+            navbarLinks = [];
+          }
+        }
       });
     });
+    updateImagePreview('navbar-logo');
   } catch (err) {
     console.error('Failed to load settings', err);
   }
@@ -161,6 +249,7 @@ function openServiceModal(slug = '') {
     modal.classList.remove('opacity-0');
     content.classList.remove('translate-x-full');
   }, 10);
+  updateImagePreview('service');
 }
 
 function closeServiceModal() {
@@ -243,11 +332,35 @@ async function uploadServiceImage(input) {
     if (data.success) {
       document.getElementById('service-image').value = data.url;
       showToast('Gambar diupload!', 'green');
+      updateImagePreview('service');
     } else {
       showToast(data.message || 'Gagal upload.', 'red');
     }
   } catch (err) {
     showToast('Gagal upload.', 'red');
+  } finally {
+    input.value = '';
+  }
+}
+
+async function uploadNavbarLogo(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  const fd = new FormData();
+  fd.append('image', file);
+  try {
+    const res = await fetch('/api/admin/upload', { method: 'POST', body: fd });
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById('navbar-logo_image').value = data.url;
+      showToast('Logo berhasil diupload!', 'green');
+      updateImagePreview('navbar-logo');
+    } else {
+      showToast(data.message || 'Gagal upload logo.', 'red');
+    }
+  } catch (err) {
+    showToast('Gagal upload logo.', 'red');
   } finally {
     input.value = '';
   }
@@ -333,6 +446,7 @@ function openProjectModal(slug = '') {
     modal.classList.remove('opacity-0');
     content.classList.remove('translate-x-full');
   }, 10);
+  updateImagePreview('project');
 }
 
 function closeProjectModal() {
@@ -418,6 +532,7 @@ async function uploadProjectImage(input) {
     if (data.success) {
       document.getElementById('project-image').value = data.url;
       showToast('Gambar diupload!', 'green');
+      updateImagePreview('project');
     } else {
       showToast(data.message || 'Gagal upload.', 'red');
     }
@@ -427,6 +542,62 @@ async function uploadProjectImage(input) {
     input.value = '';
   }
 }
+
+// --- Hero Backgrounds Logic ---
+
+let heroBackgrounds = [];
+
+function renderHeroBackgrounds() {
+  const container = document.getElementById('hero-backgrounds-container');
+  const hiddenInput = document.getElementById('hero-backgrounds_data');
+  if(!container || !hiddenInput) return;
+
+  hiddenInput.value = JSON.stringify(heroBackgrounds);
+
+  if (heroBackgrounds.length === 0) {
+    container.innerHTML = '<div class="col-span-full text-center py-4 text-xs text-slate-500">Belum ada background.</div>';
+    return;
+  }
+
+  container.innerHTML = heroBackgrounds.map((bgUrl, index) => `
+    <div class="relative group rounded-lg overflow-hidden border border-slate-200 dark:border-brand-border h-24 sm:h-32">
+      <img src="${bgUrl}" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+        <button type="button" onclick="removeHeroBackground(${index})" class="text-white bg-red-500 hover:bg-red-600 rounded-full p-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function removeHeroBackground(index) {
+  heroBackgrounds.splice(index, 1);
+  renderHeroBackgrounds();
+}
+
+async function uploadHeroBackground(input) {
+  if (!input.files || input.files.length === 0) return;
+  const file = input.files[0];
+  const formData = new FormData();
+  formData.append('image', file);
+
+  try {
+    const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
+    const data = await res.json();
+    if (data.success && data.url) {
+      heroBackgrounds.push(data.url);
+      renderHeroBackgrounds();
+    } else {
+      showToast('Gagal upload gambar', 'red');
+    }
+  } catch (err) {
+    showToast('Terjadi kesalahan', 'red');
+  } finally {
+    input.value = '';
+  }
+}
+
 
 // --- Timeline Logic ---
 
@@ -509,6 +680,7 @@ function openTimelineModal(slug = '') {
     modal.classList.remove('opacity-0');
     content.classList.remove('translate-x-full');
   }, 10);
+  updateImagePreview('timeline');
 }
 
 function closeTimelineModal() {
@@ -565,6 +737,138 @@ async function saveTimelineItem() {
   }
 }
 
+// --- FAQ Logic ---
+
+let faqsData = [];
+
+async function loadFaqs() {
+  try {
+    const res = await fetch('/api/admin/faq');
+    const data = await res.json();
+    if (data.success) {
+      faqsData = data.data || [];
+      renderFaqsTable();
+    }
+  } catch (err) {
+    console.error('Failed to load faqs', err);
+  }
+}
+
+function renderFaqsTable() {
+  const tbody = document.getElementById('faq-table-body');
+  if (!tbody) return;
+
+  if (faqsData.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="4" class="py-8 text-center text-slate-400">Belum ada data FAQ.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = faqsData.map(f => `
+    <tr class="border-b border-slate-200 dark:border-brand-border hover:bg-slate-50 dark:hover:bg-[#1a1c23] transition-colors">
+      <td class="py-1.5 px-2 sm:py-3 sm:px-5 text-sm text-slate-900 dark:text-white font-medium break-words whitespace-normal max-w-[200px] sm:max-w-[300px]"><div class="line-clamp-2">${f.question || '-'}</div></td>
+      <td class="py-1.5 px-2 sm:py-3 sm:px-5 whitespace-nowrap text-xs text-slate-600 dark:text-slate-400">${f.sort_order || 0}</td>
+      <td class="py-1.5 px-2 sm:py-3 sm:px-5 whitespace-nowrap text-[10px] sm:text-xs"><span class="inline-flex px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider border ${f.status === 'active' ? 'bg-green-100 dark:bg-green-500/10 text-green-600 dark:text-green-400 border-green-200/50 dark:border-green-500/20' : 'bg-slate-100 dark:bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-200/50 dark:border-slate-500/20'}">${f.status || 'active'}</span></td>
+      <td class="py-1.5 px-2 sm:py-3 sm:px-5 text-center whitespace-nowrap"><div class="flex justify-center gap-2">${getActionButtonHtml('edit', `openFaqModal('${f.slug}')`, 'Edit')}${getActionButtonHtml('delete', `deleteFaqItem('${f.slug}')`, 'Hapus')}</div></td>
+    </tr>
+  `).join('');
+}
+
+function openFaqModal(slug = '') {
+  const modal = document.getElementById('faq-modal');
+  const content = document.getElementById('faq-modal-content');
+  document.getElementById('faq-modal-title').textContent = slug ? 'Edit FAQ' : 'Tambah FAQ';
+
+  ['slug', 'question', 'answer', 'sort_order'].forEach(field => {
+    const el = document.getElementById(`faqitem-${field}`);
+    if (el) el.value = field === 'sort_order' ? '1' : '';
+  });
+  document.getElementById('faqitem-status').value = 'active';
+  document.getElementById('faqitem-original-key').value = '';
+
+  if (slug) {
+    const fItem = faqsData.find(f => f.slug === slug);
+    if (fItem) {
+      document.getElementById('faqitem-original-key').value = slug;
+      Object.keys(fItem).forEach(field => {
+        const el = document.getElementById(`faqitem-${field}`);
+        if (el && fItem[field] !== undefined && fItem[field] !== null) el.value = fItem[field];
+      });
+      document.getElementById('faqitem-status').value = fItem.status || 'active';
+    }
+  }
+
+  document.getElementById('faqitem-question').oninput = function() {
+    if (!document.getElementById('faqitem-original-key').value) {
+      document.getElementById('faqitem-slug').value = this.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    }
+  };
+
+  modal.classList.remove('hidden');
+  setTimeout(() => {
+    modal.classList.remove('opacity-0');
+    content.classList.remove('translate-x-full');
+  }, 10);
+}
+
+function closeFaqModal() {
+  const modal = document.getElementById('faq-modal');
+  const content = document.getElementById('faq-modal-content');
+  modal.classList.add('opacity-0');
+  content.classList.add('translate-x-full');
+  setTimeout(() => modal.classList.add('hidden'), 300);
+}
+
+async function saveFaqItem() {
+  const value = id => document.getElementById(`faqitem-${id}`).value;
+  const payload = {
+    original_key: value('original-key'),
+    slug: value('slug'),
+    question: value('question'),
+    answer: value('answer'),
+    sort_order: value('sort_order'),
+    status: value('status')
+  };
+
+  if (!payload.question) {
+    showToast('Pertanyaan wajib diisi!', 'red');
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/admin/faq', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast('FAQ berhasil disimpan!', 'green');
+      closeFaqModal();
+      loadFaqs();
+    } else {
+      showToast(data.message || 'Gagal menyimpan.', 'red');
+    }
+  } catch (err) {
+    showToast('Gagal menghubungi server.', 'red');
+  }
+}
+
+async function deleteFaqItem(slug) {
+  if (!confirm(`Hapus FAQ ini?`)) return;
+  try {
+    const res = await fetch(`/api/admin/faq/${slug}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (data.success) {
+      showToast('FAQ dihapus.', 'green');
+      loadFaqs();
+    } else {
+      showToast(data.message || 'Gagal menghapus.', 'red');
+    }
+  } catch (err) {
+    showToast('Gagal menghubungi server.', 'red');
+  }
+}
+
 async function deleteTimeline(slug) {
   if (!confirm(`Hapus timeline "${slug}"?`)) return;
   try {
@@ -593,6 +897,7 @@ async function uploadTimelineImage(input) {
     if (data.success) {
       document.getElementById('timeline-image').value = data.url;
       showToast('Gambar diupload!', 'green');
+      updateImagePreview('timeline');
     } else {
       showToast(data.message || 'Gagal upload.', 'red');
     }

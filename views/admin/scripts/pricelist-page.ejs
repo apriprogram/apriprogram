@@ -161,8 +161,8 @@ function renderPricelists() {
     }
     
     paginationEl.innerHTML = `
-      <div class="flex items-center gap-3 w-full sm:w-auto justify-center sm:justify-start">
-        <span class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">Rows per page</span>
+      <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+        <span class="whitespace-nowrap text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">Rows per page</span>
         <div class="relative">
           <select onchange="document.getElementById('pricelist-limit').value = this.value; filterPricelists()" class="pl-3 pr-7 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium shadow-sm">
             <option value="10" ${limit === 10 ? 'selected' : ''}>10</option>
@@ -173,7 +173,7 @@ function renderPricelists() {
         </div>
       </div>
 
-      <div class="flex items-center gap-4 sm:gap-6 w-full sm:w-auto justify-center sm:justify-end mt-2 sm:mt-0">
+      <div class="flex items-center gap-3 sm:gap-6 shrink-0">
         <div class="flex items-center gap-3">
           <span class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">Page</span>
           <div class="relative">

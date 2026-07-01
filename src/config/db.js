@@ -376,8 +376,45 @@ async function initDatabase() {
       [timeline.slug, JSON.stringify(timeline)]
     );
   }
-}
 
+  const defaultFaqs = [
+    {
+      question: 'Berapa lama waktu yang dibutuhkan untuk membuat website?',
+      answer: 'Waktu pengerjaan bergantung pada kompleksitas proyek. Untuk website company profile standar, biasanya memakan waktu 1-2 minggu. Sementara untuk custom web app atau e-commerce bisa memakan waktu 1-3 bulan.',
+      slug: 'waktu-pengerjaan',
+      sort_order: 1,
+      status: 'active'
+    },
+    {
+      question: 'Apakah saya akan mendapatkan akses penuh ke website?',
+      answer: 'Ya, setelah proyek selesai dan pembayaran dilunasi, kami akan memberikan akses penuh ke dashboard admin, source code (jika diminta), serta aset desain yang terkait dengan proyek Anda.',
+      slug: 'akses-penuh',
+      sort_order: 2,
+      status: 'active'
+    },
+    {
+      question: 'Bagaimana sistem pembayaran di Apriprogram?',
+      answer: 'Kami menerapkan sistem pembayaran bertahap (termin). Umumnya, pembayaran dilakukan dalam 2 atau 3 tahap: DP (Down Payment) sebelum proyek dimulai, pembayaran tengah saat milestone tertentu tercapai, dan pelunasan setelah proyek siap dirilis.',
+      slug: 'sistem-pembayaran',
+      sort_order: 3,
+      status: 'active'
+    },
+    {
+      question: 'Apakah ada biaya tambahan setelah website live?',
+      answer: 'Biaya pembuatan sudah termasuk hosting dan domain untuk 1 tahun pertama. Untuk tahun berikutnya, Anda hanya perlu membayar biaya perpanjangan server dan domain. Kami juga menawarkan paket maintenance terpisah jika Anda butuh bantuan update konten dan sistem.',
+      slug: 'biaya-tambahan',
+      sort_order: 4,
+      status: 'active'
+    }
+  ];
+
+  for (const faq of defaultFaqs) {
+    await pool.query(
+      "INSERT IGNORE INTO settings (section, setting_key, setting_value) VALUES ('faq_items', ?, ?)",
+      [faq.slug, JSON.stringify(faq)]
+    );
+  }
+}
 module.exports = {
   pool,
   initDatabase

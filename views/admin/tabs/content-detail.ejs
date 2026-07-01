@@ -1,0 +1,19 @@
+<div id="tab-content-detail" class="tab-content hidden pb-20">
+  <!-- Header -->
+  <div class="flex items-center justify-between border-b border-slate-200 dark:border-brand-border pb-4 mb-6">
+    <div class="flex items-center gap-3">
+      <button type="button" onclick="switchTab('contents')" class="p-2 -ml-2 rounded-lg text-slate-500 hover:text-brand-blue hover:bg-brand-blue/10 transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+      </button>
+      <h3 class="text-lg sm:text-2xl font-semibold text-slate-900 dark:text-white">Detail Konten</h3>
+    </div>
+    <button type="button" id="btn-edit-content-detail" class="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-brand-blue hover:bg-blue-600 text-white text-[10px] sm:text-xs font-semibold rounded-lg transition-colors whitespace-nowrap">
+      <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+      Edit Konten
+    </button>
+  </div>
+
+  <div class="space-y-6 max-w-5xl mx-auto" id="content-detail-container">
+    <!-- Detailed content injected by JS -->
+  </div>
+</div>

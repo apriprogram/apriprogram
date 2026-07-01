@@ -11,6 +11,7 @@ const authController = require("./controllers/authController");
 const adminController = require("./controllers/adminController");
 const orderController = require("./controllers/orderController");
 const pricelistController = require("./controllers/pricelistController");
+const contentController = require("./controllers/contentController");
 const { requireLogin, requireAdmin } = require("./middleware/auth");
 
 const app = express();
@@ -91,6 +92,19 @@ app.delete("/api/admin/projects/:slug", requireAdmin, adminController.deleteProj
 app.get("/api/admin/timeline", requireAdmin, adminController.getTimelineItems);
 app.post("/api/admin/timeline", requireAdmin, adminController.saveTimelineItem);
 app.delete("/api/admin/timeline/:slug", requireAdmin, adminController.deleteTimelineItem);
+app.get("/api/admin/hero", requireAdmin, adminController.getHeroItems);
+app.post("/api/admin/hero", requireAdmin, adminController.saveHeroItem);
+app.delete("/api/admin/hero/:slug", requireAdmin, adminController.deleteHeroItem);
+app.get("/api/admin/faq", requireAdmin, adminController.getFaqItems);
+app.post("/api/admin/faq", requireAdmin, adminController.saveFaqItem);
+app.delete("/api/admin/faq/:slug", requireAdmin, adminController.deleteFaqItem);
+
+app.get("/api/admin/contents", requireAdmin, contentController.getContents);
+app.post("/api/admin/contents", requireAdmin, contentController.saveContent);
+app.put("/api/admin/contents", requireAdmin, contentController.saveContent);
+app.delete("/api/admin/contents/:id", requireAdmin, contentController.deleteContent);
+app.put("/api/admin/contents/:id/toggle-completed", requireAdmin, contentController.toggleCompleted);
+
 app.get("/api/admin/dashboard-stats", requireAdmin, adminController.getDashboardStats);
 
 // Pricelist API Routes

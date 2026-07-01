@@ -104,7 +104,7 @@
         <span class="nav-text text-base sm:text-lg font-medium tracking-tight text-white transition-colors duration-300">Apriprogram</span>
       </a>
 
-      <div class="hidden items-center gap-8 text-sm font-semibold text-slate-300 lg:flex">
+      <div id="dyn-desktop-menu" class="hidden items-center gap-8 text-sm font-semibold text-slate-300 lg:flex">
         <a data-nav-link href="#home" class="nav-link hover:text-white transition-colors">Home</a>
         <a data-nav-link href="#services" class="nav-link hover:text-white transition-colors">Layanan</a>
         <a data-nav-link href="#project" class="nav-link hover:text-white transition-colors">Project</a>
@@ -140,11 +140,13 @@
     <!-- Mobile Menu Dropdown -->
     <div id="mobileMenu" class="absolute top-[72px] inset-x-4 z-40 flex flex-col bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 p-6 rounded-2xl shadow-2xl lg:hidden opacity-0 scale-95 pointer-events-none transition-all duration-300 origin-top">
       <div class="flex flex-col gap-4 text-sm font-medium text-slate-900 dark:text-slate-300">
-        <a data-nav-link href="#home" class="hover:text-brand-blue dark:hover:text-white transition-colors">Home</a>
-        <a data-nav-link href="#services" class="hover:text-brand-blue dark:hover:text-white transition-colors">Layanan</a>
-        <a data-nav-link href="#project" class="hover:text-brand-blue dark:hover:text-white transition-colors">Project</a>
-        <a data-nav-link href="#faq" class="hover:text-brand-blue dark:hover:text-white transition-colors">FAQ</a>
-        <a data-nav-link href="#contact" class="hover:text-brand-blue dark:hover:text-white transition-colors">Kontak</a>
+        <div id="dyn-mobile-links" class="flex flex-col gap-4">
+          <a data-nav-link href="#home" class="hover:text-brand-blue dark:hover:text-white transition-colors">Home</a>
+          <a data-nav-link href="#services" class="hover:text-brand-blue dark:hover:text-white transition-colors">Layanan</a>
+          <a data-nav-link href="#project" class="hover:text-brand-blue dark:hover:text-white transition-colors">Project</a>
+          <a data-nav-link href="#faq" class="hover:text-brand-blue dark:hover:text-white transition-colors">FAQ</a>
+          <a data-nav-link href="#contact" class="hover:text-brand-blue dark:hover:text-white transition-colors">Kontak</a>
+        </div>
         <div class="h-px w-full bg-slate-200 dark:bg-white/10 my-2"></div>
         <% if (user && user.userId) { %>
           <a href="<%= (user.role === 'admin' || user.role === 'super admin') ? '/admin/dashboard' : '/order' %>" class="hover:text-brand-blue dark:hover:text-white transition-colors">Dasbor</a>
@@ -157,14 +159,15 @@
   </header>
 
   <main>
-    <section id="home" class="relative flex min-h-screen flex-col items-center pt-32 text-center pb-20 overflow-hidden">
-      <!-- Background Image -->
-      <div class="absolute inset-0 z-[-1]">
-        <img src="/assets/hero/bg_herosetion.png" alt="Hero Background" class="w-full h-full object-cover object-top opacity-100 no-reveal" />
+    <section id="home" class="relative flex min-h-screen flex-col items-center justify-center text-center pt-24 sm:pt-32 pb-20 overflow-hidden">
+      <!-- Dynamic Background Carousel Container -->
+      <div id="hero-bg-slider" class="absolute inset-0 z-[-1]">
+        <!-- Fallback static background -->
+        <img src="/assets/hero/bg_herosetion.png" alt="Hero Background" class="absolute inset-0 w-full h-full object-cover object-top opacity-100 no-reveal transition-opacity duration-1000 bg-slide active" />
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-900/10 via-transparent to-slate-900/60 z-10"></div>
       </div>
 
-      <!-- Text Content -->
-      <div class="mx-auto w-full px-4 sm:px-6 lg:px-8 flex flex-col items-center mt-8 relative z-10 font-sans">
+      <div class="mx-auto w-full px-4 sm:px-6 lg:px-8 flex flex-col items-center relative z-10 font-sans">
         <div class="mb-4 sm:mb-5 inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 sm:px-5 sm:py-2 text-[9px] sm:text-xs font-medium uppercase tracking-[0.15em] text-white backdrop-blur-md">
           Jasa Pembuatan Website Custom
         </div>
@@ -325,79 +328,15 @@
     <section id="faq" class="py-24 bg-white dark:bg-[#0a0a0a]">
       <div class="mx-auto grid max-w-[85%] gap-16 px-4 sm:px-6 lg:grid-cols-[1fr_1.5fr] lg:px-8">
         <div>
-          <h2 class="text-3xl sm:text-5xl lg:text-[4.5rem] tracking-tight font-normal text-slate-900 dark:text-white leading-[1.05] mb-4">Answers to your<br>top questions</h2>
-          <p class="text-sm sm:text-lg text-slate-600 dark:text-[#a0a0a0] leading-relaxed mb-6 sm:mb-8">Pelajari lebih lanjut mengenai layanan kami, proses pengerjaan, dan apa yang bisa kami bantu untuk mengembangkan bisnis Anda secara digital.</p>
-          <a href="#contact" class="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 dark:border-white/20 bg-transparent px-4 py-2 sm:px-6 sm:py-3 text-xs sm:text-sm font-semibold text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-all">
+          <h2 class="text-3xl sm:text-5xl lg:text-[4.5rem] tracking-tight font-normal text-slate-900 dark:text-white leading-[1.05] mb-4" id="dyn-faq-title">Answers to your<br>top questions</h2>
+          <p class="text-sm sm:text-lg text-slate-600 dark:text-[#a0a0a0] leading-relaxed mb-6 sm:mb-8" id="dyn-faq-subtitle">Pelajari lebih lanjut mengenai layanan kami, proses pengerjaan, dan apa yang bisa kami bantu untuk mengembangkan bisnis Anda secara digital.</p>
+          <a href="#contact" id="dyn-faq-button" class="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 dark:border-white/20 bg-transparent px-4 py-2 sm:px-6 sm:py-3 text-xs sm:text-sm font-semibold text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-all">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-            Hubungi Tim Kami
+            <span id="dyn-faq-button-text">Hubungi Tim Kami</span>
           </a>
         </div>
-        <div class="space-y-4">
-          <div class="faq-item rounded-2xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-[#0a0a0a]">
-            <button type="button" class="flex w-full items-center justify-between gap-3 sm:gap-4 p-4 sm:p-6 text-left font-medium text-base sm:text-xl text-slate-900 dark:text-white">
-              Berapa lama proses pembuatan website custom?
-              <svg class="w-5 h-5 text-slate-600 dark:text-[#a0a0a0] transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-            </button>
-            <div class="faq-content grid transition-all duration-300 grid-rows-[0fr] opacity-0">
-              <div class="overflow-hidden">
-                <div class="px-4 pb-4 sm:px-6 sm:pb-6 text-sm sm:text-lg leading-relaxed text-slate-600 dark:text-[#a0a0a0]">
-                  Landing page biasanya 3-7 hari kerja. Website custom atau dashboard bergantung pada jumlah fitur, integrasi, dan revisi desain (umumnya 2-4 minggu).
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="faq-item rounded-2xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-[#0a0a0a]">
-            <button type="button" class="flex w-full items-center justify-between gap-3 sm:gap-4 p-4 sm:p-6 text-left font-medium text-base sm:text-xl text-slate-900 dark:text-white">
-              Apakah harga sudah termasuk hosting dan domain?
-              <svg class="w-5 h-5 text-slate-600 dark:text-[#a0a0a0] transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-            </button>
-            <div class="faq-content grid transition-all duration-300 grid-rows-[0fr] opacity-0">
-              <div class="overflow-hidden">
-                <div class="px-4 pb-4 sm:px-6 sm:pb-6 text-sm sm:text-lg leading-relaxed text-slate-600 dark:text-[#a0a0a0]">
-                  Ya, sebagian besar paket kami sudah termasuk domain dan hosting untuk 1 tahun pertama. Anda bisa memperpanjangnya di tahun berikutnya.
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="faq-item rounded-2xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-[#0a0a0a]">
-            <button type="button" class="flex w-full items-center justify-between gap-3 sm:gap-4 p-4 sm:p-6 text-left font-medium text-base sm:text-xl text-slate-900 dark:text-white">
-              Apakah website yang dibuat SEO-friendly?
-              <svg class="w-5 h-5 text-slate-600 dark:text-[#a0a0a0] transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-            </button>
-            <div class="faq-content grid transition-all duration-300 grid-rows-[0fr] opacity-0">
-              <div class="overflow-hidden">
-                <div class="px-4 pb-4 sm:px-6 sm:pb-6 text-sm sm:text-lg leading-relaxed text-slate-600 dark:text-[#a0a0a0]">
-                  Tentu. Struktur kode, tag meta, dan performa website akan selalu kami optimalkan sesuai dengan panduan SEO terbaru.
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="faq-item rounded-2xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-[#0a0a0a]">
-            <button type="button" class="flex w-full items-center justify-between gap-3 sm:gap-4 p-4 sm:p-6 text-left font-medium text-base sm:text-xl text-slate-900 dark:text-white">
-              Bagaimana dengan desain dan kontennya?
-              <svg class="w-5 h-5 text-slate-600 dark:text-[#a0a0a0] transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-            </button>
-            <div class="faq-content grid transition-all duration-300 grid-rows-[0fr] opacity-0">
-              <div class="overflow-hidden">
-                <div class="px-4 pb-4 sm:px-6 sm:pb-6 text-sm sm:text-lg leading-relaxed text-slate-600 dark:text-[#a0a0a0]">
-                  Kami menyediakan panduan layout UI/UX. Anda bisa menyerahkan materi copywriting kepada kami atau menyiapkannya sendiri sesuai kebutuhan bisnis Anda.
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="faq-item rounded-2xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-[#0a0a0a]">
-            <button type="button" class="flex w-full items-center justify-between gap-3 sm:gap-4 p-4 sm:p-6 text-left font-medium text-base sm:text-xl text-slate-900 dark:text-white">
-              Siapa pemilik source code nya nanti?
-              <svg class="w-5 h-5 text-slate-600 dark:text-[#a0a0a0] transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-            </button>
-            <div class="faq-content grid transition-all duration-300 grid-rows-[0fr] opacity-0">
-              <div class="overflow-hidden">
-                <div class="px-4 pb-4 sm:px-6 sm:pb-6 text-sm sm:text-lg leading-relaxed text-slate-600 dark:text-[#a0a0a0]">
-                  Klien memiliki hak penuh atas source code dan data setelah pelunasan proyek selesai dilakukan.
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="space-y-4" id="faqContainer">
+          <!-- FAQ items will be rendered here via JS -->
         </div>
       </div>
     </section>
@@ -507,25 +446,7 @@
       });
     }
 
-    // Animated script to toggle FAQ
-    document.querySelectorAll('.faq-item button').forEach(button => {
-      button.addEventListener('click', () => {
-        const content = button.nextElementSibling;
-        const icon = button.querySelector('svg');
-        
-        const isOpen = content.classList.contains('grid-rows-[1fr]');
-        
-        if (isOpen) {
-          content.classList.remove('grid-rows-[1fr]', 'opacity-100');
-          content.classList.add('grid-rows-[0fr]', 'opacity-0');
-          icon.style.transform = 'rotate(0deg)';
-        } else {
-          content.classList.remove('grid-rows-[0fr]', 'opacity-0');
-          content.classList.add('grid-rows-[1fr]', 'opacity-100');
-          icon.style.transform = 'rotate(180deg)';
-        }
-      });
-    });
+    // Animated script to toggle FAQ is now bound dynamically in renderFaq function
 
     // Scroll typing and fade animation for carousel cards
     const cards = document.querySelectorAll('.carousel-card');
@@ -550,9 +471,34 @@
           });
         }
       });
-    }, { threshold: 0.7 });
-
+    }, observerOptions);
     cards.forEach(card => observer.observe(card));
+
+    // Scrollspy for Navbar links
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('nav a[data-nav-link]');
+    
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (scrollY >= (sectionTop - 150)) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('text-white');
+        link.classList.add('text-slate-300');
+        if (link.getAttribute('href').includes(current)) {
+          link.classList.remove('text-slate-300');
+          link.classList.add('text-white');
+        }
+      });
+    });
+    });
+
 
     // Content Reveal Animation
     const revealObserver = new IntersectionObserver((entries) => {
@@ -586,6 +532,7 @@
       if (Number.isNaN(parsed.getTime())) return value;
       return parsed.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     }
+
 
     function renderServiceCarousel(serviceItems) {
       const carousel = document.getElementById('newServiceCarousel');
@@ -663,20 +610,13 @@
       }, 100);
     }
 
-    function renderTimeline(timelines) {
+    function renderTimeline(timelineItems) {
       const container = document.getElementById('timelineContainer');
-      if (!container) return;
+      if (!container || !timelineItems || timelineItems.length === 0) return;
+      const activeItems = timelineItems.filter(t => t.status === 'active').sort((a,b) => (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0));
       
-      const activeTimelines = timelines.filter(t => t.status === 'active').sort((a,b) => a.sort_order - b.sort_order);
-      
-      if (activeTimelines.length === 0) {
-        container.innerHTML = '<p class="text-center text-slate-500">Belum ada timeline.</p>';
-        return;
-      }
-      
-      container.innerHTML = activeTimelines.map((t, index) => {
-        const isLeft = t.layout_position === 'left';
-        
+      container.innerHTML = activeItems.map((t, index) => {
+        const isLeft = index % 2 === 0;
         return `
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
             <div class="${isLeft ? 'order-2 lg:order-1' : 'order-2 lg:order-2'} flex items-center justify-center relative">
@@ -700,74 +640,219 @@
       }).join('');
     }
 
+    function renderFaq(faqItems) {
+      const container = document.getElementById('faqContainer');
+      if (!container || !faqItems || faqItems.length === 0) return;
+
+      const activeItems = faqItems.filter(item => item.status === 'active').sort((a,b) => (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0));
+      
+      let html = '';
+      activeItems.forEach(item => {
+        html += `
+          <div class="faq-item rounded-2xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-[#0a0a0a]">
+            <button type="button" class="flex w-full items-center justify-between gap-3 sm:gap-4 p-4 sm:p-6 text-left font-medium text-base sm:text-xl text-slate-900 dark:text-white">
+              ${escapeServiceHtml(item.question)}
+              <svg class="w-5 h-5 text-slate-600 dark:text-[#a0a0a0] transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="faq-content grid transition-all duration-300 grid-rows-[0fr] opacity-0">
+              <div class="overflow-hidden">
+                <div class="px-4 pb-4 sm:px-6 sm:pb-6 text-sm sm:text-lg leading-relaxed text-slate-600 dark:text-[#a0a0a0]">
+                  ${String(item.answer || '').replace(/\n/g, '<br>')}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+
+      // Bind toggle event
+      container.querySelectorAll('.faq-item button').forEach(button => {
+        button.addEventListener('click', () => {
+          const content = button.nextElementSibling;
+          const icon = button.querySelector('svg');
+          
+          const isOpen = content.classList.contains('grid-rows-[1fr]');
+          
+          if (isOpen) {
+            content.classList.remove('grid-rows-[1fr]', 'opacity-100');
+            content.classList.add('grid-rows-[0fr]', 'opacity-0');
+            icon.style.transform = 'rotate(0deg)';
+          } else {
+            content.classList.remove('grid-rows-[0fr]', 'opacity-0');
+            content.classList.add('grid-rows-[1fr]', 'opacity-100');
+            icon.style.transform = 'rotate(180deg)';
+          }
+        });
+      });
+    }
+
     // Fetch Settings and Apply
     fetch('/api/settings').then(r => r.json()).then(data => {
       if (data.success && data.settings) {
         if (data.settings.hero) {
-          if (data.settings.hero.title_main) document.getElementById('dyn-hero-title_main').innerHTML = data.settings.hero.title_main;
-          if (data.settings.hero.title_gradient) document.getElementById('dyn-hero-title_gradient').innerHTML = data.settings.hero.title_gradient;
-          if (data.settings.hero.subtitle) document.getElementById('dyn-hero-subtitle').innerHTML = data.settings.hero.subtitle;
-          if (data.settings.hero.cta_text) document.getElementById('dyn-hero-cta').innerHTML = data.settings.hero.cta_text;
-          if (data.settings.hero.image_url) {
-            const heroSection = document.getElementById('home');
-            if(heroSection) {
-              heroSection.style.backgroundImage = `linear-gradient(180deg, rgba(2, 6, 23, 0.18), rgba(2, 6, 23, 0.84)), url('${data.settings.hero.image_url}')`;
+          try {
+            if (data.settings.hero.title_main) document.getElementById('dyn-hero-title_main').innerHTML = data.settings.hero.title_main;
+            if (data.settings.hero.title_gradient) document.getElementById('dyn-hero-title_gradient').innerHTML = data.settings.hero.title_gradient;
+            if (data.settings.hero.subtitle) document.getElementById('dyn-hero-subtitle').innerHTML = data.settings.hero.subtitle;
+            if (data.settings.hero.cta_text) {
+              const btn = document.getElementById('dyn-hero-cta');
+              if (btn) {
+                btn.innerHTML = data.settings.hero.cta_text;
+                if (data.settings.hero.cta_link) btn.href = data.settings.hero.cta_link;
+              }
             }
-          }
+            if (data.settings.hero.backgrounds_data) {
+              try {
+                const bgArr = JSON.parse(data.settings.hero.backgrounds_data);
+                if (Array.isArray(bgArr) && bgArr.length > 0) {
+                  initHeroBackgroundSlider(bgArr);
+                }
+              } catch(e) {}
+            }
+          } catch(e) { console.error('Error applying hero settings:', e); }
         }
         if (data.settings.cta) {
-          if (data.settings.cta.title) document.getElementById('dyn-cta-title').innerHTML = data.settings.cta.title;
-          if (data.settings.cta.subtitle) document.getElementById('dyn-cta-subtitle').innerHTML = data.settings.cta.subtitle;
-          if (data.settings.cta.button_text) {
-            const btn = document.getElementById('dyn-cta-button');
-            btn.innerHTML = `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            ${data.settings.cta.button_text}`;
-          }
+          try {
+            if (data.settings.cta.title) document.getElementById('dyn-cta-title').innerHTML = data.settings.cta.title;
+            if (data.settings.cta.subtitle) document.getElementById('dyn-cta-subtitle').innerHTML = data.settings.cta.subtitle;
+            if (data.settings.cta.button_text) {
+              const btn = document.getElementById('dyn-cta-button');
+              if (btn) {
+                btn.innerHTML = `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              ${data.settings.cta.button_text}`;
+              }
+            }
+          } catch(e) { console.error('Error applying cta settings:', e); }
         }
         if (data.settings.footer) {
-          if (data.settings.footer.description) document.getElementById('dyn-footer-description').innerHTML = data.settings.footer.description;
+          try {
+            if (data.settings.footer.description) {
+              const el = document.getElementById('dyn-footer-description');
+              if (el) el.innerHTML = data.settings.footer.description;
+            }
+            if (data.settings.footer.copyright) {
+              const copyEl = document.getElementById('dyn-footer-copyright');
+              if (copyEl) copyEl.innerHTML = data.settings.footer.copyright;
+            }
+          } catch(e) { console.error('Error applying footer settings:', e); }
         }
         
         // Additional Sections (Optional application if IDs exist)
-        if (data.settings.navbar && data.settings.navbar.logo_text) {
-          const logoText = document.querySelector('nav a[href="#home"] span');
-          if(logoText) logoText.innerHTML = data.settings.navbar.logo_text;
+        if (data.settings.navbar) {
+          if (data.settings.navbar.logo_text) {
+            const logoText = document.querySelector('nav a[href="#home"] span');
+            if(logoText) logoText.innerHTML = data.settings.navbar.logo_text;
+          }
+          if (data.settings.navbar.logo_image) {
+            const logoImg = document.querySelector('nav a[href="#home"] img');
+            if (logoImg) logoImg.src = data.settings.navbar.logo_image;
+          }
+          if (data.settings.navbar.nav_links_data) {
+            try {
+              const navLinks = JSON.parse(data.settings.navbar.nav_links_data);
+              if (Array.isArray(navLinks) && navLinks.length > 0) {
+                const desktopMenu = document.getElementById('dyn-desktop-menu');
+                const mobileMenuLinks = document.getElementById('dyn-mobile-links');
+                
+                if (desktopMenu) {
+                  desktopMenu.innerHTML = navLinks.map(link => 
+                    `<a data-nav-link href="${link.url}" class="nav-link hover:text-white transition-colors text-slate-300 ${link.url === '#home' ? 'text-white' : ''}">${link.text}</a>`
+                  ).join('');
+                }
+                
+                if (mobileMenuLinks) {
+                  mobileMenuLinks.innerHTML = navLinks.map(link => 
+                    `<a data-nav-link href="${link.url}" class="hover:text-brand-blue dark:hover:text-white transition-colors">${link.text}</a>`
+                  ).join('');
+                  
+                  // Re-bind click event to close mobile menu
+                  const mobileMenuNode = document.getElementById('mobileMenu');
+                  mobileMenuLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                      mobileMenuNode.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+                      mobileMenuNode.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto');
+                    });
+                  });
+                }
+                
+                // Update scrollspy sections
+                const allNavLinks = document.querySelectorAll('nav a[data-nav-link]');
+                const sections = document.querySelectorAll('section[id]');
+                window.addEventListener('scroll', () => {
+                  let current = '';
+                  sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (scrollY >= (sectionTop - 150)) {
+                      current = section.getAttribute('id');
+                    }
+                  });
+                  allNavLinks.forEach(link => {
+                    link.classList.remove('text-white');
+                    link.classList.add('text-slate-300');
+                    if (link.getAttribute('href').includes(current)) {
+                      link.classList.remove('text-slate-300');
+                      link.classList.add('text-white');
+                    }
+                  });
+                });
+              }
+            } catch(e) { console.error(e); }
+          }
         }
         if (data.settings.services) {
-          const srvTitle = document.querySelector('#services h2');
-          const srvDesc = document.querySelector('#services p');
-          const srvButton = document.getElementById('dyn-services-button');
-          if(srvTitle && data.settings.services.title) srvTitle.innerHTML = data.settings.services.title;
-          if(srvDesc && data.settings.services.subtitle) srvDesc.innerHTML = data.settings.services.subtitle;
-          if(srvButton && data.settings.services.button_text) srvButton.innerHTML = data.settings.services.button_text;
-          if(srvButton && data.settings.services.button_link) srvButton.href = data.settings.services.button_link;
+          try {
+            const srvTitle = document.querySelector('#services h2');
+            const srvDesc = document.querySelector('#services p');
+            const srvButton = document.getElementById('dyn-services-button');
+            if(srvTitle && data.settings.services.title) srvTitle.innerHTML = data.settings.services.title;
+            if(srvDesc && data.settings.services.subtitle) srvDesc.innerHTML = data.settings.services.subtitle;
+            if(srvButton && data.settings.services.button_text) srvButton.innerHTML = data.settings.services.button_text;
+            if(srvButton && data.settings.services.button_link) srvButton.href = data.settings.services.button_link;
+          } catch(e) { console.error('Error applying services settings:', e); }
         }
         if (data.settings.service_items) {
           renderServiceCarousel(Object.values(data.settings.service_items));
         }
         if (data.settings.projects) {
-          const prjTitle = document.querySelector('#project h2');
-          const prjDesc = document.querySelector('#project p');
-          if(prjTitle && data.settings.projects.title) prjTitle.innerHTML = data.settings.projects.title;
-          if(prjDesc && data.settings.projects.subtitle) prjDesc.innerHTML = data.settings.projects.subtitle;
+          try {
+            const prjTitle = document.querySelector('#project h2');
+            const prjDesc = document.querySelector('#project p');
+            if(prjTitle && data.settings.projects.title) prjTitle.innerHTML = data.settings.projects.title;
+            if(prjDesc && data.settings.projects.subtitle) prjDesc.innerHTML = data.settings.projects.subtitle;
+          } catch(e) { console.error('Error applying projects settings:', e); }
         }
         if (data.settings.project_items) {
           renderProjectCarousel(Object.values(data.settings.project_items));
         }
         if (data.settings.timeline) {
-          const tmTitle = document.querySelector('.timeline-section h2') || document.querySelectorAll('main section')[3]?.querySelector('h2');
-          const tmDesc = document.querySelector('.timeline-section p') || document.querySelectorAll('main section')[3]?.querySelector('p');
-          if(tmTitle && data.settings.timeline.title) tmTitle.innerHTML = data.settings.timeline.title;
-          if(tmDesc && data.settings.timeline.subtitle) tmDesc.innerHTML = data.settings.timeline.subtitle;
+          try {
+            const tmTitle = document.querySelector('.timeline-section h2') || document.querySelectorAll('main section')[3]?.querySelector('h2');
+            const tmDesc = document.querySelector('.timeline-section p') || document.querySelectorAll('main section')[3]?.querySelector('p');
+            if(tmTitle && data.settings.timeline.title) tmTitle.innerHTML = data.settings.timeline.title;
+            if(tmDesc && data.settings.timeline.subtitle) tmDesc.innerHTML = data.settings.timeline.subtitle;
+          } catch(e) { console.error('Error applying timeline settings:', e); }
         }
         if (data.settings.timeline_items) {
           renderTimeline(Object.values(data.settings.timeline_items));
         }
         if (data.settings.faq) {
-          const faqTitle = document.querySelector('#faq h2');
-          const faqDesc = document.querySelector('#faq p');
-          if(faqTitle && data.settings.faq.title) faqTitle.innerHTML = data.settings.faq.title;
-          if(faqDesc && data.settings.faq.subtitle) faqDesc.innerHTML = data.settings.faq.subtitle;
+          try {
+            const faqTitle = document.getElementById('dyn-faq-title');
+            const faqDesc = document.getElementById('dyn-faq-subtitle');
+            const faqBtn = document.getElementById('dyn-faq-button');
+            if(faqTitle && data.settings.faq.title) faqTitle.innerHTML = data.settings.faq.title;
+            if(faqDesc && data.settings.faq.subtitle) faqDesc.innerHTML = data.settings.faq.subtitle;
+            if(faqBtn && data.settings.faq.button_text) {
+              const btnText = faqBtn.querySelector('#dyn-faq-button-text');
+              if(btnText) btnText.innerHTML = data.settings.faq.button_text;
+              else faqBtn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg> <span id="dyn-faq-button-text">${data.settings.faq.button_text}</span>`;
+            }
+            if(faqBtn && data.settings.faq.button_link) faqBtn.href = data.settings.faq.button_link;
+          } catch(e) { console.error('Error applying faq settings:', e); }
+        }
+        if (data.settings.faq_items) {
+          renderFaq(Object.values(data.settings.faq_items));
         }
       }
     }).catch(console.error);

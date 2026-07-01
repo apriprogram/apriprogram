@@ -1,0 +1,65 @@
+      <div id="tab-contents" class="tab-content hidden space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-5 gap-3">
+          <div>
+            <h3 class="text-lg sm:text-2xl font-semibold text-slate-900 dark:text-white">List Content</h3>
+            <p class="text-[10px] sm:text-xs whitespace-nowrap text-slate-500 dark:text-slate-400 mt-1 font-medium">Kelola ide, draf, dan publikasi konten Anda.</p>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <button onclick="openContentForm()" class="flex items-center gap-1.5 px-2.5 py-1.5 sm:px-4 sm:py-2 bg-brand-blue hover:bg-blue-600 text-white text-[10px] sm:text-xs font-medium rounded-lg transition-colors shrink-0">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+              Tambah Konten
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-brand-card rounded-2xl border border-slate-200 dark:border-brand-border overflow-hidden">
+          
+          <!-- Table Controls -->
+          <div class="flex items-center py-2 px-3 sm:py-3 sm:px-4 border-b border-slate-200 dark:border-brand-border gap-2 bg-slate-50/50 dark:bg-brand-card overflow-x-auto">
+            <div class="relative group shrink-0">
+              <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+              <input type="text" id="contents-search" onkeyup="renderContentsTable()" placeholder="Search" class="pl-7 pr-3 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue transition-all w-24 sm:w-28 focus:w-40 sm:focus:w-48 text-[11px] sm:text-xs">
+            </div>
+            <div class="relative shrink-0">
+              <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg>
+              <select id="contents-sort" class="pl-7 pr-6 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium">
+                <option value="newest">Sort</option>
+                <option value="oldest">Terlama</option>
+              </select>
+            </div>
+            <div class="relative shrink-0">
+              <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path></svg>
+              <select id="contents-limit" class="pl-7 pr-6 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium">
+                <option value="10">10 Baris</option>
+                <option value="20">20 Baris</option>
+                <option value="30">30 Baris</option>
+                <option value="50">50 Baris</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-100 dark:bg-[#0D0E12] border-y border-slate-200 dark:border-brand-border text-slate-500 dark:text-slate-400 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest">
+                  <th class="py-1 px-2 sm:py-2.5 sm:px-3 whitespace-nowrap">No</th>
+                  <th class="py-1 px-2 sm:py-2.5 sm:px-3 whitespace-nowrap">Judul Konten</th>
+                  <th class="py-1 px-2 sm:py-2.5 sm:px-3 whitespace-nowrap">Target Audiens</th>
+                  <th class="py-1 px-2 sm:py-2.5 sm:px-3 text-center whitespace-nowrap">Status</th>
+                  <th class="py-1 px-2 sm:py-2.5 sm:px-3 text-center w-36 whitespace-nowrap">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="contents-table-body" class="text-[10px] sm:text-xs whitespace-nowrap text-slate-600 dark:text-slate-300">
+                <!-- Data Contents -->
+                <tr><td colspan="4" class="py-8 text-center text-slate-500">Memuat data...</td></tr>
+              </tbody>
+            </table>
+            
+            <div id="contents-pagination" class="py-2 px-3 sm:py-3 sm:px-4 border-t border-slate-200 dark:border-brand-border flex flex-row items-center justify-between w-full text-[10px] sm:text-sm text-slate-500 dark:text-slate-400 bg-slate-50/50 dark:bg-brand-card gap-2 sm:gap-4">
+              <div class="flex items-center gap-2">
+                <span>Menampilkan data konten</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>

@@ -78,9 +78,11 @@ function switchTab(tabId) {
   if (tabId === 'orders') loadOrders();
   if (tabId === 'settings') {
     loadSettings();
+    loadHeroes();
     loadServices();
     loadProjects();
     loadTimelines();
+    loadFaqs();
   }
 }
 

@@ -9,11 +9,11 @@
           </button>
         </div>
 
-        <!-- Vertical Grid Layout -->
-        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 xl:gap-8 items-start">
+        <!-- Vertical Layout with Fixed Sidebar -->
+        <div class="flex flex-col lg:flex-row gap-4 items-start">
           
-          <!-- Setting Sections Nav (Sidebar Style) — no shadow, narrower -->
-          <div class="bg-white dark:bg-brand-card p-1.5 rounded-xl border border-slate-200 dark:border-brand-border sticky top-24">
+          <!-- Setting Sections Nav (Sidebar Style) -->
+          <div class="w-full lg:w-48 shrink-0 bg-white dark:bg-brand-card p-2 rounded-xl border border-slate-200 dark:border-brand-border">
             <button onclick="showSettingSection('navbar')" id="btn-navbar" class="setting-nav active w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium bg-slate-100 dark:bg-brand-darker text-brand-blue dark:text-white mb-0.5 transition-colors">Navbar</button>
             <button onclick="showSettingSection('hero')" id="btn-hero" class="setting-nav w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-darker mb-0.5 transition-colors">Hero Section</button>
             <button onclick="showSettingSection('services')" id="btn-services" class="setting-nav w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-darker mb-0.5 transition-colors">Services</button>
@@ -25,18 +25,56 @@
           </div>
 
           <!-- Forms Area -->
-          <div class="lg:col-span-4 min-w-0">
+          <div class="flex-1 min-w-0 w-full">
             
             <!-- Navbar Form -->
             <form id="form-navbar" class="setting-form space-y-4">
-              <div class="bg-white dark:bg-brand-card p-5 rounded-2xl border border-slate-200 dark:border-brand-border flex flex-col sm:flex-row items-start gap-4">
-                <div class="w-10 h-10 rounded-full bg-slate-50 dark:bg-brand-dark flex items-center justify-center text-brand-blue shrink-0">
-                  <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+              <div class="bg-white dark:bg-brand-card p-5 rounded-2xl border border-slate-200 dark:border-brand-border flex flex-col gap-4">
+                <div class="flex items-center gap-3 mb-2">
+                  <div class="w-10 h-10 rounded-full bg-slate-50 dark:bg-brand-dark flex items-center justify-center text-brand-blue shrink-0">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-medium text-slate-900 dark:text-white">Navbar Settings</h4>
+                    <p class="text-xs text-slate-500">Ubah logo dan menu navigasi pada bagian atas website.</p>
+                  </div>
                 </div>
-                <div class="flex-1 w-full">
-                  <label class="block text-sm font-medium text-slate-900 dark:text-white mb-1">Teks Logo Navbar</label>
-                  <p class="text-xs text-slate-500 mb-3">Ubah teks yang tampil sebagai logo di menu atas website.</p>
-                  <input type="text" id="navbar-logo_text" class="w-full px-4 py-3 bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-all placeholder-slate-400 dark:placeholder-slate-600">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">URL Logo Image</label>
+                    <div class="flex items-center gap-3">
+                      <div id="navbar-logo-preview-container" class="w-12 h-12 rounded-lg bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border flex items-center justify-center overflow-hidden shrink-0 hidden">
+                        <img id="navbar-logo-preview" src="" alt="Preview" class="w-full h-full object-contain">
+                      </div>
+                      <div class="flex gap-2 flex-1">
+                        <input type="text" id="navbar-logo_image" oninput="updateImagePreview('navbar-logo')" class="flex-1 px-4 py-2 bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm">
+                        <button type="button" onclick="document.getElementById('navbar-logo-input').click()" class="px-4 py-2 bg-slate-100 dark:bg-brand-darker hover:bg-slate-200 dark:hover:bg-brand-border text-slate-700 dark:text-slate-300 rounded-xl text-sm font-medium transition-colors border border-slate-200 dark:border-brand-border shrink-0">
+                          Browse
+                        </button>
+                        <input type="file" id="navbar-logo-input" accept="image/*" onchange="uploadNavbarLogo(this)" class="hidden">
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">Teks Logo Navbar</label>
+                    <input type="text" id="navbar-logo_text" class="w-full px-4 py-2 bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm">
+                  </div>
+                </div>
+
+                <div class="border-t border-slate-200 dark:border-brand-border pt-4 mt-2">
+                  <div class="flex items-center justify-between mb-4">
+                    <h5 class="text-xs font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wider">Menu Navigasi</h5>
+                    <button type="button" onclick="addNavbarLink()" class="flex items-center gap-1.5 px-3 py-1.5 bg-brand-blue/10 hover:bg-brand-blue/20 text-brand-blue rounded-lg text-[10px] sm:text-xs font-semibold transition-colors">
+                      <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                      Tambah Menu
+                    </button>
+                  </div>
+                  
+                  <input type="hidden" id="navbar-nav_links_data">
+                  <div id="navbarLinksList" class="flex flex-col gap-3">
+                    <!-- Dynamic links will be rendered here -->
+                  </div>
                 </div>
               </div>
               <button type="submit" class="hidden">Submit</button>
@@ -46,39 +84,27 @@
             <form id="form-hero" class="setting-form hidden space-y-4">
               <div class="bg-white dark:bg-brand-card p-5 rounded-2xl border border-slate-200 dark:border-brand-border flex flex-col sm:flex-row items-start gap-4">
                 <div class="w-10 h-10 rounded-full bg-slate-50 dark:bg-brand-dark flex items-center justify-center text-brand-blue shrink-0 mt-1">
-                  <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14"></path></svg>
-                </div>
-                <div class="flex-1 w-full">
-                  <label class="block text-sm font-medium text-slate-900 dark:text-white mb-1">Background Media</label>
-                  <p class="text-xs text-slate-500 mb-3" id="hero-img-name">Pilih gambar latar belakang untuk Hero Section.</p>
-                  <div class="flex items-center gap-3">
-                    <input type="hidden" id="hero-image_url">
-                    <button type="button" class="file-upload-btn px-4 py-2 bg-slate-50 dark:bg-brand-dark hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-lg border border-slate-200 dark:border-brand-border transition-colors">
-                      <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg> GANTI GAMBAR
-                      <input type="file" accept="image/*" onchange="uploadImage(this, 'hero-image_url', 'hero-img-name')">
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="bg-white dark:bg-brand-card p-5 rounded-2xl border border-slate-200 dark:border-brand-border flex flex-col sm:flex-row items-start gap-4">
-                <div class="w-10 h-10 rounded-full bg-slate-50 dark:bg-brand-dark flex items-center justify-center text-brand-blue shrink-0 mt-1">
-                  <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                  <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 </div>
                 <div class="flex-1 space-y-4 w-full">
-                  <label class="block text-sm font-medium text-slate-900 dark:text-white mb-1">Teks Utama & CTA</label>
-                  <div>
-                    <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">Judul Utama (Baris 1)</label>
-                    <input type="text" id="hero-title_main" class="w-full px-4 py-3 bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm">
+                  <label class="block text-sm font-medium text-slate-900 dark:text-white mb-1">Hero Section Settings</label>
+                  
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">Judul Utama</label>
+                      <input type="text" id="hero-title_main" class="w-full px-4 py-3 bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm">
+                    </div>
+                    <div>
+                      <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">Judul Gradient (Highlight)</label>
+                      <input type="text" id="hero-title_gradient" class="w-full px-4 py-3 bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm">
+                    </div>
                   </div>
+
                   <div>
-                    <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">Judul Gradient (Baris 2)</label>
-                    <input type="text" id="hero-title_gradient" class="w-full px-4 py-3 bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm">
-                  </div>
-                  <div>
-                    <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">Deskripsi</label>
+                    <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">Deskripsi Singkat</label>
                     <textarea id="hero-subtitle" rows="3" class="w-full px-4 py-3 bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm"></textarea>
                   </div>
+
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">Teks Tombol</label>
@@ -89,6 +115,24 @@
                       <input type="text" id="hero-cta_link" class="w-full px-4 py-3 bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm">
                     </div>
                   </div>
+
+                  <div class="pt-2 border-t border-slate-200 dark:border-brand-border mt-4">
+                    <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">Background Slider (Carousel)</label>
+                    <p class="text-[10px] sm:text-xs text-slate-500 mb-3">Upload beberapa gambar untuk dijadikan background berjalan (otomatis berganti tiap 4 detik).</p>
+                    
+                    <div id="hero-backgrounds-container" class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
+                      <!-- Rendered by JS -->
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                      <input type="hidden" id="hero-backgrounds_data">
+                      <label class="cursor-pointer px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-lg transition-colors border border-slate-200 dark:border-slate-700 inline-block" id="btn-upload-hero-bg">
+                        <span>Upload Background</span>
+                        <input type="file" class="hidden" accept="image/*" onchange="uploadHeroBackground(this)">
+                      </label>
+                    </div>
+                  </div>
+
                 </div>
               </div>
               <button type="submit" class="hidden">Submit</button>
@@ -276,6 +320,45 @@
                     <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">Deskripsi</label>
                     <textarea id="faq-subtitle" rows="3" class="w-full px-4 py-3 bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm"></textarea>
                   </div>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">Teks Tombol</label>
+                      <input type="text" id="faq-button_text" class="w-full px-4 py-3 bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm">
+                    </div>
+                    <div>
+                      <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">Link Tombol</label>
+                      <input type="text" id="faq-button_link" class="w-full px-4 py-3 bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- FAQ Item List -->
+              <div class="bg-white dark:bg-brand-card rounded-2xl border border-slate-200 dark:border-brand-border overflow-hidden">
+                <div class="flex items-center justify-between px-5 py-4 border-b border-slate-200 dark:border-brand-border">
+                  <div>
+                    <h4 class="text-sm font-medium text-slate-900 dark:text-white">Daftar Pertanyaan FAQ</h4>
+                    <p class="text-xs text-slate-500 mt-0.5">Kelola item pertanyaan dan jawaban.</p>
+                  </div>
+                  <button type="button" onclick="openFaqModal()" class="px-2 py-1 sm:px-3 sm:py-1.5 bg-brand-blue hover:bg-blue-600 text-white text-xs font-medium rounded-full sm:rounded-lg transition-colors flex items-center justify-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    Tambah FAQ
+                  </button>
+                </div>
+                <div class="overflow-x-auto">
+                  <table class="w-full text-left">
+                    <thead>
+                      <tr class="bg-slate-50 dark:bg-[#0D0E12] border-b border-slate-200 dark:border-brand-border text-slate-500 dark:text-slate-400 text-[10px] sm:text-[11px] font-bold uppercase tracking-widest">
+                        <th class="py-1.5 px-2 sm:py-3 sm:px-5 whitespace-nowrap">Pertanyaan</th>
+                        <th class="py-1.5 px-2 sm:py-3 sm:px-5 whitespace-nowrap">Urutan</th>
+                        <th class="py-1.5 px-2 sm:py-3 sm:px-5 whitespace-nowrap">Status</th>
+                        <th class="py-1.5 px-2 sm:py-3 sm:px-5 text-center whitespace-nowrap">Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody id="faq-table-body" class="text-[10px] sm:text-xs whitespace-nowrap text-slate-600 dark:text-slate-300">
+                      <tr><td colspan="4" class="py-8 text-center text-slate-400">Memuat data...</td></tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
               <button type="submit" class="hidden">Submit</button>
@@ -337,6 +420,57 @@
         </div>
       </div>
 
+      <!-- FAQ Modal (Side Panel) -->
+      <div id="faq-modal" class="fixed inset-0 bg-slate-900/45 z-[9999] hidden opacity-0 transition-opacity duration-300" onclick="if(event.target===this)closeFaqModal()">
+        <div class="fixed right-0 top-0 h-screen w-full sm:max-w-[500px] bg-white dark:bg-brand-card border-l border-slate-200 dark:border-brand-border shadow-[-18px_0_60px_rgba(15,23,42,0.22)] overflow-hidden transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col rounded-none z-[10000]" id="faq-modal-content">
+          <div class="flex items-center justify-between px-8 py-5 border-b border-slate-200 dark:border-brand-border shrink-0 bg-white dark:bg-brand-card">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center border border-slate-200 dark:border-slate-700">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white leading-tight" id="faq-modal-title">Tambah FAQ</h3>
+                <p class="text-xs font-medium text-slate-500 mt-0.5">Kelola item pertanyaan dan jawaban</p>
+              </div>
+            </div>
+            <button type="button" onclick="closeFaqModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+              <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+          </div>
+          <div class="overflow-y-auto flex-1 p-8 bg-slate-50 dark:bg-[#14151a]">
+            <div class="space-y-6">
+              <input type="hidden" id="faqitem-original-key">
+              <input type="hidden" id="faqitem-slug">
+              <div>
+                <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">Pertanyaan *</label>
+                <input type="text" id="faqitem-question" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm" placeholder="Pertanyaan FAQ">
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">Jawaban</label>
+                <textarea id="faqitem-answer" rows="4" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm" placeholder="Jawaban FAQ"></textarea>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">Urutan</label>
+                  <input type="number" id="faqitem-sort_order" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm" value="1">
+                </div>
+                <div>
+                  <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">Status Aktif</label>
+                  <select id="faqitem-status" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm">
+                    <option value="active">Active</option>
+                    <option value="non-active">Non-active</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="px-6 py-3.5 border-t border-slate-200 dark:border-brand-border shrink-0 bg-white dark:bg-brand-card flex items-center justify-end gap-3">
+            <button type="button" onclick="closeFaqModal()" class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm">Batal</button>
+            <button type="button" onclick="saveFaqItem()" class="px-4 py-2 bg-brand-blue hover:bg-blue-600 text-white text-xs font-bold rounded-lg transition-colors shadow-sm">Simpan FAQ</button>
+          </div>
+        </div>
+      </div>
+
       <!-- Service Modal (Side Panel) -->
       <div id="service-modal" class="fixed inset-0 bg-slate-900/45 z-[9999] hidden opacity-0 transition-opacity duration-300" onclick="if(event.target===this)closeServiceModal()">
         <div class="fixed right-0 top-0 h-screen w-full sm:max-w-[720px] bg-white dark:bg-brand-card border-l border-slate-200 dark:border-brand-border shadow-[-18px_0_60px_rgba(15,23,42,0.22)] overflow-hidden transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col rounded-none z-[10000]" id="service-modal-content">
@@ -387,12 +521,17 @@
             </div>
             <div>
               <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">URL Gambar</label>
-              <div class="flex gap-2">
-                <input type="text" id="service-image" class="flex-1 px-4 py-2.5 bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm" placeholder="https://... atau /uploads/...">
-                <label class="file-upload-btn px-3 py-2.5 bg-slate-50 dark:bg-brand-dark hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-xl border border-slate-200 dark:border-brand-border transition-colors cursor-pointer flex items-center gap-1 shrink-0">
-                  <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg> Upload
-                  <input type="file" accept="image/*" onchange="uploadServiceImage(this)" class="hidden">
-                </label>
+              <div class="flex items-center gap-3">
+                <div id="service-preview-container" class="w-12 h-12 rounded-lg bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border flex items-center justify-center overflow-hidden shrink-0 hidden">
+                  <img id="service-preview" src="" alt="Preview" class="w-full h-full object-cover">
+                </div>
+                <div class="flex gap-2 flex-1">
+                  <input type="text" id="service-image" oninput="updateImagePreview('service')" class="flex-1 px-4 py-2.5 bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm" placeholder="https://... atau /uploads/...">
+                  <label class="file-upload-btn px-3 py-2.5 bg-slate-50 dark:bg-brand-dark hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-xl border border-slate-200 dark:border-brand-border transition-colors cursor-pointer flex items-center gap-1 shrink-0">
+                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg> Upload
+                    <input type="file" accept="image/*" onchange="uploadServiceImage(this)" class="hidden">
+                  </label>
+                </div>
               </div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -495,12 +634,17 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">Image URL</label>
-                <div class="flex gap-2">
-                  <input type="text" id="project-image" class="flex-1 px-4 py-2.5 bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm" placeholder="/uploads/...">
-                  <label class="file-upload-btn px-3 py-2.5 bg-slate-50 dark:bg-brand-dark hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-xl border border-slate-200 dark:border-brand-border transition-colors cursor-pointer flex items-center gap-1 shrink-0">
-                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg> Upload
-                    <input type="file" accept="image/*" onchange="uploadProjectImage(this)" class="hidden">
-                  </label>
+                <div class="flex items-center gap-3">
+                  <div id="project-preview-container" class="w-12 h-12 rounded-lg bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border flex items-center justify-center overflow-hidden shrink-0 hidden">
+                    <img id="project-preview" src="" alt="Preview" class="w-full h-full object-cover">
+                  </div>
+                  <div class="flex gap-2 flex-1">
+                    <input type="text" id="project-image" oninput="updateImagePreview('project')" class="flex-1 px-4 py-2.5 bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm" placeholder="/uploads/...">
+                    <label class="file-upload-btn px-3 py-2.5 bg-slate-50 dark:bg-brand-dark hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-xl border border-slate-200 dark:border-brand-border transition-colors cursor-pointer flex items-center gap-1 shrink-0">
+                      <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg> Upload
+                      <input type="file" accept="image/*" onchange="uploadProjectImage(this)" class="hidden">
+                    </label>
+                  </div>
                 </div>
               </div>
               <div>
@@ -619,12 +763,17 @@
             </div>
             <div>
               <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">URL Gambar</label>
-              <div class="flex gap-2">
-                <input type="text" id="timeline-image" class="flex-1 px-4 py-2.5 bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm" placeholder="https://... atau /uploads/...">
-                <label class="file-upload-btn px-3 py-2.5 bg-slate-50 dark:bg-brand-dark hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-xl border border-slate-200 dark:border-brand-border transition-colors cursor-pointer flex items-center gap-1 shrink-0">
-                  <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg> Upload
-                  <input type="file" accept="image/*" onchange="uploadTimelineImage(this)" class="hidden">
-                </label>
+              <div class="flex items-center gap-3">
+                <div id="timeline-preview-container" class="w-12 h-12 rounded-lg bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border flex items-center justify-center overflow-hidden shrink-0 hidden">
+                  <img id="timeline-preview" src="" alt="Preview" class="w-full h-full object-cover">
+                </div>
+                <div class="flex gap-2 flex-1">
+                  <input type="text" id="timeline-image" oninput="updateImagePreview('timeline')" class="flex-1 px-4 py-2.5 bg-slate-50 dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm" placeholder="https://... atau /uploads/...">
+                  <label class="file-upload-btn px-3 py-2.5 bg-slate-50 dark:bg-brand-dark hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-xl border border-slate-200 dark:border-brand-border transition-colors cursor-pointer flex items-center gap-1 shrink-0">
+                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg> Upload
+                    <input type="file" accept="image/*" onchange="uploadTimelineImage(this)" class="hidden">
+                  </label>
+                </div>
               </div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">

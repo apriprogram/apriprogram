@@ -1,0 +1,553 @@
+<script>
+let contentsData = [];
+let contentsPage = 1;
+
+// Load Contents
+async function loadContents() {
+  const tbody = document.getElementById('contents-table-body');
+  if (!tbody) return;
+
+  try {
+    const res = await fetch('/api/admin/contents');
+    const data = await res.json();
+    if (data.success) {
+      contentsData = data.data;
+      const badge = document.getElementById('badge-contents');
+      if (badge) {
+        badge.innerText = contentsData.length;
+        if (contentsData.length > 0) {
+          badge.classList.remove('hidden');
+        } else {
+          badge.classList.add('hidden');
+        }
+      }
+      renderContentsTable();
+    } else {
+      tbody.innerHTML = `<tr><td colspan="4" class="px-6 py-8 text-center text-red-500">${data.message || 'Gagal memuat data.'}</td></tr>`;
+    }
+  } catch (err) {
+    console.error('Error loading contents:', err);
+    tbody.innerHTML = `<tr><td colspan="4" class="px-6 py-8 text-center text-red-500">Terjadi kesalahan koneksi.</td></tr>`;
+  }
+}
+
+// Render Table
+function renderContentsTable() {
+  const tbody = document.getElementById('contents-table-body');
+  const searchInput = document.getElementById('contents-search');
+  const sortEl = document.getElementById('contents-sort');
+  const limitEl = document.getElementById('contents-limit');
+  const paginationEl = document.getElementById('contents-pagination');
+  
+  if (!tbody) return;
+
+  const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+  const sort = sortEl ? sortEl.value : 'newest';
+  const limit = limitEl ? (parseInt(limitEl.value, 10) || 10) : 10;
+
+  let filtered = contentsData.filter(item => 
+    (item.title || '').toLowerCase().includes(searchTerm) || 
+    (item.target_audience || '').toLowerCase().includes(searchTerm)
+  );
+
+  if (sort === 'oldest') {
+    filtered.sort((a, b) => new Date(a.created_at || 0) - new Date(b.created_at || 0));
+  } else {
+    filtered.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+  }
+
+  const totalPages = Math.ceil(filtered.length / limit) || 1;
+  if (contentsPage > totalPages) contentsPage = totalPages;
+  const start = (contentsPage - 1) * limit;
+  const paginated = filtered.slice(start, start + limit);
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="5" class="px-6 py-8 text-center">
+          <div class="flex flex-col items-center justify-center">
+            <svg class="w-12 h-12 text-slate-300 dark:text-slate-600 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
+            <span class="text-slate-500 dark:text-slate-400 font-medium">Belum ada konten ditemukan</span>
+          </div>
+        </td>
+      </tr>
+    `;
+    if (paginationEl) paginationEl.innerHTML = '';
+    return;
+  }
+
+  tbody.innerHTML = paginated.map((item, idx) => `
+    <tr class="border-b border-slate-200 dark:border-brand-border hover:bg-slate-50 dark:hover:bg-[#1a1c23] transition-colors">
+      <td class="py-1.5 px-2 sm:py-2 sm:px-3 font-medium whitespace-nowrap text-[10px] sm:text-xs">${start + idx + 1}</td>
+      <td class="py-1.5 px-2 sm:py-2 sm:px-3 whitespace-nowrap text-[10px] sm:text-xs">
+        <div class="font-medium text-slate-900 dark:text-white truncate max-w-[200px] sm:max-w-xs">${item.title}</div>
+        <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 tracking-wider truncate max-w-[200px] sm:max-w-xs">${item.idea_summary || '-'}</div>
+      </td>
+      <td class="py-1.5 px-2 sm:py-2 sm:px-3 whitespace-nowrap text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 truncate max-w-[150px]">${item.target_audience || '-'}</td>
+      <td class="py-1.5 px-2 sm:py-2 sm:px-3 text-center whitespace-nowrap">
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" ${item.is_completed ? 'checked' : ''} onchange="toggleContentCompleted(${item.id}, this.checked)" class="sr-only peer">
+          <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-brand-blue"></div>
+        </label>
+      </td>
+      <td class="py-1.5 px-2 sm:py-2 sm:px-3 text-center flex justify-center gap-1.5 whitespace-nowrap">
+        ${getActionButtonHtml('view', `viewContentDetail(${item.id})`, 'Lihat Data')}
+        ${getActionButtonHtml('edit', `openContentForm(${item.id})`, 'Edit Konten')}
+        ${getActionButtonHtml('delete', `confirmDeleteContent(${item.id})`, 'Hapus Konten')}
+      </td>
+    </tr>
+  `).join('');
+
+  if (paginationEl) {
+    let pageOptions = '';
+    for (let i = 1; i <= totalPages; i++) {
+      pageOptions += `<option value="${i}" ${i === contentsPage ? 'selected' : ''}>${i} / ${totalPages}</option>`;
+    }
+    
+    paginationEl.innerHTML = `
+      <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+        <span class="whitespace-nowrap text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">Rows per page</span>
+        <div class="relative">
+          <select onchange="document.getElementById('contents-limit').value = this.value; contentsPage = 1; renderContentsTable()" class="pl-3 pr-7 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium shadow-sm">
+            <option value="10" ${limit === 10 ? 'selected' : ''}>10</option>
+            <option value="20" ${limit === 20 ? 'selected' : ''}>20</option>
+            <option value="30" ${limit === 30 ? 'selected' : ''}>30</option>
+            <option value="50" ${limit === 50 ? 'selected' : ''}>50</option>
+          </select>
+          <svg class="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 sm:gap-6 shrink-0">
+        <div class="flex items-center gap-3">
+          <span class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">Page</span>
+          <div class="relative">
+            <select onchange="contentsPage = parseInt(this.value); renderContentsTable()" class="pl-3 pr-7 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium shadow-sm">
+               ${pageOptions}
+            </select>
+            <svg class="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
+          </div>
+        </div>
+        
+        <div class="flex items-center rounded-lg border border-slate-200 dark:border-brand-border bg-white dark:bg-[#14151a] shadow-sm overflow-hidden shrink-0">
+          <button onclick="contentsPage = 1; renderContentsTable()" ${contentsPage === 1 ? 'disabled' : ''} class="px-2.5 py-1.5 border-r border-slate-200 dark:border-brand-border text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
+          </button>
+          <button onclick="contentsPage--; renderContentsTable()" ${contentsPage === 1 ? 'disabled' : ''} class="px-2.5 py-1.5 border-r border-slate-200 dark:border-brand-border text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+          </button>
+          <button onclick="contentsPage++; renderContentsTable()" ${contentsPage === totalPages ? 'disabled' : ''} class="px-2.5 py-1.5 border-r border-slate-200 dark:border-brand-border text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+          <button onclick="contentsPage = ${totalPages}; renderContentsTable()" ${contentsPage === totalPages ? 'disabled' : ''} class="px-2.5 py-1.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+          </button>
+        </div>
+      </div>
+    `;
+  }
+}
+
+// Add event listeners for controls
+const contentsSortEl = document.getElementById('contents-sort');
+if (contentsSortEl) contentsSortEl.addEventListener('change', renderContentsTable);
+
+const contentsLimitEl = document.getElementById('contents-limit');
+if (contentsLimitEl) contentsLimitEl.addEventListener('change', () => {
+  contentsPage = 1;
+  renderContentsTable();
+});
+
+// Search Feature Setup
+const contentSearchInput = document.getElementById('contents-search');
+if (contentSearchInput) {
+  contentSearchInput.addEventListener('input', () => { contentsPage = 1; renderContentsTable(); });
+}
+
+// Auto-resize textarea function
+function autoResizeTextarea(el) {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+}
+
+function initAutoResizeTextareas() {
+  const textareas = document.querySelectorAll('#content-form textarea');
+  textareas.forEach(textarea => {
+    textarea.style.overflow = 'hidden'; // Hide default scrollbar
+    // Add event listener if not already added
+    if (!textarea.dataset.resizeListener) {
+      textarea.addEventListener('input', function() {
+        autoResizeTextarea(this);
+      });
+      textarea.dataset.resizeListener = "true";
+    }
+    // Initial resize
+    setTimeout(() => autoResizeTextarea(textarea), 10);
+  });
+}
+
+
+
+async function toggleContentCompleted(id, isChecked) {
+  try {
+    const res = await fetch(`/api/admin/contents/${id}/toggle-completed`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ is_completed: isChecked })
+    });
+    const data = await res.json();
+    if (data.success) {
+      const item = contentsData.find(c => Number(c.id) === Number(id));
+      if (item) item.is_completed = isChecked ? 1 : 0;
+      showToast('Status konten diperbarui.', 'green');
+    } else {
+      showToast(data.message || 'Gagal memperbarui status.', 'red');
+      renderContentsTable(); // revert UI
+    }
+  } catch (err) {
+    showToast('Terjadi kesalahan sistem.', 'red');
+    renderContentsTable(); // revert UI
+  }
+}
+
+function viewContentDetail(id) {
+  const item = contentsData.find(c => Number(c.id) === Number(id));
+  if (!item) return;
+
+  switchTab('content-detail');
+  
+  const btnEdit = document.getElementById('btn-edit-content-detail');
+  if (btnEdit) {
+    btnEdit.setAttribute('onclick', `openContentForm(${id})`);
+  }
+
+  const container = document.getElementById('content-detail-container');
+  if (!container) return;
+
+  function renderField(label, value, forceLink = false) {
+    if (!value) return '';
+    
+    let displayValue = value;
+    const isSingleUrl = value.trim().startsWith('http') && !value.trim().includes(' ') && !value.trim().includes('\\n');
+    
+    if (forceLink || isSingleUrl) {
+      const url = value.trim();
+      displayValue = `<a href="${url}" target="_blank" class="inline-flex items-center gap-1.5 text-brand-blue hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 hover:underline transition-all break-all"><svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>${url}</a>`;
+    }
+
+    return `
+      <div class="mb-5">
+        <h5 class="text-[13px] font-semibold text-slate-800 dark:text-slate-200 capitalize">${label}</h5>
+        <div class="text-[13px] text-slate-600 dark:text-slate-400 whitespace-pre-wrap leading-relaxed mt-0.5">${displayValue}</div>
+      </div>
+    `;
+  }
+
+  let assetsHtml = '';
+  if (item.assets) {
+    try {
+      const parsedAssets = item.assets.split(',').map(u => u.trim()).filter(u => u);
+      if (parsedAssets.length > 0) {
+        assetsHtml = `
+          <div class="mb-5">
+            <h5 class="text-[13px] font-semibold text-slate-800 dark:text-slate-200 capitalize mb-2">Asset Pendukung</h5>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              ${parsedAssets.map(url => {
+                const name = url.split('/').pop() || 'File';
+                const isImage = url.match(/\\.(jpeg|jpg|gif|png|webp|svg)$/i);
+                if (isImage) {
+                  return `
+                    <div class="rounded-xl overflow-hidden border border-slate-200 dark:border-brand-border bg-slate-50 dark:bg-[#14151a] group">
+                      <div class="relative w-full pt-[75%] bg-slate-100 dark:bg-[#0D0E12]">
+                        <img src="${url}" alt="${name}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer" onclick="window.open('${url}', '_blank')">
+                      </div>
+                      <div class="p-2.5 truncate text-[10px] sm:text-[11px] text-center text-slate-600 dark:text-slate-400 font-medium" title="${name}">${name}</div>
+                    </div>
+                  `;
+                } else {
+                  return `
+                    <div class="flex flex-col items-center justify-center p-4 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-xl hover:border-brand-blue/50 transition-colors cursor-pointer group" onclick="window.open('${url}', '_blank')" title="${name}">
+                      <div class="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center shrink-0 text-brand-blue mb-3 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                      </div>
+                      <span class="text-[11px] font-medium text-slate-700 dark:text-slate-300 w-full text-center truncate px-1">${name}</span>
+                      <span class="text-[9px] text-slate-400 mt-1">Lihat Dokumen</span>
+                    </div>
+                  `;
+                }
+              }).join('')}
+            </div>
+          </div>
+        `;
+      }
+    } catch (e) {
+      console.error('Error parsing assets', e);
+    }
+  }
+
+  container.innerHTML = `
+    <!-- Section 1 -->
+    <div class="bg-white dark:bg-brand-card p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-brand-border mb-6">
+      <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-5 flex items-center gap-2">
+        <span class="w-6 h-6 rounded-lg bg-blue-50 dark:bg-blue-500/10 text-brand-blue flex items-center justify-center text-xs">1</span>
+        Ide Dasar
+      </h4>
+      <div class="space-y-4">
+        ${renderField('Judul Konten', item.title)}
+        ${renderField('Ringkasan Ide', item.idea_summary)}
+        ${renderField('Latar Belakang', item.background)}
+        ${renderField('Permasalahan (Pain Points)', item.problem)}
+        ${renderField('Tujuan Konten', item.objective)}
+        ${renderField('Target Audiens', item.target_audience)}
+      </div>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="bg-white dark:bg-brand-card p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-brand-border mb-6">
+      <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-5 flex items-center gap-2">
+        <span class="w-6 h-6 rounded-lg bg-blue-50 dark:bg-blue-500/10 text-brand-blue flex items-center justify-center text-xs">2</span>
+        Konteks & Tujuan
+      </h4>
+      <div class="space-y-4">
+        ${renderField('Konsep & Tema', item.concept)}
+        ${renderField('Sudut Pandang (Angle)', item.angle)}
+        ${renderField('Nilai yang Diberikan', item.value_provided)}
+        ${renderField('Pembuka (Hook)', item.opening)}
+      </div>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="bg-white dark:bg-brand-card p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-brand-border mb-6">
+      <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-5 flex items-center gap-2">
+        <span class="w-6 h-6 rounded-lg bg-blue-50 dark:bg-blue-500/10 text-brand-blue flex items-center justify-center text-xs">3</span>
+        Pendekatan
+      </h4>
+      <div class="space-y-4">
+        ${renderField('Narasi / Gaya Bahasa', item.narrative)}
+        ${renderField('Outline Utama', item.outline)}
+      </div>
+    </div>
+
+    <!-- Section 4 -->
+    <div class="bg-white dark:bg-brand-card p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-brand-border mb-6">
+      <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-5 flex items-center gap-2">
+        <span class="w-6 h-6 rounded-lg bg-blue-50 dark:bg-blue-500/10 text-brand-blue flex items-center justify-center text-xs">4</span>
+        Kerangka Konten
+      </h4>
+      <div class="space-y-4">
+        ${renderField('Isi Konten', item.content_body)}
+        ${renderField('Call to Action (CTA)', item.cta)}
+      </div>
+    </div>
+
+    <!-- Section 5 -->
+    <div class="bg-white dark:bg-brand-card p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-brand-border mb-6">
+      <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-5 flex items-center gap-2">
+        <span class="w-6 h-6 rounded-lg bg-blue-50 dark:bg-blue-500/10 text-brand-blue flex items-center justify-center text-xs">5</span>
+        Meta & Aset Tambahan
+      </h4>
+      <div class="space-y-4">
+        ${renderField('Kata Kunci (SEO)', item.seo_keywords)}
+        ${renderField('Referensi / Tautan Sumber', item.references)}
+        ${assetsHtml}
+        ${renderField('Catatan Tambahan', item.notes)}
+      </div>
+    </div>
+  `;
+}
+
+// Form Handlers
+function openContentForm(id = null) {
+  switchTab('content-form');
+  const form = document.getElementById('content-form');
+  if (form) form.reset();
+
+  if (id) {
+    const item = contentsData.find(c => Number(c.id) === Number(id));
+    if (item) {
+      document.getElementById('content-form-title').innerText = 'Edit Konten';
+      fillContentForm(item);
+    }
+  } else {
+    document.getElementById('content-form-title').innerText = 'Tambah Konten Baru';
+    document.getElementById('content-id').value = '';
+    document.getElementById('content-assets').value = '';
+    renderContentAssets();
+    initAutoResizeTextareas();
+  }
+}
+
+function fillContentForm(item) {
+  const fields = [
+    'id', 'title', 'idea_summary', 'background', 'problem', 'objective', 'target_audience', 
+    'concept', 'angle', 'value_provided', 'opening', 'narrative', 'outline', 'content_body', 
+    'cta', 'seo_keywords', 'references', 'assets', 'notes'
+  ];
+  fields.forEach(field => {
+    const el = document.getElementById(`content-${field}`);
+    if (el) el.value = item[field] || '';
+  });
+  renderContentAssets();
+  initAutoResizeTextareas();
+}
+
+async function uploadContentAssets(input) {
+  if (!input.files || input.files.length === 0) return;
+
+  const formData = new FormData();
+  Array.from(input.files).forEach(file => formData.append('document', file));
+
+  const displayEl = document.getElementById('content-assets-display');
+  const originalHtml = displayEl.innerHTML;
+  displayEl.innerHTML = '<span class="text-slate-500 font-medium animate-pulse text-sm">Mengunggah file...</span>';
+
+  try {
+    const res = await fetch('/api/upload/document', { method: 'POST', body: formData });
+    const data = await res.json();
+
+    if (data.success) {
+      const hiddenInput = document.getElementById('content-assets');
+      const currentVal = hiddenInput.value.trim();
+      hiddenInput.value = currentVal ? `${currentVal},${data.url}` : data.url;
+      renderContentAssets();
+      showToast('File berhasil diunggah.', 'green');
+    } else {
+      displayEl.innerHTML = originalHtml;
+      showToast(data.message || 'Gagal mengunggah file.', 'red');
+    }
+  } catch (err) {
+    displayEl.innerHTML = originalHtml;
+    showToast('Terjadi kesalahan saat mengunggah file.', 'red');
+  } finally {
+    input.value = '';
+  }
+}
+
+function renderContentAssets() {
+  const hiddenInput = document.getElementById('content-assets');
+  const displayEl = document.getElementById('content-assets-display');
+  if (!hiddenInput || !displayEl) return;
+
+  const urls = hiddenInput.value.split(',').map(u => u.trim()).filter(u => u);
+  if (urls.length === 0) {
+    displayEl.innerHTML = '<span class="text-slate-400 text-xs italic">Belum ada asset diunggah.</span>';
+    return;
+  }
+
+  displayEl.innerHTML = urls.map((url, idx) => {
+    const filename = url.split('/').pop() || 'File';
+    return `
+      <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg group">
+        <div class="flex items-center gap-3 overflow-hidden">
+          <div class="w-8 h-8 rounded bg-white dark:bg-slate-800 flex items-center justify-center shrink-0 border border-slate-200 dark:border-slate-700">
+            <svg class="w-4 h-4 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
+          </div>
+          <span class="text-sm font-medium text-slate-700 dark:text-slate-300 truncate" title="${filename}">${filename}</span>
+        </div>
+        <div class="flex items-center gap-1 shrink-0">
+          <button type="button" onclick="openPreviewModal('${url}')" class="p-1.5 text-slate-400 hover:text-brand-blue hover:bg-blue-50 dark:hover:bg-blue-500/10 rounded-md transition-colors" title="Lihat">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+          </button>
+          <a href="${url}" target="_blank" download class="p-1.5 text-slate-400 hover:text-green-500 hover:bg-green-50 dark:hover:bg-green-500/10 rounded-md transition-colors" title="Unduh">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+          </a>
+          <button type="button" onclick="removeContentAsset(${idx})" class="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-md transition-colors" title="Hapus">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function removeContentAsset(idx) {
+  const hiddenInput = document.getElementById('content-assets');
+  const urls = hiddenInput.value.split(',').map(u => u.trim()).filter(u => u);
+  urls.splice(idx, 1);
+  hiddenInput.value = urls.join(',');
+  renderContentAssets();
+}
+
+// Submit Form
+async function submitContentForm(e) {
+  if (e) e.preventDefault();
+  try {
+    const fields = [
+      'id', 'title', 'idea_summary', 'background', 'problem', 'objective', 'target_audience', 
+      'concept', 'angle', 'value_provided', 'opening', 'narrative', 'outline', 'content_body', 
+      'cta', 'seo_keywords', 'references', 'assets', 'notes'
+    ];
+    
+    const payload = {};
+    fields.forEach(field => {
+      const el = document.getElementById(`content-${field}`);
+      if (el) payload[field] = el.value;
+    });
+
+    if (!payload.title) {
+      showToast('Judul Konten wajib diisi.', 'red');
+      return;
+    }
+
+    const res = await fetch('/api/admin/contents', {
+      method: payload.id ? 'PUT' : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    
+    const data = await res.json();
+    if (data.success) {
+      showToast(data.message, 'green');
+      switchTab('contents');
+      loadContents();
+    } else {
+      showToast(data.message || 'Terjadi kesalahan.', 'red');
+    }
+  } catch (err) {
+    console.error('Error submitting content form:', err);
+    showToast('Gagal memproses form.', 'red');
+  }
+}
+
+// Delete Content
+let contentIdToDelete = null;
+function confirmDeleteContent(id) {
+  contentIdToDelete = id;
+  const modal = document.getElementById('delete-modal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    // Ensure animation logic if necessary
+    setTimeout(() => {
+      const content = document.getElementById('delete-modal-content');
+      if (content) {
+        content.classList.remove('scale-95', 'opacity-0');
+        content.classList.add('scale-100', 'opacity-100');
+      }
+    }, 10);
+    
+    // Assign generic delete confirm if we use a shared delete modal, or a specific one.
+    // Assuming there's a global delete modal like the one for users/orders.
+    const confirmBtn = document.getElementById('confirm-delete-btn');
+    if (confirmBtn) {
+      confirmBtn.onclick = async function() {
+        if (!contentIdToDelete) return;
+        try {
+          const res = await fetch(`/api/admin/contents/${contentIdToDelete}`, { method: 'DELETE' });
+          const data = await res.json();
+          if (data.success) {
+            showToast(data.message, 'green');
+            loadContents();
+          } else {
+            showToast(data.message || 'Gagal menghapus.', 'red');
+          }
+        } catch (err) {
+          showToast('Error menghapus data.', 'red');
+        } finally {
+          closeModal('delete-modal');
+          contentIdToDelete = null;
+        }
+      };
+    }
+  }
+}
+</script>

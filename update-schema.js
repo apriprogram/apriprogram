@@ -18,6 +18,12 @@ async function updateSchema() {
     await pool.query("ALTER TABLE users MODIFY COLUMN password VARCHAR(255) NULL;");
     console.log("Modified password column to allow NULL.");
     
+    const [colsContent] = await pool.query("SHOW COLUMNS FROM contents LIKE 'is_completed'");
+    if (colsContent.length === 0) {
+      await pool.query("ALTER TABLE contents ADD COLUMN is_completed TINYINT(1) DEFAULT 0;");
+      console.log("Added is_completed column to contents.");
+    }
+    
     console.log("Database schema updated successfully.");
   } catch (err) {
     console.error(err);

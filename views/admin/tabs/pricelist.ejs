@@ -14,18 +14,18 @@
     <div class="flex items-center py-2 px-3 sm:py-3 sm:px-4 border-b border-slate-200 dark:border-brand-border gap-2 bg-slate-50/50 dark:bg-brand-card overflow-x-auto">
       <div class="relative group shrink-0">
         <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-        <input type="text" id="pricelist-search" onkeyup="filterPricelists()" placeholder="Search" class="pl-7 pr-3 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue transition-all w-24 sm:w-28 focus:w-40 sm:focus:w-48 text-[11px] sm:text-xs shadow-sm">
+        <input type="text" id="pricelist-search" onkeyup="filterPricelists()" placeholder="Search" class="pl-7 pr-3 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue transition-all w-24 sm:w-28 focus:w-40 sm:focus:w-48 text-[11px] sm:text-xs">
       </div>
       <div class="relative shrink-0">
         <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg>
-        <select id="pricelist-sort" onchange="filterPricelists()" class="pl-7 pr-6 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium shadow-sm">
+        <select id="pricelist-sort" onchange="filterPricelists()" class="pl-7 pr-6 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium">
           <option value="newest">Sort</option>
           <option value="oldest">Terlama</option>
         </select>
       </div>
       <div class="relative shrink-0">
         <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path></svg>
-        <select id="pricelist-limit" onchange="filterPricelists()" class="pl-7 pr-6 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium shadow-sm">
+        <select id="pricelist-limit" onchange="filterPricelists()" class="pl-7 pr-6 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium">
           <option value="10">Columns</option>
           <option value="25">25 Baris</option>
           <option value="50">50 Baris</option>
@@ -33,7 +33,7 @@
       </div>
       <div class="relative shrink-0">
         <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-        <select id="pricelist-filter" onchange="filterPricelists()" class="pl-7 pr-6 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border border-dashed rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium shadow-sm">
+        <select id="pricelist-filter" onchange="filterPricelists()" class="pl-7 pr-6 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border border-dashed rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium">
           <option value="">Add Filter</option>
           <option value="active">Active</option>
           <option value="inactive">Inactive</option>
@@ -58,7 +58,7 @@
         </tbody>
       </table>
       
-      <div id="pricelist-pagination" class="py-2 px-3 sm:py-3 sm:px-4 border-t border-slate-200 dark:border-brand-border flex flex-col sm:flex-row items-center justify-between text-[10px] sm:text-sm text-slate-500 dark:text-slate-400 bg-slate-50/50 dark:bg-brand-card gap-4">
+      <div id="pricelist-pagination" class="py-2 px-3 sm:py-3 sm:px-4 border-t border-slate-200 dark:border-brand-border flex flex-row items-center justify-between w-full text-[10px] sm:text-sm text-slate-500 dark:text-slate-400 bg-slate-50/50 dark:bg-brand-card gap-2 sm:gap-4">
         <!-- Pagination controls will be injected here -->
       </div>
     </div>

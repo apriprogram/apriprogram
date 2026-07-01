@@ -45,12 +45,12 @@
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     .dark ::-webkit-scrollbar-thumb:hover { background: #3f3f4e; }
 
-    .nav-item { transition: all 0.2s ease-in-out; }
-    .nav-item:hover, .nav-item.active {
+    .nav-item, .setting-nav { transition: all 0.2s ease-in-out; }
+    .nav-item:hover, .nav-item.active, .setting-nav:hover, .setting-nav.active {
       background-color: #F5F5F5 !important;
       color: #0f172a !important;
     }
-    .dark .nav-item:hover, .dark .nav-item.active {
+    .dark .nav-item:hover, .dark .nav-item.active, .dark .setting-nav:hover, .dark .setting-nav.active {
       background-color: #1C1E26 !important;
       color: #ffffff !important;
     }
@@ -72,10 +72,10 @@
     }
   </style>
 </head>
-<body class="bg-[#EFEFEF] dark:bg-brand-dark text-slate-700 dark:text-slate-300 font-sans h-screen flex overflow-hidden selection:bg-brand-blue selection:text-white transition-colors duration-200">
+<body class="bg-[#F1F1F1] dark:bg-brand-dark text-slate-700 dark:text-slate-300 font-sans h-screen flex overflow-hidden selection:bg-brand-blue selection:text-white transition-colors duration-200">
   <%- include('partials/sidebar') %>
 
-  <main class="flex-1 flex flex-col min-w-0 bg-[#EFEFEF] dark:bg-brand-dark">
+  <main class="flex-1 flex flex-col min-w-0 bg-[#F1F1F1] dark:bg-brand-dark">
     <%- include('partials/navbar') %>
     <div class="flex-1 overflow-y-auto p-6 md:p-8 scroll-smooth">
       <%- include('tabs/dashboard') %>
@@ -84,6 +84,9 @@
       <%- include('tabs/orders') %>
       <%- include('tabs/users') %>
       <%- include('tabs/pricelist') %>
+      <%- include('tabs/contents') %>
+      <%- include('tabs/content-form') %>
+      <%- include('tabs/content-detail') %>
     </div>
   </main>
 
@@ -93,6 +96,7 @@
   <%- include('components/modal-delete') %>
   <%- include('components/modal-pricelist') %>
   <%- include('components/modal-invoice') %>
+  <%- include('components/modal-preview') %>
 
   <div id="toast" class="fixed top-6 left-1/2 -translate-x-1/2 hidden z-[100] min-w-[300px]">
     <div class="flex items-center gap-3">
@@ -110,6 +114,7 @@
   <%- include('scripts/settings-page') %>
   <%- include('scripts/invoice-page') %>
   <%- include('scripts/invoice-download') %>
+  <%- include('scripts/contents-page') %>
   <%- include('scripts/init') %>
 </body>
 </html>
