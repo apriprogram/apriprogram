@@ -247,19 +247,67 @@ async function viewOrderDetail(id) {
   openSideModal('detail-modal', 'detail-modal-content');
 
   const user = usersData.find(usr => Number(usr.id) === Number(order.user_id));
-  const clientName = order.full_name || order.email || (user ? user.email : 'Unknown');
+  const clientName = order.full_name || (user ? user.fullname || user.full_name : '') || order.email || (user ? user.email : 'Unknown');
+  const clientEmail = order.email || (user ? user.email : '-');
+  const rawPhone = order.phone || order.whatsapp || (user ? user.whatsapp : null);
+  const clientPhone = rawPhone ? String(rawPhone) : '-';
+  const clientInitial = clientName.charAt(0).toUpperCase();
 
   setText('detail-id', order.id);
   setText('detail-client_name', clientName);
+  setText('detail-client_email', clientEmail);
+  setText('detail-client_phone', clientPhone);
+  
+  const avatarEl = document.getElementById('detail-client_avatar');
+  if(avatarEl) avatarEl.innerText = clientInitial;
+  
   setText('detail-project_name', order.project_name || '-');
   setText('detail-website_type_package', `${order.website_type || '-'} - ${order.package_name || '-'}`);
-  setText('detail-package_price', order.package_price ? `Rp ${order.package_price}` : '-');
+  
+  const price = order.package_price ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(Number(order.package_price)) : '-';
+  setText('detail-package_price', price);
+  
   setText('detail-domain_name', order.domain_name || '-');
-  document.getElementById('detail-status').innerHTML = getStatusBadgeHtml(order.status || '-');
   setText('detail-start_date', order.start_date || '-');
   setText('detail-target_date', order.target_date || '-');
   document.getElementById('detail-description').innerText =
-    `Deskripsi: ${order.description || '-'}\n\nFitur: ${order.features || '-'}\n\nCatatan: ${order.notes || '-'}\n\nReferensi: ${order.reference_links || '-'}`;
+    `${order.description || '-'}\n\nFitur: ${order.features || '-'}\nCatatan: ${order.notes || '-'}\nReferensi: ${order.reference_links || '-'}`;
+
+  const primaryColor = order.primary_color || '#000000';
+  const secondaryColor = order.secondary_color || '#000000';
+  const primaryBox = document.getElementById('detail-primary_color_box');
+  if (primaryBox) primaryBox.style.backgroundColor = primaryColor;
+  setText('detail-primary_color_text', primaryColor);
+  
+  const secondaryBox = document.getElementById('detail-secondary_color_box');
+  if (secondaryBox) secondaryBox.style.backgroundColor = secondaryColor;
+  setText('detail-secondary_color_text', secondaryColor);
+  
+  setText('detail-design_style', order.design_style || '-');
+
+  const waBtn = document.getElementById('detail-whatsapp-link');
+  if(waBtn) {
+    if(clientPhone !== '-') {
+       const cleanPhone = String(clientPhone).replace(/\D/g, '');
+       const waNumber = cleanPhone.startsWith('0') ? '62' + cleanPhone.substring(1) : cleanPhone;
+       waBtn.href = `https://wa.me/${waNumber}`;
+       waBtn.style.display = 'inline-flex';
+    } else {
+       waBtn.style.display = 'none';
+    }
+  }
+  
+  // Attach edit buttons
+  const editBtnTop = document.getElementById('detail-edit-btn-top');
+  const editBtnBottom = document.getElementById('detail-edit-btn-bottom');
+  const editHandler = () => {
+    closeOrderDetailModal();
+    setTimeout(() => {
+      openOrderModal(order.id);
+    }, 300); // Wait for detail modal to close before opening form modal
+  };
+  if(editBtnTop) editBtnTop.onclick = editHandler;
+  if(editBtnBottom) editBtnBottom.onclick = editHandler;
 
   renderDetailDocuments(order);
   renderDetailPaymentProof(order);
@@ -276,14 +324,29 @@ function renderDetailDocuments(order) {
   }
 
   docContainer.innerHTML = `
-    <div class="flex flex-col gap-2 w-full text-left">
+    <div class="flex flex-col gap-3 w-full">
       ${urls.map(url => {
         const filename = url.substring(url.lastIndexOf('/') + 1);
         return `
-          <a href="${url}" target="_blank" class="flex items-center justify-between px-4 py-2.5 bg-slate-50 dark:bg-[#14151a] hover:bg-slate-100 dark:hover:bg-slate-800 text-brand-blue font-medium rounded-xl border border-slate-200 dark:border-[#2A2B36] transition-colors text-xs truncate">
-            <span class="truncate max-w-[240px]">${filename}</span>
-            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 ml-2 shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-          </a>
+          <div class="flex items-center justify-between p-3 border border-slate-200 dark:border-slate-700 hover:border-brand-blue dark:hover:border-brand-blue rounded-2xl bg-white dark:bg-brand-card transition-colors">
+            <div class="flex items-center gap-3 overflow-hidden">
+              <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-500/10 text-brand-blue flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+              </div>
+              <div class="truncate">
+                <p class="text-sm font-semibold text-slate-900 dark:text-white truncate max-w-[150px] sm:max-w-[250px]">${filename}</p>
+                <p class="text-[11px] text-slate-500 mt-0.5">Dokumen Proyek</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-1 shrink-0">
+              <a href="${url}" target="_blank" class="p-2 text-slate-400 hover:text-brand-blue hover:bg-blue-50 dark:hover:bg-blue-500/10 rounded-lg transition-colors" title="Lihat">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+              </a>
+              <a href="${url}" download class="p-2 text-slate-400 hover:text-brand-blue hover:bg-blue-50 dark:hover:bg-blue-500/10 rounded-lg transition-colors" title="Download">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+              </a>
+            </div>
+          </div>
         `;
       }).join('')}
     </div>
@@ -299,11 +362,35 @@ function renderDetailPaymentProof(order) {
     return;
   }
 
-  if (order.payment_proof.endsWith('.pdf')) {
-    proofContainer.innerHTML = `<a href="${order.payment_proof}" target="_blank" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-brand-blue font-medium rounded-lg hover:bg-slate-200 transition-colors">Lihat PDF Bukti Bayar</a>`;
-  } else {
-    proofContainer.innerHTML = `<a href="${order.payment_proof}" target="_blank"><img src="${order.payment_proof}" class="max-h-24 rounded border border-slate-200 dark:border-brand-border object-contain" alt="Bukti Transfer"></a>`;
-  }
+  const filename = order.payment_proof.substring(order.payment_proof.lastIndexOf('/') + 1);
+  const isImage = !order.payment_proof.endsWith('.pdf');
+
+  proofContainer.innerHTML = `
+    <div class="flex flex-col gap-3 w-full">
+      <div class="flex items-center justify-between p-3 border border-slate-200 dark:border-slate-700 hover:border-brand-blue dark:hover:border-brand-blue rounded-2xl bg-white dark:bg-brand-card transition-colors">
+        <div class="flex items-center gap-3 overflow-hidden">
+          <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-500/10 text-brand-blue flex items-center justify-center shrink-0 overflow-hidden relative group">
+            ${isImage 
+              ? `<img src="${order.payment_proof}" class="w-full h-full object-cover" alt="Bukti Transfer">`
+              : `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>`
+            }
+          </div>
+          <div class="truncate">
+            <p class="text-sm font-semibold text-slate-900 dark:text-white truncate max-w-[150px] sm:max-w-[250px]">${filename}</p>
+            <p class="text-[11px] text-slate-500 mt-0.5">Bukti Pembayaran DP</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-1 shrink-0">
+          <a href="${order.payment_proof}" target="_blank" class="p-2 text-slate-400 hover:text-brand-blue hover:bg-blue-50 dark:hover:bg-blue-500/10 rounded-lg transition-colors" title="Lihat">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+          </a>
+          <a href="${order.payment_proof}" download class="p-2 text-slate-400 hover:text-brand-blue hover:bg-blue-50 dark:hover:bg-blue-500/10 rounded-lg transition-colors" title="Download">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 function closeOrderDetailModal() {
@@ -329,9 +416,14 @@ async function openOrderModal(id = null) {
 
   const order = id ? ordersData.find(o => Number(o.id) === Number(id)) : null;
   if (userSelect) {
-    userSelect.innerHTML = usersData.length > 0
-      ? usersData.map(u => `<option value="${u.id}">${u.email}</option>`).join('')
-      : '<option value="">Tidak ada user tersedia</option>';
+    let opts = '<option value="" disabled selected>-- Pilih Klien --</option>';
+    if (usersData.length > 0) {
+      opts += usersData.map(u => `<option value="${u.id}">${u.fullname || u.full_name || u.email}</option>`).join('');
+    } else {
+      opts = '<option value="">Tidak ada user tersedia</option>';
+    }
+    userSelect.innerHTML = opts;
+    userSelect.dispatchEvent(new Event('change'));
   }
 
   if (id && !order) {
@@ -350,6 +442,8 @@ async function openOrderModal(id = null) {
     document.getElementById('order-project_document').value = '';
     document.getElementById('order-payment_proof').value = '';
     renderAdminUploadedDocs();
+    
+    if (userSelect) userSelect.dispatchEvent(new Event('change'));
   }
 }
 
@@ -361,11 +455,18 @@ function fillOrderForm(order) {
     'project_document', 'payment_proof'
   ];
 
-  fields.forEach(field => {
-    const el = document.getElementById(`order-${field}`);
-    if (el) el.value = order[field] || '';
+  fields.forEach(f => {
+    const el = document.getElementById(`order-${f}`);
+    if (el) {
+      el.value = order[f] || '';
+      if (el.tagName === 'SELECT') {
+        el.dispatchEvent(new Event('change'));
+      }
+    }
   });
+  
   document.getElementById('order-status').value = order.status || 'Pending DP';
+  document.getElementById('order-status').dispatchEvent(new Event('change'));
   document.getElementById('order-primary_color').value = order.primary_color || '#000000';
   document.getElementById('order-secondary_color').value = order.secondary_color || '#000000';
   renderAdminUploadedDocs();

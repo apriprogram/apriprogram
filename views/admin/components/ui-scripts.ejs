@@ -21,26 +21,163 @@ function getStatusBadgeHtml(status) {
 
 function getActionButtonHtml(type, onClickString, title) {
   if (type === 'view') {
-    return `<button type="button" onclick="${onClickString}" class="p-2 bg-blue-100 dark:bg-blue-500/10 text-brand-blue dark:text-blue-500 hover:bg-blue-200 dark:hover:bg-blue-500/20 rounded-lg transition-colors shrink-0" title="${title}">
-      <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+    return `<button type="button" onclick="${onClickString}" class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors shrink-0" title="${title}">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
     </button>`;
   }
   if (type === 'edit') {
-    return `<button type="button" onclick="${onClickString}" class="p-2 bg-amber-100 dark:bg-amber-500/10 text-amber-600 dark:text-amber-500 hover:bg-amber-200 dark:hover:bg-amber-500/20 rounded-lg transition-colors shrink-0" title="${title}">
-      <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+    return `<button type="button" onclick="${onClickString}" class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors shrink-0" title="${title}">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
     </button>`;
   }
   if (type === 'delete') {
-    return `<button type="button" onclick="${onClickString}" class="p-2 bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-500 hover:bg-red-200 dark:hover:bg-red-500/20 rounded-lg transition-colors shrink-0" title="${title}">
-      <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+    return `<button type="button" onclick="${onClickString}" class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors shrink-0" title="${title}">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
     </button>`;
   }
   if (type === 'invoice') {
-    return `<button type="button" onclick="${onClickString}" class="p-2 bg-purple-100 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 hover:bg-purple-200 dark:hover:bg-purple-500/20 rounded-lg transition-colors shrink-0" title="${title}">
-      <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+    return `<button type="button" onclick="${onClickString}" class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors shrink-0" title="${title}">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
     </button>`;
   }
   return '';
 }
+
+function initCustomDropdowns(rootElement = document) {
+  // Only target select elements inside forms, to avoid breaking small table controls
+  const selects = rootElement.querySelectorAll('form select:not([data-custom-dropdown])');
+  
+  selects.forEach(select => {
+    // Mark as initialized
+    select.setAttribute('data-custom-dropdown', 'true');
+    select.style.display = 'none';
+
+    // Create wrapper
+    const wrapper = document.createElement('div');
+    wrapper.className = 'relative w-full text-left';
+    select.parentNode.insertBefore(wrapper, select);
+    wrapper.appendChild(select);
+
+    // Create trigger button
+    const trigger = document.createElement('button');
+    trigger.type = 'button';
+    trigger.className = 'w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none text-slate-900 dark:text-white text-sm transition-all flex items-center justify-between shadow-sm';
+    
+    const triggerText = document.createElement('span');
+    triggerText.className = 'block truncate';
+    triggerText.textContent = select.options[select.selectedIndex]?.text || '';
+    
+    const chevron = document.createElement('svg');
+    chevron.className = 'w-4 h-4 text-slate-400 shrink-0 ml-2 transition-transform duration-200';
+    chevron.setAttribute('fill', 'none');
+    chevron.setAttribute('stroke', 'currentColor');
+    chevron.setAttribute('viewBox', '0 0 24 24');
+    chevron.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>';
+
+    trigger.appendChild(triggerText);
+    trigger.appendChild(chevron);
+    wrapper.appendChild(trigger);
+
+    // Create dropdown menu
+    const dropdown = document.createElement('div');
+    dropdown.className = 'absolute z-[9999] w-full mt-1.5 bg-white dark:bg-[#1a1c23] border border-slate-200 dark:border-brand-border rounded-xl shadow-lg opacity-0 pointer-events-none transform -translate-y-2 transition-all duration-200 overflow-hidden';
+    
+    const list = document.createElement('ul');
+    list.className = 'max-h-60 overflow-y-auto py-1 text-sm';
+    
+    // Build options
+    const renderOptions = () => {
+      list.innerHTML = '';
+      Array.from(select.options).forEach((option, index) => {
+        const li = document.createElement('li');
+        li.className = `px-4 py-2.5 cursor-pointer transition-colors flex items-center justify-between ${option.selected ? 'bg-blue-50 text-brand-blue dark:bg-brand-blue/10 dark:text-brand-blue font-medium' : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-[#252836]'}`;
+        
+        const span = document.createElement('span');
+        span.className = 'block truncate';
+        span.textContent = option.text;
+        li.appendChild(span);
+
+        // Add checkmark for selected item
+        if (option.selected) {
+          const check = document.createElement('svg');
+          check.className = 'w-4 h-4 shrink-0';
+          check.setAttribute('fill', 'none');
+          check.setAttribute('stroke', 'currentColor');
+          check.setAttribute('viewBox', '0 0 24 24');
+          check.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>';
+          li.appendChild(check);
+        }
+
+        li.addEventListener('click', (e) => {
+          e.stopPropagation();
+          select.selectedIndex = index;
+          triggerText.textContent = option.text;
+          
+          // Dispatch change event on original select
+          const event = new Event('change', { bubbles: true });
+          select.dispatchEvent(event);
+          
+          closeDropdown();
+          renderOptions(); // Re-render to update selected styling
+        });
+        list.appendChild(li);
+      });
+    };
+    
+    renderOptions();
+    dropdown.appendChild(list);
+    wrapper.appendChild(dropdown);
+
+    // Toggle logic
+    let isOpen = false;
+    const openDropdown = () => {
+      isOpen = true;
+      dropdown.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-2');
+      dropdown.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
+      trigger.classList.add('border-brand-blue', 'ring-2', 'ring-brand-blue/20');
+      chevron.classList.add('rotate-180');
+      
+      // Close other dropdowns
+      document.querySelectorAll('[data-custom-dropdown-open="true"]').forEach(el => {
+        if (el !== wrapper) {
+          el.querySelector('button').click();
+        }
+      });
+      wrapper.setAttribute('data-custom-dropdown-open', 'true');
+    };
+
+    const closeDropdown = () => {
+      isOpen = false;
+      dropdown.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
+      dropdown.classList.add('opacity-0', 'pointer-events-none', '-translate-y-2');
+      trigger.classList.remove('border-brand-blue', 'ring-2', 'ring-brand-blue/20');
+      chevron.classList.remove('rotate-180');
+      wrapper.removeAttribute('data-custom-dropdown-open');
+    };
+
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (isOpen) closeDropdown();
+      else openDropdown();
+    });
+
+    // Listen to external value changes on the native select
+    select.addEventListener('change', () => {
+      triggerText.textContent = select.options[select.selectedIndex]?.text || '';
+      renderOptions();
+    });
+  });
+}
+
+// Global click outside handler for custom dropdowns
+document.addEventListener('click', (e) => {
+  const openDropdowns = document.querySelectorAll('[data-custom-dropdown-open="true"]');
+  openDropdowns.forEach(wrapper => {
+    if (!wrapper.contains(e.target)) {
+      const button = wrapper.querySelector('button');
+      if (button) button.click(); // Trigger close
+    }
+  });
+});
 
 </script>

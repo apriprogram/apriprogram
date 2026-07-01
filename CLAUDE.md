@@ -81,13 +81,22 @@ apriprogram/
 | user_id          | INT FK ke users.id    |                         |
 | project_name     | VARCHAR(200)          |                         |
 | package_name     | VARCHAR(100)          | Paket yang dipilih      |
+| package_price    | DECIMAL / VARCHAR     | Harga paket             |
 | website_type     | VARCHAR(100)          |                         |
-| color_preference | VARCHAR(100)          |                         |
+| domain_name      | VARCHAR(100)          |                         |
+| description      | TEXT                  | Deskripsi proyek        |
+| features         | TEXT                  | Fitur yang diminta      |
 | reference_links  | TEXT                  |                         |
-| project_document | TEXT                  | Path file dokumen       |
+| primary_color    | VARCHAR(20)           | Preferensi warna utama  |
+| secondary_color  | VARCHAR(20)           | Preferensi warna kedua  |
+| typography       | VARCHAR(100)          | Font preferensi         |
+| design_style     | VARCHAR(100)          | Gaya desain             |
+| project_document | TEXT                  | Path file dokumen (CSV) |
 | payment_proof    | VARCHAR(255)          | Path bukti bayar        |
 | status           | VARCHAR(50)           | Default: `Pending DP`   |
 | notes            | TEXT                  | Catatan admin           |
+| start_date       | DATE                  | Tanggal mulai           |
+| target_date      | DATE                  | Estimasi selesai        |
 | created_at       | TIMESTAMP             |                         |
 | updated_at       | TIMESTAMP             |                         |
 
@@ -219,13 +228,29 @@ stats.users.Tahunan;
       "whatsapp": "08xxxxxxx",
       "project_name": "Website Company Profile",
       "package_name": "Standard",
+      "package_price": 9500000,
       "website_type": "Company Profile",
+      "domain_name": "example.com",
+      "description": "Deskripsi proyek",
+      "features": "Fitur yang diminta",
+      "primary_color": "#1E40AF",
+      "secondary_color": "#3B82F6",
+      "design_style": "Modern Minimalist",
+      "start_date": "2026-07-01",
+      "target_date": "2026-08-15",
+      "project_document": "/uploads/doc1.pdf,/uploads/doc2.pdf",
+      "payment_proof": "/uploads/bayar.jpg",
       "status": "Pending DP",
       "created_at": "2026-06-01T00:00:00.000Z"
     }
   ]
 }
 ```
+
+**Catatan penting field orders:**
+- `project_document` berformat CSV (dipisah koma) untuk mendukung multiple file.
+- Nomor telepon klien diambil dari `order.whatsapp` atau `user.whatsapp` (bukan `user.phone`).
+- Field `full_name` di response orders adalah JOIN dari tabel `users.full_name`.
 
 ---
 
@@ -287,6 +312,27 @@ Konvensi penting:
 - Jika menambah fitur dashboard baru, buat atau update file script fitur terkait. Jangan menaruh logic panjang langsung di `dashboard.ejs`.
 - Modal Order dan Detail memakai pola side modal dari kanan: overlay `hidden opacity-0`, panel `translate-x-full`, dibuka lewat helper `openSideModal()` dan ditutup lewat `closeSideModal()` di `scripts/orders-page.ejs`.
 - Simpan handler form sesuai domainnya: users di `users-page.ejs`, orders di `orders-page.ejs`, settings di `settings-page.ejs`.
+
+### Custom Dropdown
+
+- Semua `<select>` di dalam `<form>` secara otomatis dikonversi menjadi *custom dropdown* yang lebih cantik oleh fungsi `initCustomDropdowns()` di `components/ui-scripts.ejs`.
+- Ketika mengisi nilai `<select>` secara programatik (via JavaScript), **wajib dispatch event `change`** agar tampilan custom dropdown ikut update:
+  ```js
+  el.value = 'nilai-baru';
+  el.dispatchEvent(new Event('change'));
+  ```
+- Fungsi `initCustomDropdowns()` dipanggil sekali di `init.ejs`. Jika modal baru muncul setelah init, jalankan `initCustomDropdowns(document.getElementById('nama-modal'))` secara manual.
+
+### Modal Detail Pesanan (`modal-detail.ejs`)
+
+Modal detail pesanan menampilkan informasi read-only dalam 4 seksi:
+1. **CLIENT INFORMATION** - nama, email, telepon klien (dari `user.whatsapp`).
+2. **FINANCIALS & TIMELINE** - budget, tanggal mulai/selesai, jenis layanan, domain.
+3. **DESIGN PREFERENCES** - primary color, secondary color (dengan preview warna), design style.
+4. **PROJECT MATERIALS** - dokumen proyek (multiple file CSV) dan bukti pembayaran, dengan tombol Lihat & Download per file.
+
+Logic pengisian modal detail ada di fungsi `viewOrderDetail(id)` di `scripts/orders-page.ejs`.
+Logic render dokumen ada di `renderDetailDocuments(order)` dan `renderDetailPaymentProof(order)`.
 
 ### Tailwind CSS & Desain
 

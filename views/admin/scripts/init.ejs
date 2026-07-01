@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   initSidebarToggle();
   initUserForm();
   initSettingsForms();
+  if (typeof initCustomDropdowns === 'function') initCustomDropdowns();
+  
   await loadUsers();
   await loadOrders();
   await loadDashboardStats();

@@ -43,6 +43,15 @@ async function loadDashboardStats() {
     setText('stat-users', stats.users ? stats.users.Tahunan : usersData.length);
     setText('stat-orders', stats.orders ? stats.orders.Tahunan : ordersData.length);
     setText('stat-visitors', stats.visitors ? stats.visitors.Tahunan : 0);
+    
+    // Calculate total revenue from ordersData
+    let totalRevenue = 0;
+    if (ordersData && Array.isArray(ordersData)) {
+      totalRevenue = ordersData.reduce((sum, order) => sum + (Number(order.package_price) || 0), 0);
+    }
+    const formattedRevenue = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(totalRevenue);
+    setText('stat-revenue', formattedRevenue);
+    
     updateDashboardStatusStats(stats.statuses || {}, stats.total_orders || 0);
   } catch (err) {
     console.error('Failed to load dashboard stats', err);
