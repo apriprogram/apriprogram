@@ -380,7 +380,10 @@
         <div class="mt-10 flex justify-end items-center gap-3 pt-5 border-t border-slate-200/80 dark:border-slate-800 sm:absolute sm:right-2 sm:top-10 sm:mt-0 sm:border-t-0 sm:pt-0">
           <button type="button" id="btnPrev" class="hidden px-5 py-2 border border-slate-400/80 bg-transparent text-sm font-medium text-slate-800 hover:border-slate-900 hover:text-slate-950 dark:border-slate-500 dark:text-slate-200 dark:hover:border-white dark:hover:text-white rounded-full transition-colors">Kembali</button>
           <button type="button" id="btnNext" class="px-5 py-2 bg-brand-blue hover:bg-blue-600 text-white text-sm font-medium rounded-full transition-colors">Lanjutkan</button>
-          <button type="submit" id="btnSubmit" class="hidden px-5 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-full transition-colors flex items-center gap-2">Kirim</button>
+          <button type="submit" id="btnSubmit" class="hidden px-5 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-full transition-colors flex items-center gap-2">
+            <span>Kirim</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+          </button>
         </div>
 
         </form>
@@ -903,7 +906,10 @@
       } catch (err) {
         alert("Terjadi kesalahan koneksi saat unggah bukti pembayaran.");
       } finally {
-        btnSubmit.innerHTML = "Kirim";
+        btnSubmit.innerHTML = `
+          <span>Kirim</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+        `;
         btnSubmit.disabled = false;
       }
     });
@@ -1101,7 +1107,10 @@
       } catch(err) {
         alert("Kesalahan jaringan.");
       } finally {
-        btnSubmit.innerHTML = "Kirim";
+        btnSubmit.innerHTML = `
+          <span>Kirim</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+        `;
         btnSubmit.disabled = false;
       }
     });
