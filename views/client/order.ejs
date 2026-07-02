@@ -45,10 +45,10 @@
   <header class="fixed left-1/2 top-4 z-50 w-[calc(100%-2rem)] max-w-2xl -translate-x-1/2">
     <nav id="mainNav" class="relative flex items-center justify-between rounded-full border border-white/70 bg-[#efefef]/75 px-2 py-2 text-slate-700 shadow-[0_8px_24px_rgba(15,23,42,0.06)] backdrop-blur-2xl dark:border-white/10 dark:bg-slate-900/55 dark:text-slate-200 dark:shadow-[0_8px_24px_rgba(0,0,0,0.18)]">
       <span id="navActiveIndicator" class="absolute top-2 bottom-2 left-2 rounded-full bg-white/80 transition-all duration-300 ease-out dark:bg-white/10"></span>
-      <a href="/" class="relative z-10 flex h-11 items-center gap-2 rounded-full px-4 text-sm font-semibold text-slate-600 transition-colors duration-300 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white" aria-label="Home">
+      <button type="button" id="homeNavBtn" class="relative z-10 flex h-11 items-center gap-2 rounded-full px-4 text-sm font-semibold text-slate-600 transition-colors duration-300 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white" aria-label="Home">
         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 11l9-8 9 8v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1v-9z"></path></svg>
         <span>Home</span>
-      </a>
+      </button>
       <button type="button" id="orderNavBtn" class="relative z-10 flex h-11 items-center gap-2 rounded-full px-4 text-sm font-semibold text-slate-600 transition-colors duration-300 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white" aria-label="Form Pemesanan">
         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5h6m-7 4h8m-8 4h5m-7 8h12a2 2 0 002-2V7.5L15.5 3H6a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
         <span class="hidden sm:inline">Form Pemesanan</span>
@@ -456,6 +456,30 @@
     </div>
   </section>
 
+  <!-- Home Dashboard Section -->
+  <section id="homeDashboardPage" class="flex-grow max-w-[86rem] w-full mx-auto p-6 pt-24 lg:py-10 lg:pt-28 hidden">
+    <div class="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Apriprogram</p>
+        <h1 class="mt-2 text-3xl font-semibold tracking-tight text-slate-950 dark:text-white">Pesanan Anda</h1>
+        <p class="mt-3 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-400">Kelola dan pantau seluruh pesanan website Anda di sini.</p>
+      </div>
+      <button type="button" onclick="showOrderPage()" class="w-fit rounded-full bg-brand-blue px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-600 shadow-lg shadow-brand-blue/20 flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+        Buat Pesanan Baru
+      </button>
+    </div>
+
+    <!-- Orders Grid -->
+    <div id="ordersDashboardGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Cards will be populated here via JS -->
+      <div class="col-span-full py-20 text-center flex flex-col items-center justify-center text-slate-500 dark:text-slate-400">
+        <svg class="w-12 h-12 mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+        <p>Memuat pesanan...</p>
+      </div>
+    </div>
+  </section>
+
   <footer class="mt-10 w-full border-t border-slate-300/70 px-6 py-8 text-slate-600 dark:border-white/10 dark:text-slate-400">
     <div class="mx-auto flex max-w-[86rem] flex-col gap-4 text-sm sm:flex-row sm:items-center sm:justify-between">
       <div class="flex items-center gap-3">
@@ -474,14 +498,29 @@
   </footer>
 
   <!-- Success Modal -->
-  <div id="successModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity">
-    <div class="bg-white dark:bg-brand-card w-full max-w-sm rounded-2xl p-8 text-center border border-slate-200 dark:border-brand-border">
-      <div class="w-20 h-20 bg-green-100 dark:bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-5">
+  <div id="successModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    <div id="successModalContent" class="bg-white dark:bg-[#0a111f] w-full max-w-sm rounded-2xl p-8 text-center border border-slate-200 dark:border-slate-800 shadow-2xl transform scale-95 transition-transform duration-300">
+      <div class="w-20 h-20 bg-green-100 dark:bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-5 shadow-inner">
         <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
       </div>
-      <h3 class="text-2xl font-semibold mb-2">Terima Kasih!</h3>
-      <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Pemesanan Anda telah berhasil terkirim. Tim kami akan segera memproses pesanan Anda dan menginformasikan langkah selanjutnya secepatnya.</p>
-      <a href="/" class="block w-full py-3 bg-brand-blue text-white rounded-xl font-medium">Kembali ke Beranda</a>
+      <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Terima Kasih!</h3>
+      <p class="text-sm text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">Pemesanan Anda telah berhasil terkirim. Tim kami akan segera memproses pesanan Anda dan menginformasikan langkah selanjutnya secepatnya.</p>
+      <button type="button" onclick="closeSuccessModalAndGoHome()" class="w-full py-3 bg-brand-blue hover:bg-blue-600 text-white rounded-xl font-medium transition-colors shadow-lg shadow-brand-blue/25">Kembali ke Beranda</button>
+    </div>
+  </div>
+
+  <!-- Order Detail Modal -->
+  <div id="orderDetailModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300 p-4">
+    <div id="orderDetailModalContent" class="bg-white dark:bg-[#0a111f] w-full max-w-2xl rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl transform scale-95 transition-transform duration-300 max-h-[90vh] flex flex-col">
+      <div class="p-5 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50 rounded-t-2xl">
+        <h3 class="font-semibold text-lg text-slate-900 dark:text-white">Detail Pesanan</h3>
+        <button type="button" onclick="closeOrderDetailModal()" class="text-slate-500 hover:text-red-500 transition-colors p-1 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      <div class="p-6 overflow-y-auto" id="orderDetailBody">
+        <!-- Content injected by JS -->
+      </div>
     </div>
   </div>
 
@@ -825,8 +864,10 @@
     const btnSubmit = document.getElementById('btnSubmit');
     const orderPage = document.getElementById('orderPage');
     const flowPage = document.getElementById('flowPage');
+    const homeDashboardPage = document.getElementById('homeDashboardPage');
     const orderNavBtn = document.getElementById('orderNavBtn');
     const flowNavBtn = document.getElementById('flowNavBtn');
+    const homeNavBtn = document.getElementById('homeNavBtn');
     const languageToggle = document.getElementById('languageToggle');
     const backToOrderBtn = document.getElementById('backToOrderBtn');
     const navActiveIndicator = document.getElementById('navActiveIndicator');
@@ -834,17 +875,22 @@
     let activeNavButton = orderNavBtn;
 
     function setNavActive(activeButton) {
-      [orderNavBtn, flowNavBtn].forEach((button) => button.classList.remove(...navActiveClasses));
-      activeButton.classList.add(...navActiveClasses);
-      activeNavButton = activeButton;
-      navActiveIndicator.style.width = `${activeButton.offsetWidth}px`;
-      navActiveIndicator.style.transform = `translateX(${activeButton.offsetLeft - 8}px)`;
+      [homeNavBtn, orderNavBtn, flowNavBtn].forEach((button) => {
+        if (button) button.classList.remove(...navActiveClasses);
+      });
+      if (activeButton) {
+        activeButton.classList.add(...navActiveClasses);
+        activeNavButton = activeButton;
+        navActiveIndicator.style.width = `${activeButton.offsetWidth}px`;
+        navActiveIndicator.style.transform = `translateX(${activeButton.offsetLeft - 8}px)`;
+      }
     }
 
     window.addEventListener('resize', () => setNavActive(activeNavButton));
 
     function showOrderPage() {
       flowPage.classList.add('hidden');
+      if (homeDashboardPage) homeDashboardPage.classList.add('hidden');
       orderPage.classList.remove('hidden');
       setNavActive(orderNavBtn);
       window.scrollTo(0, 0);
@@ -852,9 +898,19 @@
 
     function showFlowPage() {
       orderPage.classList.add('hidden');
+      if (homeDashboardPage) homeDashboardPage.classList.add('hidden');
       flowPage.classList.remove('hidden');
       setNavActive(flowNavBtn);
       window.scrollTo(0, 0);
+    }
+
+    function showHomePage() {
+      orderPage.classList.add('hidden');
+      flowPage.classList.add('hidden');
+      if (homeDashboardPage) homeDashboardPage.classList.remove('hidden');
+      setNavActive(homeNavBtn);
+      window.scrollTo(0, 0);
+      fetchOrders();
     }
 
     function setTranslateCookie(language) {
@@ -877,11 +933,115 @@
       }
     }
 
-    orderNavBtn.addEventListener('click', showOrderPage);
-    flowNavBtn.addEventListener('click', showFlowPage);
-    languageToggle.addEventListener('click', switchLanguage);
-    backToOrderBtn.addEventListener('click', showOrderPage);
+    if (orderNavBtn) orderNavBtn.addEventListener('click', showOrderPage);
+    if (flowNavBtn) flowNavBtn.addEventListener('click', showFlowPage);
+    if (homeNavBtn) homeNavBtn.addEventListener('click', showHomePage);
+    if (languageToggle) languageToggle.addEventListener('click', switchLanguage);
+    if (backToOrderBtn) backToOrderBtn.addEventListener('click', showOrderPage);
     setNavActive(orderNavBtn);
+
+    // Fetch and render orders for Dashboard
+    async function fetchOrders() {
+      const grid = document.getElementById('ordersDashboardGrid');
+      grid.innerHTML = '<div class="col-span-full py-20 text-center flex flex-col items-center justify-center text-slate-500"><svg class="w-12 h-12 mb-3 opacity-50 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg><p>Memuat pesanan...</p></div>';
+      
+      try {
+        const res = await fetch('/api/orders');
+        const data = await res.json();
+        
+        if (data.success && data.orders && data.orders.length > 0) {
+          grid.innerHTML = '';
+          data.orders.forEach(order => {
+            let statusColor = "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300";
+            if (order.status === "Pending") statusColor = "bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-500";
+            else if (order.status === "Proses") statusColor = "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-500";
+            else if (order.status === "Revisi") statusColor = "bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-500";
+            else if (order.status === "Selesai") statusColor = "bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-500";
+            
+            const card = document.createElement('div');
+            card.className = "bg-white dark:bg-[#0a111f] border border-slate-200 dark:border-white/10 rounded-2xl p-5 hover:shadow-lg transition-shadow cursor-pointer group flex flex-col h-full";
+            card.onclick = () => showOrderDetail(order);
+            card.innerHTML = \`
+              <div class="flex justify-between items-start mb-4">
+                <span class="px-3 py-1 rounded-full text-xs font-semibold \${statusColor}">\${order.status || 'Pending'}</span>
+                <span class="text-xs text-slate-500">\${new Date(order.created_at).toLocaleDateString('id-ID')}</span>
+              </div>
+              <h3 class="font-bold text-lg text-slate-900 dark:text-white mb-1 group-hover:text-brand-blue transition-colors line-clamp-1">\${order.project_name || 'Website Project'}</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-400 mb-4 line-clamp-2">\${order.website_type} - \${order.package_name}</p>
+              <div class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                <span class="font-semibold text-brand-blue dark:text-brand-cyan">\${order.package_price}</span>
+                <svg class="w-5 h-5 text-slate-400 group-hover:text-brand-blue transition-colors transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              </div>
+            \`;
+            grid.appendChild(card);
+          });
+        } else {
+          grid.innerHTML = '<div class="col-span-full py-20 text-center flex flex-col items-center justify-center text-slate-500"><svg class="w-12 h-12 mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg><p>Belum ada pesanan.</p></div>';
+        }
+      } catch (err) {
+        grid.innerHTML = '<div class="col-span-full py-10 text-center text-red-500">Gagal memuat pesanan.</div>';
+      }
+    }
+
+    function showOrderDetail(order) {
+      const modal = document.getElementById('orderDetailModal');
+      const body = document.getElementById('orderDetailBody');
+      const filesHTML = order.files && JSON.parse(order.files).length > 0 
+        ? JSON.parse(order.files).map(f => \`<a href="\${f}" target="_blank" class="text-brand-blue hover:underline text-sm">\${f.split('/').pop()}</a>\`).join('<br>') 
+        : '-';
+      
+      const docHTML = order.project_document ? \`<a href="\${order.project_document}" target="_blank" class="text-brand-blue hover:underline text-sm">\${order.project_document.split('/').pop()}</a>\` : '-';
+      
+      let statusColor = "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300";
+      if (order.status === "Pending") statusColor = "bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-500";
+      else if (order.status === "Proses") statusColor = "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-500";
+      else if (order.status === "Revisi") statusColor = "bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-500";
+      else if (order.status === "Selesai") statusColor = "bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-500";
+
+      body.innerHTML = \`
+        <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
+          <div>
+            <h4 class="text-xl font-bold text-slate-900 dark:text-white">\${order.project_name || '-'}</h4>
+            <p class="text-sm text-slate-500">\${new Date(order.created_at).toLocaleString('id-ID')}</p>
+          </div>
+          <span class="px-4 py-1.5 rounded-full text-sm font-semibold \${statusColor}">\${order.status || 'Pending'}</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Jenis Website</p><p class="font-medium">\${order.website_type}</p></div>
+          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Paket & Harga</p><p class="font-medium">\${order.package_name} - <span class="text-brand-blue">\${order.package_price}</span></p></div>
+          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Domain</p><p class="font-medium">\${order.domain_name || '-'}</p></div>
+          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Target Selesai</p><p class="font-medium">\${order.target_date || '-'}</p></div>
+          <div class="col-span-full"><p class="text-slate-500 dark:text-slate-400 mb-1">Deskripsi Singkat</p><p class="font-medium bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-800">\${order.description || '-'}</p></div>
+          <div class="col-span-full"><p class="text-slate-500 dark:text-slate-400 mb-1">Fitur Tambahan</p><p class="font-medium bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-800">\${order.features || '-'}</p></div>
+          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Gaya Desain</p><p class="font-medium">\${order.design_style || '-'}</p></div>
+          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Warna Utama</p>
+            <div class="flex items-center gap-2 mt-1">
+              <span class="w-5 h-5 rounded-full ring-1 ring-slate-200" style="background-color: \${order.primary_color || '#ffffff'};"></span>
+              <span class="font-mono text-xs">\${order.primary_color || '-'}</span>
+            </div>
+          </div>
+          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Referensi Referensi</p><p class="font-medium truncate"><a href="\${order.reference_links}" target="_blank" class="text-brand-blue hover:underline">\${order.reference_links || '-'}</a></p></div>
+          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Dokumen Proyek</p>\${docHTML}</div>
+        </div>
+      \`;
+      
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        document.getElementById('orderDetailModalContent').classList.remove('scale-95');
+        document.getElementById('orderDetailModalContent').classList.add('scale-100');
+      }, 10);
+    }
+
+    function closeOrderDetailModal() {
+      const modal = document.getElementById('orderDetailModal');
+      const content = document.getElementById('orderDetailModalContent');
+      modal.classList.add('opacity-0');
+      content.classList.remove('scale-100');
+      content.classList.add('scale-95');
+      setTimeout(() => modal.classList.add('hidden'), 300);
+    }
+
 
     // Payment Proof Upload Handler
     document.getElementById('paymentProofUpload').addEventListener('change', async (e) => {
@@ -1099,10 +1259,17 @@
         const data = await res.json();
         if (data.success) {
           const modal = document.getElementById('successModal');
+          const content = document.getElementById('successModalContent');
           modal.classList.remove('hidden');
-          setTimeout(() => modal.classList.remove('opacity-0'), 10);
+          setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            if(content) {
+              content.classList.remove('scale-95');
+              content.classList.add('scale-100');
+            }
+          }, 10);
         } else {
-          alert(data.message || "Gagal menyimpan pesanan.");
+          alert(data.message || "Gagal membuat pesanan. Silakan coba lagi.");
         }
       } catch(err) {
         alert("Kesalahan jaringan.");
@@ -1114,6 +1281,20 @@
         btnSubmit.disabled = false;
       }
     });
+
+    function closeSuccessModalAndGoHome() {
+      const modal = document.getElementById('successModal');
+      const content = document.getElementById('successModalContent');
+      if (modal) modal.classList.add('opacity-0');
+      if (content) {
+        content.classList.remove('scale-100');
+        content.classList.add('scale-95');
+      }
+      setTimeout(() => {
+        if (modal) modal.classList.add('hidden');
+        showHomePage();
+      }, 300);
+    }
 
   </script>
   <script>
