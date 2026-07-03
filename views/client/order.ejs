@@ -961,18 +961,18 @@
             const card = document.createElement('div');
             card.className = "bg-white dark:bg-[#0a111f] border border-slate-200 dark:border-white/10 rounded-2xl p-5 hover:shadow-lg transition-shadow cursor-pointer group flex flex-col h-full";
             card.onclick = () => showOrderDetail(order);
-            card.innerHTML = \`
+            card.innerHTML = `
               <div class="flex justify-between items-start mb-4">
-                <span class="px-3 py-1 rounded-full text-xs font-semibold \${statusColor}">\${order.status || 'Pending'}</span>
-                <span class="text-xs text-slate-500">\${new Date(order.created_at).toLocaleDateString('id-ID')}</span>
+                <span class="px-3 py-1 rounded-full text-xs font-semibold ${statusColor}">${order.status || 'Pending'}</span>
+                <span class="text-xs text-slate-500">${new Date(order.created_at).toLocaleDateString('id-ID')}</span>
               </div>
-              <h3 class="font-bold text-lg text-slate-900 dark:text-white mb-1 group-hover:text-brand-blue transition-colors line-clamp-1">\${order.project_name || 'Website Project'}</h3>
-              <p class="text-sm text-slate-600 dark:text-slate-400 mb-4 line-clamp-2">\${order.website_type} - \${order.package_name}</p>
+              <h3 class="font-bold text-lg text-slate-900 dark:text-white mb-1 group-hover:text-brand-blue transition-colors line-clamp-1">${order.project_name || 'Website Project'}</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-400 mb-4 line-clamp-2">${order.website_type} - ${order.package_name}</p>
               <div class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
-                <span class="font-semibold text-brand-blue dark:text-brand-cyan">\${order.package_price}</span>
+                <span class="font-semibold text-brand-blue dark:text-brand-cyan">${order.package_price}</span>
                 <svg class="w-5 h-5 text-slate-400 group-hover:text-brand-blue transition-colors transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
               </div>
-            \`;
+            `;
             grid.appendChild(card);
           });
         } else {
@@ -987,10 +987,10 @@
       const modal = document.getElementById('orderDetailModal');
       const body = document.getElementById('orderDetailBody');
       const filesHTML = order.files && JSON.parse(order.files).length > 0 
-        ? JSON.parse(order.files).map(f => \`<a href="\${f}" target="_blank" class="text-brand-blue hover:underline text-sm">\${f.split('/').pop()}</a>\`).join('<br>') 
+        ? JSON.parse(order.files).map(f => `<a href="${f}" target="_blank" class="text-brand-blue hover:underline text-sm">${f.split('/').pop()}</a>`).join('<br>') 
         : '-';
       
-      const docHTML = order.project_document ? \`<a href="\${order.project_document}" target="_blank" class="text-brand-blue hover:underline text-sm">\${order.project_document.split('/').pop()}</a>\` : '-';
+      const docHTML = order.project_document ? `<a href="${order.project_document}" target="_blank" class="text-brand-blue hover:underline text-sm">${order.project_document.split('/').pop()}</a>` : '-';
       
       let statusColor = "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300";
       if (order.status === "Pending") statusColor = "bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-500";
@@ -998,32 +998,32 @@
       else if (order.status === "Revisi") statusColor = "bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-500";
       else if (order.status === "Selesai") statusColor = "bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-500";
 
-      body.innerHTML = \`
+      body.innerHTML = `
         <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
           <div>
-            <h4 class="text-xl font-bold text-slate-900 dark:text-white">\${order.project_name || '-'}</h4>
-            <p class="text-sm text-slate-500">\${new Date(order.created_at).toLocaleString('id-ID')}</p>
+            <h4 class="text-xl font-bold text-slate-900 dark:text-white">${order.project_name || '-'}</h4>
+            <p class="text-sm text-slate-500">${new Date(order.created_at).toLocaleString('id-ID')}</p>
           </div>
-          <span class="px-4 py-1.5 rounded-full text-sm font-semibold \${statusColor}">\${order.status || 'Pending'}</span>
+          <span class="px-4 py-1.5 rounded-full text-sm font-semibold ${statusColor}">${order.status || 'Pending'}</span>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Jenis Website</p><p class="font-medium">\${order.website_type}</p></div>
-          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Paket & Harga</p><p class="font-medium">\${order.package_name} - <span class="text-brand-blue">\${order.package_price}</span></p></div>
-          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Domain</p><p class="font-medium">\${order.domain_name || '-'}</p></div>
-          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Target Selesai</p><p class="font-medium">\${order.target_date || '-'}</p></div>
-          <div class="col-span-full"><p class="text-slate-500 dark:text-slate-400 mb-1">Deskripsi Singkat</p><p class="font-medium bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-800">\${order.description || '-'}</p></div>
-          <div class="col-span-full"><p class="text-slate-500 dark:text-slate-400 mb-1">Fitur Tambahan</p><p class="font-medium bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-800">\${order.features || '-'}</p></div>
-          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Gaya Desain</p><p class="font-medium">\${order.design_style || '-'}</p></div>
+          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Jenis Website</p><p class="font-medium">${order.website_type}</p></div>
+          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Paket & Harga</p><p class="font-medium">${order.package_name} - <span class="text-brand-blue">${order.package_price}</span></p></div>
+          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Domain</p><p class="font-medium">${order.domain_name || '-'}</p></div>
+          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Target Selesai</p><p class="font-medium">${order.target_date || '-'}</p></div>
+          <div class="col-span-full"><p class="text-slate-500 dark:text-slate-400 mb-1">Deskripsi Singkat</p><p class="font-medium bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-800">${order.description || '-'}</p></div>
+          <div class="col-span-full"><p class="text-slate-500 dark:text-slate-400 mb-1">Fitur Tambahan</p><p class="font-medium bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-800">${order.features || '-'}</p></div>
+          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Gaya Desain</p><p class="font-medium">${order.design_style || '-'}</p></div>
           <div><p class="text-slate-500 dark:text-slate-400 mb-1">Warna Utama</p>
             <div class="flex items-center gap-2 mt-1">
-              <span class="w-5 h-5 rounded-full ring-1 ring-slate-200" style="background-color: \${order.primary_color || '#ffffff'};"></span>
-              <span class="font-mono text-xs">\${order.primary_color || '-'}</span>
+              <span class="w-5 h-5 rounded-full ring-1 ring-slate-200" style="background-color: ${order.primary_color || '#ffffff'};"></span>
+              <span class="font-mono text-xs">${order.primary_color || '-'}</span>
             </div>
           </div>
-          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Referensi Referensi</p><p class="font-medium truncate"><a href="\${order.reference_links}" target="_blank" class="text-brand-blue hover:underline">\${order.reference_links || '-'}</a></p></div>
-          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Dokumen Proyek</p>\${docHTML}</div>
+          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Referensi Referensi</p><p class="font-medium truncate"><a href="${order.reference_links}" target="_blank" class="text-brand-blue hover:underline">${order.reference_links || '-'}</a></p></div>
+          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Dokumen Proyek</p>${docHTML}</div>
         </div>
-      \`;
+      `;
       
       modal.classList.remove('hidden');
       setTimeout(() => {
