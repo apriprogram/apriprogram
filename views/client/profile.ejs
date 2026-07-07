@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Profil - Apriprogram</title>
+  <meta name="description" content="Edit informasi profil akun Anda di Apriprogram.">
+  <link rel="icon" href="/assets/logo/favicon.png" type="image/png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Poppins', 'sans-serif'] },
+          colors: { brand: { blue: "#243CFF", cyan: "#22D3EE" } }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      background-color: #efefef;
+      background-image: radial-gradient(circle, rgba(148, 163, 184, 0.22) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    html.dark body {
+      background-color: #050b14;
+      background-image: radial-gradient(circle, rgba(148, 163, 184, 0.12) 1px, transparent 1px);
+    }
+    .avatar-preview-wrap { position: relative; display: inline-block; }
+    .avatar-overlay {
+      position: absolute; inset: 0; border-radius: 9999px;
+      background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.2s; cursor: pointer;
+    }
+    .avatar-preview-wrap:hover .avatar-overlay { opacity: 1; }
+    .input-field {
+      width: 100%; padding: 0.625rem 0.875rem; border-radius: 0.75rem; font-size: 0.875rem; outline: none;
+      border: 1.5px solid #e2e8f0; background: #fff; color: #1e293b;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .input-field:focus { border-color: #243CFF; box-shadow: 0 0 0 3px rgba(36,60,255,0.12); }
+    html.dark .input-field { background: #0f1929; border-color: rgba(255,255,255,0.1); color: #e2e8f0; }
+    html.dark .input-field:focus { border-color: #5b7cfa; box-shadow: 0 0 0 3px rgba(91,124,250,0.18); }
+    .card {
+      background: rgba(255,255,255,0.85); border: 1px solid rgba(226,232,240,0.8);
+      border-radius: 1.25rem; backdrop-filter: blur(12px);
+    }
+    html.dark .card {
+      background: rgba(10,20,40,0.75); border-color: rgba(255,255,255,0.07);
+    }
+    #toast {
+      position: fixed; top: 1.5rem; left: 50%; transform: translateX(-50%) translateY(-80px);
+      z-index: 9999; transition: transform 0.35s cubic-bezier(.34,1.56,.64,1);
+      white-space: nowrap; pointer-events: none;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body class="text-slate-900 dark:text-white min-h-screen flex flex-col">
+
+  <!-- Toast -->
+  <div id="toast" class="flex items-center gap-2 px-5 py-3 rounded-full text-sm font-semibold shadow-xl bg-white dark:bg-slate-800 text-slate-800 dark:text-white border border-slate-200 dark:border-white/10">
+    <span id="toastIcon"></span>
+    <span id="toastMsg"></span>
+  </div>
+
+  <!-- Top Bar -->
+  <div class="fixed inset-x-0 top-0 z-40 h-16 flex items-center justify-between px-6 border-b border-slate-200/60 dark:border-white/[0.06] bg-white/75 dark:bg-[#050b14]/80 backdrop-blur-xl">
+    <div class="flex items-center gap-3">
+      <a href="/order" class="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors text-sm font-medium group">
+        <svg class="h-4 w-4 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Kembali
+      </a>
+      <span class="text-slate-300 dark:text-slate-600">/</span>
+      <span class="text-sm font-semibold text-slate-800 dark:text-white">Edit Profil</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <img src="/assets/logo/apriprogram.png" alt="Apriprogram" class="h-7 w-auto" onerror="this.style.display='none'">
+      <!-- Theme Toggle -->
+      <button id="themeToggle" class="flex h-9 w-9 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-white/10 transition-colors" aria-label="Toggle Dark Mode">
+        <svg id="themeIconDark" class="h-5 w-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        <svg id="themeIconLight" class="h-5 w-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <main class="flex-grow pt-16 pb-16">
+    <div class="max-w-2xl mx-auto px-4 py-10">
+      <h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">Edit Profil</h1>
+      <p class="text-sm text-slate-500 dark:text-slate-400 mb-8">Perbarui informasi akun dan foto profil Anda.</p>
+
+      <!-- Avatar Section -->
+      <div class="card p-6 mb-6 shadow-sm">
+        <h2 class="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4">Foto Profil</h2>
+        <div class="flex items-center gap-6">
+          <div class="avatar-preview-wrap" id="avatarWrap">
+            <div id="avatarPreview" class="h-20 w-20 rounded-full overflow-hidden bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-2xl font-bold text-white ring-4 ring-white dark:ring-slate-800 shadow-lg">
+              <% if (user.avatar) { %>
+                <img id="avatarImg" src="<%= user.avatar %>" alt="Foto profil" class="h-full w-full object-cover">
+              <% } else { %>
+                <span id="avatarInitial"><%= (user.full_name || (user.email ? user.email.split('@')[0] : 'U')).trim().charAt(0).toUpperCase() %></span>
+              <% } %>
+            </div>
+            <label for="avatarInput" class="avatar-overlay rounded-full" title="Ganti foto">
+              <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+            </label>
+          </div>
+          <div class="flex-1 min-w-0">
+            <input type="file" id="avatarInput" accept="image/*" class="hidden">
+            <button type="button" id="avatarUploadBtn" onclick="document.getElementById('avatarInput').click()" class="px-4 py-2 rounded-xl text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white transition-colors shadow-sm">
+              Pilih Foto
+            </button>
+            <p class="mt-2 text-xs text-slate-400 dark:text-slate-500">JPG, PNG, WebP, GIF. Maks 2MB.</p>
+            <p id="avatarStatus" class="mt-1 text-xs text-blue-500 dark:text-blue-400 hidden">Mengupload...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Form -->
+      <form id="profileForm" class="card p-6 shadow-sm space-y-5">
+        <h2 class="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Informasi Akun</h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="fullName" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Nama Lengkap</label>
+            <input type="text" id="fullName" name="full_name" value="<%= user.full_name || '' %>" placeholder="Nama lengkap Anda" class="input-field" autocomplete="name">
+          </div>
+          <div>
+            <label for="emailField" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Email</label>
+            <input type="email" id="emailField" name="email" value="<%= user.email || '' %>" placeholder="email@contoh.com" class="input-field opacity-60 cursor-not-allowed" readonly>
+            <p class="mt-1 text-xs text-slate-400">Email tidak dapat diubah.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="whatsapp" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Nomor WhatsApp</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400 dark:text-slate-500">+62</span>
+              <input type="tel" id="whatsapp" name="whatsapp" value="<%= (user.whatsapp || '').replace(/^(\+62|62|0)/, '') %>" placeholder="812xxxxx" class="input-field pl-12" autocomplete="tel">
+            </div>
+          </div>
+          <div>
+            <label for="company" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Instansi / Perusahaan <span class="text-slate-400 font-normal">(opsional)</span></label>
+            <input type="text" id="company" name="company" value="<%= user.company || '' %>" placeholder="Nama instansi Anda" class="input-field" autocomplete="organization">
+          </div>
+        </div>
+
+        <div>
+          <label for="country" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Negara <span class="text-slate-400 font-normal">(opsional)</span></label>
+          <input type="text" id="country" name="country" value="<%= user.country || '' %>" placeholder="Indonesia" class="input-field" autocomplete="country-name">
+        </div>
+
+        <!-- Divider -->
+        <div class="border-t border-slate-100 dark:border-white/10 pt-4">
+          <h2 class="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4">Ganti Password</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="newPassword" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Password Baru</label>
+              <input type="password" id="newPassword" name="new_password" placeholder="Kosongkan jika tidak ingin ubah" class="input-field" autocomplete="new-password">
+            </div>
+            <div>
+              <label for="confirmPassword" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Konfirmasi Password</label>
+              <input type="password" id="confirmPassword" name="confirm_password" placeholder="Ulangi password baru" class="input-field" autocomplete="new-password">
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="flex items-center justify-end gap-3 pt-2">
+          <a href="/order" class="px-5 py-2.5 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/15 transition-colors">
+            Batal
+          </a>
+          <button type="submit" id="saveBtn" class="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold bg-blue-600 hover:bg-blue-700 active:scale-95 text-white transition-all shadow-md shadow-blue-500/20">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            Simpan Perubahan
+          </button>
+        </div>
+      </form>
+
+      <!-- Danger Zone -->
+      <div class="mt-6 card p-6 shadow-sm border border-red-200/60 dark:border-red-900/30">
+        <h2 class="text-sm font-semibold text-red-500 uppercase tracking-wider mb-2">Zona Bahaya</h2>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Tindakan berikut bersifat permanen dan tidak dapat dibatalkan.</p>
+        <a href="/logout" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/50 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H9m4 8H6a2 2 0 01-2-2V6a2 2 0 012-2h7"/>
+          </svg>
+          Keluar dari Akun
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Theme toggle
+    (function () {
+      const html = document.documentElement;
+      const btn = document.getElementById('themeToggle');
+      const iconDark = document.getElementById('themeIconDark');
+      const iconLight = document.getElementById('themeIconLight');
+
+      function applyTheme() {
+        const isDark = html.classList.contains('dark');
+        iconDark.classList.toggle('hidden', !isDark);
+        iconLight.classList.toggle('hidden', isDark);
+      }
+      applyTheme();
+
+      btn.addEventListener('click', () => {
+        html.classList.toggle('dark');
+        localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+        applyTheme();
+      });
+    })();
+
+    // Toast
+    function showToast(msg, success = true) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      const toastIcon = document.getElementById('toastIcon');
+      toastMsg.textContent = msg;
+      toastIcon.innerHTML = success
+        ? '<svg class="h-4 w-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>'
+        : '<svg class="h-4 w-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3200);
+    }
+
+    // Avatar preview & upload
+    document.getElementById('avatarInput').addEventListener('change', async function () {
+      const file = this.files[0];
+      if (!file) return;
+
+      // Preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const preview = document.getElementById('avatarPreview');
+        preview.innerHTML = `<img id="avatarImg" src="${e.target.result}" alt="Foto profil" class="h-full w-full object-cover">`;
+      };
+      reader.readAsDataURL(file);
+
+      // Upload
+      const status = document.getElementById('avatarStatus');
+      status.classList.remove('hidden');
+      status.textContent = 'Mengupload...';
+
+      const formData = new FormData();
+      formData.append('avatar', file);
+
+      try {
+        const res = await fetch('/api/upload/avatar', { method: 'POST', body: formData });
+        const data = await res.json();
+        if (data.success) {
+          status.textContent = '✓ Foto berhasil diupload';
+          status.className = 'mt-1 text-xs text-green-500';
+          // Update session avatar via profile update
+          await fetch('/api/client/profile', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ avatar: data.url })
+          });
+        } else {
+          status.textContent = data.message || 'Upload gagal';
+          status.className = 'mt-1 text-xs text-red-500';
+        }
+      } catch (err) {
+        status.textContent = 'Gagal mengunggah foto.';
+        status.className = 'mt-1 text-xs text-red-500';
+      }
+      status.classList.remove('hidden');
+    });
+
+    // Profile form submit
+    document.getElementById('profileForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const btn = document.getElementById('saveBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<svg class="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg> Menyimpan...';
+
+      const newPw = document.getElementById('newPassword').value;
+      const confirmPw = document.getElementById('confirmPassword').value;
+
+      if (newPw && newPw !== confirmPw) {
+        showToast('Password baru tidak cocok!', false);
+        btn.disabled = false;
+        btn.innerHTML = '<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Simpan Perubahan';
+        return;
+      }
+
+      const rawWa = document.getElementById('whatsapp').value.trim();
+      const wa = rawWa ? '62' + rawWa.replace(/^0/, '') : '';
+
+      const payload = {
+        full_name: document.getElementById('fullName').value.trim(),
+        whatsapp: wa,
+        company: document.getElementById('company').value.trim(),
+        country: document.getElementById('country').value.trim(),
+      };
+      if (newPw) payload.new_password = newPw;
+
+      try {
+        const res = await fetch('/api/client/profile', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast('Profil berhasil disimpan!', true);
+          // Update avatar initial if name changed
+          const nameFirst = payload.full_name.charAt(0).toUpperCase();
+          const initial = document.getElementById('avatarInitial');
+          if (initial) initial.textContent = nameFirst;
+        } else {
+          showToast(data.message || 'Gagal menyimpan.', false);
+        }
+      } catch (err) {
+        showToast('Terjadi kesalahan server.', false);
+      }
+
+      btn.disabled = false;
+      btn.innerHTML = '<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Simpan Perubahan';
+    });
+  </script>
+</body>
+</html>

@@ -78,19 +78,137 @@
     </div>
   </div>
 
-  <div class="fixed right-4 top-4 z-40 hidden items-center gap-3 text-right text-slate-900 dark:text-white lg:flex">
+  <!-- Profile Dropdown -->
+  <div class="fixed right-4 top-4 z-40 hidden items-center gap-3 text-right text-slate-900 dark:text-white lg:flex" id="profileDropdownWrapper">
     <div class="min-w-0">
       <p class="max-w-56 truncate text-sm font-semibold text-slate-950 dark:text-white"><%= user.full_name || (user.email ? user.email.split('@')[0] : 'User') %></p>
       <p class="max-w-56 truncate text-xs text-slate-500 dark:text-slate-400"><%= user.email %></p>
     </div>
-    <div class="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white text-sm font-semibold text-slate-900 ring-1 ring-slate-200 dark:bg-white dark:text-slate-900 dark:ring-white/20">
-      <% if (user.avatar) { %>
-        <img src="<%= user.avatar %>" alt="Foto profil" class="h-full w-full object-cover">
-      <% } else { %>
-        <%= (user.full_name || (user.email ? user.email.split('@')[0] : 'U')).trim().charAt(0).toUpperCase() %>
-      <% } %>
+    <div class="relative" id="profileDropdownContainer">
+      <!-- Avatar Button -->
+      <button
+        id="profileAvatarBtn"
+        type="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        class="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white text-sm font-semibold text-slate-900 ring-1 ring-slate-200 transition-all duration-200 hover:ring-2 hover:ring-blue-500 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-white dark:text-slate-900 dark:ring-white/20 dark:hover:ring-blue-400 cursor-pointer select-none"
+        title="Profil Saya"
+      >
+        <% if (user.avatar) { %>
+          <img src="<%= user.avatar %>" alt="Foto profil" class="h-full w-full object-cover">
+        <% } else { %>
+          <%= (user.full_name || (user.email ? user.email.split('@')[0] : 'U')).trim().charAt(0).toUpperCase() %>
+        <% } %>
+      </button>
+
+      <!-- Dropdown Menu -->
+      <div
+        id="profileDropdownMenu"
+        role="menu"
+        aria-labelledby="profileAvatarBtn"
+        class="absolute right-0 mt-2 w-52 origin-top-right rounded-2xl border border-slate-200/80 bg-white/90 shadow-xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/90 dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]
+               opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out"
+        style="top: calc(100% + 8px);"
+      >
+        <!-- Header info -->
+        <div class="px-4 pt-4 pb-3 border-b border-slate-100 dark:border-white/10">
+          <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Akun Saya</p>
+          <p class="mt-1 text-sm font-semibold text-slate-800 dark:text-white truncate"><%= user.full_name || (user.email ? user.email.split('@')[0] : 'User') %></p>
+          <p class="text-xs text-slate-400 dark:text-slate-500 truncate"><%= user.email %></p>
+        </div>
+
+        <!-- Menu Items -->
+        <div class="py-2 px-2">
+          <!-- Edit Profile -->
+          <a
+            href="/client/profile"
+            role="menuitem"
+            class="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 transition-all duration-150 hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-blue-500/15 dark:hover:text-blue-300 group"
+          >
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-white/10 group-hover:bg-blue-100 dark:group-hover:bg-blue-500/20 transition-colors duration-150">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+              </svg>
+            </span>
+            Edit Profil
+          </a>
+
+          <!-- Bantuan -->
+          <a
+            href="/bantuan"
+            role="menuitem"
+            class="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 transition-all duration-150 hover:bg-amber-50 hover:text-amber-700 dark:hover:bg-amber-500/15 dark:hover:text-amber-300 group"
+          >
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-white/10 group-hover:bg-amber-100 dark:group-hover:bg-amber-500/20 transition-colors duration-150">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </span>
+            Bantuan
+          </a>
+        </div>
+
+        <!-- Divider + Logout -->
+        <div class="py-2 px-2 border-t border-slate-100 dark:border-white/10">
+          <a
+            href="/logout"
+            role="menuitem"
+            class="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 transition-all duration-150 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-500/15 dark:hover:text-red-400 group"
+          >
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-white/10 group-hover:bg-red-100 dark:group-hover:bg-red-500/20 transition-colors duration-150">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H9m4 8H6a2 2 0 01-2-2V6a2 2 0 012-2h7"/>
+              </svg>
+            </span>
+            Keluar
+          </a>
+        </div>
+      </div>
     </div>
   </div>
+
+  <style>
+    #profileDropdownMenu.dropdown-open {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+  </style>
+
+  <script>
+    (function () {
+      const btn = document.getElementById('profileAvatarBtn');
+      const menu = document.getElementById('profileDropdownMenu');
+      let isOpen = false;
+
+      function openDropdown() {
+        isOpen = true;
+        menu.classList.add('dropdown-open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+
+      function closeDropdown() {
+        isOpen = false;
+        menu.classList.remove('dropdown-open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        isOpen ? closeDropdown() : openDropdown();
+      });
+
+      document.addEventListener('click', function (e) {
+        if (!document.getElementById('profileDropdownContainer').contains(e.target)) {
+          closeDropdown();
+        }
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && isOpen) closeDropdown();
+      });
+    })();
+  </script>
 
   <main id="orderPage" class="flex-grow max-w-[86rem] w-full mx-auto p-6 pt-24 lg:py-10 lg:pt-28">
     <div class="grid grid-cols-1 lg:grid-cols-[15rem_minmax(0,1fr)] gap-8 lg:gap-12 items-start">
@@ -207,7 +325,7 @@
                  </div>
                  <h4 class="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1">Choose a file or drag & drop it here.</h4>
                  <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">txt, docx, pdf, jpeg, xlsx, zip - Up to 50MB</p>
-                 <button type="button" class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 pointer-events-none shadow-sm">Browse files</button>
+                 <button type="button" class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 pointer-events-none">Browse files</button>
               </div>
               <input type="hidden" id="uploadedFileUrl">
               <div id="uploadStatus" class="mt-3 space-y-2"></div>
@@ -464,7 +582,7 @@
         <h1 class="mt-2 text-3xl font-semibold tracking-tight text-slate-950 dark:text-white">Pesanan Anda</h1>
         <p class="mt-3 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-400">Kelola dan pantau seluruh pesanan website Anda di sini.</p>
       </div>
-      <button type="button" onclick="showOrderPage()" class="w-fit rounded-full bg-brand-blue px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-600 shadow-lg shadow-brand-blue/20 flex items-center gap-2">
+      <button type="button" onclick="showOrderPage()" class="w-fit rounded-full bg-brand-blue px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-600 flex items-center gap-2">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
         Buat Pesanan Baru
       </button>
@@ -476,6 +594,41 @@
       <div class="col-span-full py-20 text-center flex flex-col items-center justify-center text-slate-500 dark:text-slate-400">
         <svg class="w-12 h-12 mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
         <p>Memuat pesanan...</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Success Modal -->
+  <div id="successModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    <div id="successModalContent" class="bg-white dark:bg-[#0a111f] w-full max-w-sm rounded-2xl p-8 text-center border border-slate-200 dark:border-slate-800 shadow-2xl transform scale-95 transition-transform duration-300">
+      <div class="w-20 h-20 bg-green-100 dark:bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-5 shadow-inner">
+        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+      </div>
+      <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Terima Kasih!</h3>
+      <p class="text-sm text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">Pemesanan Anda telah berhasil terkirim. Tim kami akan segera memproses pesanan Anda dan menginformasikan langkah selanjutnya secepatnya.</p>
+      <button type="button" onclick="closeSuccessModalAndGoHome()" class="w-full py-3 bg-brand-blue hover:bg-blue-600 text-white rounded-xl font-medium transition-colors">Kembali ke Beranda</button>
+    </div>
+  </div>
+
+  <!-- Order Detail Page -->
+  <section id="orderDetailPage" class="flex-grow max-w-[86rem] w-full mx-auto p-6 pt-24 lg:py-10 lg:pt-28 hidden">
+    <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Apriprogram</p>
+        <h1 class="mt-2 text-3xl font-semibold tracking-tight text-slate-950 dark:text-white">Detail Pesanan</h1>
+        <p class="mt-3 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-400">Informasi lengkap pesanan website Anda.</p>
+      </div>
+      <a href="/order?view=home" class="inline-flex w-fit items-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 transition-colors hover:border-brand-blue hover:text-brand-blue dark:border-white/10 dark:bg-[#0a111f] dark:text-slate-200 dark:hover:border-brand-cyan dark:hover:text-brand-cyan">
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+        Kembali ke Pesanan Anda
+      </a>
+    </div>
+
+    <div id="orderDetailBody" class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-white/10 dark:bg-[#0a111f] sm:p-6 lg:p-8">
+      <div class="py-16 text-center text-slate-500 dark:text-slate-400">
+        <svg class="mx-auto mb-3 h-10 w-10 animate-spin opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+        <p>Memuat detail pesanan...</p>
       </div>
     </div>
   </section>
@@ -496,33 +649,6 @@
       </div>
     </div>
   </footer>
-
-  <!-- Success Modal -->
-  <div id="successModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
-    <div id="successModalContent" class="bg-white dark:bg-[#0a111f] w-full max-w-sm rounded-2xl p-8 text-center border border-slate-200 dark:border-slate-800 shadow-2xl transform scale-95 transition-transform duration-300">
-      <div class="w-20 h-20 bg-green-100 dark:bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-5 shadow-inner">
-        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-      </div>
-      <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Terima Kasih!</h3>
-      <p class="text-sm text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">Pemesanan Anda telah berhasil terkirim. Tim kami akan segera memproses pesanan Anda dan menginformasikan langkah selanjutnya secepatnya.</p>
-      <button type="button" onclick="closeSuccessModalAndGoHome()" class="w-full py-3 bg-brand-blue hover:bg-blue-600 text-white rounded-xl font-medium transition-colors shadow-lg shadow-brand-blue/25">Kembali ke Beranda</button>
-    </div>
-  </div>
-
-  <!-- Order Detail Modal -->
-  <div id="orderDetailModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300 p-4">
-    <div id="orderDetailModalContent" class="bg-white dark:bg-[#0a111f] w-full max-w-2xl rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl transform scale-95 transition-transform duration-300 max-h-[90vh] flex flex-col">
-      <div class="p-5 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50 rounded-t-2xl">
-        <h3 class="font-semibold text-lg text-slate-900 dark:text-white">Detail Pesanan</h3>
-        <button type="button" onclick="closeOrderDetailModal()" class="text-slate-500 hover:text-red-500 transition-colors p-1 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-      </div>
-      <div class="p-6 overflow-y-auto" id="orderDetailBody">
-        <!-- Content injected by JS -->
-      </div>
-    </div>
-  </div>
 
   <!-- File Viewer Modal -->
   <div id="fileViewerModal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-sm z-[60] flex items-center justify-center hidden opacity-0 transition-opacity p-4 duration-300">
@@ -625,7 +751,8 @@
     function renderPricing(type) {
       const grid = document.getElementById('packagesGrid');
       grid.innerHTML = '';
-      const packages = pricingData[type] || defaultPricing;
+      const sourcePricingData = window.orderPricingData || pricingData;
+      const packages = sourcePricingData[type] || defaultPricing;
       
       // Dinamis grid: jika hanya 2 paket, pakai 2 kolom di tengah agar tidak ada ruang kosong
       if (packages.length === 2) {
@@ -637,11 +764,11 @@
       packages.forEach(pkg => {
         const isPopular = pkg.isPopular;
         const cardClass = isPopular 
-          ? 'package-card border border-slate-200/60 bg-gradient-to-b from-white via-white to-[#fff7fb] dark:from-[#111111] dark:via-[#111111] dark:to-[#17111a] rounded-[1.35rem] p-6 sm:p-8 cursor-pointer relative transition-colors hover:border-slate-300 dark:hover:border-white/20'
-          : 'package-card border border-slate-200/60 bg-white dark:bg-[#111111] rounded-[1.35rem] p-6 sm:p-8 cursor-pointer relative transition-colors hover:border-slate-300 dark:hover:border-white/20';
+          ? 'package-card border border-slate-200/60 bg-gradient-to-b from-white via-white to-[#fff7fb] dark:border-brand-blue/55 dark:bg-gradient-to-b dark:from-[#111827] dark:via-[#0f172a] dark:to-[#101b3f] rounded-[1.35rem] p-6 sm:p-8 cursor-pointer relative transition-colors hover:border-slate-300 dark:hover:border-brand-blue/80'
+          : 'package-card border border-slate-200/60 bg-white dark:border-slate-700/80 dark:bg-slate-900/70 rounded-[1.35rem] p-6 sm:p-8 cursor-pointer relative transition-colors hover:border-slate-300 dark:hover:border-slate-500/90 dark:hover:bg-slate-900/90';
         
-        const badgeHTML = isPopular ? `<span class="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 px-3 py-1 text-[11px] font-semibold text-amber-950 ring-2 ring-white dark:ring-[#111111]">Most popular</span>` : '';
-        const btnClass = isPopular ? 'bg-slate-950 text-white w-full py-3 rounded-xl text-sm font-semibold mt-6 mb-8 hover:bg-slate-800 transition-colors dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200' : 'bg-white border border-slate-200 text-slate-900 w-full py-3 rounded-xl text-sm font-semibold mt-6 mb-8 hover:border-slate-300 hover:bg-slate-50 transition-colors dark:bg-transparent dark:border-white/15 dark:text-white dark:hover:bg-white/5';
+        const badgeHTML = isPopular ? `<span class="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 px-3 py-1 text-[11px] font-semibold text-amber-950 ring-2 ring-white dark:ring-[#0f172a]">Most popular</span>` : '';
+        const btnClass = isPopular ? 'bg-slate-950 text-white w-full py-3 rounded-xl text-sm font-semibold mt-6 mb-8 hover:bg-slate-800 transition-colors dark:bg-brand-blue dark:text-white dark:hover:bg-blue-600' : 'bg-white border border-slate-200 text-slate-900 w-full py-3 rounded-xl text-sm font-semibold mt-6 mb-8 hover:border-slate-300 hover:bg-slate-50 transition-colors dark:bg-slate-950/40 dark:border-slate-600 dark:text-slate-100 dark:hover:border-brand-blue/70 dark:hover:bg-brand-blue/10';
         
         const featuresHTML = pkg.features.map(f => `
           <li class="flex items-start gap-3">
@@ -655,17 +782,17 @@
             ${badgeHTML}
             <div class="min-h-[11.25rem] pt-4">
               <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-2">${pkg.name}</h3>
-              <p class="text-sm text-slate-500 dark:text-[#a0a0a0] leading-relaxed">${pkg.target}</p>
+              <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">${pkg.target}</p>
             </div>
             <div class="flex min-h-[3.25rem] items-end text-[2rem] xl:text-[2.15rem] font-semibold tracking-tight text-slate-950 dark:text-white mb-2 whitespace-nowrap">${pkg.price}</div>
             
             <button type="button" class="select-pkg-btn ${btnClass}">Pilih Paket</button>
             
-            <div class="border-t border-slate-200/80 dark:border-white/10 mb-8"></div>
+            <div class="border-t border-slate-200/80 dark:border-slate-700/70 mb-8"></div>
             <ul class="space-y-4 mb-8">
               ${featuresHTML}
             </ul>
-            <div class="flex items-start gap-3 mt-auto pt-6 border-t border-slate-200/80 dark:border-white/10">
+            <div class="flex items-start gap-3 mt-auto pt-6 border-t border-slate-200/80 dark:border-slate-700/70">
                <svg class="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M5 13l4 4L19 7"></path></svg>
                <span class="text-sm text-slate-600 dark:text-slate-300">${pkg.duration}</span>
             </div>
@@ -693,39 +820,86 @@
 
     // Initialize Website Types
     const gridType = document.getElementById('websiteTypeGrid');
-    const typeCardBaseClass = "type-card group min-h-[5.25rem] w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-white/5 px-4 py-3 text-left cursor-pointer transition-all hover:border-brand-blue hover:bg-blue-50/60 dark:hover:bg-brand-blue/10 focus:outline-none focus:ring-2 focus:ring-brand-blue/40";
-    const typeCardActiveClass = ['border-brand-blue', 'bg-blue-50', 'dark:bg-brand-blue/10', 'ring-1', 'ring-brand-blue/40'];
+    const typeCardBaseClass = "type-card group min-h-[5.25rem] w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-left cursor-pointer transition-all hover:border-brand-blue hover:bg-blue-50/60 focus:outline-none focus:ring-2 focus:ring-brand-blue/40 dark:border-slate-700/80 dark:bg-slate-900/70 dark:hover:border-brand-blue/60 dark:hover:bg-slate-900/90";
+    const typeCardActiveClass = ['border-brand-blue', 'bg-blue-50', 'ring-1', 'ring-brand-blue/40', 'dark:border-brand-blue/70', 'dark:bg-brand-blue/15', 'dark:ring-brand-blue/45'];
+    window.orderPricingData = null;
 
-    websiteTypes.forEach(type => {
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.className = typeCardBaseClass;
-      button.setAttribute('aria-pressed', 'false');
-      button.innerHTML = `
-        <span class="flex items-center justify-between gap-4">
-          <span class="text-sm sm:text-base font-semibold leading-snug text-slate-900 dark:text-white">${type}</span>
-          <span class="type-check flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#0a111f] text-transparent transition-all group-hover:border-brand-blue">
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+    function renderWebsiteTypeOptions(types = websiteTypes) {
+      if (!gridType) return;
+      gridType.innerHTML = '';
+      types.forEach(type => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = typeCardBaseClass;
+        button.setAttribute('aria-pressed', 'false');
+        button.innerHTML = `
+          <span class="flex items-center justify-between gap-4">
+            <span class="text-sm sm:text-base font-semibold leading-snug text-slate-900 dark:text-white">${type}</span>
+            <span class="type-check flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-slate-300 bg-white text-transparent transition-all group-hover:border-brand-blue dark:border-slate-600 dark:bg-slate-950/50 dark:group-hover:border-brand-blue/70">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+            </span>
           </span>
-        </span>
-      `;
-      button.onclick = () => {
-        document.querySelectorAll('.type-card').forEach(el => {
-          el.classList.remove(...typeCardActiveClass);
-          el.setAttribute('aria-pressed', 'false');
-          const check = el.querySelector('.type-check');
-          check.className = 'type-check flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#0a111f] text-transparent transition-all group-hover:border-brand-blue';
-        });
+        `;
+        button.onclick = () => selectWebsiteType(button, type);
+        gridType.appendChild(button);
+      });
+    }
 
-        button.classList.add(...typeCardActiveClass);
-        button.setAttribute('aria-pressed', 'true');
-        button.querySelector('.type-check').className = 'type-check flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-brand-blue bg-brand-blue text-white transition-all shadow-sm';
-        document.getElementById('website_type').value = type;
-        document.getElementById('err-step1').classList.add('hidden');
-        renderPricing(type); // Render dynamic pricing cards!
-      };
-      gridType.appendChild(button);
-    });
+    function selectWebsiteType(button, type) {
+      document.querySelectorAll('.type-card').forEach(el => {
+        el.classList.remove(...typeCardActiveClass);
+        el.setAttribute('aria-pressed', 'false');
+        const check = el.querySelector('.type-check');
+        check.className = 'type-check flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-slate-300 bg-white text-transparent transition-all group-hover:border-brand-blue dark:border-slate-600 dark:bg-slate-950/50 dark:group-hover:border-brand-blue/70';
+      });
+
+      button.classList.add(...typeCardActiveClass);
+      button.setAttribute('aria-pressed', 'true');
+      button.querySelector('.type-check').className = 'type-check flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-brand-blue bg-brand-blue text-white transition-all dark:border-brand-blue dark:bg-brand-blue';
+      document.getElementById('website_type').value = type;
+      document.getElementById('package_name').value = '';
+      document.getElementById('package_price').value = '';
+      document.getElementById('err-step1').classList.add('hidden');
+      renderPricing(type);
+    }
+
+    function applyPricelistsFromApi(pricelists) {
+      const grouped = {};
+      pricelists.forEach(item => {
+        if (!item.service_type || !item.name || !item.price) return;
+        if (!grouped[item.service_type]) grouped[item.service_type] = [];
+        grouped[item.service_type].push({
+          name: item.name,
+          price: item.price,
+          target: item.target || '',
+          duration: item.duration || '',
+          isPopular: Boolean(item.is_popular),
+          features: Array.isArray(item.features) ? item.features : []
+        });
+      });
+
+      const types = Object.keys(grouped);
+      if (!types.length) return;
+      window.orderPricingData = grouped;
+      websiteTypes.length = 0;
+      websiteTypes.push(...types);
+      renderWebsiteTypeOptions(websiteTypes);
+    }
+
+    async function loadOrderPricelists() {
+      try {
+        const res = await fetch('/api/pricelists');
+        const data = await res.json();
+        if (data.success && Array.isArray(data.pricelists) && data.pricelists.length > 0) {
+          applyPricelistsFromApi(data.pricelists);
+        }
+      } catch (error) {
+        console.warn('Menggunakan data pricelist fallback:', error);
+      }
+    }
+
+    renderWebsiteTypeOptions();
+    loadOrderPricelists();
 
     // Design preference selectors
     const colorOptionActiveClass = ['border-brand-blue', 'bg-blue-50/70', 'ring-1', 'ring-brand-blue/30', 'dark:bg-brand-blue/10'];
@@ -865,6 +1039,9 @@
     const orderPage = document.getElementById('orderPage');
     const flowPage = document.getElementById('flowPage');
     const homeDashboardPage = document.getElementById('homeDashboardPage');
+    const orderDetailPage = document.getElementById('orderDetailPage');
+    const initialDetailOrderId = <%- JSON.stringify(typeof initialDetailOrderId !== 'undefined' ? initialDetailOrderId : null) %>;
+    const initialView = new URLSearchParams(window.location.search).get('view');
     const orderNavBtn = document.getElementById('orderNavBtn');
     const flowNavBtn = document.getElementById('flowNavBtn');
     const homeNavBtn = document.getElementById('homeNavBtn');
@@ -873,6 +1050,7 @@
     const navActiveIndicator = document.getElementById('navActiveIndicator');
     const navActiveClasses = ['text-slate-900', 'dark:text-white'];
     let activeNavButton = orderNavBtn;
+    let editingOrderId = null;
 
     function setNavActive(activeButton) {
       [homeNavBtn, orderNavBtn, flowNavBtn].forEach((button) => {
@@ -891,6 +1069,7 @@
     function showOrderPage() {
       flowPage.classList.add('hidden');
       if (homeDashboardPage) homeDashboardPage.classList.add('hidden');
+      if (orderDetailPage) orderDetailPage.classList.add('hidden');
       orderPage.classList.remove('hidden');
       setNavActive(orderNavBtn);
       window.scrollTo(0, 0);
@@ -899,6 +1078,7 @@
     function showFlowPage() {
       orderPage.classList.add('hidden');
       if (homeDashboardPage) homeDashboardPage.classList.add('hidden');
+      if (orderDetailPage) orderDetailPage.classList.add('hidden');
       flowPage.classList.remove('hidden');
       setNavActive(flowNavBtn);
       window.scrollTo(0, 0);
@@ -907,12 +1087,21 @@
     function showHomePage() {
       orderPage.classList.add('hidden');
       flowPage.classList.add('hidden');
+      if (orderDetailPage) orderDetailPage.classList.add('hidden');
       if (homeDashboardPage) homeDashboardPage.classList.remove('hidden');
       setNavActive(homeNavBtn);
       window.scrollTo(0, 0);
       fetchOrders();
     }
 
+    function showOrderDetailPageShell() {
+      orderPage.classList.add('hidden');
+      flowPage.classList.add('hidden');
+      if (homeDashboardPage) homeDashboardPage.classList.add('hidden');
+      if (orderDetailPage) orderDetailPage.classList.remove('hidden');
+      setNavActive(homeNavBtn);
+      window.scrollTo(0, 0);
+    }
     function setTranslateCookie(language) {
       const value = language === 'en' ? '/id/en' : '/id/id';
       document.cookie = `googtrans=${value};path=/`;
@@ -938,7 +1127,13 @@
     if (homeNavBtn) homeNavBtn.addEventListener('click', showHomePage);
     if (languageToggle) languageToggle.addEventListener('click', switchLanguage);
     if (backToOrderBtn) backToOrderBtn.addEventListener('click', showOrderPage);
-    setNavActive(orderNavBtn);
+    if (initialDetailOrderId) {
+      loadOrderDetailPage(initialDetailOrderId);
+    } else if (initialView === 'home') {
+      showHomePage();
+    } else {
+      setNavActive(orderNavBtn);
+    }
 
     // Fetch and render orders for Dashboard
     async function fetchOrders() {
@@ -960,7 +1155,7 @@
             
             const card = document.createElement('div');
             card.className = "bg-white dark:bg-[#0a111f] border border-slate-200 dark:border-white/10 rounded-2xl p-5 hover:shadow-lg transition-shadow cursor-pointer group flex flex-col h-full";
-            card.onclick = () => showOrderDetail(order);
+            card.onclick = () => { window.location.href = `/order/detail/${order.id}`; };
             card.innerHTML = `
               <div class="flex justify-between items-start mb-4">
                 <span class="px-3 py-1 rounded-full text-xs font-semibold ${statusColor}">${order.status || 'Pending'}</span>
@@ -983,65 +1178,176 @@
       }
     }
 
-    function showOrderDetail(order) {
-      const modal = document.getElementById('orderDetailModal');
+    function renderOrderDetail(order) {
       const body = document.getElementById('orderDetailBody');
-      const filesHTML = order.files && JSON.parse(order.files).length > 0 
-        ? JSON.parse(order.files).map(f => `<a href="${f}" target="_blank" class="text-brand-blue hover:underline text-sm">${f.split('/').pop()}</a>`).join('<br>') 
+      let parsedFiles = [];
+      try {
+        parsedFiles = order.files ? JSON.parse(order.files) : [];
+      } catch (error) {
+        parsedFiles = [];
+      }
+
+      const filesHTML = parsedFiles.length > 0 
+        ? parsedFiles.map(f => `<a href="${f}" target="_blank" class="text-brand-blue hover:underline text-sm">${f.split('/').pop()}</a>`).join('<br>') 
         : '-';
-      
-      const docHTML = order.project_document ? `<a href="${order.project_document}" target="_blank" class="text-brand-blue hover:underline text-sm">${order.project_document.split('/').pop()}</a>` : '-';
+      const docHTML = order.project_document ? `<a href="${order.project_document}" target="_blank" class="text-brand-blue hover:underline text-sm">${order.project_document.split('/').pop()}</a>` : filesHTML;
+      const paymentHTML = order.payment_proof ? `<a href="${order.payment_proof}" target="_blank" class="text-brand-blue hover:underline text-sm">${order.payment_proof.split('/').pop()}</a>` : '-';
+      const referenceHTML = order.reference_links ? `<a href="${order.reference_links}" target="_blank" rel="noopener" class="text-brand-blue hover:underline break-all">${order.reference_links}</a>` : '-';
+      const priceHTML = order.package_price ? `<span class="text-brand-blue">${order.package_price}</span>` : '-';
       
       let statusColor = "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300";
-      if (order.status === "Pending") statusColor = "bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-500";
+      if (order.status === "Pending" || order.status === "Pending DP") statusColor = "bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-500";
       else if (order.status === "Proses") statusColor = "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-500";
       else if (order.status === "Revisi") statusColor = "bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-500";
       else if (order.status === "Selesai") statusColor = "bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-500";
+      else if (order.status === "Batal") statusColor = "bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-500";
+
+      const canModify = !["Selesai", "Batal"].includes(order.status || "Pending");
+      const detailActionsHTML = canModify ? `
+        <div class="mt-4 flex flex-wrap gap-2 sm:justify-end">
+          <button type="button" onclick="startEditOrder(${order.id})" class="inline-flex items-center gap-2 rounded-full bg-brand-blue px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-600">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+            Edit Pesanan
+          </button>
+          <button type="button" onclick="cancelOrder(${order.id})" class="inline-flex items-center gap-2 rounded-full border border-red-200 bg-white px-4 py-2 text-sm font-semibold text-red-600 transition-colors hover:border-red-300 hover:bg-red-50 dark:border-red-500/30 dark:bg-transparent dark:text-red-400 dark:hover:bg-red-500/10">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            Batalkan Pesanan
+          </button>
+        </div>
+      ` : "";
 
       body.innerHTML = `
-        <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
+        <div class="flex flex-col gap-4 border-b border-slate-100 pb-6 dark:border-slate-800 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <h4 class="text-xl font-bold text-slate-900 dark:text-white">${order.project_name || '-'}</h4>
-            <p class="text-sm text-slate-500">${new Date(order.created_at).toLocaleString('id-ID')}</p>
+            <h2 class="text-2xl font-bold text-slate-900 dark:text-white">${order.project_name || '-'}</h2>
+            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">${order.created_at ? new Date(order.created_at).toLocaleString('id-ID') : '-'}</p>
           </div>
-          <span class="px-4 py-1.5 rounded-full text-sm font-semibold ${statusColor}">${order.status || 'Pending'}</span>
+          <div class="flex flex-col items-start sm:items-end">
+            <span class="w-fit rounded-full px-4 py-1.5 text-sm font-semibold ${statusColor}">${order.status || 'Pending'}</span>
+            ${detailActionsHTML}
+          </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Jenis Website</p><p class="font-medium">${order.website_type}</p></div>
-          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Paket & Harga</p><p class="font-medium">${order.package_name} - <span class="text-brand-blue">${order.package_price}</span></p></div>
-          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Domain</p><p class="font-medium">${order.domain_name || '-'}</p></div>
-          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Target Selesai</p><p class="font-medium">${order.target_date || '-'}</p></div>
-          <div class="col-span-full"><p class="text-slate-500 dark:text-slate-400 mb-1">Deskripsi Singkat</p><p class="font-medium bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-800">${order.description || '-'}</p></div>
-          <div class="col-span-full"><p class="text-slate-500 dark:text-slate-400 mb-1">Fitur Tambahan</p><p class="font-medium bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-800">${order.features || '-'}</p></div>
-          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Gaya Desain</p><p class="font-medium">${order.design_style || '-'}</p></div>
-          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Warna Utama</p>
-            <div class="flex items-center gap-2 mt-1">
-              <span class="w-5 h-5 rounded-full ring-1 ring-slate-200" style="background-color: ${order.primary_color || '#ffffff'};"></span>
-              <span class="font-mono text-xs">${order.primary_color || '-'}</span>
-            </div>
-          </div>
-          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Referensi Referensi</p><p class="font-medium truncate"><a href="${order.reference_links}" target="_blank" class="text-brand-blue hover:underline">${order.reference_links || '-'}</a></p></div>
-          <div><p class="text-slate-500 dark:text-slate-400 mb-1">Dokumen Proyek</p>${docHTML}</div>
+
+        <div class="mt-6 grid grid-cols-1 gap-5 text-sm md:grid-cols-2">
+          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40"><p class="mb-1 text-slate-500 dark:text-slate-400">Jenis Website</p><p class="font-semibold text-slate-900 dark:text-white">${order.website_type || '-'}</p></div>
+          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40"><p class="mb-1 text-slate-500 dark:text-slate-400">Paket & Harga</p><p class="font-semibold text-slate-900 dark:text-white">${order.package_name || '-'} - ${priceHTML}</p></div>
+          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40"><p class="mb-1 text-slate-500 dark:text-slate-400">Domain</p><p class="font-semibold text-slate-900 dark:text-white">${order.domain_name || '-'}</p></div>
+          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40"><p class="mb-1 text-slate-500 dark:text-slate-400">Target Selesai</p><p class="font-semibold text-slate-900 dark:text-white">${order.target_date || '-'}</p></div>
+          <div class="md:col-span-2"><p class="mb-2 text-slate-500 dark:text-slate-400">Deskripsi Singkat</p><div class="min-h-12 rounded-xl border border-slate-100 bg-slate-50 p-4 font-medium text-slate-800 dark:border-slate-800 dark:bg-slate-900/40 dark:text-slate-100">${order.description || '-'}</div></div>
+          <div class="md:col-span-2"><p class="mb-2 text-slate-500 dark:text-slate-400">Fitur Tambahan</p><div class="min-h-12 rounded-xl border border-slate-100 bg-slate-50 p-4 font-medium text-slate-800 dark:border-slate-800 dark:bg-slate-900/40 dark:text-slate-100">${order.features || '-'}</div></div>
+          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40"><p class="mb-1 text-slate-500 dark:text-slate-400">Gaya Desain</p><p class="font-semibold text-slate-900 dark:text-white">${order.design_style || '-'}</p></div>
+          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40"><p class="mb-1 text-slate-500 dark:text-slate-400">Warna Utama</p><div class="mt-1 flex items-center gap-2"><span class="h-5 w-5 rounded-full ring-1 ring-slate-200" style="background-color: ${order.primary_color || '#ffffff'};"></span><span class="font-mono text-xs text-slate-900 dark:text-white">${order.primary_color || '-'}</span></div></div>
+          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40"><p class="mb-1 text-slate-500 dark:text-slate-400">Referensi Desain</p><p class="font-semibold text-slate-900 dark:text-white">${referenceHTML}</p></div>
+          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40"><p class="mb-1 text-slate-500 dark:text-slate-400">Dokumen Proyek</p><div class="font-semibold text-slate-900 dark:text-white">${docHTML}</div></div>
+          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40"><p class="mb-1 text-slate-500 dark:text-slate-400">Bukti Pembayaran</p><div class="font-semibold text-slate-900 dark:text-white">${paymentHTML}</div></div>
         </div>
       `;
-      
-      modal.classList.remove('hidden');
-      setTimeout(() => {
-        modal.classList.remove('opacity-0');
-        document.getElementById('orderDetailModalContent').classList.remove('scale-95');
-        document.getElementById('orderDetailModalContent').classList.add('scale-100');
-      }, 10);
     }
 
-    function closeOrderDetailModal() {
-      const modal = document.getElementById('orderDetailModal');
-      const content = document.getElementById('orderDetailModalContent');
-      modal.classList.add('opacity-0');
-      content.classList.remove('scale-100');
-      content.classList.add('scale-95');
-      setTimeout(() => modal.classList.add('hidden'), 300);
+    function showOrderDetail(order) {
+      window.location.href = `/order/detail/${order.id}`;
     }
 
+    function setInputValue(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.value = value || '';
+    }
+
+    function populateOrderFormForEdit(order) {
+      editingOrderId = order.id;
+      const typeButton = Array.from(document.querySelectorAll('.type-card')).find(button => button.textContent.trim().includes(order.website_type || ''));
+      if (typeButton) typeButton.click();
+
+      setInputValue('website_type', order.website_type);
+      setInputValue('package_name', order.package_name);
+      setInputValue('package_price', order.package_price);
+      setInputValue('project_name', order.project_name);
+      setInputValue('domain_name', order.domain_name);
+      setInputValue('description', order.description);
+      setInputValue('features', order.features);
+      setInputValue('target_date', order.target_date);
+      setInputValue('notes', order.notes);
+      setInputValue('uploadedFileUrl', order.project_document);
+      setInputValue('paymentProofUrl', order.payment_proof);
+      setInputValue('reference_links', order.reference_links);
+      setInputValue('primary_color', order.primary_color || '#243CFF');
+      setInputValue('design_style', order.design_style);
+
+      const packageCard = Array.from(document.querySelectorAll('.package-card')).find(card => card.getAttribute('data-pkg') === order.package_name);
+      if (packageCard) packageCard.click();
+
+      const colorOption = Array.from(document.querySelectorAll('.color-option')).find(option => (option.dataset.color || '').toLowerCase() === (order.primary_color || '').toLowerCase());
+      if (colorOption) {
+        selectColorOption(colorOption);
+      } else if (order.primary_color && customColorInput && customColorOption) {
+        customColorInput.value = order.primary_color;
+        customColorOption.dataset.color = order.primary_color;
+        customColorValue.textContent = order.primary_color;
+        customColorPreview.style.backgroundColor = order.primary_color;
+        selectColorOption(customColorOption);
+      }
+
+      const designOption = Array.from(document.querySelectorAll('.design-style-option')).find(option => option.dataset.style === order.design_style);
+      if (designOption) selectDesignStyle(designOption);
+
+      currentStep = 1;
+      showOrderPage();
+      updateUI();
+    }
+
+    async function startEditOrder(orderId) {
+      try {
+        const res = await fetch(`/api/orders/${orderId}`);
+        const data = await res.json();
+        if (!data.success || !data.order) {
+          alert(data.message || 'Gagal memuat data pesanan.');
+          return;
+        }
+        populateOrderFormForEdit(data.order);
+      } catch (error) {
+        alert('Gagal memuat data pesanan.');
+      }
+    }
+
+    async function cancelOrder(orderId) {
+      if (!confirm('Batalkan pesanan ini?')) return;
+
+      try {
+        const res = await fetch(`/api/orders/${orderId}/cancel`, { method: 'PATCH' });
+        const data = await res.json();
+        if (data.success) {
+          loadOrderDetailPage(orderId);
+        } else {
+          alert(data.message || 'Gagal membatalkan pesanan.');
+        }
+      } catch (error) {
+        alert('Gagal membatalkan pesanan.');
+      }
+    }
+    async function loadOrderDetailPage(orderId) {
+      showOrderDetailPageShell();
+      try {
+        const res = await fetch(`/api/orders/${orderId}`);
+        const data = await res.json();
+        if (data.success && data.order) {
+          renderOrderDetail(data.order);
+        } else {
+          renderOrderDetailError(data.message || 'Pesanan tidak ditemukan.');
+        }
+      } catch (error) {
+        renderOrderDetailError('Gagal memuat detail pesanan.');
+      }
+    }
+
+    function renderOrderDetailError(message) {
+      document.getElementById('orderDetailBody').innerHTML = `
+        <div class="py-16 text-center text-slate-500 dark:text-slate-400">
+          <svg class="mx-auto mb-3 h-12 w-12 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v3.75m0 3.75h.008v.008H12V16.5zm9-4.5a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <p>${message}</p>
+          <a href="/order?view=home" class="mt-5 inline-flex items-center justify-center rounded-full bg-brand-blue px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-600">Kembali ke Pesanan Anda</a>
+        </div>
+      `;
+    }
 
     // Payment Proof Upload Handler
     document.getElementById('paymentProofUpload').addEventListener('change', async (e) => {
@@ -1067,7 +1373,7 @@
         alert("Terjadi kesalahan koneksi saat unggah bukti pembayaran.");
       } finally {
         btnSubmit.innerHTML = `
-          <span>Kirim</span>
+          ${editingOrderId ? '<span>Update</span>' : '<span>Kirim</span>'}
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
         `;
         btnSubmit.disabled = false;
@@ -1116,6 +1422,7 @@
       if (currentStep === totalSteps) {
         btnNext.classList.add('hidden');
         btnSubmit.classList.remove('hidden');
+        btnSubmit.innerHTML = `<span>${editingOrderId ? 'Update' : 'Kirim'}</span><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>`;
         
         // Populate Summary
         document.getElementById('summary-type').innerText = document.getElementById('website_type').value || '-';
@@ -1237,6 +1544,8 @@
       const payload = {
         website_type: document.getElementById('website_type').value,
         package_name: document.getElementById('package_name').value,
+        package_price: document.getElementById('package_price').value,
+        domain_name: document.getElementById('domain_name') ? document.getElementById('domain_name').value : '',
         project_name: document.getElementById('project_name').value,
         description: document.getElementById('description').value,
         features: document.getElementById('features').value,
@@ -1251,13 +1560,21 @@
       };
 
       try {
-        const res = await fetch('/api/orders', {
-          method: 'POST',
+        const endpoint = editingOrderId ? `/api/orders/${editingOrderId}/client` : '/api/orders';
+        const method = editingOrderId ? 'PUT' : 'POST';
+        const res = await fetch(endpoint, {
+          method,
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
         const data = await res.json();
         if (data.success) {
+          if (editingOrderId) {
+            const updatedOrderId = editingOrderId;
+            editingOrderId = null;
+            window.location.href = `/order/detail/${updatedOrderId}`;
+            return;
+          }
           const modal = document.getElementById('successModal');
           const content = document.getElementById('successModalContent');
           modal.classList.remove('hidden');
@@ -1275,7 +1592,7 @@
         alert("Kesalahan jaringan.");
       } finally {
         btnSubmit.innerHTML = `
-          <span>Kirim</span>
+          ${editingOrderId ? '<span>Update</span>' : '<span>Kirim</span>'}
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
         `;
         btnSubmit.disabled = false;

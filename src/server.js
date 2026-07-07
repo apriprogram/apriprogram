@@ -32,14 +32,22 @@ app.use(session({
   cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 } // 1 day
 }));
 
+function resolveVisitorCountry(req, ip) {
+  const headerCountry = req.headers['cf-ipcountry'] || req.headers['x-vercel-ip-country'] || req.headers['x-country-code'] || req.headers['x-appengine-country'];
+  if (headerCountry && headerCountry !== 'XX') return String(headerCountry).toUpperCase();
+  const value = String(ip || '').split(',')[0].trim();
+  if (!value || value === '::1' || value === '127.0.0.1' || value === '::ffff:127.0.0.1' || value.startsWith('192.168.') || value.startsWith('10.') || value.startsWith('172.16.')) return 'Local';
+  return 'Unknown';
+}
 // Visitor Tracking Middleware
 app.use(async (req, res, next) => {
   if (!req.session.visited_today) {
     req.session.visited_today = true;
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
     const userAgent = req.headers['user-agent'] || '';
+    const country = resolveVisitorCountry(req, ip);
     try {
-      await pool.query("INSERT INTO visitors (ip_address, user_agent) VALUES (?, ?)", [ip, userAgent]);
+      await pool.query("INSERT INTO visitors (ip_address, user_agent, country) VALUES (?, ?, ?)", [ip, userAgent, country]);
     } catch (err) {
       console.warn("Visitor tracking failed:", err.message);
     }
@@ -107,6 +115,8 @@ app.delete("/api/admin/contents/:id", requireAdmin, contentController.deleteCont
 app.put("/api/admin/contents/:id/toggle-completed", requireAdmin, contentController.toggleCompleted);
 
 app.get("/api/admin/dashboard-stats", requireAdmin, adminController.getDashboardStats);
+
+app.get("/api/pricelists", pricelistController.getPublicPricelists);
 
 // Pricelist API Routes
 app.get("/api/admin/pricelists", requireAdmin, pricelistController.getPricelists);
@@ -239,6 +249,9 @@ app.get("/api/admin/dashboard-stats", requireAdmin, adminController.getDashboard
 // Order API Routes
 app.post("/api/orders", requireLogin, orderController.createOrder);
 app.get("/api/orders", requireLogin, orderController.getOrders);
+app.get("/api/orders/:id", requireLogin, orderController.getOrderById);
+app.put("/api/orders/:id/client", requireLogin, orderController.updateClientOrder);
+app.patch("/api/orders/:id/cancel", requireLogin, orderController.cancelClientOrder);
 app.put("/api/orders/:id", requireAdmin, orderController.updateOrder);
 app.delete("/api/orders/:id", requireAdmin, orderController.deleteOrder);
 
@@ -247,8 +260,65 @@ app.post("/api/orders/:id/invoice", requireAdmin, orderController.saveInvoice);
 
 // Views Routes
 app.get("/order", requireLogin, (req, res) => {
-  res.render("client/order", { user: req.session });
+  res.render("client/order", { user: req.session, initialDetailOrderId: null });
 });
+app.get("/order/detail/:id", requireLogin, (req, res) => {
+  res.render("client/order", { user: req.session, initialDetailOrderId: req.params.id });
+});
+
+// Client Profile Page
+app.get("/client/profile", requireLogin, (req, res) => {
+  res.render("client/profile", { user: req.session });
+});
+
+// Bantuan Page
+app.get("/bantuan", requireLogin, (req, res) => {
+  res.render("client/bantuan", { user: req.session });
+});
+
+// API: Update Client Profile
+app.put("/api/client/profile", requireLogin, async (req, res) => {
+  const { full_name, whatsapp, company, country, avatar, new_password } = req.body;
+  const userId = req.session.userId;
+  if (!userId) return res.status(401).json({ success: false, message: "Tidak terautentikasi." });
+
+  try {
+    const bcrypt = require('bcrypt');
+    let updateFields = [];
+    let updateValues = [];
+
+    if (full_name !== undefined) { updateFields.push('full_name = ?'); updateValues.push(full_name.trim()); }
+    if (whatsapp !== undefined) { updateFields.push('whatsapp = ?'); updateValues.push(whatsapp.trim()); }
+    if (company !== undefined) { updateFields.push('company = ?'); updateValues.push(company.trim()); }
+    if (country !== undefined) { updateFields.push('country = ?'); updateValues.push(country.trim()); }
+    if (avatar !== undefined) { updateFields.push('avatar = ?'); updateValues.push(avatar); }
+    if (new_password && new_password.length >= 6) {
+      const hashed = await bcrypt.hash(new_password, 10);
+      updateFields.push('password = ?');
+      updateValues.push(hashed);
+    }
+
+    if (updateFields.length === 0) {
+      return res.json({ success: true, message: "Tidak ada perubahan." });
+    }
+
+    updateValues.push(userId);
+    await pool.execute(`UPDATE users SET ${updateFields.join(', ')} WHERE id = ?`, updateValues);
+
+    // Refresh session
+    if (full_name !== undefined) req.session.full_name = full_name.trim();
+    if (whatsapp !== undefined) req.session.whatsapp = whatsapp.trim();
+    if (company !== undefined) req.session.company = company.trim();
+    if (country !== undefined) req.session.country = country.trim();
+    if (avatar !== undefined) req.session.avatar = avatar;
+
+    res.json({ success: true, message: "Profil berhasil diperbarui." });
+  } catch (error) {
+    console.error("Update profile error:", error);
+    res.status(500).json({ success: false, message: "Terjadi kesalahan server." });
+  }
+});
+
 app.get("/login", (req, res) => {
   if (req.session && req.session.userId) {
     const isAdmin = req.session.role === 'admin' || req.session.role === 'super admin';

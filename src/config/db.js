@@ -1,5 +1,6 @@
 const mysql = require("mysql2/promise");
 const bcrypt = require("bcrypt");
+const defaultPricelists = require("./defaultPricelists");
 require("dotenv").config();
 
 const pool = mysql.createPool({
@@ -116,10 +117,72 @@ async function initDatabase() {
       id INT AUTO_INCREMENT PRIMARY KEY,
       ip_address VARCHAR(45) NOT NULL,
       user_agent TEXT,
+      country VARCHAR(100) DEFAULT 'Unknown',
       visited_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
   `);
 
+  try { await pool.query("ALTER TABLE visitors ADD COLUMN country VARCHAR(100) DEFAULT 'Unknown'"); } catch (err) {}
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS pricelists (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(100) NOT NULL,
+      service_type VARCHAR(100) NOT NULL,
+      price VARCHAR(50) NOT NULL,
+      target TEXT DEFAULT NULL,
+      duration VARCHAR(120) DEFAULT '',
+      features TEXT DEFAULT NULL,
+      is_popular TINYINT(1) DEFAULT 0,
+      sort_order INT DEFAULT 0,
+      status ENUM('Active', 'Inactive') DEFAULT 'Active',
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    )
+  `);
+
+  const pricelistAlterQueries = [
+    "ALTER TABLE pricelists ADD COLUMN target TEXT DEFAULT NULL",
+    "ALTER TABLE pricelists ADD COLUMN duration VARCHAR(120) DEFAULT ''",
+    "ALTER TABLE pricelists ADD COLUMN is_popular TINYINT(1) DEFAULT 0",
+    "ALTER TABLE pricelists ADD COLUMN sort_order INT DEFAULT 0"
+  ];
+  for (const query of pricelistAlterQueries) {
+    try {
+      await pool.query(query);
+    } catch (e) {
+      // Ignore existing columns.
+    }
+  }
+
+  let seededPricelists = 0;
+  for (const item of defaultPricelists) {
+    const [existingPricelist] = await pool.query(
+      "SELECT id FROM pricelists WHERE service_type = ? AND name = ? LIMIT 1",
+      [item.service_type, item.name]
+    );
+    if (existingPricelist.length > 0) continue;
+
+    await pool.query(
+      `INSERT INTO pricelists (name, service_type, price, target, duration, features, is_popular, sort_order, status)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        item.name,
+        item.service_type,
+        item.price,
+        item.target || '',
+        item.duration || '',
+        JSON.stringify(item.features || []),
+        item.is_popular ? 1 : 0,
+        item.sort_order || 0,
+        item.status || 'Active'
+      ]
+    );
+    seededPricelists++;
+  }
+  if (seededPricelists > 0) {
+    console.log(`Default pricelist data seeded: ${seededPricelists}`);
+  }
   const [adminUsers] = await pool.query("SELECT id FROM users WHERE email = 'apriprogram@gmail.com'");
   if (adminUsers.length === 0) {
     const hashedPassword = await bcrypt.hash("admin123", 10);

@@ -379,10 +379,16 @@ exports.getDashboardStats = async (req, res) => {
       FROM orders
     `);
 
-    let visStats = { harian: 0, mingguan: 0, bulanan: 0, tahunan: 0 };
+    let visStats = { harian: 0, mingguan: 0, bulanan: 0, tahunan: 0, total: 0, unique_ips: 0 };
+    let visitorDaily = [];
+    let visitorRecent = [];
+    let visitorAgents = [];
+    let visitorCountries = [];
     try {
       const [[visRows]] = await pool.query(`
         SELECT 
+          COUNT(*) as total,
+          COUNT(DISTINCT ip_address) as unique_ips,
           SUM(CASE WHEN DATE(visited_at) = CURDATE() THEN 1 ELSE 0 END) as harian,
           SUM(CASE WHEN YEARWEEK(visited_at, 1) = YEARWEEK(CURDATE(), 1) THEN 1 ELSE 0 END) as mingguan,
           SUM(CASE WHEN MONTH(visited_at) = MONTH(CURDATE()) AND YEAR(visited_at) = YEAR(CURDATE()) THEN 1 ELSE 0 END) as bulanan,
@@ -390,10 +396,44 @@ exports.getDashboardStats = async (req, res) => {
         FROM visitors
       `);
       if (visRows) visStats = visRows;
+
+      const [dailyRows] = await pool.query(`
+        SELECT DATE(visited_at) as date, COUNT(*) as total, COUNT(DISTINCT ip_address) as unique_ips
+        FROM visitors
+        WHERE visited_at >= DATE_SUB(CURDATE(), INTERVAL 13 DAY)
+        GROUP BY DATE(visited_at)
+        ORDER BY DATE(visited_at) ASC
+      `);
+      visitorDaily = dailyRows;
+
+      const [recentRows] = await pool.query(`
+        SELECT id, ip_address, user_agent, country, visited_at
+        FROM visitors
+        ORDER BY visited_at DESC
+        LIMIT 25
+      `);
+      visitorRecent = recentRows;
+
+      const [countryRows] = await pool.query(`
+        SELECT COALESCE(NULLIF(country, ''), 'Unknown') as country, COUNT(*) as total, COUNT(DISTINCT ip_address) as unique_ips
+        FROM visitors
+        GROUP BY COALESCE(NULLIF(country, ''), 'Unknown')
+        ORDER BY total DESC
+        LIMIT 12
+      `);
+      visitorCountries = countryRows;
+
+      const [agentRows] = await pool.query(`
+        SELECT COALESCE(NULLIF(user_agent, ''), 'Unknown') as user_agent, COUNT(*) as total
+        FROM visitors
+        GROUP BY COALESCE(NULLIF(user_agent, ''), 'Unknown')
+        ORDER BY total DESC
+        LIMIT 8
+      `);
+      visitorAgents = agentRows;
     } catch(e) {
       console.warn("Visitors table not ready:", e.message);
     }
-
     const [status_counts] = await pool.query("SELECT status, COUNT(*) as count FROM orders GROUP BY status");
     
     // Status mapping
@@ -424,9 +464,41 @@ exports.getDashboardStats = async (req, res) => {
           Harian: Number(visStats.harian || 0),
           Mingguan: Number(visStats.mingguan || 0),
           Bulanan: Number(visStats.bulanan || 0),
-          Tahunan: Number(visStats.tahunan || 0)
+          Tahunan: Number(visStats.tahunan || 0),
+          Total: Number(visStats.total || 0),
+          UniqueIps: Number(visStats.unique_ips || 0)
         },
-        statuses: statuses,
+        visitor_details: {
+          summary: {
+            Harian: Number(visStats.harian || 0),
+            Mingguan: Number(visStats.mingguan || 0),
+            Bulanan: Number(visStats.bulanan || 0),
+            Tahunan: Number(visStats.tahunan || 0),
+            Total: Number(visStats.total || 0),
+            UniqueIps: Number(visStats.unique_ips || 0)
+          },
+          daily: visitorDaily.map(row => ({
+            date: row.date,
+            total: Number(row.total || 0),
+            unique_ips: Number(row.unique_ips || 0)
+          })),
+          recent: visitorRecent.map(row => ({
+            id: row.id,
+            ip_address: row.ip_address,
+            user_agent: row.user_agent,
+            country: row.country || 'Unknown',
+            visited_at: row.visited_at
+          })),
+          user_agents: visitorAgents.map(row => ({
+            user_agent: row.user_agent,
+            total: Number(row.total || 0)
+          })),
+          countries: visitorCountries.map(row => ({
+            country: row.country || 'Unknown',
+            total: Number(row.total || 0),
+            unique_ips: Number(row.unique_ips || 0)
+          }))
+        },        statuses: statuses,
         total_orders: total_active
       }
     });

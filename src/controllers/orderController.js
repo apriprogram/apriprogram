@@ -52,6 +52,102 @@ exports.getOrders = async (req, res) => {
   }
 };
 
+exports.getOrderById = async (req, res) => {
+  const orderId = req.params.id;
+
+  try {
+    let query = "SELECT o.*, u.full_name, u.email, u.whatsapp FROM orders o JOIN users u ON o.user_id = u.id WHERE o.id = ?";
+    const params = [orderId];
+
+    if (req.session.role !== 'admin' && req.session.role !== 'super admin') {
+      query = "SELECT * FROM orders WHERE id = ? AND user_id = ?";
+      params.push(req.session.userId);
+    }
+
+    const [orders] = await pool.query(query, params);
+
+    if (!orders.length) {
+      return res.status(404).json({ success: false, message: "Pesanan tidak ditemukan." });
+    }
+
+    res.json({ success: true, order: orders[0] });
+  } catch (error) {
+    console.error("Get order detail error:", error);
+    res.status(500).json({ success: false, message: "Gagal mengambil detail pesanan." });
+  }
+};
+
+exports.updateClientOrder = async (req, res) => {
+  const orderId = req.params.id;
+  const userId = req.session.userId;
+  const {
+    website_type, package_name, package_price, project_name, domain_name, description, features, target_date, start_date, notes,
+    files, project_document, reference_links, primary_color, secondary_color, typography, design_style, payment_proof
+  } = req.body;
+
+  if (!userId) {
+    return res.status(401).json({ success: false, message: "Silakan login terlebih dahulu." });
+  }
+
+  try {
+    const [existingRows] = await pool.query(
+      "SELECT status FROM orders WHERE id = ? AND user_id = ?",
+      [orderId, userId]
+    );
+
+    if (!existingRows.length) {
+      return res.status(404).json({ success: false, message: "Pesanan tidak ditemukan." });
+    }
+
+    if (["Selesai", "Batal"].includes(existingRows[0].status)) {
+      return res.status(400).json({ success: false, message: "Pesanan ini tidak bisa diedit." });
+    }
+
+    await pool.query(
+      `UPDATE orders SET
+        website_type = ?, package_name = ?, package_price = ?, project_name = ?, domain_name = ?, description = ?, features = ?,
+        target_date = ?, start_date = ?, notes = ?, files = ?, project_document = ?, reference_links = ?, primary_color = ?, secondary_color = ?,
+        typography = ?, design_style = ?, payment_proof = ?
+       WHERE id = ? AND user_id = ?`,
+      [
+        website_type, package_name, package_price, project_name, domain_name, description, features,
+        target_date, start_date, notes, JSON.stringify(files || []), project_document, reference_links, primary_color, secondary_color,
+        typography, design_style, payment_proof, orderId, userId
+      ]
+    );
+
+    res.json({ success: true, message: "Pesanan berhasil diperbarui." });
+  } catch (error) {
+    console.error("Client update order error:", error);
+    res.status(500).json({ success: false, message: "Terjadi kesalahan saat memperbarui pesanan." });
+  }
+};
+
+exports.cancelClientOrder = async (req, res) => {
+  const orderId = req.params.id;
+  const userId = req.session.userId;
+
+  if (!userId) {
+    return res.status(401).json({ success: false, message: "Silakan login terlebih dahulu." });
+  }
+
+  try {
+    const [result] = await pool.query(
+      "UPDATE orders SET status = 'Batal' WHERE id = ? AND user_id = ? AND status NOT IN ('Selesai', 'Batal')",
+      [orderId, userId]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ success: false, message: "Pesanan tidak ditemukan atau tidak bisa dibatalkan." });
+    }
+
+    res.json({ success: true, message: "Pesanan berhasil dibatalkan." });
+  } catch (error) {
+    console.error("Client cancel order error:", error);
+    res.status(500).json({ success: false, message: "Terjadi kesalahan saat membatalkan pesanan." });
+  }
+};
+
 exports.updateOrder = async (req, res) => {
   const orderId = req.params.id;
   const { 

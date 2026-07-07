@@ -1,4 +1,5 @@
 <script>
+let visitorStatsDetails = { summary: {}, daily: [], recent: [], user_agents: [], countries: [] };
 function setText(id, value) {
   const el = document.getElementById(id);
   if (el) el.innerText = value;
@@ -11,6 +12,160 @@ function setBar(id, count, total) {
   el.style.width = `${width}%`;
 }
 
+
+function escapeDashboardHtml(value) {
+  return String(value ?? '').replace(/[&<>'"]/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    "'": '&#39;',
+    '"': '&quot;'
+  }[char]));
+}
+
+function formatVisitorDate(value) {
+  if (!value) return '-';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return String(value).slice(0, 19).replace('T', ' ');
+  return date.toLocaleString('id-ID', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
+
+function formatVisitorDay(value) {
+  if (!value) return '-';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return String(value).slice(0, 10);
+  return date.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' });
+}
+
+function renderVisitorStatsModal() {
+  const details = visitorStatsDetails || {};
+  const summary = details.summary || {};
+  const daily = Array.isArray(details.daily) ? details.daily : [];
+  const recent = Array.isArray(details.recent) ? details.recent : [];
+  const userAgents = Array.isArray(details.user_agents) ? details.user_agents : [];
+  const countries = Array.isArray(details.countries) ? details.countries : [];
+
+  const summaryEl = document.getElementById('visitor-stats-summary');
+  if (summaryEl) {
+    const items = [
+      ['Total', summary.Total],
+      ['IP Unik', summary.UniqueIps],
+      ['Hari Ini', summary.Harian],
+      ['Minggu Ini', summary.Mingguan],
+      ['Bulan Ini', summary.Bulanan],
+      ['Tahun Ini', summary.Tahunan]
+    ];
+    summaryEl.innerHTML = items.map(([label, value]) => `
+      <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-brand-border dark:bg-[#14151a]">
+        <p class="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">${label}</p>
+        <p class="mt-2 text-2xl font-extrabold text-slate-900 dark:text-white">${Number(value || 0).toLocaleString('id-ID')}</p>
+      </div>
+    `).join('');
+  }
+
+  const maxDaily = Math.max(...daily.map(item => Number(item.total || 0)), 1);
+  const dailyEl = document.getElementById('visitor-daily-list');
+  if (dailyEl) {
+    dailyEl.innerHTML = daily.length ? daily.map(item => {
+      const total = Number(item.total || 0);
+      const width = Math.max(Math.round((total / maxDaily) * 100), total > 0 ? 8 : 0);
+      return `
+        <div>
+          <div class="mb-1 flex items-center justify-between gap-3 text-xs">
+            <span class="font-semibold text-slate-700 dark:text-slate-200">${formatVisitorDay(item.date)}</span>
+            <span class="text-slate-500 dark:text-slate-400">${total.toLocaleString('id-ID')} visit / ${Number(item.unique_ips || 0).toLocaleString('id-ID')} IP</span>
+          </div>
+          <div class="h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
+            <div class="h-full rounded-full bg-brand-blue" style="width:${width}%"></div>
+          </div>
+        </div>
+      `;
+    }).join('') : '<p class="text-sm text-slate-500 dark:text-slate-400">Belum ada data tren pengunjung.</p>';
+  }
+
+  const maxAgent = Math.max(...userAgents.map(item => Number(item.total || 0)), 1);
+  const agentEl = document.getElementById('visitor-agent-list');
+  if (agentEl) {
+    agentEl.innerHTML = userAgents.length ? userAgents.map(item => {
+      const total = Number(item.total || 0);
+      const width = Math.max(Math.round((total / maxAgent) * 100), total > 0 ? 8 : 0);
+      return `
+        <div>
+          <div class="mb-1 flex items-center justify-between gap-3 text-xs">
+            <span class="max-w-[70%] truncate font-semibold text-slate-700 dark:text-slate-200" title="${escapeDashboardHtml(item.user_agent)}">${escapeDashboardHtml(item.user_agent)}</span>
+            <span class="text-slate-500 dark:text-slate-400">${total.toLocaleString('id-ID')}</span>
+          </div>
+          <div class="h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
+            <div class="h-full rounded-full bg-emerald-500" style="width:${width}%"></div>
+          </div>
+        </div>
+      `;
+    }).join('') : '<p class="text-sm text-slate-500 dark:text-slate-400">Belum ada data user agent.</p>';
+  }
+
+
+  const maxCountry = Math.max(...countries.map(item => Number(item.total || 0)), 1);
+  const countryEl = document.getElementById('visitor-country-list');
+  if (countryEl) {
+    countryEl.innerHTML = countries.length ? countries.map(item => {
+      const total = Number(item.total || 0);
+      const width = Math.max(Math.round((total / maxCountry) * 100), total > 0 ? 8 : 0);
+      return `
+        <div>
+          <div class="mb-1 flex items-center justify-between gap-3 text-xs">
+            <span class="max-w-[65%] truncate font-semibold text-slate-700 dark:text-slate-200" title="${escapeDashboardHtml(item.country)}">${escapeDashboardHtml(item.country || 'Unknown')}</span>
+            <span class="text-slate-500 dark:text-slate-400">${total.toLocaleString('id-ID')} visit / ${Number(item.unique_ips || 0).toLocaleString('id-ID')} IP</span>
+          </div>
+          <div class="h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
+            <div class="h-full rounded-full bg-amber-500" style="width:${width}%"></div>
+          </div>
+        </div>
+      `;
+    }).join('') : '<p class="text-sm text-slate-500 dark:text-slate-400">Belum ada data negara.</p>';
+  }
+  const recentEl = document.getElementById('visitor-recent-list');
+  if (recentEl) {
+    recentEl.innerHTML = recent.length ? recent.map(item => `
+      <tr class="text-slate-700 dark:text-slate-300">
+        <td class="whitespace-nowrap px-3 py-3 text-xs font-medium">${formatVisitorDate(item.visited_at)}</td>
+        <td class="whitespace-nowrap px-3 py-3 text-xs font-semibold text-slate-900 dark:text-white">${escapeDashboardHtml(item.ip_address || '-')}</td>
+        <td class="whitespace-nowrap px-3 py-3 text-xs font-semibold text-slate-700 dark:text-slate-200">${escapeDashboardHtml(item.country || 'Unknown')}</td>
+        <td class="px-3 py-3 text-xs text-slate-500 dark:text-slate-400"><div class="max-w-xl truncate" title="${escapeDashboardHtml(item.user_agent || '-')}">${escapeDashboardHtml(item.user_agent || '-')}</div></td>
+      </tr>
+    `).join('') : '<tr><td colspan="4" class="px-3 py-8 text-center text-sm text-slate-500 dark:text-slate-400">Belum ada data pengunjung.</td></tr>';
+  }
+}
+
+function openVisitorStatsModal() {
+  renderVisitorStatsModal();
+  const modal = document.getElementById('visitor-stats-modal');
+  const content = document.getElementById('visitor-stats-modal-content');
+  if (!modal || !content) return;
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+  requestAnimationFrame(() => {
+    modal.classList.remove('opacity-0');
+    content.classList.remove('scale-95');
+  });
+}
+
+function closeVisitorStatsModal() {
+  const modal = document.getElementById('visitor-stats-modal');
+  const content = document.getElementById('visitor-stats-modal-content');
+  if (!modal || !content) return;
+  modal.classList.add('opacity-0');
+  content.classList.add('scale-95');
+  setTimeout(() => {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }, 180);
+}
 function updateDashboardStatusStats(statuses, total) {
   const statusTotal = Number(total || 0);
   const pending = Number(statuses['pending dp'] || 0);
@@ -42,7 +197,8 @@ async function loadDashboardStats() {
     const stats = data.stats || {};
     setText('stat-users', stats.users ? stats.users.Tahunan : usersData.length);
     setText('stat-orders', stats.orders ? stats.orders.Tahunan : ordersData.length);
-    setText('stat-visitors', stats.visitors ? stats.visitors.Tahunan : 0);
+    setText('stat-visitors', stats.visitors ? (stats.visitors.Total || stats.visitors.Tahunan) : 0);
+    visitorStatsDetails = stats.visitor_details || { summary: stats.visitors || {}, daily: [], recent: [], user_agents: [], countries: [] };
     
     // Calculate total revenue from ordersData
     let totalRevenue = 0;

@@ -103,6 +103,7 @@ CREATE TABLE visitors (
   id         INT AUTO_INCREMENT PRIMARY KEY,
   ip_address VARCHAR(45)   NOT NULL,
   user_agent TEXT          DEFAULT NULL,
+  country    VARCHAR(100)  DEFAULT 'Unknown',
   visited_at TIMESTAMP     DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -116,7 +117,11 @@ CREATE TABLE pricelists (
   name          VARCHAR(100)  NOT NULL,
   service_type  VARCHAR(100)  NOT NULL,
   price         VARCHAR(50)   NOT NULL,
+  target        TEXT          DEFAULT NULL,
+  duration      VARCHAR(120)  DEFAULT '',
   features      TEXT          DEFAULT NULL,
+  is_popular    TINYINT(1)    DEFAULT 0,
+  sort_order    INT           DEFAULT 0,
   status        ENUM('Active', 'Inactive') DEFAULT 'Active',
   created_at    TIMESTAMP     DEFAULT CURRENT_TIMESTAMP,
   updated_at    TIMESTAMP     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

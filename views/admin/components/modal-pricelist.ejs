@@ -1,54 +1,107 @@
 <!-- Pricelist Modal -->
 <div id="pricelist-modal" class="fixed inset-0 bg-slate-900/45 z-[9999] hidden opacity-0 transition-opacity duration-300" onclick="if(event.target===this)closePricelistModal()">
-  <div class="fixed right-0 top-0 h-screen w-full sm:max-w-md bg-white dark:bg-brand-card border-l border-slate-200 dark:border-brand-border shadow-[-18px_0_60px_rgba(15,23,42,0.22)] transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col z-[10000]" id="pricelist-modal-content">
-    
+  <div class="fixed right-0 top-0 h-screen w-full sm:max-w-5xl bg-white dark:bg-brand-card border-l border-slate-200 dark:border-brand-border shadow-[-18px_0_60px_rgba(15,23,42,0.22)] transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col z-[10000]" id="pricelist-modal-content">
     <div class="flex items-center justify-between px-6 py-5 border-b border-slate-200 dark:border-brand-border shrink-0">
       <div>
         <h3 class="text-lg font-bold text-slate-900 dark:text-white" id="pricelist-modal-title">Tambah Pricelist</h3>
-        <p class="text-xs text-slate-500 mt-0.5">Lengkapi form untuk mengelola pricelist</p>
+        <p class="text-xs text-slate-500 mt-0.5">Atur jenis website dan paket yang muncul di form pemesanan</p>
       </div>
-      <button onclick="closePricelistModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+      <button type="button" onclick="closePricelistModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
         <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
       </button>
     </div>
-    
+
     <div class="overflow-y-auto flex-1 p-6">
       <form id="pricelist-form" class="space-y-5" onsubmit="submitPricelistForm(event)">
         <input type="hidden" id="pricelist-id">
-        
+
         <div>
-          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Nama Paket</label>
-          <input type="text" id="pricelist-name" required class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors" placeholder="Contoh: Basic Plan">
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Jenis Website</label>
+          <input type="text" id="pricelist-service_type" required list="pricelist-service-types" class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors" placeholder="Contoh: Website Sekolah">
+          <datalist id="pricelist-service-types"></datalist>
         </div>
-        
-        <div>
-          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Jenis Layanan</label>
-          <input type="text" id="pricelist-service_type" required class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors" placeholder="Contoh: Web Company Profile">
-        </div>
-        
-        <div>
-          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Harga</label>
-          <input type="text" id="pricelist-price" required class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors" placeholder="Contoh: Rp 2.500.000">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Nama Paket</label>
+            <input type="text" id="pricelist-name" required class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors" placeholder="Contoh: Paket Profesional">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Harga</label>
+            <input type="text" id="pricelist-price" required class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors" placeholder="Contoh: Rp. 8.000.000">
+          </div>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Fitur (pisahkan dengan koma/enter)</label>
-          <textarea id="pricelist-features" rows="4" class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors" placeholder="Fitur A, Fitur B, Fitur C"></textarea>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Deskripsi Singkat Paket</label>
+          <textarea id="pricelist-target" rows="3" class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors" placeholder="Cocok untuk sekolah yang membutuhkan..."></textarea>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Status</label>
-          <select id="pricelist-status" class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors">
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-          </select>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Estimasi / Durasi</label>
+          <input type="text" id="pricelist-duration" class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors" placeholder="Estimasi pengerjaan: 30 - 60 hari kerja">
         </div>
-        
+
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Fitur Paket</label>
+          <textarea id="pricelist-features" rows="1" oninput="autoResizePricelistFeatures()" class="w-full min-h-[164px] overflow-hidden resize-none px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors" placeholder="Satu fitur per baris"></textarea>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Urutan</label>
+            <input type="number" id="pricelist-sort_order" class="w-full px-4 py-3 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors" value="0">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Popular</label>
+            <div class="relative">
+              <select id="pricelist-is_popular" class="w-full appearance-none px-4 py-3 pr-11 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors cursor-pointer">
+                <option value="0">Tidak</option>
+                <option value="1">Ya</option>
+              </select>
+              <svg class="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 dark:text-slate-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" /></svg>
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Status</label>
+            <div class="relative">
+              <select id="pricelist-status" class="w-full appearance-none px-4 py-3 pr-11 bg-white dark:bg-brand-input border border-slate-200 dark:border-brand-border rounded-xl focus:border-brand-blue outline-none text-slate-900 dark:text-white text-sm transition-colors cursor-pointer">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+              <svg class="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 dark:text-slate-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" /></svg>
+            </div>
+          </div>
+        </div>
+
         <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-100 dark:border-brand-border/50">
           <button type="button" onclick="closePricelistModal()" class="px-5 py-2.5 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">Batal</button>
-          <button type="submit" class="px-4 py-2 bg-brand-blue hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors shadow-sm inline-flex items-center justify-center gap-2 whitespace-nowrap">Simpan</button>
+          <button type="submit" class="px-4 py-2 bg-brand-blue hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors inline-flex items-center justify-center gap-2 whitespace-nowrap">Simpan</button>
         </div>
       </form>
+    </div>
+  </div>
+</div>
+<!-- Pricelist Detail Modal -->
+<div id="pricelist-detail-modal" class="fixed inset-0 bg-slate-900/45 z-[9999] hidden opacity-0 transition-opacity duration-300" onclick="if(event.target===this)closePricelistDetailModal()">
+  <div class="fixed right-0 top-0 h-screen w-full sm:max-w-5xl bg-white dark:bg-brand-card border-l border-slate-200 dark:border-brand-border shadow-[-18px_0_60px_rgba(15,23,42,0.22)] transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col z-[10000]" id="pricelist-detail-modal-content">
+    <div class="flex items-center justify-between px-6 py-5 border-b border-slate-200 dark:border-brand-border shrink-0">
+      <div>
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white">Detail Pricelist</h3>
+        <p class="text-xs text-slate-500 mt-0.5">Lihat data lengkap jenis website dan paket pemesanan</p>
+      </div>
+      <button type="button" onclick="closePricelistDetailModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+    </div>
+
+    <div class="overflow-y-auto flex-1 p-6" id="pricelist-detail-body">
+      <!-- Detail injected by JS -->
+    </div>
+
+    <div class="px-6 py-4 border-t border-slate-200 dark:border-brand-border flex justify-end gap-3 shrink-0">
+      <button type="button" onclick="closePricelistDetailModal()" class="px-5 py-2.5 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">Tutup</button>
+      <button type="button" id="pricelist-detail-edit-btn" class="px-4 py-2 bg-brand-blue hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors inline-flex items-center justify-center gap-2 whitespace-nowrap">Edit Data</button>
     </div>
   </div>
 </div>

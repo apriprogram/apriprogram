@@ -2,16 +2,25 @@
 let pricelistsData = [];
 let pricelistPage = 1;
 
+function updatePricelistServiceTypeOptions() {
+  const datalist = document.getElementById('pricelist-service-types');
+  if (!datalist) return;
+  const types = [...new Set(pricelistsData.map(item => item.service_type).filter(Boolean))].sort();
+  datalist.innerHTML = types.map(type => `<option value="${type}"></option>`).join('');
+}
+
 function deletePricelist(id) {
   openDeleteModal(id, 'pricelist');
 }
 
 function openPricelistModal(id = null) {
   openSideModal('pricelist-modal', 'pricelist-modal-content');
-  
+  if (window.lucide) lucide.createIcons();
+  updatePricelistServiceTypeOptions();
+
   const form = document.getElementById('pricelist-form');
   if (form) form.reset();
-  
+
   if (id) {
     const p = pricelistsData.find(item => Number(item.id) === Number(id));
     if (p) {
@@ -20,18 +29,117 @@ function openPricelistModal(id = null) {
       document.getElementById('pricelist-name').value = p.name || '';
       document.getElementById('pricelist-service_type').value = p.service_type || '';
       document.getElementById('pricelist-price').value = p.price || '';
-      document.getElementById('pricelist-features').value = p.features || '';
+      document.getElementById('pricelist-target').value = p.target || '';
+      document.getElementById('pricelist-duration').value = p.duration || '';
+      document.getElementById('pricelist-features').value = Array.isArray(p.features) ? p.features.join('\n') : (p.features || '');
+      document.getElementById('pricelist-is_popular').value = p.is_popular ? '1' : '0';
+      document.getElementById('pricelist-sort_order').value = p.sort_order || 0;
       document.getElementById('pricelist-status').value = p.status || 'Active';
+      setTimeout(autoResizePricelistFeatures, 0);
     }
   } else {
     document.getElementById('pricelist-modal-title').innerText = 'Tambah Pricelist';
     document.getElementById('pricelist-id').value = '';
     document.getElementById('pricelist-status').value = 'Active';
+    document.getElementById('pricelist-is_popular').value = '0';
+    document.getElementById('pricelist-sort_order').value = '0';
+    setTimeout(autoResizePricelistFeatures, 0);
   }
 }
 
 function closePricelistModal() {
   closeSideModal('pricelist-modal', 'pricelist-modal-content');
+}
+function autoResizePricelistFeatures() {
+  const textarea = document.getElementById('pricelist-features');
+  if (!textarea) return;
+  textarea.style.height = 'auto';
+  textarea.style.height = `${Math.max(textarea.scrollHeight, 164)}px`;
+}
+function formatPricelistPrice(value) {
+  if (value === null || value === undefined || value === '') return '-';
+  const numeric = Number(value);
+  if (!Number.isNaN(numeric)) {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      maximumFractionDigits: 0
+    }).format(numeric);
+  }
+  return value;
+}
+
+function openPricelistDetailModal(id) {
+  const p = pricelistsData.find(item => Number(item.id) === Number(id));
+  if (!p) {
+    showToast('Data pricelist tidak ditemukan', 'red');
+    return;
+  }
+
+  const body = document.getElementById('pricelist-detail-body');
+  const editBtn = document.getElementById('pricelist-detail-edit-btn');
+  if (!body || !editBtn) return;
+
+  const features = Array.isArray(p.features)
+    ? p.features
+    : String(p.features || '').split('\n').filter(Boolean);
+  const statusCls = p.status === 'Active'
+    ? 'bg-emerald-100 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-500/20'
+    : 'bg-slate-100 dark:bg-slate-500/10 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-500/20';
+
+  body.innerHTML = `
+    <div class="space-y-6">
+      <div class="rounded-2xl border border-slate-200 dark:border-brand-border bg-slate-50 dark:bg-[#14151a] p-5">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-[0.18em] text-brand-blue dark:text-blue-400">${p.service_type || 'Jenis Website'}</p>
+            <h4 class="mt-2 text-2xl font-extrabold text-slate-900 dark:text-white">${p.name || '-'}</h4>
+            <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">${p.target || '-'}</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            ${p.is_popular ? '<span class="inline-flex items-center rounded-full border border-amber-200 bg-amber-100 px-3 py-1 text-xs font-bold text-amber-700 dark:border-amber-500/20 dark:bg-amber-500/10 dark:text-amber-300">Popular</span>' : ''}
+            <span class="inline-flex items-center rounded-full border px-3 py-1 text-xs font-bold ${statusCls}">${p.status || '-'}</span>
+          </div>
+        </div>
+        <div class="mt-6 text-3xl font-extrabold text-slate-900 dark:text-white">${formatPricelistPrice(p.price)}</div>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div class="rounded-xl border border-slate-200 dark:border-brand-border bg-white dark:bg-[#14151a] p-4">
+          <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Estimasi / Durasi</p>
+          <p class="mt-1 text-sm font-bold text-slate-900 dark:text-white">${p.duration || '-'}</p>
+        </div>
+        <div class="rounded-xl border border-slate-200 dark:border-brand-border bg-white dark:bg-[#14151a] p-4">
+          <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Urutan Tampil</p>
+          <p class="mt-1 text-sm font-bold text-slate-900 dark:text-white">${p.sort_order ?? 0}</p>
+        </div>
+      </div>
+
+      <div class="rounded-xl border border-slate-200 dark:border-brand-border bg-white dark:bg-[#14151a] p-4">
+        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Fitur Paket</p>
+        <div class="mt-3 grid gap-2 sm:grid-cols-2">
+          ${features.length ? features.map(feature => `
+            <div class="flex items-start gap-2 rounded-lg bg-slate-50 dark:bg-[#10131b] px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200">
+              <i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0 text-emerald-500"></i>
+              <span>${feature}</span>
+            </div>
+          `).join('') : '<p class="text-sm text-slate-500 dark:text-slate-400">Belum ada fitur paket.</p>'}
+        </div>
+      </div>
+    </div>
+  `;
+
+  editBtn.onclick = function() {
+    closePricelistDetailModal();
+    setTimeout(() => openPricelistModal(id), 180);
+  };
+
+  openSideModal('pricelist-detail-modal', 'pricelist-detail-modal-content');
+  if (window.lucide) lucide.createIcons();
+}
+
+function closePricelistDetailModal() {
+  closeSideModal('pricelist-detail-modal', 'pricelist-detail-modal-content');
 }
 
 async function submitPricelistForm(e) {
@@ -41,7 +149,11 @@ async function submitPricelistForm(e) {
     name: document.getElementById('pricelist-name').value,
     service_type: document.getElementById('pricelist-service_type').value,
     price: document.getElementById('pricelist-price').value,
+    target: document.getElementById('pricelist-target').value,
+    duration: document.getElementById('pricelist-duration').value,
     features: document.getElementById('pricelist-features').value,
+    is_popular: document.getElementById('pricelist-is_popular').value === '1',
+    sort_order: document.getElementById('pricelist-sort_order').value,
     status: document.getElementById('pricelist-status').value,
   };
 
@@ -73,14 +185,11 @@ async function loadPricelists() {
     const data = await res.json();
     if (data.success) {
       pricelistsData = data.pricelists || [];
+      updatePricelistServiceTypeOptions();
       const badge = document.getElementById('badge-pricelist');
       if (badge) {
         badge.innerText = pricelistsData.length;
-        if (pricelistsData.length > 0) {
-          badge.classList.remove('hidden');
-        } else {
-          badge.classList.add('hidden');
-        }
+        badge.classList.toggle('hidden', pricelistsData.length === 0);
       }
       renderPricelists();
     }
@@ -106,10 +215,11 @@ function renderPricelists() {
   const search = searchEl.value.toLowerCase();
   const sort = sortEl ? sortEl.value : 'newest';
   const statusFilter = filterEl ? filterEl.value.toLowerCase() : '';
-  
+
   let filtered = pricelistsData.filter(p => {
     const matchSearch = (p.name || '').toLowerCase().includes(search) ||
-                        (p.service_type || '').toLowerCase().includes(search);
+                        (p.service_type || '').toLowerCase().includes(search) ||
+                        (p.target || '').toLowerCase().includes(search);
     const matchStatus = statusFilter === '' || (p.status || '').toLowerCase() === statusFilter;
     return matchSearch && matchStatus;
   });
@@ -117,10 +227,9 @@ function renderPricelists() {
   if (sort === 'oldest') {
     filtered.sort((a, b) => new Date(a.created_at || 0) - new Date(b.created_at || 0));
   } else {
-    // Newest
-    filtered.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+    filtered.sort((a, b) => (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0) || new Date(b.created_at || 0) - new Date(a.created_at || 0));
   }
-  
+
   const totalPages = Math.ceil(filtered.length / limit) || 1;
   if (pricelistPage > totalPages) pricelistPage = totalPages;
 
@@ -128,20 +237,28 @@ function renderPricelists() {
   const paginated = filtered.slice(start, start + limit);
 
   tbody.innerHTML = paginated.map((p, idx) => {
-  const statusCls = p.status === 'Active' 
-      ? 'bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20' 
+    const statusCls = p.status === 'Active'
+      ? 'bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20'
       : 'bg-slate-100 dark:bg-slate-500/10 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-500/20';
-      
+    const popularBadge = p.is_popular ? '<span class="ml-2 inline-flex rounded bg-amber-100 px-1.5 py-0.5 text-[9px] font-bold text-amber-700 dark:bg-amber-500/10 dark:text-amber-300">POPULAR</span>' : '';
+
     return `
       <tr class="border-b border-slate-200 dark:border-brand-border hover:bg-slate-50 dark:hover:bg-[#1a1c23] transition-colors">
         <td class="py-1.5 px-2 sm:py-2 sm:px-3 font-medium whitespace-nowrap text-[10px] sm:text-xs">${start + idx + 1}</td>
-        <td class="py-1.5 px-2 sm:py-2 sm:px-3 font-semibold text-slate-900 dark:text-white whitespace-nowrap text-[10px] sm:text-xs">${p.name || '-'}</td>
-        <td class="py-1.5 px-2 sm:py-2 sm:px-3 text-brand-blue dark:text-blue-400 font-medium whitespace-nowrap text-[10px] sm:text-xs">${p.service_type || '-'}</td>
+        <td class="py-1.5 px-2 sm:py-2 sm:px-3 font-semibold text-slate-900 dark:text-white whitespace-nowrap text-[10px] sm:text-xs">
+          ${p.name || '-'}${popularBadge}
+          <div class="mt-0.5 max-w-xs truncate text-[9px] font-medium text-slate-500 dark:text-slate-400">${p.duration || ''}</div>
+        </td>
+        <td class="py-1.5 px-2 sm:py-2 sm:px-3 text-brand-blue dark:text-blue-400 font-medium whitespace-nowrap text-[10px] sm:text-xs">
+          ${p.service_type || '-'}
+          <div class="mt-0.5 max-w-sm truncate text-[9px] font-medium text-slate-500 dark:text-slate-400">${p.target || ''}</div>
+        </td>
         <td class="py-1.5 px-2 sm:py-2 sm:px-3 font-bold text-slate-900 dark:text-white whitespace-nowrap text-[10px] sm:text-xs">${p.price || '-'}</td>
         <td class="py-1.5 px-2 sm:py-2 sm:px-3 whitespace-nowrap">
           <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-bold uppercase tracking-wider ${statusCls}">${p.status}</span>
         </td>
         <td class="py-1.5 px-2 sm:py-2 sm:px-3 text-center flex justify-center gap-1.5 whitespace-nowrap">
+          ${getActionButtonHtml('view', `openPricelistDetailModal(${p.id})`, 'Lihat Data')}
           ${getActionButtonHtml('edit', `openPricelistModal(${p.id})`, 'Edit Pricelist')}
           ${getActionButtonHtml('delete', `deletePricelist(${p.id})`, 'Hapus Pricelist')}
         </td>
@@ -153,54 +270,46 @@ function renderPricelists() {
     tbody.innerHTML = '<tr><td colspan="6" class="py-8 text-center text-slate-500">Tidak ada data pricelist.</td></tr>';
   }
 
-  const paginationEl = document.getElementById('pricelist-pagination');
-  if (paginationEl) {
-    let pageOptions = '';
-    for (let i = 1; i <= totalPages; i++) {
-      pageOptions += `<option value="${i}" ${i === pricelistPage ? 'selected' : ''}>${i} / ${totalPages}</option>`;
-    }
-    
-    paginationEl.innerHTML = `
-      <div class="flex items-center gap-2 sm:gap-3 shrink-0">
-        <span class="whitespace-nowrap text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">Rows per page</span>
-        <div class="relative">
-          <select onchange="document.getElementById('pricelist-limit').value = this.value; filterPricelists()" class="pl-3 pr-7 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium">
-            <option value="10" ${limit === 10 ? 'selected' : ''}>10</option>
-            <option value="25" ${limit === 25 ? 'selected' : ''}>25</option>
-            <option value="50" ${limit === 50 ? 'selected' : ''}>50</option>
-          </select>
-          <svg class="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
-        </div>
-      </div>
+  renderPricelistPagination(totalPages, limit);
+}
 
-      <div class="flex items-center gap-3 sm:gap-6 shrink-0">
-        <div class="flex items-center gap-3">
-          <span class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">Page</span>
-          <div class="relative">
-            <select onchange="pricelistPage = parseInt(this.value); renderPricelists()" class="pl-3 pr-7 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium">
-               ${pageOptions}
-            </select>
-            <svg class="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
-          </div>
-        </div>
-        
-        <div class="flex items-center rounded-lg border border-slate-200 dark:border-brand-border bg-white dark:bg-[#14151a] overflow-hidden shrink-0">
-          <button onclick="pricelistPage = 1; renderPricelists()" ${pricelistPage === 1 ? 'disabled' : ''} class="px-2.5 py-1.5 border-r border-slate-200 dark:border-brand-border text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
-          </button>
-          <button onclick="pricelistPage--; renderPricelists()" ${pricelistPage === 1 ? 'disabled' : ''} class="px-2.5 py-1.5 border-r border-slate-200 dark:border-brand-border text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-          </button>
-          <button onclick="pricelistPage++; renderPricelists()" ${pricelistPage === totalPages ? 'disabled' : ''} class="px-2.5 py-1.5 border-r border-slate-200 dark:border-brand-border text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-          </button>
-          <button onclick="pricelistPage = ${totalPages}; renderPricelists()" ${pricelistPage === totalPages ? 'disabled' : ''} class="px-2.5 py-1.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
-          </button>
+function renderPricelistPagination(totalPages, limit) {
+  const paginationEl = document.getElementById('pricelist-pagination');
+  if (!paginationEl) return;
+
+  let pageOptions = '';
+  for (let i = 1; i <= totalPages; i++) {
+    pageOptions += `<option value="${i}" ${i === pricelistPage ? 'selected' : ''}>${i} / ${totalPages}</option>`;
+  }
+
+  paginationEl.innerHTML = `
+    <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+      <span class="whitespace-nowrap text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">Rows per page</span>
+      <div class="relative">
+        <select onchange="document.getElementById('pricelist-limit').value = this.value; filterPricelists()" class="pl-3 pr-7 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium">
+          <option value="10" ${limit === 10 ? 'selected' : ''}>10</option>
+          <option value="25" ${limit === 25 ? 'selected' : ''}>25</option>
+          <option value="50" ${limit === 50 ? 'selected' : ''}>50</option>
+        </select>
+      </div>
+    </div>
+    <div class="flex items-center gap-3 sm:gap-6 shrink-0">
+      <div class="flex items-center gap-3">
+        <span class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">Page</span>
+        <div class="relative">
+          <select onchange="pricelistPage = parseInt(this.value); renderPricelists()" class="pl-3 pr-7 py-1.5 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-brand-border rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-blue appearance-none cursor-pointer text-[11px] sm:text-xs font-medium">
+             ${pageOptions}
+          </select>
         </div>
       </div>
-    `;
-  }
+      <div class="flex items-center rounded-lg border border-slate-200 dark:border-brand-border bg-white dark:bg-[#14151a] overflow-hidden shrink-0">
+        <button onclick="pricelistPage = 1; renderPricelists()" ${pricelistPage === 1 ? 'disabled' : ''} class="px-2.5 py-1.5 border-r border-slate-200 dark:border-brand-border text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">&laquo;</button>
+        <button onclick="pricelistPage--; renderPricelists()" ${pricelistPage === 1 ? 'disabled' : ''} class="px-2.5 py-1.5 border-r border-slate-200 dark:border-brand-border text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">&lsaquo;</button>
+        <button onclick="pricelistPage++; renderPricelists()" ${pricelistPage === totalPages ? 'disabled' : ''} class="px-2.5 py-1.5 border-r border-slate-200 dark:border-brand-border text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">&rsaquo;</button>
+        <button onclick="pricelistPage = ${totalPages}; renderPricelists()" ${pricelistPage === totalPages ? 'disabled' : ''} class="px-2.5 py-1.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">&raquo;</button>
+      </div>
+    </div>
+  `;
 }
 
 async function loadPaymentSettings() {

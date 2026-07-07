@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bantuan & Panduan Pemesanan - Apriprogram</title>
+  <meta name="description" content="Panduan lengkap pemesanan website di Apriprogram — ketentuan, alur dari awal hingga selesai, dan cara menghubungi admin.">
+  <link rel="icon" href="/assets/logo/favicon.png" type="image/png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Poppins', 'sans-serif'] },
+          colors: { brand: { blue: "#243CFF", cyan: "#22D3EE" } }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      background-color: #efefef;
+      background-image: radial-gradient(circle, rgba(148, 163, 184, 0.22) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    html.dark body {
+      background-color: #050b14;
+      background-image: radial-gradient(circle, rgba(148, 163, 184, 0.12) 1px, transparent 1px);
+    }
+    .card {
+      background: rgba(255,255,255,0.85);
+      border: 1px solid rgba(226,232,240,0.8);
+      border-radius: 1.25rem;
+      backdrop-filter: blur(12px);
+    }
+    html.dark .card {
+      background: rgba(10,20,40,0.75);
+      border-color: rgba(255,255,255,0.07);
+    }
+
+    /* Timeline */
+    .timeline-item { position: relative; padding-left: 2.5rem; }
+    .timeline-item::before {
+      content: '';
+      position: absolute; left: 0.75rem; top: 2.5rem; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, #243CFF22, transparent);
+    }
+    .timeline-item:last-child::before { display: none; }
+
+    /* FAQ accordion */
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .faq-answer.open { max-height: 500px; }
+    .faq-chevron { transition: transform 0.3s ease; }
+    .faq-chevron.open { transform: rotate(180deg); }
+
+    /* Sticky header */
+    .sticky-nav { backdrop-filter: blur(16px); }
+
+    /* Pulse WA button */
+    @keyframes pulse-wa {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(37,211,102,0.5); }
+      60% { box-shadow: 0 0 0 14px rgba(37,211,102,0); }
+    }
+    .wa-pulse { animation: pulse-wa 2.2s infinite; }
+
+    /* Section nav active */
+    .section-nav-link { transition: all 0.15s; }
+    .section-nav-link.active {
+      color: #243CFF; background: rgba(36,60,255,0.08);
+      font-weight: 600;
+    }
+    html.dark .section-nav-link.active {
+      color: #7b98ff; background: rgba(91,124,250,0.14);
+    }
+  </style>
+</head>
+<body class="text-slate-900 dark:text-white min-h-screen flex flex-col">
+
+  <!-- Top Bar -->
+  <div class="sticky-nav fixed inset-x-0 top-0 z-40 h-16 flex items-center justify-between px-6 border-b border-slate-200/60 dark:border-white/[0.06] bg-white/75 dark:bg-[#050b14]/80">
+    <div class="flex items-center gap-3">
+      <a href="/order" class="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors text-sm font-medium group">
+        <svg class="h-4 w-4 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Kembali
+      </a>
+      <span class="text-slate-300 dark:text-slate-600">/</span>
+      <span class="text-sm font-semibold text-slate-800 dark:text-white">Bantuan</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <img src="/assets/logo/apriprogram.png" alt="Apriprogram" class="h-7 w-auto" onerror="this.style.display='none'">
+      <button id="themeToggle" class="flex h-9 w-9 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-white/10 transition-colors" aria-label="Toggle Dark Mode">
+        <svg id="themeIconDark" class="h-5 w-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        <svg id="themeIconLight" class="h-5 w-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <main class="flex-grow pt-16">
+    <!-- Hero Section -->
+    <section class="relative py-16 px-4 text-center overflow-hidden">
+      <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-blue-500/10 dark:bg-blue-500/5 rounded-full blur-3xl"></div>
+      </div>
+      <div class="relative max-w-2xl mx-auto">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-blue-100 dark:bg-blue-500/15 text-blue-700 dark:text-blue-300 mb-6 border border-blue-200/60 dark:border-blue-500/20">
+          <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Pusat Bantuan
+        </div>
+        <h1 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 leading-tight">
+          Panduan Lengkap<br class="hidden sm:block"> Pemesanan Website
+        </h1>
+        <p class="text-slate-500 dark:text-slate-400 text-base leading-relaxed">
+          Semua yang perlu Anda ketahui — mulai dari ketentuan, alur pemesanan, hingga cara menghubungi tim kami.
+        </p>
+      </div>
+    </section>
+
+    <div class="max-w-5xl mx-auto px-4 pb-24">
+      <!-- Section Nav (Desktop) -->
+      <nav class="hidden md:flex items-center gap-1 p-1 bg-white/70 dark:bg-white/5 border border-slate-200/60 dark:border-white/10 rounded-2xl mb-10 sticky top-20 z-30 backdrop-blur-xl shadow-sm">
+        <a href="#tentang" class="section-nav-link flex-1 text-center px-3 py-2 rounded-xl text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/10">Tentang</a>
+        <a href="#ketentuan" class="section-nav-link flex-1 text-center px-3 py-2 rounded-xl text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/10">Ketentuan</a>
+        <a href="#alur" class="section-nav-link flex-1 text-center px-3 py-2 rounded-xl text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/10">Alur Pemesanan</a>
+        <a href="#teknis" class="section-nav-link flex-1 text-center px-3 py-2 rounded-xl text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/10">Teknis</a>
+        <a href="#faq" class="section-nav-link flex-1 text-center px-3 py-2 rounded-xl text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/10">FAQ</a>
+        <a href="#kontak" class="section-nav-link flex-1 text-center px-3 py-2 rounded-xl text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/10">Kontak</a>
+      </nav>
+
+      <!-- === TENTANG === -->
+      <section id="tentang" class="mb-12 scroll-mt-28">
+        <div class="card p-8 shadow-sm">
+          <div class="flex items-start gap-4">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-blue-100 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400">
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div>
+              <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Tentang Apriprogram</h2>
+              <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-sm mb-4">
+                <strong>Apriprogram</strong> adalah layanan pembuatan website profesional yang berpengalaman melayani berbagai kebutuhan digital — mulai dari website desa, profil perusahaan, kampus, sekolah, hingga toko online dan undangan digital.
+              </p>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div class="rounded-xl bg-slate-50 dark:bg-white/5 p-3 text-center border border-slate-100 dark:border-white/5">
+                  <p class="text-2xl font-bold text-blue-600 dark:text-blue-400">100+</p>
+                  <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Project Selesai</p>
+                </div>
+                <div class="rounded-xl bg-slate-50 dark:bg-white/5 p-3 text-center border border-slate-100 dark:border-white/5">
+                  <p class="text-2xl font-bold text-emerald-600 dark:text-emerald-400">98%</p>
+                  <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Kepuasan Client</p>
+                </div>
+                <div class="rounded-xl bg-slate-50 dark:bg-white/5 p-3 text-center border border-slate-100 dark:border-white/5">
+                  <p class="text-2xl font-bold text-violet-600 dark:text-violet-400">Fast</p>
+                  <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Respons Cepat</p>
+                </div>
+                <div class="rounded-xl bg-slate-50 dark:bg-white/5 p-3 text-center border border-slate-100 dark:border-white/5">
+                  <p class="text-2xl font-bold text-amber-600 dark:text-amber-400">24/7</p>
+                  <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Support</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- === KETENTUAN === -->
+      <section id="ketentuan" class="mb-12 scroll-mt-28">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-100 dark:bg-amber-500/15 text-amber-600 dark:text-amber-400">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white">Ketentuan & Peraturan Pemesanan</h2>
+        </div>
+
+        <div class="grid gap-4">
+          <!-- Ketentuan Umum -->
+          <div class="card p-6 shadow-sm">
+            <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-2">
+              <span class="flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 text-xs font-bold">1</span>
+              Ketentuan Umum
+            </h3>
+            <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-300">
+              <li class="flex items-start gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-amber-400 shrink-0"></span>Client wajib mengisi form pemesanan dengan data yang lengkap dan benar.</li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-amber-400 shrink-0"></span>Setiap pemesanan akan dikonfirmasi melalui WhatsApp oleh tim Apriprogram.</li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-amber-400 shrink-0"></span>Harga yang tertera bersifat estimasi; harga final ditentukan setelah diskusi kebutuhan.</li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-amber-400 shrink-0"></span>Apriprogram berhak menolak pesanan yang tidak sesuai dengan kapasitas atau kebijakan layanan.</li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-amber-400 shrink-0"></span>Seluruh komunikasi dan revisi dilakukan melalui WhatsApp atau sistem pemesanan.</li>
+            </ul>
+          </div>
+
+          <!-- Ketentuan Pembayaran -->
+          <div class="card p-6 shadow-sm">
+            <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-2">
+              <span class="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 dark:bg-green-500/20 text-green-600 dark:text-green-400 text-xs font-bold">2</span>
+              Ketentuan Pembayaran
+            </h3>
+            <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-300">
+              <li class="flex items-start gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-green-400 shrink-0"></span>Pembayaran <strong>DP (Down Payment) minimal 50%</strong> dari total harga sebelum pengerjaan dimulai.</li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-green-400 shrink-0"></span>Pelunasan <strong>100%</strong> dilakukan sebelum file atau akses website diserahkan kepada client.</li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-green-400 shrink-0"></span>Pembayaran dapat dilakukan melalui transfer bank atau metode yang disepakati.</li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-green-400 shrink-0"></span>Bukti pembayaran wajib dikirimkan melalui sistem atau WhatsApp admin.</li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-green-400 shrink-0"></span>Pembatalan pesanan setelah pengerjaan dimulai tidak mendapatkan refund DP.</li>
+            </ul>
+          </div>
+
+          <!-- Revisi -->
+          <div class="card p-6 shadow-sm">
+            <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-2">
+              <span class="flex h-6 w-6 items-center justify-center rounded-full bg-violet-100 dark:bg-violet-500/20 text-violet-600 dark:text-violet-400 text-xs font-bold">3</span>
+              Ketentuan Revisi
+            </h3>
+            <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-300">
+              <li class="flex items-start gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-violet-400 shrink-0"></span>Setiap paket sudah mencakup <strong>revisi yang telah disepakati</strong> di awal.</li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-violet-400 shrink-0"></span>Revisi di luar lingkup perjanjian awal dapat dikenakan biaya tambahan.</li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-violet-400 shrink-0"></span>Permintaan perubahan mayor (perubahan desain total/fitur baru) dihitung sebagai project baru.</li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-violet-400 shrink-0"></span>Waktu revisi maksimal <strong>3x7 hari kerja</strong> sejak desain/prototype dikirim.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- === ALUR PEMESANAN === -->
+      <section id="alur" class="mb-12 scroll-mt-28">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-100 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h6m4 0h6M4 12h10m4 0h2M4 18h4m4 0h8"/></svg>
+          </div>
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white">Alur Pemesanan dari Awal Hingga Selesai</h2>
+        </div>
+
+        <div class="card p-8 shadow-sm">
+          <div class="space-y-0">
+
+            <!-- Step 1 -->
+            <div class="timeline-item pb-8">
+              <div class="absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-white text-xs font-bold ring-4 ring-blue-100 dark:ring-blue-500/20 shadow">1</div>
+              <div class="ml-2">
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="font-semibold text-slate-800 dark:text-white">Isi Form Pemesanan</h3>
+                  <span class="px-2 py-0.5 rounded-full text-xs bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-300 font-medium">Hari 1</span>
+                </div>
+                <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Lengkapi form pemesanan di sistem ini: pilih jenis website, paket layanan, briefing kebutuhan proyek, preferensi desain, dan informasi kontak. Semakin detail, semakin akurat estimasi yang kami berikan.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="timeline-item pb-8">
+              <div class="absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-white text-xs font-bold ring-4 ring-indigo-100 dark:ring-indigo-500/20 shadow">2</div>
+              <div class="ml-2">
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="font-semibold text-slate-800 dark:text-white">Konfirmasi & Diskusi Kebutuhan</h3>
+                  <span class="px-2 py-0.5 rounded-full text-xs bg-indigo-100 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-300 font-medium">Hari 1-2</span>
+                </div>
+                <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Tim Apriprogram akan menghubungi Anda melalui WhatsApp untuk mengkonfirmasi pesanan, mendiskusikan kebutuhan lebih detail, dan memberikan estimasi harga serta waktu pengerjaan yang akurat.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="timeline-item pb-8">
+              <div class="absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-violet-600 text-white text-xs font-bold ring-4 ring-violet-100 dark:ring-violet-500/20 shadow">3</div>
+              <div class="ml-2">
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="font-semibold text-slate-800 dark:text-white">Pembayaran DP & Penandatanganan Kesepakatan</h3>
+                  <span class="px-2 py-0.5 rounded-full text-xs bg-violet-100 dark:bg-violet-500/20 text-violet-600 dark:text-violet-300 font-medium">Hari 2-3</span>
+                </div>
+                <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Setelah harga dan ruang lingkup pekerjaan disepakati, client melakukan pembayaran DP minimal 50%. Dokumen kesepakatan kerja (MoU) akan dikirimkan untuk ditandatangani sebagai dasar pengerjaan.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="timeline-item pb-8">
+              <div class="absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-fuchsia-600 text-white text-xs font-bold ring-4 ring-fuchsia-100 dark:ring-fuchsia-500/20 shadow">4</div>
+              <div class="ml-2">
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="font-semibold text-slate-800 dark:text-white">Desain UI/UX & Prototype</h3>
+                  <span class="px-2 py-0.5 rounded-full text-xs bg-fuchsia-100 dark:bg-fuchsia-500/20 text-fuchsia-600 dark:text-fuchsia-300 font-medium">3-7 Hari Kerja</span>
+                </div>
+                <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Tim desainer kami membuat mockup dan prototype tampilan website. Client akan diberikan preview desain untuk disetujui atau direvisi sebelum masuk ke tahap pengembangan.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="timeline-item pb-8">
+              <div class="absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-cyan-600 text-white text-xs font-bold ring-4 ring-cyan-100 dark:ring-cyan-500/20 shadow">5</div>
+              <div class="ml-2">
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="font-semibold text-slate-800 dark:text-white">Pengembangan (Development)</h3>
+                  <span class="px-2 py-0.5 rounded-full text-xs bg-cyan-100 dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-300 font-medium">7-21 Hari Kerja</span>
+                </div>
+                <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Desain yang sudah disetujui dikerjakan oleh developer. Waktu pengerjaan bervariasi sesuai kompleksitas fitur dan paket yang dipilih. Client dapat memantau progress melalui sistem pemesanan ini.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 6 -->
+            <div class="timeline-item pb-8">
+              <div class="absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-white text-xs font-bold ring-4 ring-emerald-100 dark:ring-emerald-500/20 shadow">6</div>
+              <div class="ml-2">
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="font-semibold text-slate-800 dark:text-white">Testing & Revisi</h3>
+                  <span class="px-2 py-0.5 rounded-full text-xs bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 font-medium">2-5 Hari Kerja</span>
+                </div>
+                <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Website diuji secara menyeluruh (responsivitas, performa, fitur, keamanan) sebelum ditunjukkan ke client. Client melakukan review dan pengujian mandiri, lalu menyampaikan revisi jika ada.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 7 -->
+            <div class="timeline-item pb-8">
+              <div class="absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-orange-500 text-white text-xs font-bold ring-4 ring-orange-100 dark:ring-orange-500/20 shadow">7</div>
+              <div class="ml-2">
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="font-semibold text-slate-800 dark:text-white">Pelunasan & Serah Terima</h3>
+                  <span class="px-2 py-0.5 rounded-full text-xs bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-300 font-medium">Hari Terakhir</span>
+                </div>
+                <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Setelah semua revisi selesai dan client menyetujui hasil akhir, pelunasan sisa pembayaran 50% dilakukan. Tim kami kemudian menyerahkan akses hosting, domain, source code (jika termasuk dalam paket), dan dokumentasi teknis.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 8 -->
+            <div class="timeline-item">
+              <div class="absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-green-600 text-white text-xs font-bold ring-4 ring-green-100 dark:ring-green-500/20 shadow">✓</div>
+              <div class="ml-2">
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="font-semibold text-slate-800 dark:text-white">After-Sales Support</h3>
+                  <span class="px-2 py-0.5 rounded-full text-xs bg-green-100 dark:bg-green-500/20 text-green-600 dark:text-green-300 font-medium">Setelah Launch</span>
+                </div>
+                <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Kami memberikan garansi dan dukungan teknis pasca-launch sesuai paket yang dipilih. Untuk pertanyaan lebih lanjut atau kebutuhan maintenance, Anda dapat menghubungi tim kami kapan saja.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- === TEKNIS === -->
+      <section id="teknis" class="mb-12 scroll-mt-28">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-violet-100 dark:bg-violet-500/15 text-violet-600 dark:text-violet-400">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+          </div>
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white">Informasi Teknis</h2>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div class="card p-6 shadow-sm">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-100 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              </div>
+              <h3 class="font-semibold text-slate-800 dark:text-slate-200">Teknologi yang Digunakan</h3>
+            </div>
+            <ul class="space-y-1.5 text-sm text-slate-600 dark:text-slate-300">
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-blue-400 shrink-0"></span>HTML5, CSS3, JavaScript (Vanilla/Modern)</li>
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-blue-400 shrink-0"></span>PHP / Node.js (sesuai kebutuhan)</li>
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-blue-400 shrink-0"></span>MySQL / MariaDB</li>
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-blue-400 shrink-0"></span>WordPress (opsional, sesuai paket)</li>
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-blue-400 shrink-0"></span>Responsif (Mobile-friendly)</li>
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-blue-400 shrink-0"></span>SSL & HTTPS siap pakai</li>
+            </ul>
+          </div>
+
+          <div class="card p-6 shadow-sm">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-100 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/></svg>
+              </div>
+              <h3 class="font-semibold text-slate-800 dark:text-slate-200">Hosting & Domain</h3>
+            </div>
+            <ul class="space-y-1.5 text-sm text-slate-600 dark:text-slate-300">
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-emerald-400 shrink-0"></span>Hosting disediakan oleh Apriprogram atau client</li>
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-emerald-400 shrink-0"></span>Domain .com, .id, .co.id, .desa.id, dsb.</li>
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-emerald-400 shrink-0"></span>Uptime server 99.9% (SLA)</li>
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-emerald-400 shrink-0"></span>Backup otomatis harian</li>
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-emerald-400 shrink-0"></span>CDN untuk performa lebih cepat</li>
+            </ul>
+          </div>
+
+          <div class="card p-6 shadow-sm">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-orange-100 dark:bg-orange-500/15 text-orange-600 dark:text-orange-400">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <h3 class="font-semibold text-slate-800 dark:text-slate-200">Estimasi Waktu Pengerjaan</h3>
+            </div>
+            <ul class="space-y-1.5 text-sm text-slate-600 dark:text-slate-300">
+              <li class="flex items-start gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-orange-400 shrink-0"></span>Website Profil Sederhana: <strong>5–10 hari kerja</strong></li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-orange-400 shrink-0"></span>Website Company Profile: <strong>10–20 hari kerja</strong></li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-orange-400 shrink-0"></span>Website Desa/Kampus/Sekolah: <strong>14–30 hari kerja</strong></li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-orange-400 shrink-0"></span>Website Kompleks (custom): <strong>30–60 hari kerja</strong></li>
+            </ul>
+          </div>
+
+          <div class="card p-6 shadow-sm">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-rose-100 dark:bg-rose-500/15 text-rose-600 dark:text-rose-400">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              </div>
+              <h3 class="font-semibold text-slate-800 dark:text-slate-200">Dokumen yang Diperlukan</h3>
+            </div>
+            <ul class="space-y-1.5 text-sm text-slate-600 dark:text-slate-300">
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-rose-400 shrink-0"></span>Konten teks (profil, visi misi, layanan, dll.)</li>
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-rose-400 shrink-0"></span>Logo & aset brand (jika ada)</li>
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-rose-400 shrink-0"></span>Foto/gambar pendukung berkualitas tinggi</li>
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-rose-400 shrink-0"></span>Referensi desain website yang disukai</li>
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-rose-400 shrink-0"></span>Data akun hosting/domain (jika sudah ada)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- === FAQ === -->
+      <section id="faq" class="mb-12 scroll-mt-28">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-cyan-100 dark:bg-cyan-500/15 text-cyan-600 dark:text-cyan-400">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white">Pertanyaan yang Sering Ditanyakan (FAQ)</h2>
+        </div>
+
+        <div class="card shadow-sm divide-y divide-slate-100 dark:divide-white/[0.06]">
+          <% const faqs = [
+            { q: 'Apakah bisa konsultasi terlebih dahulu sebelum memesan?', a: 'Tentu saja! Anda dapat menghubungi admin melalui WhatsApp untuk konsultasi gratis sebelum memutuskan untuk memesan. Kami siap membantu Anda menentukan paket yang paling sesuai dengan kebutuhan dan anggaran.' },
+            { q: 'Berapa lama garansi setelah website selesai dibuat?', a: 'Kami memberikan garansi bug dan error minimal 3 bulan setelah serah terima website. Jika ada masalah teknis yang bukan disebabkan oleh perubahan dari pihak client, kami akan memperbaikinya tanpa biaya tambahan.' },
+            { q: 'Apakah saya mendapatkan source code website?', a: 'Ketersediaan source code tergantung paket yang dipilih. Beberapa paket menyertakan source code, sementara yang lain hanya akses hosting dan admin panel. Harap konfirmasi kebutuhan ini di awal pemesanan.' },
+            { q: 'Bisakah saya meminta fitur tambahan di luar paket?', a: 'Ya, fitur tambahan di luar paket dapat dikerjakan dengan biaya tambahan yang disepakati. Silakan diskusikan kebutuhan spesifik Anda dengan tim kami sebelum pengerjaan dimulai.' },
+            { q: 'Apakah website yang dibuat bisa diupdate sendiri oleh saya?', a: 'Ya! Kami menyediakan panel admin (CMS) yang mudah digunakan sehingga Anda dapat memperbarui konten, foto, berita, dan informasi lainnya secara mandiri tanpa keahlian teknis.' },
+            { q: 'Bagaimana jika saya tidak puas dengan hasil desain?', a: 'Kepuasan client adalah prioritas kami. Anda berhak melakukan revisi sesuai kesepakatan di awal. Jika desain tidak sesuai ekspektasi, kami akan mendiskusikan ulang untuk menemukan solusi terbaik.' },
+          ]; %>
+
+          <% faqs.forEach((faq, idx) => { %>
+          <div class="faq-item p-5">
+            <button class="faq-btn w-full flex items-center justify-between gap-4 text-left" type="button" data-idx="<%= idx %>">
+              <span class="text-sm font-medium text-slate-800 dark:text-slate-200"><%= faq.q %></span>
+              <svg class="faq-chevron h-5 w-5 shrink-0 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p class="pt-3 text-sm text-slate-500 dark:text-slate-400 leading-relaxed"><%= faq.a %></p>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+      </section>
+
+      <!-- === KONTAK === -->
+      <section id="kontak" class="scroll-mt-28">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-green-100 dark:bg-green-500/15 text-green-600 dark:text-green-400">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          </div>
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white">Hubungi Kami</h2>
+        </div>
+
+        <div class="card p-8 shadow-sm text-center">
+          <div class="max-w-md mx-auto">
+            <div class="flex h-16 w-16 mx-auto items-center justify-center rounded-2xl bg-green-100 dark:bg-green-500/15 mb-5">
+              <svg class="h-9 w-9 text-green-500" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Butuh Bantuan Lebih Lanjut?</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">
+              Tim admin kami siap membantu Anda setiap saat. Hubungi kami langsung melalui WhatsApp untuk konsultasi, tanya harga, atau pertanyaan lainnya.
+            </p>
+            <a
+              id="waBtn"
+              href="https://wa.me/6282181361433?text=Halo%20Apriprogram%2C%20saya%20ingin%20bertanya%20mengenai%20pemesanan%20website."
+              target="_blank"
+              rel="noopener noreferrer"
+              class="wa-pulse inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-green-500 hover:bg-green-600 active:scale-95 text-white font-semibold text-base transition-all shadow-lg shadow-green-500/30"
+            >
+              <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+              Chat WhatsApp Admin
+              <span class="text-green-200 text-sm font-normal">0821-8136-1433</span>
+            </a>
+            <p class="mt-4 text-xs text-slate-400 dark:text-slate-500">Tersedia Senin–Sabtu, 08.00–21.00 WIB</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Floating WA Button -->
+  <a
+    href="https://wa.me/6282181361433?text=Halo%20Apriprogram%2C%20saya%20ingin%20bertanya%20mengenai%20pemesanan%20website."
+    target="_blank"
+    rel="noopener noreferrer"
+    class="wa-pulse fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 hover:bg-green-600 active:scale-95 text-white shadow-xl shadow-green-500/40 transition-transform"
+    title="Chat WhatsApp Admin"
+    aria-label="Chat WhatsApp Admin"
+  >
+    <svg class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+
+  <script>
+    // Theme toggle
+    (function () {
+      const html = document.documentElement;
+      const btn = document.getElementById('themeToggle');
+      const iconDark = document.getElementById('themeIconDark');
+      const iconLight = document.getElementById('themeIconLight');
+      function applyTheme() {
+        const isDark = html.classList.contains('dark');
+        iconDark.classList.toggle('hidden', !isDark);
+        iconLight.classList.toggle('hidden', isDark);
+      }
+      applyTheme();
+      btn.addEventListener('click', () => {
+        html.classList.toggle('dark');
+        localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+        applyTheme();
+      });
+    })();
+
+    // FAQ Accordion
+    document.querySelectorAll('.faq-btn').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const item = this.closest('.faq-item');
+        const answer = item.querySelector('.faq-answer');
+        const chevron = this.querySelector('.faq-chevron');
+        const isOpen = answer.classList.contains('open');
+
+        // Close all
+        document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+        document.querySelectorAll('.faq-chevron').forEach(c => c.classList.remove('open'));
+
+        // Toggle this
+        if (!isOpen) {
+          answer.classList.add('open');
+          chevron.classList.add('open');
+        }
+      });
+    });
+
+    // Section nav highlight on scroll
+    const navLinks = document.querySelectorAll('.section-nav-link');
+    const sections = document.querySelectorAll('section[id]');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(sec => {
+        if (window.scrollY >= sec.offsetTop - 120) current = sec.id;
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+      });
+    }, { passive: true });
+  </script>
+</body>
+</html>
