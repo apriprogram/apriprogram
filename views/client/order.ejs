@@ -42,31 +42,74 @@
   <div id="google_translate_element" class="hidden"></div>
 
   <!-- Header -->
-  <header class="fixed left-1/2 top-4 z-50 w-[calc(100%-2rem)] max-w-2xl -translate-x-1/2">
-    <nav id="mainNav" class="relative flex items-center justify-between rounded-full border border-white/70 bg-[#efefef]/75 px-2 py-2 text-slate-700 shadow-[0_8px_24px_rgba(15,23,42,0.06)] backdrop-blur-2xl dark:border-white/10 dark:bg-slate-900/55 dark:text-slate-200 dark:shadow-[0_8px_24px_rgba(0,0,0,0.18)]">
+  <header class="fixed left-1/2 top-3 z-50 w-[calc(100%-1.25rem)] max-w-2xl -translate-x-1/2 sm:top-4 sm:w-[calc(100%-2rem)]">
+    <nav id="mainNav" class="relative flex items-center justify-between rounded-full border border-white/70 bg-[#efefef]/75 px-1.5 py-1.5 text-slate-700 shadow-[0_8px_24px_rgba(15,23,42,0.06)] backdrop-blur-2xl dark:border-white/10 dark:bg-slate-900/55 dark:text-slate-200 dark:shadow-[0_8px_24px_rgba(0,0,0,0.18)] sm:px-2 sm:py-2">
       <span id="navActiveIndicator" class="absolute top-2 bottom-2 left-2 rounded-full bg-white/80 transition-all duration-300 ease-out dark:bg-white/10"></span>
-      <button type="button" id="homeNavBtn" class="relative z-10 flex h-11 items-center gap-2 rounded-full px-4 text-sm font-semibold text-slate-600 transition-colors duration-300 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white" aria-label="Home">
-        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 11l9-8 9 8v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1v-9z"></path></svg>
-        <span>Home</span>
+      <button type="button" id="homeNavBtn" class="relative z-10 flex h-9 items-center gap-1.5 rounded-full px-3 text-xs font-semibold sm:h-11 sm:gap-2 sm:px-4 sm:text-sm text-slate-600 transition-colors duration-300 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white shrink-0" aria-label="Home">
+        <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 11l9-8 9 8v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1v-9z"></path></svg>
+        <span class="hidden sm:inline">Home</span>
       </button>
-      <button type="button" id="orderNavBtn" class="relative z-10 flex h-11 items-center gap-2 rounded-full px-4 text-sm font-semibold text-slate-600 transition-colors duration-300 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white" aria-label="Form Pemesanan">
-        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5h6m-7 4h8m-8 4h5m-7 8h12a2 2 0 002-2V7.5L15.5 3H6a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+      <button type="button" id="orderNavBtn" class="relative z-10 flex h-9 items-center gap-1.5 rounded-full px-3 text-xs font-semibold sm:h-11 sm:gap-2 sm:px-4 sm:text-sm text-slate-600 transition-colors duration-300 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white" aria-label="Form Pemesanan">
+        <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5h6m-7 4h8m-8 4h5m-7 8h12a2 2 0 002-2V7.5L15.5 3H6a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
         <span class="hidden sm:inline">Form Pemesanan</span>
       </button>
-      <button type="button" id="flowNavBtn" class="relative z-10 flex h-11 items-center gap-2 rounded-full px-4 text-sm font-semibold text-slate-600 transition-colors duration-300 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white" aria-label="Alur">
-        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h6m4 0h6M4 12h10m4 0h2M4 18h4m4 0h8"></path></svg>
+      <button type="button" id="flowNavBtn" class="relative z-10 flex h-9 items-center gap-1.5 rounded-full px-3 text-xs font-semibold sm:h-11 sm:gap-2 sm:px-4 sm:text-sm text-slate-600 transition-colors duration-300 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white" aria-label="Alur">
+        <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h6m4 0h6M4 12h10m4 0h2M4 18h4m4 0h8"></path></svg>
         <span class="hidden sm:inline">Alur</span>
       </button>
-      <button type="button" id="languageToggle" class="relative z-10 flex h-11 w-11 items-center justify-center rounded-full text-slate-600 transition-colors hover:bg-white/60 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-300 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white dark:focus:ring-white/20" aria-label="Ganti Bahasa" title="Ganti bahasa">
-        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 015.412 9m6.176 0A18.023 18.023 0 017 16m8-5h6m-3-3v3m0 0v3m0-3h3m-3 0h-3"></path></svg>
+      <button type="button" id="languageToggle" class="relative z-10 flex h-9 w-9 items-center justify-center rounded-full text-slate-600 sm:h-11 sm:w-11 transition-colors hover:bg-white/60 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-300 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white dark:focus:ring-white/20" aria-label="Ganti Bahasa" title="Ganti bahasa">
+        <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 015.412 9m6.176 0A18.023 18.023 0 017 16m8-5h6m-3-3v3m0 0v3m0-3h3m-3 0h-3"></path></svg>
       </button>
-      <button id="themeToggle" class="relative z-10 flex h-11 w-11 items-center justify-center rounded-full text-slate-600 transition-colors hover:bg-white/60 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-300 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white dark:focus:ring-white/20" aria-label="Toggle Dark Mode">
+      <button id="themeToggle" class="relative z-10 flex h-9 w-9 items-center justify-center rounded-full text-slate-600 sm:h-11 sm:w-11 transition-colors hover:bg-white/60 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-300 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white dark:focus:ring-white/20" aria-label="Toggle Dark Mode">
         <svg id="themeIconDark" class="h-5 w-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
         <svg id="themeIconLight" class="h-5 w-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
       </button>
-      <a href="/logout" class="relative z-10 flex h-11 w-11 items-center justify-center rounded-full text-slate-600 transition-colors hover:bg-white/60 hover:text-red-500 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-red-400" title="Logout <%= user.email %>" aria-label="Logout">
-        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H9m4 8H6a2 2 0 01-2-2V6a2 2 0 012-2h7"></path></svg>
+      <a href="/logout" class="relative z-10 hidden h-9 w-9 items-center justify-center rounded-full text-slate-600 sm:h-11 sm:w-11 transition-colors hover:bg-white/60 hover:text-red-500 lg:flex dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-red-400" title="Logout <%= user.email %>" aria-label="Logout">
+        <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H9m4 8H6a2 2 0 01-2-2V6a2 2 0 012-2h7"></path></svg>
       </a>
+
+      <!-- Profile Dropdown -->
+      <div class="relative z-20 flex items-center gap-3 text-right text-slate-900 dark:text-white lg:hidden" id="profileDropdownWrapperMobile">
+        <div class="relative" id="profileDropdownContainerMobile">
+          <!-- Avatar Button -->
+          <button
+            id="profileAvatarBtnMobile"
+            type="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+            class="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white text-xs font-semibold text-slate-900 ring-1 ring-slate-200 transition-all duration-200 hover:ring-2 hover:ring-blue-500 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-white dark:text-slate-900 dark:ring-white/20 dark:hover:ring-blue-400 cursor-pointer select-none"
+            title="Profil Saya"
+          >
+            <% if (user.avatar) { %>
+              <img src="<%= user.avatar %>" alt="Foto profil" class="h-full w-full object-cover">
+            <% } else { %>
+              <%= (user.full_name || (user.email ? user.email.split('@')[0] : 'U')).trim().charAt(0).toUpperCase() %>
+            <% } %>
+          </button>
+
+          <!-- Dropdown Menu -->
+          <div id="profileDropdownMenuMobile" role="menu" aria-labelledby="profileAvatarBtnMobile" class="absolute right-0 mt-2 w-52 origin-top-right rounded-2xl border border-slate-200/80 bg-white/90 px-2 py-2 opacity-0 scale-95 pointer-events-none shadow-xl backdrop-blur-xl transition-all duration-200 ease-out dark:border-white/10 dark:bg-slate-900/90 dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]" style="top: calc(100% + 8px);">
+            <a href="/client/profile" role="menuitem" class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 transition-all duration-150 hover:bg-blue-50 hover:text-blue-700 dark:text-slate-200 dark:hover:bg-blue-500/15 dark:hover:text-blue-300 group">
+              <span class="flex h-5 w-5 shrink-0 items-center justify-center text-slate-500 transition-colors duration-150 group-hover:text-blue-700 dark:text-slate-300 dark:group-hover:text-blue-300">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+              </span>
+              Edit Profil
+            </a>
+            <a href="/bantuan" role="menuitem" class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 transition-all duration-150 hover:bg-amber-50 hover:text-amber-700 dark:text-slate-200 dark:hover:bg-amber-500/15 dark:hover:text-amber-300 group">
+              <span class="flex h-5 w-5 shrink-0 items-center justify-center text-slate-500 transition-colors duration-150 group-hover:text-amber-700 dark:text-slate-300 dark:group-hover:text-amber-300">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              </span>
+              Bantuan
+            </a>
+            <a href="/logout" role="menuitem" class="mt-2 flex items-center gap-3 rounded-xl border-t border-slate-200/80 px-3 py-2.5 pt-3 text-sm font-medium text-slate-700 transition-all duration-150 hover:bg-red-50 hover:text-red-600 dark:border-white/10 dark:text-slate-200 dark:hover:bg-red-500/15 dark:hover:text-red-400 group">
+              <span class="flex h-5 w-5 shrink-0 items-center justify-center text-slate-500 transition-colors duration-150 group-hover:text-red-600 dark:text-slate-300 dark:group-hover:text-red-400">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H9m4 8H6a2 2 0 01-2-2V6a2 2 0 012-2h7"></path></svg>
+              </span>
+              Keluar
+            </a>
+          </div>
+        </div>
+      </div>
     </nav>
   </header>
 
@@ -78,16 +121,16 @@
     </div>
   </div>
 
-  <!-- Profile Dropdown -->
-  <div class="fixed right-4 top-4 z-40 hidden items-center gap-3 text-right text-slate-900 dark:text-white lg:flex" id="profileDropdownWrapper">
+  <!-- Profile Dropdown Desktop -->
+  <div class="fixed right-4 top-4 z-40 hidden items-center gap-3 text-right text-slate-900 dark:text-white lg:flex" id="profileDropdownWrapperDesktop">
     <div class="min-w-0">
       <p class="max-w-56 truncate text-sm font-semibold text-slate-950 dark:text-white"><%= user.full_name || (user.email ? user.email.split('@')[0] : 'User') %></p>
       <p class="max-w-56 truncate text-xs text-slate-500 dark:text-slate-400"><%= user.email %></p>
     </div>
-    <div class="relative" id="profileDropdownContainer">
+    <div class="relative" id="profileDropdownContainerDesktop">
       <!-- Avatar Button -->
       <button
-        id="profileAvatarBtn"
+        id="profileAvatarBtnDesktop"
         type="button"
         aria-haspopup="true"
         aria-expanded="false"
@@ -102,111 +145,77 @@
       </button>
 
       <!-- Dropdown Menu -->
-      <div
-        id="profileDropdownMenu"
-        role="menu"
-        aria-labelledby="profileAvatarBtn"
-        class="absolute right-0 mt-2 w-52 origin-top-right rounded-2xl border border-slate-200/80 bg-white/90 shadow-xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/90 dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]
-               opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out"
-        style="top: calc(100% + 8px);"
-      >
-        <!-- Header info -->
-        <div class="px-4 pt-4 pb-3 border-b border-slate-100 dark:border-white/10">
-          <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Akun Saya</p>
-          <p class="mt-1 text-sm font-semibold text-slate-800 dark:text-white truncate"><%= user.full_name || (user.email ? user.email.split('@')[0] : 'User') %></p>
-          <p class="text-xs text-slate-400 dark:text-slate-500 truncate"><%= user.email %></p>
-        </div>
-
-        <!-- Menu Items -->
-        <div class="py-2 px-2">
-          <!-- Edit Profile -->
-          <a
-            href="/client/profile"
-            role="menuitem"
-            class="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 transition-all duration-150 hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-blue-500/15 dark:hover:text-blue-300 group"
-          >
-            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-white/10 group-hover:bg-blue-100 dark:group-hover:bg-blue-500/20 transition-colors duration-150">
-              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-              </svg>
-            </span>
-            Edit Profil
-          </a>
-
-          <!-- Bantuan -->
-          <a
-            href="/bantuan"
-            role="menuitem"
-            class="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 transition-all duration-150 hover:bg-amber-50 hover:text-amber-700 dark:hover:bg-amber-500/15 dark:hover:text-amber-300 group"
-          >
-            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-white/10 group-hover:bg-amber-100 dark:group-hover:bg-amber-500/20 transition-colors duration-150">
-              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-            </span>
-            Bantuan
-          </a>
-        </div>
-
-        <!-- Divider + Logout -->
-        <div class="py-2 px-2 border-t border-slate-100 dark:border-white/10">
-          <a
-            href="/logout"
-            role="menuitem"
-            class="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 transition-all duration-150 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-500/15 dark:hover:text-red-400 group"
-          >
-            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-white/10 group-hover:bg-red-100 dark:group-hover:bg-red-500/20 transition-colors duration-150">
-              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H9m4 8H6a2 2 0 01-2-2V6a2 2 0 012-2h7"/>
-              </svg>
-            </span>
-            Keluar
-          </a>
-        </div>
+      <div id="profileDropdownMenuDesktop" role="menu" aria-labelledby="profileAvatarBtnDesktop" class="absolute right-0 mt-2 w-52 origin-top-right rounded-2xl border border-slate-200/80 bg-white/90 px-2 py-2 opacity-0 scale-95 pointer-events-none shadow-xl backdrop-blur-xl transition-all duration-200 ease-out dark:border-white/10 dark:bg-slate-900/90 dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]" style="top: calc(100% + 8px);">
+        <a href="/client/profile" role="menuitem" class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 transition-all duration-150 hover:bg-blue-50 hover:text-blue-700 dark:text-slate-200 dark:hover:bg-blue-500/15 dark:hover:text-blue-300 group">
+          <span class="flex h-5 w-5 shrink-0 items-center justify-center text-slate-500 transition-colors duration-150 group-hover:text-blue-700 dark:text-slate-300 dark:group-hover:text-blue-300">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+          </span>
+          Edit Profil
+        </a>
+        <a href="/bantuan" role="menuitem" class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 transition-all duration-150 hover:bg-amber-50 hover:text-amber-700 dark:text-slate-200 dark:hover:bg-amber-500/15 dark:hover:text-amber-300 group">
+          <span class="flex h-5 w-5 shrink-0 items-center justify-center text-slate-500 transition-colors duration-150 group-hover:text-amber-700 dark:text-slate-300 dark:group-hover:text-amber-300">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </span>
+          Bantuan
+        </a>
+        <a href="/logout" role="menuitem" class="mt-2 flex items-center gap-3 rounded-xl border-t border-slate-200/80 px-3 py-2.5 pt-3 text-sm font-medium text-slate-700 transition-all duration-150 hover:bg-red-50 hover:text-red-600 dark:border-white/10 dark:text-slate-200 dark:hover:bg-red-500/15 dark:hover:text-red-400 group">
+          <span class="flex h-5 w-5 shrink-0 items-center justify-center text-slate-500 transition-colors duration-150 group-hover:text-red-600 dark:text-slate-300 dark:group-hover:text-red-400">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H9m4 8H6a2 2 0 01-2-2V6a2 2 0 012-2h7"></path></svg>
+          </span>
+          Keluar
+        </a>
       </div>
     </div>
   </div>
 
   <style>
-    #profileDropdownMenu.dropdown-open {
-      opacity: 1;
-      transform: scale(1);
-      pointer-events: auto;
+    .dropdown-open {
+      opacity: 1 !important;
+      transform: scale(1) !important;
+      pointer-events: auto !important;
     }
   </style>
 
   <script>
     (function () {
-      const btn = document.getElementById('profileAvatarBtn');
-      const menu = document.getElementById('profileDropdownMenu');
-      let isOpen = false;
+      function setupDropdown(btnId, menuId, containerId) {
+        const btn = document.getElementById(btnId);
+        const menu = document.getElementById(menuId);
+        const container = document.getElementById(containerId);
+        if (!btn || !menu || !container) return;
+        
+        let isOpen = false;
 
-      function openDropdown() {
-        isOpen = true;
-        menu.classList.add('dropdown-open');
-        btn.setAttribute('aria-expanded', 'true');
-      }
-
-      function closeDropdown() {
-        isOpen = false;
-        menu.classList.remove('dropdown-open');
-        btn.setAttribute('aria-expanded', 'false');
-      }
-
-      btn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        isOpen ? closeDropdown() : openDropdown();
-      });
-
-      document.addEventListener('click', function (e) {
-        if (!document.getElementById('profileDropdownContainer').contains(e.target)) {
-          closeDropdown();
+        function openDropdown() {
+          isOpen = true;
+          menu.classList.add('dropdown-open');
+          btn.setAttribute('aria-expanded', 'true');
         }
-      });
 
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && isOpen) closeDropdown();
-      });
+        function closeDropdown() {
+          isOpen = false;
+          menu.classList.remove('dropdown-open');
+          btn.setAttribute('aria-expanded', 'false');
+        }
+
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          isOpen ? closeDropdown() : openDropdown();
+        });
+
+        document.addEventListener('click', function (e) {
+          if (!container.contains(e.target)) {
+            closeDropdown();
+          }
+        });
+
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && isOpen) closeDropdown();
+        });
+      }
+
+      setupDropdown('profileAvatarBtnMobile', 'profileDropdownMenuMobile', 'profileDropdownContainerMobile');
+      setupDropdown('profileAvatarBtnDesktop', 'profileDropdownMenuDesktop', 'profileDropdownContainerDesktop');
     })();
   </script>
 
@@ -267,10 +276,10 @@
         
         <!-- STEP 1: Jenis Website -->
         <div class="step-content block" id="step1">
-          <h2 class="text-2xl font-semibold mb-2">Pilih Jenis Website</h2>
+          <h2 class="text-xl font-semibold mb-2 sm:text-2xl">Pilih Jenis Website</h2>
           <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Pilih kategori yang paling sesuai dengan kebutuhan proyek Anda.</p>
           
-          <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="websiteTypeGrid">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" id="websiteTypeGrid">
             <!-- JS will populate options here -->
           </div>
           <input type="hidden" id="website_type" required>
@@ -279,7 +288,7 @@
 
         <!-- STEP 2: Pilih Paket -->
         <div class="step-content hidden" id="step2">
-          <h2 class="text-2xl font-semibold mb-2">Pilih Paket Website</h2>
+          <h2 class="text-xl font-semibold mb-2 sm:text-2xl">Pilih Paket Website</h2>
           <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Pilih paket yang sesuai dengan fitur dan budget yang Anda inginkan.</p>
           
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="packagesGrid">
@@ -292,7 +301,7 @@
 
         <!-- STEP 3: Isi Brief & Upload -->
         <div class="step-content hidden" id="step3">
-          <h2 class="text-2xl font-semibold mb-2">Brief Proyek</h2>
+          <h2 class="text-xl font-semibold mb-2 sm:text-2xl">Brief Proyek</h2>
           <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Ceritakan lebih detail tentang website yang ingin Anda buat.</p>
           
           <div class="space-y-5">
@@ -335,7 +344,7 @@
 
         <!-- STEP 4: Desain & Referensi -->
         <div class="step-content hidden" id="step4">
-          <h2 class="text-2xl font-semibold mb-2">Tema & Referensi Desain</h2>
+          <h2 class="text-xl font-semibold mb-2 sm:text-2xl">Tema & Referensi Desain</h2>
           <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Bantu kami memahami selera visual Anda.</p>
           
           <div class="space-y-5">
@@ -347,28 +356,28 @@
               <label class="block text-sm font-semibold mb-3 text-slate-800 dark:text-slate-200">Warna Utama</label>
               <input type="hidden" id="primary_color" value="#243CFF">
               <div id="colorPickerGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                <button type="button" data-color="#243CFF" data-name="Biru Apriprogram" class="color-option group flex min-h-[4.75rem] items-center justify-between rounded-xl border border-slate-200/80 bg-white px-4 py-3 text-left transition-colors hover:border-brand-blue dark:border-white/10 dark:bg-[#0a111f] dark:hover:border-brand-blue">
-                  <span><span class="block text-sm font-semibold text-slate-950 dark:text-white">Biru Apriprogram</span><span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">#243CFF</span></span>
+                <button type="button" data-color="#243CFF" data-name="Biru" class="color-option group flex min-h-[4.75rem] items-center justify-between rounded-xl border border-slate-200/80 bg-white px-4 py-3 text-left transition-colors hover:border-brand-blue dark:border-white/10 dark:bg-[#0a111f] dark:hover:border-brand-blue">
+                  <span><span class="block text-sm font-semibold text-slate-950 dark:text-white">Biru</span><span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">#243CFF</span></span>
                   <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#243CFF] ring-1 ring-slate-200 dark:ring-white/10"><svg class="color-check hidden h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></span>
                 </button>
-                <button type="button" data-color="#0F172A" data-name="Hitam Elegan" class="color-option group flex min-h-[4.75rem] items-center justify-between rounded-xl border border-slate-200/80 bg-white px-4 py-3 text-left transition-colors hover:border-brand-blue dark:border-white/10 dark:bg-[#0a111f] dark:hover:border-brand-blue">
-                  <span><span class="block text-sm font-semibold text-slate-950 dark:text-white">Hitam Elegan</span><span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">#0F172A</span></span>
+                <button type="button" data-color="#0F172A" data-name="Hitam" class="color-option group flex min-h-[4.75rem] items-center justify-between rounded-xl border border-slate-200/80 bg-white px-4 py-3 text-left transition-colors hover:border-brand-blue dark:border-white/10 dark:bg-[#0a111f] dark:hover:border-brand-blue">
+                  <span><span class="block text-sm font-semibold text-slate-950 dark:text-white">Hitam</span><span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">#0F172A</span></span>
                   <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0F172A] ring-1 ring-slate-200 dark:ring-white/10"><svg class="color-check hidden h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></span>
                 </button>
-                <button type="button" data-color="#16A34A" data-name="Hijau Fresh" class="color-option group flex min-h-[4.75rem] items-center justify-between rounded-xl border border-slate-200/80 bg-white px-4 py-3 text-left transition-colors hover:border-brand-blue dark:border-white/10 dark:bg-[#0a111f] dark:hover:border-brand-blue">
-                  <span><span class="block text-sm font-semibold text-slate-950 dark:text-white">Hijau Fresh</span><span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">#16A34A</span></span>
+                <button type="button" data-color="#16A34A" data-name="Hijau" class="color-option group flex min-h-[4.75rem] items-center justify-between rounded-xl border border-slate-200/80 bg-white px-4 py-3 text-left transition-colors hover:border-brand-blue dark:border-white/10 dark:bg-[#0a111f] dark:hover:border-brand-blue">
+                  <span><span class="block text-sm font-semibold text-slate-950 dark:text-white">Hijau</span><span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">#16A34A</span></span>
                   <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#16A34A] ring-1 ring-slate-200 dark:ring-white/10"><svg class="color-check hidden h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></span>
                 </button>
-                <button type="button" data-color="#EA580C" data-name="Oranye Hangat" class="color-option group flex min-h-[4.75rem] items-center justify-between rounded-xl border border-slate-200/80 bg-white px-4 py-3 text-left transition-colors hover:border-brand-blue dark:border-white/10 dark:bg-[#0a111f] dark:hover:border-brand-blue">
-                  <span><span class="block text-sm font-semibold text-slate-950 dark:text-white">Oranye Hangat</span><span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">#EA580C</span></span>
+                <button type="button" data-color="#EA580C" data-name="Oranye" class="color-option group flex min-h-[4.75rem] items-center justify-between rounded-xl border border-slate-200/80 bg-white px-4 py-3 text-left transition-colors hover:border-brand-blue dark:border-white/10 dark:bg-[#0a111f] dark:hover:border-brand-blue">
+                  <span><span class="block text-sm font-semibold text-slate-950 dark:text-white">Oranye</span><span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">#EA580C</span></span>
                   <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#EA580C] ring-1 ring-slate-200 dark:ring-white/10"><svg class="color-check hidden h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></span>
                 </button>
-                <button type="button" data-color="#7C3AED" data-name="Ungu Kreatif" class="color-option group flex min-h-[4.75rem] items-center justify-between rounded-xl border border-slate-200/80 bg-white px-4 py-3 text-left transition-colors hover:border-brand-blue dark:border-white/10 dark:bg-[#0a111f] dark:hover:border-brand-blue">
-                  <span><span class="block text-sm font-semibold text-slate-950 dark:text-white">Ungu Kreatif</span><span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">#7C3AED</span></span>
+                <button type="button" data-color="#7C3AED" data-name="Ungu" class="color-option group flex min-h-[4.75rem] items-center justify-between rounded-xl border border-slate-200/80 bg-white px-4 py-3 text-left transition-colors hover:border-brand-blue dark:border-white/10 dark:bg-[#0a111f] dark:hover:border-brand-blue">
+                  <span><span class="block text-sm font-semibold text-slate-950 dark:text-white">Ungu</span><span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">#7C3AED</span></span>
                   <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#7C3AED] ring-1 ring-slate-200 dark:ring-white/10"><svg class="color-check hidden h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></span>
                 </button>
-                <button type="button" data-color="#DC2626" data-name="Merah Berani" class="color-option group flex min-h-[4.75rem] items-center justify-between rounded-xl border border-slate-200/80 bg-white px-4 py-3 text-left transition-colors hover:border-brand-blue dark:border-white/10 dark:bg-[#0a111f] dark:hover:border-brand-blue">
-                  <span><span class="block text-sm font-semibold text-slate-950 dark:text-white">Merah Berani</span><span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">#DC2626</span></span>
+                <button type="button" data-color="#DC2626" data-name="Merah" class="color-option group flex min-h-[4.75rem] items-center justify-between rounded-xl border border-slate-200/80 bg-white px-4 py-3 text-left transition-colors hover:border-brand-blue dark:border-white/10 dark:bg-[#0a111f] dark:hover:border-brand-blue">
+                  <span><span class="block text-sm font-semibold text-slate-950 dark:text-white">Merah</span><span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">#DC2626</span></span>
                   <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#DC2626] ring-1 ring-slate-200 dark:ring-white/10"><svg class="color-check hidden h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></span>
                 </button>
                 <label id="customColorOption" data-color="#243CFF" data-name="Warna Custom" class="color-option group flex min-h-[4.75rem] cursor-pointer items-center justify-between rounded-xl border border-slate-200/80 bg-white px-4 py-3 text-left transition-colors hover:border-brand-blue dark:border-white/10 dark:bg-[#0a111f] dark:hover:border-brand-blue sm:col-span-2 lg:col-span-1">
@@ -413,7 +422,7 @@
 
         <!-- STEP 5: Ringkasan & Pembayaran -->
         <div class="step-content hidden" id="step5">
-          <h2 class="text-2xl font-semibold mb-2">Ringkasan Pesanan</h2>
+          <h2 class="text-xl font-semibold mb-2 sm:text-2xl">Ringkasan Pesanan</h2>
           <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Review pesanan Anda sebelum melanjutkan ke pembayaran DP.</p>
           
           <div class="bg-slate-50 dark:bg-[#050b14] p-5 sm:p-6 rounded-xl border border-slate-200 dark:border-white/10 mb-6 space-y-4 text-sm shadow-sm">
@@ -489,18 +498,19 @@
             <input type="file" id="paymentProofUpload" accept="image/*,.pdf" class="block w-full text-sm text-slate-500 dark:text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 dark:file:bg-brand-blue/20 dark:file:text-brand-blue hover:file:bg-blue-200 transition-colors border border-blue-200 dark:border-brand-blue/30 rounded-lg bg-white dark:bg-[#0a111f] focus:ring-2 focus:ring-brand-blue">
             <input type="hidden" id="paymentProofUrl">
             <p id="paymentUploadStatus" class="text-xs text-green-600 mt-2 hidden font-semibold">Bukti pembayaran berhasil diunggah!</p>
+            <div id="paymentProofStatus" class="mt-3 space-y-2"></div>
           </div>
 
           <p class="text-xs text-slate-500 dark:text-slate-400">Dengan menekan tombol "Kirim Pesanan", Anda menyetujui syarat & ketentuan layanan kami. Tim Apriprogram akan segera memproses pesanan Anda dan mengabari via WhatsApp/Email.</p>
         </div>
 
         <!-- Navigation Buttons -->
-        <div class="mt-10 flex justify-end items-center gap-3 pt-5 border-t border-slate-200/80 dark:border-slate-800 sm:absolute sm:right-2 sm:top-10 sm:mt-0 sm:border-t-0 sm:pt-0">
-          <button type="button" id="btnPrev" class="hidden px-5 py-2 border border-slate-400/80 bg-transparent text-sm font-medium text-slate-800 hover:border-slate-900 hover:text-slate-950 dark:border-slate-500 dark:text-slate-200 dark:hover:border-white dark:hover:text-white rounded-full transition-colors">Kembali</button>
-          <button type="button" id="btnNext" class="px-5 py-2 bg-brand-blue hover:bg-blue-600 text-white text-sm font-medium rounded-full transition-colors">Lanjutkan</button>
-          <button type="submit" id="btnSubmit" class="hidden px-5 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-full transition-colors flex items-center gap-2">
+        <div class="mt-10 flex justify-end items-center gap-2 sm:gap-3 pt-5 border-t border-slate-200/80 dark:border-slate-800 sm:absolute sm:right-2 sm:top-10 sm:mt-0 sm:border-t-0 sm:pt-0">
+          <button type="button" id="btnPrev" class="hidden px-4 py-1.5 sm:px-5 sm:py-2 border border-slate-400/80 bg-transparent text-xs sm:text-sm font-medium text-slate-800 hover:border-slate-900 hover:text-slate-950 dark:border-slate-500 dark:text-slate-200 dark:hover:border-white dark:hover:text-white rounded-full transition-colors"><svg class="mr-1 sm:mr-2 inline-block h-3.5 w-3.5 sm:h-4 sm:w-4 align-[-2px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>Kembali</button>
+          <button type="button" id="btnNext" class="px-4 py-1.5 sm:px-5 sm:py-2 bg-brand-blue hover:bg-blue-600 text-white text-xs sm:text-sm font-medium rounded-full transition-colors">Lanjutkan</button>
+          <button type="submit" id="btnSubmit" class="hidden px-4 py-1.5 sm:px-5 sm:py-2 bg-green-600 hover:bg-green-700 text-white text-xs sm:text-sm font-medium rounded-full transition-colors flex items-center gap-1.5 sm:gap-2">
             <span>Kirim</span>
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
           </button>
         </div>
 
@@ -512,11 +522,10 @@
   <section id="flowPage" class="hidden flex-grow max-w-6xl w-full mx-auto p-6 pt-24 lg:py-10 lg:pt-28">
     <div class="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Apriprogram</p>
-        <h1 class="mt-2 text-3xl font-semibold tracking-tight text-slate-950 dark:text-white">Alur Pemesanan Website</h1>
+        <h1 class="mt-2 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white sm:text-3xl">Alur Pemesanan Website</h1>
         <p class="mt-3 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-400">Ikuti tahapan berikut dari pendaftaran sampai website selesai dan diserahterimakan kepada Anda.</p>
       </div>
-      <button type="button" id="backToOrderBtn" class="w-fit rounded-full border border-slate-400/80 px-5 py-2 text-sm font-medium text-slate-800 transition-colors hover:border-slate-900 hover:text-slate-950 dark:border-slate-500 dark:text-slate-200 dark:hover:border-white dark:hover:text-white">Kembali ke Form</button>
+      <button type="button" id="backToOrderBtn" class="w-fit rounded-full border border-slate-400/80 px-4 py-1.5 sm:px-5 sm:py-2 text-xs sm:text-sm font-medium text-slate-800 transition-colors hover:border-slate-900 hover:text-slate-950 dark:border-slate-500 dark:text-slate-200 dark:hover:border-white dark:hover:text-white"><svg class="mr-1.5 sm:mr-2 inline-block h-3.5 w-3.5 sm:h-4 sm:w-4 align-[-2px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>Kembali ke Form</button>
     </div>
 
     <div class="relative overflow-hidden py-6">
@@ -524,7 +533,7 @@
       <div class="grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-6">
         <div class="relative">
           <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-slate-950 ring-1 ring-slate-200 dark:bg-slate-900 dark:text-white dark:ring-white/10">
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 21v-2a4 4 0 00-8 0v2M12 11a4 4 0 100-8 4 4 0 000 8z"></path></svg>
+            <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 21v-2a4 4 0 00-8 0v2M12 11a4 4 0 100-8 4 4 0 000 8z"></path></svg>
           </div>
           <p class="text-xs font-semibold text-brand-blue">01</p>
           <h3 class="mt-1 text-base font-semibold text-slate-950 dark:text-white">Daftar / Login</h3>
@@ -532,7 +541,7 @@
         </div>
         <div class="relative">
           <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-slate-950 ring-1 ring-slate-200 dark:bg-slate-900 dark:text-white dark:ring-white/10">
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M4 12h16M4 17h10"></path></svg>
+            <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M4 12h16M4 17h10"></path></svg>
           </div>
           <p class="text-xs font-semibold text-brand-blue">02</p>
           <h3 class="mt-1 text-base font-semibold text-slate-950 dark:text-white">Pilih Jenis</h3>
@@ -540,7 +549,7 @@
         </div>
         <div class="relative">
           <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-slate-950 ring-1 ring-slate-200 dark:bg-slate-900 dark:text-white dark:ring-white/10">
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8V6m0 10v2"></path></svg>
+            <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8V6m0 10v2"></path></svg>
           </div>
           <p class="text-xs font-semibold text-brand-blue">03</p>
           <h3 class="mt-1 text-base font-semibold text-slate-950 dark:text-white">Pilih Paket</h3>
@@ -548,7 +557,7 @@
         </div>
         <div class="relative">
           <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-slate-950 ring-1 ring-slate-200 dark:bg-slate-900 dark:text-white dark:ring-white/10">
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h7l5 5v11a2 2 0 01-2 2z"></path></svg>
+            <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h7l5 5v11a2 2 0 01-2 2z"></path></svg>
           </div>
           <p class="text-xs font-semibold text-brand-blue">04</p>
           <h3 class="mt-1 text-base font-semibold text-slate-950 dark:text-white">Isi Brief</h3>
@@ -556,7 +565,7 @@
         </div>
         <div class="relative">
           <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-slate-950 ring-1 ring-slate-200 dark:bg-slate-900 dark:text-white dark:ring-white/10">
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
           </div>
           <p class="text-xs font-semibold text-brand-blue">05</p>
           <h3 class="mt-1 text-base font-semibold text-slate-950 dark:text-white">DP & Pengerjaan</h3>
@@ -564,7 +573,7 @@
         </div>
         <div class="relative">
           <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-slate-950 ring-1 ring-slate-200 dark:bg-slate-900 dark:text-white dark:ring-white/10">
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8 10-4-4-4 4"></path></svg>
+            <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8 10-4-4-4 4"></path></svg>
           </div>
           <p class="text-xs font-semibold text-brand-blue">06</p>
           <h3 class="mt-1 text-base font-semibold text-slate-950 dark:text-white">Revisi & Serah Terima</h3>
@@ -578,12 +587,11 @@
   <section id="homeDashboardPage" class="flex-grow max-w-[86rem] w-full mx-auto p-6 pt-24 lg:py-10 lg:pt-28 hidden">
     <div class="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Apriprogram</p>
-        <h1 class="mt-2 text-3xl font-semibold tracking-tight text-slate-950 dark:text-white">Pesanan Anda</h1>
+        <h1 class="text-2xl font-semibold tracking-tight text-slate-950 dark:text-white sm:text-3xl">Pesanan Anda</h1>
         <p class="mt-3 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-400">Kelola dan pantau seluruh pesanan website Anda di sini.</p>
       </div>
-      <button type="button" onclick="showOrderPage()" class="w-fit rounded-full bg-brand-blue px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-600 flex items-center gap-2">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+      <button type="button" onclick="showOrderPage()" class="w-fit rounded-full bg-brand-blue px-4 py-1.5 sm:px-5 sm:py-2 text-xs sm:text-sm font-medium text-white transition-colors hover:bg-blue-600 flex items-center gap-1.5 sm:gap-2">
+        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
         Buat Pesanan Baru
       </button>
     </div>
@@ -605,9 +613,9 @@
       <div class="w-20 h-20 bg-green-100 dark:bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-5 shadow-inner">
         <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
       </div>
-      <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Terima Kasih!</h3>
+      <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2 sm:text-2xl">Terima Kasih!</h3>
       <p class="text-sm text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">Pemesanan Anda telah berhasil terkirim. Tim kami akan segera memproses pesanan Anda dan menginformasikan langkah selanjutnya secepatnya.</p>
-      <button type="button" onclick="closeSuccessModalAndGoHome()" class="w-full py-3 bg-brand-blue hover:bg-blue-600 text-white rounded-xl font-medium transition-colors">Kembali ke Beranda</button>
+      <button type="button" onclick="closeSuccessModalAndGoHome()" class="inline-flex w-full items-center justify-center gap-2 py-3 bg-brand-blue hover:bg-blue-600 text-white rounded-xl font-medium transition-colors"><svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>Kembali ke Beranda</button>
     </div>
   </div>
 
@@ -615,17 +623,16 @@
   <section id="orderDetailPage" class="flex-grow max-w-[86rem] w-full mx-auto p-6 pt-24 lg:py-10 lg:pt-28 hidden">
     <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Apriprogram</p>
-        <h1 class="mt-2 text-3xl font-semibold tracking-tight text-slate-950 dark:text-white">Detail Pesanan</h1>
+        <h1 class="mt-2 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white sm:text-3xl">Detail Pesanan</h1>
         <p class="mt-3 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-400">Informasi lengkap pesanan website Anda.</p>
       </div>
-      <a href="/order?view=home" class="inline-flex w-fit items-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 transition-colors hover:border-brand-blue hover:text-brand-blue dark:border-white/10 dark:bg-[#0a111f] dark:text-slate-200 dark:hover:border-brand-cyan dark:hover:text-brand-cyan">
-        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      <a href="/order?view=home" class="inline-flex w-fit items-center gap-1.5 sm:gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-semibold text-slate-800 transition-colors hover:border-brand-blue hover:text-brand-blue dark:border-white/10 dark:bg-[#0a111f] dark:text-slate-200 dark:hover:border-brand-cyan dark:hover:text-brand-cyan">
+        <svg class="h-3.5 w-3.5 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
         Kembali ke Pesanan Anda
       </a>
     </div>
 
-    <div id="orderDetailBody" class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-white/10 dark:bg-[#0a111f] sm:p-6 lg:p-8">
+    <div id="orderDetailBody" class="overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-white/10 dark:bg-[#0a111f]">
       <div class="py-16 text-center text-slate-500 dark:text-slate-400">
         <svg class="mx-auto mb-3 h-10 w-10 animate-spin opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
         <p>Memuat detail pesanan...</p>
@@ -634,15 +641,15 @@
   </section>
 
   <footer class="mt-10 w-full border-t border-slate-300/70 px-6 py-8 text-slate-600 dark:border-white/10 dark:text-slate-400">
-    <div class="mx-auto flex max-w-[86rem] flex-col gap-4 text-sm sm:flex-row sm:items-center sm:justify-between">
-      <div class="flex items-center gap-3">
+    <div class="mx-auto flex max-w-[86rem] flex-col items-center gap-4 text-sm text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
+      <div class="flex flex-col items-center gap-3 sm:flex-row sm:text-left">
         <img src="/assets/logo/apriprogram.png" alt="Apriprogram" class="h-8 w-auto shrink-0" onerror="this.style.display='none'">
         <div>
           <p class="font-semibold text-slate-950 dark:text-white">Apriprogram</p>
           <p class="mt-0.5 text-xs text-slate-500 dark:text-slate-400">Solusi website profesional untuk kebutuhan bisnis dan institusi.</p>
         </div>
       </div>
-      <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs sm:justify-end">
+      <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs sm:justify-end">
         <span>&copy; <%= new Date().getFullYear() %> Apriprogram. All rights reserved.</span>
         <a href="/" class="font-medium text-slate-700 underline-offset-4 hover:text-brand-blue hover:underline dark:text-slate-300 dark:hover:text-brand-cyan">Beranda</a>
         <a href="https://wa.me/6282181361433?text=Halo%20Apriprogram%2C%20saya%20ingin%20bertanya%20tentang%20pemesanan%20website.%20Bisa%20dibantu%20untuk%20pilihan%20paket%2C%20fitur%2C%20estimasi%20waktu%2C%20dan%20alur%20pemesanan%3F" target="_blank" rel="noopener" class="font-medium text-slate-700 underline-offset-4 hover:text-brand-blue hover:underline dark:text-slate-300 dark:hover:text-brand-cyan">Hubungi support</a>
@@ -962,6 +969,159 @@
     const firstDesignOption = document.querySelector('.design-style-option');
     selectColorOption(firstColorOption);
     selectDesignStyle(firstDesignOption);
+
+    function normalizeDocumentUrls(value) {
+      if (!value) return [];
+      if (Array.isArray(value)) {
+        return [...new Set(value.flatMap(item => normalizeDocumentUrls(item)))];
+      }
+
+      const raw = String(value).trim();
+      if (!raw) return [];
+
+      try {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) return normalizeDocumentUrls(parsed);
+      } catch (error) {
+        // Value can also be a comma-separated URL list from project_document.
+      }
+
+      return [...new Set(raw.split(',').map(item => item.trim()).filter(Boolean))];
+    }
+
+    function getFileNameFromUrl(url) {
+      const lastSegment = String(url || '').split('/').pop() || 'Dokumen';
+      try {
+        return decodeURIComponent(lastSegment);
+      } catch (error) {
+        return lastSegment;
+      }
+    }
+
+    function setUploadedDocumentUrls(urls) {
+      const uploadedInput = document.getElementById('uploadedFileUrl');
+      if (uploadedInput) uploadedInput.value = normalizeDocumentUrls(urls).join(',');
+    }
+
+    function appendUploadedDocumentUrls(urls) {
+      const currentUrls = normalizeDocumentUrls(document.getElementById('uploadedFileUrl')?.value);
+      setUploadedDocumentUrls([...currentUrls, ...normalizeDocumentUrls(urls)]);
+    }
+
+    function createUploadedFileRow(url, fileName, inputId = 'uploadedFileUrl') {
+      const fileRow = document.createElement('div');
+      fileRow.className = "flex items-center justify-between bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3 rounded-lg";
+      fileRow.dataset.fileUrl = url;
+      fileRow.dataset.inputId = inputId;
+
+      const fileInfo = document.createElement('div');
+      fileInfo.className = "flex items-center gap-3 overflow-hidden";
+      fileInfo.innerHTML = `
+        <svg class="w-5 h-5 text-brand-blue shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+      `;
+
+      const fileLabel = document.createElement('div');
+      fileLabel.className = "truncate text-sm font-semibold text-slate-700 dark:text-slate-300";
+      fileLabel.textContent = fileName || getFileNameFromUrl(url);
+      fileInfo.appendChild(fileLabel);
+
+      const actions = document.createElement('div');
+      actions.className = "flex items-center gap-2";
+
+      const viewButton = document.createElement('button');
+      viewButton.type = 'button';
+      viewButton.className = "text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors p-1";
+      viewButton.title = "Lihat File";
+      viewButton.setAttribute('aria-label', 'Lihat file');
+      viewButton.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>';
+      viewButton.addEventListener('click', () => viewUploadedFile(url, fileLabel.textContent));
+
+      const removeButton = document.createElement('button');
+      removeButton.type = 'button';
+      removeButton.className = "text-slate-400 hover:text-red-500 dark:text-slate-500 dark:hover:text-red-400 transition-colors p-1";
+      removeButton.title = "Hapus File";
+      removeButton.setAttribute('aria-label', 'Hapus file');
+      removeButton.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-7 0a1 1 0 001-1V5a1 1 0 011-1h4a1 1 0 011 1v1a1 1 0 001 1m-8 0h8"></path></svg>';
+      removeButton.addEventListener('click', () => removeUploadedFile(removeButton, url));
+
+      actions.appendChild(viewButton);
+      actions.appendChild(removeButton);
+      fileRow.appendChild(fileInfo);
+      fileRow.appendChild(actions);
+      return fileRow;
+    }
+
+    function renderUploadedDocuments(value) {
+      const urls = normalizeDocumentUrls(value);
+      const statusContainer = document.getElementById('uploadStatus');
+      if (!statusContainer) return;
+      statusContainer.innerHTML = '';
+      setUploadedDocumentUrls(urls);
+      urls.forEach(url => statusContainer.appendChild(createUploadedFileRow(url, getFileNameFromUrl(url))));
+    }
+
+    function renderPaymentProof(value) {
+      const urls = normalizeDocumentUrls(value).slice(0, 1);
+      const paymentInput = document.getElementById('paymentProofUrl');
+      const statusContainer = document.getElementById('paymentProofStatus');
+      const uploadStatus = document.getElementById('paymentUploadStatus');
+      if (paymentInput) paymentInput.value = urls[0] || '';
+      if (!statusContainer) return;
+      statusContainer.innerHTML = '';
+      if (urls.length > 0) {
+        statusContainer.appendChild(createUploadedFileRow(urls[0], getFileNameFromUrl(urls[0]), 'paymentProofUrl'));
+        if (uploadStatus) {
+          uploadStatus.textContent = 'Bukti pembayaran sudah terlampir.';
+          uploadStatus.classList.remove('hidden');
+        }
+      } else if (uploadStatus) {
+        uploadStatus.classList.add('hidden');
+      }
+    }
+
+    function escapeHtml(value) {
+      return String(value || '').replace(/[&<>"']/g, char => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      }[char]));
+    }
+
+    function renderDocumentLinks(value, fallbackValue) {
+      const urls = normalizeDocumentUrls(value);
+      const fallbackUrls = normalizeDocumentUrls(fallbackValue);
+      const finalUrls = normalizeDocumentUrls([...urls, ...fallbackUrls]);
+      if (finalUrls.length === 0) return '-';
+      return finalUrls.map(url => {
+        const safeUrl = escapeHtml(url);
+        return `<a href="${safeUrl}" target="_blank" class="text-brand-blue hover:underline text-sm break-all">${escapeHtml(getFileNameFromUrl(url))}</a>`;
+      }).join('<br>');
+    }
+
+    function renderDocumentFileRows(value, fallbackValue) {
+      const urls = normalizeDocumentUrls([...normalizeDocumentUrls(value), ...normalizeDocumentUrls(fallbackValue)]);
+      if (urls.length === 0) {
+        return '<div class="rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-slate-500 dark:border-white/10 dark:text-slate-400">Tidak ada file</div>';
+      }
+
+      return urls.map(url => {
+        const fileName = getFileNameFromUrl(url);
+        return `
+          <div class="flex items-center justify-between gap-3 rounded-xl border border-slate-300 bg-slate-100/70 px-4 py-3 dark:border-slate-700 dark:bg-slate-800/70">
+            <div class="flex min-w-0 items-center gap-3">
+              <svg class="h-5 w-5 shrink-0 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h7l5 5v11a2 2 0 01-2 2z"></path></svg>
+              <span class="truncate text-sm font-semibold text-slate-900 dark:text-slate-100">${escapeHtml(fileName)}</span>
+            </div>
+            <button type="button" class="detail-file-view shrink-0 p-1 text-brand-blue transition-colors hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300" data-file-url="${escapeHtml(url)}" data-file-name="${escapeHtml(fileName)}" title="Lihat File" aria-label="Lihat file ${escapeHtml(fileName)}">
+              <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
     // File Upload Handler with Drag & Drop styling
     const dropzone = document.getElementById('dropzone');
     const fileUpload = document.getElementById('fileUpload');
@@ -987,36 +1147,13 @@
         const res = await fetch('/api/upload/document', { method: 'POST', body: formData });
         const data = await res.json();
         if (data.success) {
-          // Append URLs to hidden input (comma separated if multiple uploads occur)
-          const currentUrls = document.getElementById('uploadedFileUrl').value;
-          document.getElementById('uploadedFileUrl').value = currentUrls ? currentUrls + ',' + data.url : data.url;
-          
-          const uploadedUrls = data.url.split(',');
-
-          // Render uploaded files UI
+          const uploadedUrls = normalizeDocumentUrls(data.url);
+          appendUploadedDocumentUrls(uploadedUrls);
           const statusContainer = document.getElementById('uploadStatus');
-          for (let i = 0; i < files.length; i++) {
-            const fileRow = document.createElement('div');
-            fileRow.className = "flex items-center justify-between bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3 rounded-lg";
-            fileRow.dataset.fileUrl = uploadedUrls[i];
-            const safeUrl = uploadedUrls[i].replace(/'/g, "\\'");
-            const safeName = files[i].name.replace(/'/g, "\\'");
-            fileRow.innerHTML = `
-              <div class="flex items-center gap-3 overflow-hidden">
-                <svg class="w-5 h-5 text-brand-blue shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                <div class="truncate text-sm font-semibold text-slate-700 dark:text-slate-300">${files[i].name}</div>
-              </div>
-              <div class="flex items-center gap-2">
-                <button type="button" class="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors p-1" onclick="viewUploadedFile('${safeUrl}', '${safeName}')" title="Lihat File" aria-label="Lihat file">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                </button>
-                <button type="button" class="text-slate-400 hover:text-red-500 dark:text-slate-500 dark:hover:text-red-400 transition-colors p-1" onclick="removeUploadedFile(this, '${safeUrl}')" title="Hapus File" aria-label="Hapus file">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-7 0a1 1 0 001-1V5a1 1 0 011-1h4a1 1 0 011 1v1a1 1 0 001 1m-8 0h8"></path></svg>
-                </button>
-              </div>
-            `;
-            statusContainer.appendChild(fileRow);
-          }
+          uploadedUrls.forEach((url, index) => {
+            const originalName = files[index]?.name || getFileNameFromUrl(url);
+            statusContainer.appendChild(createUploadedFileRow(url, originalName));
+          });
         } else {
           alert("Gagal mengunggah file.");
         }
@@ -1131,6 +1268,8 @@
       loadOrderDetailPage(initialDetailOrderId);
     } else if (initialView === 'home') {
       showHomePage();
+    } else if (initialView === 'flow') {
+      showFlowPage();
     } else {
       setNavActive(orderNavBtn);
     }
@@ -1187,13 +1326,9 @@
         parsedFiles = [];
       }
 
-      const filesHTML = parsedFiles.length > 0 
-        ? parsedFiles.map(f => `<a href="${f}" target="_blank" class="text-brand-blue hover:underline text-sm">${f.split('/').pop()}</a>`).join('<br>') 
-        : '-';
-      const docHTML = order.project_document ? `<a href="${order.project_document}" target="_blank" class="text-brand-blue hover:underline text-sm">${order.project_document.split('/').pop()}</a>` : filesHTML;
-      const paymentHTML = order.payment_proof ? `<a href="${order.payment_proof}" target="_blank" class="text-brand-blue hover:underline text-sm">${order.payment_proof.split('/').pop()}</a>` : '-';
-      const referenceHTML = order.reference_links ? `<a href="${order.reference_links}" target="_blank" rel="noopener" class="text-brand-blue hover:underline break-all">${order.reference_links}</a>` : '-';
-      const priceHTML = order.package_price ? `<span class="text-brand-blue">${order.package_price}</span>` : '-';
+      const docRowsHTML = renderDocumentFileRows(order.project_document, parsedFiles);
+      const paymentRowsHTML = renderDocumentFileRows(order.payment_proof);
+      const referenceHTML = order.reference_links ? `<a href="${escapeHtml(order.reference_links)}" target="_blank" rel="noopener" class="text-brand-blue hover:underline break-all">${escapeHtml(order.reference_links)}</a>` : '-';
       
       let statusColor = "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300";
       if (order.status === "Pending" || order.status === "Pending DP") statusColor = "bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-500";
@@ -1204,7 +1339,7 @@
 
       const canModify = !["Selesai", "Batal"].includes(order.status || "Pending");
       const detailActionsHTML = canModify ? `
-        <div class="mt-4 flex flex-wrap gap-2 sm:justify-end">
+        <div class="flex flex-wrap gap-2 sm:justify-end">
           <button type="button" onclick="startEditOrder(${order.id})" class="inline-flex items-center gap-2 rounded-full bg-brand-blue px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-600">
             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
             Edit Pesanan
@@ -1217,31 +1352,101 @@
       ` : "";
 
       body.innerHTML = `
-        <div class="flex flex-col gap-4 border-b border-slate-100 pb-6 dark:border-slate-800 sm:flex-row sm:items-start sm:justify-between">
-          <div>
-            <h2 class="text-2xl font-bold text-slate-900 dark:text-white">${order.project_name || '-'}</h2>
-            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">${order.created_at ? new Date(order.created_at).toLocaleString('id-ID') : '-'}</p>
-          </div>
-          <div class="flex flex-col items-start sm:items-end">
-            <span class="w-fit rounded-full px-4 py-1.5 text-sm font-semibold ${statusColor}">${order.status || 'Pending'}</span>
+        <div class="p-5 sm:p-6 lg:p-8">
+          <div class="flex flex-col gap-4 border-b border-slate-200 pb-6 dark:border-white/10 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brand-blue dark:text-brand-cyan">Detail Pesanan</p>
+              <h2 class="mt-2 text-xl font-bold tracking-tight text-slate-950 dark:text-white sm:text-2xl">${escapeHtml(order.project_name || '-')}</h2>
+              <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-400">Data pesanan tersusun berdasarkan informasi proyek, briefing, desain, dan dokumen pendukung.</p>
+            </div>
             ${detailActionsHTML}
           </div>
-        </div>
 
-        <div class="mt-6 grid grid-cols-1 gap-5 text-sm md:grid-cols-2">
-          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40"><p class="mb-1 text-slate-500 dark:text-slate-400">Jenis Website</p><p class="font-semibold text-slate-900 dark:text-white">${order.website_type || '-'}</p></div>
-          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40"><p class="mb-1 text-slate-500 dark:text-slate-400">Paket & Harga</p><p class="font-semibold text-slate-900 dark:text-white">${order.package_name || '-'} - ${priceHTML}</p></div>
-          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40"><p class="mb-1 text-slate-500 dark:text-slate-400">Domain</p><p class="font-semibold text-slate-900 dark:text-white">${order.domain_name || '-'}</p></div>
-          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40"><p class="mb-1 text-slate-500 dark:text-slate-400">Target Selesai</p><p class="font-semibold text-slate-900 dark:text-white">${order.target_date || '-'}</p></div>
-          <div class="md:col-span-2"><p class="mb-2 text-slate-500 dark:text-slate-400">Deskripsi Singkat</p><div class="min-h-12 rounded-xl border border-slate-100 bg-slate-50 p-4 font-medium text-slate-800 dark:border-slate-800 dark:bg-slate-900/40 dark:text-slate-100">${order.description || '-'}</div></div>
-          <div class="md:col-span-2"><p class="mb-2 text-slate-500 dark:text-slate-400">Fitur Tambahan</p><div class="min-h-12 rounded-xl border border-slate-100 bg-slate-50 p-4 font-medium text-slate-800 dark:border-slate-800 dark:bg-slate-900/40 dark:text-slate-100">${order.features || '-'}</div></div>
-          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40"><p class="mb-1 text-slate-500 dark:text-slate-400">Gaya Desain</p><p class="font-semibold text-slate-900 dark:text-white">${order.design_style || '-'}</p></div>
-          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40"><p class="mb-1 text-slate-500 dark:text-slate-400">Warna Utama</p><div class="mt-1 flex items-center gap-2"><span class="h-5 w-5 rounded-full ring-1 ring-slate-200" style="background-color: ${order.primary_color || '#ffffff'};"></span><span class="font-mono text-xs text-slate-900 dark:text-white">${order.primary_color || '-'}</span></div></div>
-          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40"><p class="mb-1 text-slate-500 dark:text-slate-400">Referensi Desain</p><p class="font-semibold text-slate-900 dark:text-white">${referenceHTML}</p></div>
-          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40"><p class="mb-1 text-slate-500 dark:text-slate-400">Dokumen Proyek</p><div class="font-semibold text-slate-900 dark:text-white">${docHTML}</div></div>
-          <div class="rounded-xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40"><p class="mb-1 text-slate-500 dark:text-slate-400">Bukti Pembayaran</p><div class="font-semibold text-slate-900 dark:text-white">${paymentHTML}</div></div>
+          <section class="border-b border-slate-200 py-6 dark:border-white/10">
+            <div class="mb-4 flex items-center gap-3">
+              <svg class="h-5 w-5 shrink-0 text-brand-blue dark:text-brand-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h7l5 5v11a2 2 0 01-2 2z"></path></svg>
+              <div>
+                <h3 class="text-base font-bold text-slate-950 dark:text-white">Detail Pemesanan</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400">Ringkasan status, tanggal, dan paket pesanan.</p>
+              </div>
+            </div>
+            <div class="divide-y divide-slate-100 rounded-xl border border-slate-200 dark:divide-white/10 dark:border-white/10">
+              <div class="grid gap-1 p-4 sm:grid-cols-[14rem_1fr]"><p class="text-sm text-slate-500 dark:text-slate-400">Nama Proyek</p><p class="font-semibold text-slate-950 dark:text-white">${escapeHtml(order.project_name || '-')}</p></div>
+              <div class="grid gap-1 p-4 sm:grid-cols-[14rem_1fr]"><p class="text-sm text-slate-500 dark:text-slate-400">Tanggal Pesanan</p><p class="font-semibold text-slate-950 dark:text-white">${order.created_at ? new Date(order.created_at).toLocaleString('id-ID') : '-'}</p></div>
+              <div class="grid gap-1 p-4 sm:grid-cols-[14rem_1fr]"><p class="text-sm text-slate-500 dark:text-slate-400">Status</p><p><span class="inline-flex w-fit rounded-full px-3 py-1 text-xs font-semibold ${statusColor}">${escapeHtml(order.status || 'Pending')}</span></p></div>
+              <div class="grid gap-1 p-4 sm:grid-cols-[14rem_1fr]"><p class="text-sm text-slate-500 dark:text-slate-400">Paket</p><p class="font-semibold text-slate-950 dark:text-white">${escapeHtml(order.package_name || '-')} <span class="text-brand-blue dark:text-brand-cyan">${order.package_price ? `- ${escapeHtml(order.package_price)}` : ''}</span></p></div>
+            </div>
+          </section>
+
+          <section id="detail-info" class="border-b border-slate-200 py-6 dark:border-white/10">
+            <div class="mb-4 flex items-center gap-3">
+              <svg class="h-5 w-5 shrink-0 text-slate-500 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M4 12h16M4 17h10"></path></svg>
+              <div>
+                <h3 class="text-base font-bold text-slate-950 dark:text-white">Informasi Proyek</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400">Kategori, paket, domain, dan target penyelesaian.</p>
+              </div>
+            </div>
+            <div class="divide-y divide-slate-100 rounded-xl border border-slate-200 dark:divide-white/10 dark:border-white/10">
+              <div class="grid gap-1 p-4 sm:grid-cols-[14rem_1fr]"><p class="text-sm text-slate-500 dark:text-slate-400">Jenis Website</p><p class="font-semibold text-slate-950 dark:text-white">${escapeHtml(order.website_type || '-')}</p></div>
+              <div class="grid gap-1 p-4 sm:grid-cols-[14rem_1fr]"><p class="text-sm text-slate-500 dark:text-slate-400">Domain</p><p class="font-semibold text-slate-950 dark:text-white">${escapeHtml(order.domain_name || '-')}</p></div>
+              <div class="grid gap-1 p-4 sm:grid-cols-[14rem_1fr]"><p class="text-sm text-slate-500 dark:text-slate-400">Target Selesai</p><p class="font-semibold text-slate-950 dark:text-white">${escapeHtml(order.target_date || '-')}</p></div>
+            </div>
+          </section>
+
+          <section id="detail-brief" class="border-b border-slate-200 py-6 dark:border-white/10">
+            <div class="mb-4 flex items-center gap-3">
+              <svg class="h-5 w-5 shrink-0 text-slate-500 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6M7 4h7l5 5v11a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2z"></path></svg>
+              <div>
+                <h3 class="text-base font-bold text-slate-950 dark:text-white">Briefing</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400">Kebutuhan utama dan fitur yang diminta.</p>
+              </div>
+            </div>
+            <div class="divide-y divide-slate-100 rounded-xl border border-slate-200 dark:divide-white/10 dark:border-white/10">
+              <div class="grid gap-2 p-4 sm:grid-cols-[14rem_1fr]"><p class="text-sm text-slate-500 dark:text-slate-400">Deskripsi Singkat</p><p class="whitespace-pre-wrap text-sm font-medium leading-6 text-slate-800 dark:text-slate-100">${escapeHtml(order.description || '-')}</p></div>
+              <div class="grid gap-2 p-4 sm:grid-cols-[14rem_1fr]"><p class="text-sm text-slate-500 dark:text-slate-400">Fitur Tambahan</p><p class="whitespace-pre-wrap text-sm font-medium leading-6 text-slate-800 dark:text-slate-100">${escapeHtml(order.features || '-')}</p></div>
+            </div>
+          </section>
+
+          <section id="detail-design" class="border-b border-slate-200 py-6 dark:border-white/10">
+            <div class="mb-4 flex items-center gap-3">
+              <svg class="h-5 w-5 shrink-0 text-slate-500 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4l2 2h8a2 2 0 012 2v4a4 4 0 01-4 4H7z"></path></svg>
+              <div>
+                <h3 class="text-base font-bold text-slate-950 dark:text-white">Preferensi Desain</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400">Arah visual, warna utama, dan referensi.</p>
+              </div>
+            </div>
+            <div class="divide-y divide-slate-100 rounded-xl border border-slate-200 dark:divide-white/10 dark:border-white/10">
+              <div class="grid gap-1 p-4 sm:grid-cols-[14rem_1fr]"><p class="text-sm text-slate-500 dark:text-slate-400">Gaya Desain</p><p class="font-semibold text-slate-950 dark:text-white">${escapeHtml(order.design_style || '-')}</p></div>
+              <div class="grid gap-1 p-4 sm:grid-cols-[14rem_1fr]"><p class="text-sm text-slate-500 dark:text-slate-400">Warna Utama</p><div class="flex items-center gap-2"><span class="h-5 w-5 rounded-full ring-1 ring-slate-200 dark:ring-white/20" style="background-color: ${escapeHtml(order.primary_color || '#ffffff')};"></span><span class="font-mono text-xs font-semibold text-slate-950 dark:text-white">${escapeHtml(order.primary_color || '-')}</span></div></div>
+              <div class="grid gap-1 p-4 sm:grid-cols-[14rem_1fr]"><p class="text-sm text-slate-500 dark:text-slate-400">Referensi Desain</p><div class="font-semibold text-slate-950 dark:text-white">${referenceHTML}</div></div>
+            </div>
+          </section>
+
+          <section id="detail-docs" class="py-6">
+            <div class="mb-4 flex items-center gap-3">
+              <svg class="h-5 w-5 shrink-0 text-slate-500 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828L18 9.828a4 4 0 00-5.657-5.657L5.757 10.757a6 6 0 108.486 8.486L20 13.486"></path></svg>
+              <div>
+                <h3 class="text-base font-bold text-slate-950 dark:text-white">Dokumen & Pembayaran</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400">File proyek dan bukti pembayaran yang terlampir.</p>
+              </div>
+            </div>
+            <div class="space-y-5">
+              <div>
+                <p class="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-200">Dokumen Proyek</p>
+                <div class="space-y-2">${docRowsHTML}</div>
+              </div>
+              <div>
+                <p class="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-200">Bukti Pembayaran</p>
+                <div class="space-y-2">${paymentRowsHTML}</div>
+              </div>
+            </div>
+          </section>
         </div>
       `;
+
+      body.querySelectorAll('.detail-file-view').forEach(button => {
+        button.addEventListener('click', () => viewUploadedFile(button.dataset.fileUrl, button.dataset.fileName));
+      });
     }
 
     function showOrderDetail(order) {
@@ -1267,8 +1472,8 @@
       setInputValue('features', order.features);
       setInputValue('target_date', order.target_date);
       setInputValue('notes', order.notes);
-      setInputValue('uploadedFileUrl', order.project_document);
-      setInputValue('paymentProofUrl', order.payment_proof);
+      renderUploadedDocuments([...normalizeDocumentUrls(order.project_document), ...normalizeDocumentUrls(order.files)]);
+      renderPaymentProof(order.payment_proof);
       setInputValue('reference_links', order.reference_links);
       setInputValue('primary_color', order.primary_color || '#243CFF');
       setInputValue('design_style', order.design_style);
@@ -1344,7 +1549,7 @@
         <div class="py-16 text-center text-slate-500 dark:text-slate-400">
           <svg class="mx-auto mb-3 h-12 w-12 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v3.75m0 3.75h.008v.008H12V16.5zm9-4.5a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           <p>${message}</p>
-          <a href="/order?view=home" class="mt-5 inline-flex items-center justify-center rounded-full bg-brand-blue px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-600">Kembali ke Pesanan Anda</a>
+          <a href="/order?view=home" class="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-brand-blue px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-600"><svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>Kembali ke Pesanan Anda</a>
         </div>
       `;
     }
@@ -1364,8 +1569,7 @@
         const res = await fetch('/api/upload/payment', { method: 'POST', body: formData });
         const data = await res.json();
         if (data.success) {
-          document.getElementById('paymentProofUrl').value = data.url;
-          document.getElementById('paymentUploadStatus').classList.remove('hidden');
+          renderPaymentProof(data.url);
         } else {
           alert("Gagal mengunggah bukti pembayaran.");
         }
@@ -1398,7 +1602,7 @@
 
         if (isDone) {
           dot.className = "step-dot relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/95 dark:bg-slate-900/95 text-slate-950 dark:text-white transition-all";
-          dot.innerHTML = '<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>';
+          dot.innerHTML = '<svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>';
           title.className = "step-title text-base font-semibold leading-tight text-slate-900 dark:text-white transition-colors";
           subtitle.className = "step-subtitle mt-1 text-sm leading-snug text-slate-500 dark:text-slate-400 transition-colors";
           if (line) line.className = "absolute left-5 top-11 bottom-0 w-px bg-slate-300/60 dark:bg-white/10 step-line";
@@ -1443,28 +1647,51 @@
         
         const summaryDocs = document.getElementById('summary-docs');
         summaryDocs.innerHTML = '';
-        const uploadStatusItems = document.getElementById('uploadStatus').children;
-        if (uploadStatusItems.length > 0) {
-          Array.from(uploadStatusItems).forEach(item => {
-            const fileNameElem = item.querySelector('.truncate');
-            const fileName = fileNameElem ? fileNameElem.innerText : 'Dokumen';
-            const viewBtn = item.querySelector('button[title="Lihat File"]');
-            
+        const documentUrls = normalizeDocumentUrls(document.getElementById('uploadedFileUrl').value);
+        if (documentUrls.length > 0) {
+          documentUrls.forEach(url => {
+            const uploadRow = document.querySelector(`#uploadStatus [data-file-url="${CSS.escape(url)}"]`);
+            const fileNameElem = uploadRow?.querySelector('.truncate');
+            const fileName = fileNameElem ? fileNameElem.innerText : getFileNameFromUrl(url);
             const docRow = document.createElement('div');
             docRow.className = "flex items-center justify-between bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2 rounded-lg";
-            docRow.innerHTML = `
-              <div class="flex items-center gap-2 overflow-hidden">
-                <svg class="w-4 h-4 text-brand-blue shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                <div class="truncate text-xs font-semibold text-slate-700 dark:text-slate-300">${fileName}</div>
-              </div>
-            `;
-            if (viewBtn) {
-              const newViewBtn = viewBtn.cloneNode(true);
-              newViewBtn.className = "text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors p-1";
-              const btnContainer = document.createElement('div');
-              btnContainer.appendChild(newViewBtn);
-              docRow.appendChild(btnContainer);
-            }
+
+            const fileInfo = document.createElement('div');
+            fileInfo.className = "flex items-center gap-2 overflow-hidden";
+            fileInfo.innerHTML = '<svg class="w-4 h-4 text-brand-blue shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>';
+            const fileLabel = document.createElement('div');
+            fileLabel.className = "truncate text-xs font-semibold text-slate-700 dark:text-slate-300";
+            fileLabel.textContent = fileName;
+            fileInfo.appendChild(fileLabel);
+
+            const actions = document.createElement('div');
+            actions.className = "flex items-center gap-2";
+
+            const viewButton = document.createElement('button');
+            viewButton.type = 'button';
+            viewButton.className = "text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors p-1";
+            viewButton.title = "Lihat File";
+            viewButton.setAttribute('aria-label', 'Lihat file');
+            viewButton.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>';
+            viewButton.addEventListener('click', () => viewUploadedFile(url, fileName));
+
+            const deleteButton = document.createElement('button');
+            deleteButton.type = 'button';
+            deleteButton.className = "text-slate-400 hover:text-red-500 dark:text-slate-500 dark:hover:text-red-400 transition-colors p-1";
+            deleteButton.title = "Hapus File";
+            deleteButton.setAttribute('aria-label', 'Hapus file');
+            deleteButton.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-7 0a1 1 0 001-1V5a1 1 0 011-1h4a1 1 0 011 1v1a1 1 0 001 1m-8 0h8"></path></svg>';
+            deleteButton.addEventListener('click', () => {
+              removeUploadedFile(deleteButton, url);
+              updateUI();
+            });
+
+            actions.appendChild(viewButton);
+            actions.appendChild(deleteButton);
+            docRow.dataset.fileUrl = url;
+            docRow.dataset.inputId = 'uploadedFileUrl';
+            docRow.appendChild(fileInfo);
+            docRow.appendChild(actions);
             summaryDocs.appendChild(docRow);
           });
         } else {
@@ -1551,8 +1778,8 @@
         features: document.getElementById('features').value,
         target_date: document.getElementById('target_date').value,
         notes: document.getElementById('notes').value,
-        files: document.getElementById('uploadedFileUrl').value ? document.getElementById('uploadedFileUrl').value.split(',') : [],
-        project_document: document.getElementById('uploadedFileUrl').value || '',
+        files: normalizeDocumentUrls(document.getElementById('uploadedFileUrl').value),
+        project_document: normalizeDocumentUrls(document.getElementById('uploadedFileUrl').value).join(','),
         reference_links: document.getElementById('reference_links').value,
         primary_color: document.getElementById('primary_color').value,
         design_style: document.getElementById('design_style').value,
@@ -1656,11 +1883,16 @@
     }
 
     function removeUploadedFile(button, url) {
-      const uploadedInput = document.getElementById('uploadedFileUrl');
       const fileRow = button.closest('[data-file-url]');
-      const urls = uploadedInput.value ? uploadedInput.value.split(',') : [];
+      const inputId = fileRow?.dataset.inputId || 'uploadedFileUrl';
+      const uploadedInput = document.getElementById(inputId);
+      if (!uploadedInput) return;
+      const urls = normalizeDocumentUrls(uploadedInput.value);
       uploadedInput.value = urls.filter(item => item !== url).join(',');
       if (fileRow) fileRow.remove();
+      if (inputId === 'paymentProofUrl') {
+        renderPaymentProof(uploadedInput.value);
+      }
     }
     function viewUploadedFile(url, name) {
       const modal = document.getElementById('fileViewerModal');

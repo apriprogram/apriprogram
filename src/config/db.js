@@ -47,11 +47,17 @@ async function initDatabase() {
     await pool.query("ALTER TABLE users ADD COLUMN full_name VARCHAR(100) DEFAULT ''");
     await pool.query("ALTER TABLE users ADD COLUMN whatsapp VARCHAR(20) DEFAULT ''");
     await pool.query("ALTER TABLE users ADD COLUMN company VARCHAR(100) DEFAULT ''");
-    await pool.query("ALTER TABLE users ADD COLUMN country VARCHAR(50) DEFAULT ''");
+    await pool.query("ALTER TABLE users ADD COLUMN country VARCHAR(255) DEFAULT ''");
     await pool.query("ALTER TABLE users ADD COLUMN google_id VARCHAR(255) DEFAULT NULL");
     await pool.query("ALTER TABLE users ADD COLUMN avatar VARCHAR(255) DEFAULT NULL");
   } catch(e) {
     // Silently ignore if columns exist
+  }
+
+  try {
+    await pool.query("ALTER TABLE users MODIFY COLUMN country VARCHAR(255) DEFAULT ''");
+  } catch(e) {
+    // Silently ignore if column cannot be modified in this environment
   }
 
   await pool.query(`
@@ -148,6 +154,47 @@ async function initDatabase() {
     "ALTER TABLE pricelists ADD COLUMN sort_order INT DEFAULT 0"
   ];
   for (const query of pricelistAlterQueries) {
+    try {
+      await pool.query(query);
+    } catch (e) {
+      // Ignore existing columns.
+    }
+  }
+
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS contents (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      title VARCHAR(255) NOT NULL,
+      idea_summary TEXT,
+      background TEXT,
+      problem TEXT,
+      objective TEXT,
+      target_audience TEXT,
+      concept TEXT,
+      angle TEXT,
+      value_provided TEXT,
+      opening TEXT,
+      narrative TEXT,
+      outline TEXT,
+      content_body LONGTEXT,
+      cta TEXT,
+      seo_keywords TEXT,
+      \`references\` TEXT,
+      assets TEXT,
+      notes TEXT,
+      sort_order INT DEFAULT 0,
+      is_completed TINYINT(1) DEFAULT 0,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    )
+  `);
+
+  const contentAlterQueries = [
+    "ALTER TABLE contents ADD COLUMN sort_order INT DEFAULT 0",
+    "ALTER TABLE contents ADD COLUMN is_completed TINYINT(1) DEFAULT 0"
+  ];
+  for (const query of contentAlterQueries) {
     try {
       await pool.query(query);
     } catch (e) {

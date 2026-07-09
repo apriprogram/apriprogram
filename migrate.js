@@ -17,6 +17,8 @@ const isFresh = process.argv.includes('--fresh');
 async function dropAllTables() {
   console.log('⚠️  Mode FRESH: Menghapus semua tabel...');
   await pool.query('SET FOREIGN_KEY_CHECKS = 0');
+  await pool.query('DROP TABLE IF EXISTS contents');
+  await pool.query('DROP TABLE IF EXISTS pricelists');
   await pool.query('DROP TABLE IF EXISTS visitors');
   await pool.query('DROP TABLE IF EXISTS settings');
   await pool.query('DROP TABLE IF EXISTS orders');
@@ -48,7 +50,7 @@ async function createTables() {
       full_name  VARCHAR(100)  DEFAULT '',
       whatsapp   VARCHAR(20)   DEFAULT '',
       company    VARCHAR(100)  DEFAULT '',
-      country    VARCHAR(50)   DEFAULT '',
+      country    VARCHAR(255)  DEFAULT '',
       google_id  VARCHAR(255)  DEFAULT NULL,
       avatar     VARCHAR(255)  DEFAULT NULL,
       role       ENUM('super admin', 'admin', 'client') DEFAULT 'client',
@@ -102,10 +104,58 @@ async function createTables() {
       id         INT AUTO_INCREMENT PRIMARY KEY,
       ip_address VARCHAR(45)   NOT NULL,
       user_agent TEXT          DEFAULT NULL,
+      country    VARCHAR(100)  DEFAULT 'Unknown',
       visited_at TIMESTAMP     DEFAULT CURRENT_TIMESTAMP
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
   `);
   console.log('  ✔ Tabel visitors');
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS pricelists (
+      id            INT AUTO_INCREMENT PRIMARY KEY,
+      name          VARCHAR(100)  NOT NULL,
+      service_type  VARCHAR(100)  NOT NULL,
+      price         VARCHAR(50)   NOT NULL,
+      target        TEXT          DEFAULT NULL,
+      duration      VARCHAR(120)  DEFAULT '',
+      features      TEXT          DEFAULT NULL,
+      is_popular    TINYINT(1)    DEFAULT 0,
+      sort_order    INT           DEFAULT 0,
+      status        ENUM('Active', 'Inactive') DEFAULT 'Active',
+      created_at    TIMESTAMP     DEFAULT CURRENT_TIMESTAMP,
+      updated_at    TIMESTAMP     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+  `);
+  console.log('  - Tabel pricelists');
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS contents (
+      id              INT AUTO_INCREMENT PRIMARY KEY,
+      title           VARCHAR(255) NOT NULL,
+      idea_summary    TEXT         DEFAULT NULL,
+      background      TEXT         DEFAULT NULL,
+      problem         TEXT         DEFAULT NULL,
+      objective       TEXT         DEFAULT NULL,
+      target_audience TEXT         DEFAULT NULL,
+      concept         TEXT         DEFAULT NULL,
+      angle           TEXT         DEFAULT NULL,
+      value_provided  TEXT         DEFAULT NULL,
+      opening         TEXT         DEFAULT NULL,
+      narrative       TEXT         DEFAULT NULL,
+      outline         TEXT         DEFAULT NULL,
+      content_body    LONGTEXT     DEFAULT NULL,
+      cta             TEXT         DEFAULT NULL,
+      seo_keywords    TEXT         DEFAULT NULL,
+      \`references\`    TEXT         DEFAULT NULL,
+      assets          TEXT         DEFAULT NULL,
+      notes           TEXT         DEFAULT NULL,
+      sort_order      INT          DEFAULT 0,
+      is_completed    TINYINT(1)   DEFAULT 0,
+      created_at      TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+      updated_at      TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+  `);
+  console.log('  - Tabel contents');
 }
 
 async function seedData() {

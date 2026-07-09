@@ -497,7 +497,6 @@
         }
       });
     });
-    });
 
 
     // Content Reveal Animation
@@ -526,6 +525,14 @@
       return String(value || '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
     }
 
+    function isActiveItem(item) {
+      return String(item?.status || 'active').toLowerCase() === 'active';
+    }
+
+    function formatTimelineLabel(value) {
+      return escapeServiceHtml(value).replace(/&amp;bull;/g, '&bull;');
+    }
+
     function formatServicePublishDate(value) {
       if (!value) return '';
       const parsed = new Date(value);
@@ -538,7 +545,7 @@
       const carousel = document.getElementById('newServiceCarousel');
       if (!carousel || !serviceItems || serviceItems.length === 0) return;
       const activeServices = serviceItems
-        .filter(service => (service.status || 'active') === 'active')
+        .filter(isActiveItem)
         .sort((a, b) => (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0));
       if (activeServices.length === 0) return;
       carousel.innerHTML = activeServices.map(service => `
@@ -559,7 +566,7 @@
       const carousel = document.getElementById('productCarousel');
       if (!carousel || !projectItems || projectItems.length === 0) return;
       const activeProjects = projectItems
-        .filter(project => (project.status || 'active') === 'active')
+        .filter(isActiveItem)
         .sort((a, b) => (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0));
       if (activeProjects.length === 0) return;
       
@@ -613,7 +620,7 @@
     function renderTimeline(timelineItems) {
       const container = document.getElementById('timelineContainer');
       if (!container || !timelineItems || timelineItems.length === 0) return;
-      const activeItems = timelineItems.filter(t => t.status === 'active').sort((a,b) => (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0));
+      const activeItems = timelineItems.filter(isActiveItem).sort((a,b) => (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0));
       
       container.innerHTML = activeItems.map((t, index) => {
         const isLeft = index % 2 === 0;
@@ -625,7 +632,7 @@
             <div class="${isLeft ? 'order-1 lg:order-2 lg:ml-auto' : 'order-1 lg:order-1 lg:mr-auto'} flex flex-col gap-3 sm:gap-5 max-w-lg mx-auto lg:mx-0">
               <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-500 dark:text-[#a0a0a0]">
                 ${t.icon || ''}
-                ${escapeServiceHtml(t.step_label || `Step ${t.step_number}`)}
+                ${formatTimelineLabel(t.step_label || `Step ${t.step_number}`)}
               </div>
               <h3 class="text-2xl sm:text-3xl lg:text-4xl font-semibold text-slate-900 dark:text-white leading-tight">${escapeServiceHtml(t.title)}</h3>
               <p class="text-sm sm:text-base text-slate-600 dark:text-[#a0a0a0] leading-relaxed">
@@ -644,7 +651,7 @@
       const container = document.getElementById('faqContainer');
       if (!container || !faqItems || faqItems.length === 0) return;
 
-      const activeItems = faqItems.filter(item => item.status === 'active').sort((a,b) => (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0));
+      const activeItems = faqItems.filter(isActiveItem).sort((a,b) => (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0));
       
       let html = '';
       activeItems.forEach(item => {
@@ -657,7 +664,7 @@
             <div class="faq-content grid transition-all duration-300 grid-rows-[0fr] opacity-0">
               <div class="overflow-hidden">
                 <div class="px-4 pb-4 sm:px-6 sm:pb-6 text-sm sm:text-lg leading-relaxed text-slate-600 dark:text-[#a0a0a0]">
-                  ${String(item.answer || '').replace(/\n/g, '<br>')}
+                  ${escapeServiceHtml(item.answer).replace(/\n/g, '<br>')}
                 </div>
               </div>
             </div>

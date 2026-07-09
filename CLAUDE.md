@@ -341,6 +341,7 @@ Logic render dokumen ada di `renderDetailDocuments(order)` dan `renderDetailPaym
 - Border radius kartu besar: `rounded-2xl`, tombol: `rounded-xl` atau `rounded-full`.
 - Shadow minimal, preferensi flat dengan border `border-slate-200`.
 - Font weight: `font-medium` untuk angka statistik dan judul. Hindari `font-bold`/`font-black` untuk statistik utama kecuali ada alasan desain.
+- Responsivitas: Selalu perhatikan ukuran pada layar mobile (tanpa prefix) dan tablet/desktop (`sm:`, `md:`, `lg:`). Pada area Client (seperti Order, Profile, Bantuan), ukuran font, ikon, padding, dan tombol harus diperkecil di layar *mobile* agar tidak sempit. Menu *dropdown* di *mobile* harus ditangani menggunakan CSS global yang umum (contoh: class `.dropdown-open` tanpa batasan ID yang terlalu spesifik) agar sinkron dengan menu *desktop*.
 
 ---
 

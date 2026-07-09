@@ -2,7 +2,8 @@ const bcrypt = require("bcrypt");
 const { pool } = require("../config/db");
 
 exports.register = async (req, res) => {
-  const { full_name, email, whatsapp, password } = req.body;
+  const { full_name, email, whatsapp, password, country, address } = req.body;
+  const userAddress = (address ?? country ?? '').trim();
   
   if (!email || !password || !full_name || !whatsapp) {
     return res.status(400).json({ success: false, message: "Semua kolom wajib diisi." });
@@ -16,13 +17,17 @@ exports.register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const [result] = await pool.query(
-      "INSERT INTO users (email, password, role, full_name, whatsapp) VALUES (?, ?, 'client', ?, ?)",
-      [email, hashedPassword, full_name, whatsapp]
+      "INSERT INTO users (email, password, role, full_name, whatsapp, country) VALUES (?, ?, 'client', ?, ?, ?)",
+      [email, hashedPassword, full_name, whatsapp, userAddress]
     );
 
     req.session.userId = result.insertId;
+    req.session.id_user = result.insertId;
     req.session.role = 'client';
     req.session.email = email;
+    req.session.full_name = full_name;
+    req.session.whatsapp = whatsapp;
+    req.session.country = userAddress;
 
     res.status(201).json({ success: true, message: "Registrasi berhasil.", redirectUrl: "/order" });
   } catch (error) {

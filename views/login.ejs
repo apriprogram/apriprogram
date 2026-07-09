@@ -126,6 +126,15 @@
             </div>
           </div>
           <div>
+            <label class="block text-[10px] sm:text-xs font-medium mb-1.5 text-slate-400">Alamat <span class="font-normal text-slate-500">(opsional)</span></label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
+                <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+              </div>
+              <input type="text" id="regAddress" placeholder="Masukkan alamat lengkap Anda" autocomplete="street-address" class="w-full pl-9 sm:pl-11 pr-4 py-2.5 sm:py-3.5 bg-[#1a1a1a] border border-white/5 rounded-xl focus:ring-1 focus:ring-white/20 focus:border-white/20 outline-none transition-all text-xs sm:text-sm text-white placeholder-slate-500">
+            </div>
+          </div>
+          <div>
             <label class="block text-[10px] sm:text-xs font-medium mb-1.5 text-slate-400">Email Address</label>
             <div class="relative">
               <div class="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
@@ -298,6 +307,7 @@
       const password = document.getElementById('regPassword').value;
       const full_name = document.getElementById('regFullName').value;
       const whatsapp = document.getElementById('regWhatsapp').value;
+      const country = document.getElementById('regAddress').value.trim();
 
       const btn = e.target.querySelector('button[type="submit"]');
       const originalText = btn.innerHTML;
@@ -308,7 +318,7 @@
         const res = await fetch('/api/auth/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password, full_name, whatsapp })
+          body: JSON.stringify({ email, password, full_name, whatsapp, country })
         });
         const data = await res.json();
         
