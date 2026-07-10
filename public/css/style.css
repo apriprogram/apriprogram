@@ -49,7 +49,7 @@ body {
 }
 
 .faq-item.active .faq-content {
-  max-height: 220px;
+  max-height: 640px;
 }
 
 .faq-item.active .faq-icon {

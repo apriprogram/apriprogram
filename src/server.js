@@ -115,6 +115,7 @@ app.delete("/api/admin/contents/:id", requireAdmin, contentController.deleteCont
 app.put("/api/admin/contents/:id/toggle-completed", requireAdmin, contentController.toggleCompleted);
 
 app.get("/api/admin/dashboard-stats", requireAdmin, adminController.getDashboardStats);
+app.delete("/api/admin/visitors/reset", requireAdmin, adminController.resetVisitors);
 
 app.get("/api/pricelists", pricelistController.getPublicPricelists);
 

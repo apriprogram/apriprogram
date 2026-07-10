@@ -675,19 +675,25 @@
 
       // Bind toggle event
       container.querySelectorAll('.faq-item button').forEach(button => {
+        button.setAttribute('aria-expanded', 'false');
         button.addEventListener('click', () => {
+          const item = button.closest('.faq-item');
           const content = button.nextElementSibling;
           const icon = button.querySelector('svg');
           
           const isOpen = content.classList.contains('grid-rows-[1fr]');
           
           if (isOpen) {
+            item.classList.remove('active');
             content.classList.remove('grid-rows-[1fr]', 'opacity-100');
             content.classList.add('grid-rows-[0fr]', 'opacity-0');
+            button.setAttribute('aria-expanded', 'false');
             icon.style.transform = 'rotate(0deg)';
           } else {
+            item.classList.add('active');
             content.classList.remove('grid-rows-[0fr]', 'opacity-0');
             content.classList.add('grid-rows-[1fr]', 'opacity-100');
+            button.setAttribute('aria-expanded', 'true');
             icon.style.transform = 'rotate(180deg)';
           }
         });

@@ -359,6 +359,16 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
+exports.resetVisitors = async (req, res) => {
+  try {
+    await pool.query("DELETE FROM visitors");
+    if (req.session) req.session.visited_today = true;
+    res.json({ success: true, message: "Data visitor berhasil direset." });
+  } catch (error) {
+    console.error("Reset visitors error:", error);
+    res.status(500).json({ success: false, message: "Gagal mereset data visitor." });
+  }
+};
 exports.getDashboardStats = async (req, res) => {
   try {
     const [[usersRows]] = await pool.query(`

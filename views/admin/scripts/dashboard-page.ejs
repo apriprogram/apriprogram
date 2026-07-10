@@ -166,6 +166,24 @@ function closeVisitorStatsModal() {
     modal.classList.remove('flex');
   }, 180);
 }
+
+async function resetVisitorStats() {
+  if (!confirm('Reset semua data visitor? Data pengunjung akan dihapus permanen.')) return;
+
+  try {
+    const res = await fetch('/api/admin/visitors/reset', { method: 'DELETE' });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message || 'Gagal mereset visitor.');
+
+    visitorStatsDetails = { summary: {}, daily: [], recent: [], user_agents: [], countries: [] };
+    setText('stat-visitors', '0');
+    renderVisitorStatsModal();
+    await loadDashboardStats();
+    showToast(data.message || 'Data visitor berhasil direset.', 'green');
+  } catch (err) {
+    showToast(err.message || 'Gagal mereset visitor.', 'red');
+  }
+}
 function updateDashboardStatusStats(statuses, total) {
   const statusTotal = Number(total || 0);
   const pending = Number(statuses['pending dp'] || 0);
@@ -181,11 +199,12 @@ function updateDashboardStatusStats(statuses, total) {
   setText('stat-selesai', selesai);
   setText('stat-batal', batal);
 
-  setBar('bar-pending', pending, statusTotal);
-  setBar('bar-proses', proses, statusTotal);
-  setBar('bar-revisi', revisi, statusTotal);
-  setBar('bar-selesai', selesai, statusTotal);
-  setBar('bar-batal', batal, statusTotal);
+  const maxStatus = Math.max(pending, proses, revisi, selesai, batal, 1);
+  setBar('bar-pending', pending, maxStatus);
+  setBar('bar-proses', proses, maxStatus);
+  setBar('bar-revisi', revisi, maxStatus);
+  setBar('bar-selesai', selesai, maxStatus);
+  setBar('bar-batal', batal, maxStatus);
 }
 
 async function loadDashboardStats() {
