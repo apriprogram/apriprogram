@@ -738,15 +738,70 @@ function renderHeroBackgrounds() {
   }
 
   container.innerHTML = heroBackgrounds.map((bgUrl, index) => `
-    <div class="relative group rounded-lg overflow-hidden border border-slate-200 dark:border-brand-border h-24 sm:h-32">
-      <img src="${bgUrl}" class="w-full h-full object-cover">
+    <div class="relative group rounded-lg overflow-hidden border border-slate-200 dark:border-brand-border h-24 sm:h-32 cursor-move"
+         draggable="true"
+         data-index="${index}"
+         ondragstart="heroBgDragStart(event)"
+         ondragover="heroBgDragOver(event)"
+         ondragenter="heroBgDragEnter(event)"
+         ondragleave="heroBgDragLeave(event)"
+         ondrop="heroBgDrop(event)"
+         ondragend="heroBgDragEnd(event)">
+      <img src="${bgUrl}" class="w-full h-full object-cover pointer-events-none">
       <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-        <button type="button" onclick="removeHeroBackground(${index})" class="text-white bg-red-500 hover:bg-red-600 rounded-full p-2">
+        <button type="button" onclick="removeHeroBackground(${index})" class="text-white bg-red-500 hover:bg-red-600 rounded-full p-2 relative z-10 pointer-events-auto">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
         </button>
       </div>
     </div>
   `).join('');
+}
+
+let heroBgDragSourceIndex = null;
+
+function heroBgDragStart(e) {
+  const el = e.target.closest('div[data-index]');
+  heroBgDragSourceIndex = parseInt(el.getAttribute('data-index'));
+  e.dataTransfer.effectAllowed = 'move';
+  setTimeout(() => el.classList.add('opacity-50'), 0);
+}
+
+function heroBgDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+}
+
+function heroBgDragEnter(e) {
+  e.preventDefault();
+  const el = e.target.closest('div[data-index]');
+  if(el) el.classList.add('border-brand-blue', 'border-2');
+}
+
+function heroBgDragLeave(e) {
+  const el = e.target.closest('div[data-index]');
+  if(el) el.classList.remove('border-brand-blue', 'border-2');
+}
+
+function heroBgDrop(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  const el = e.target.closest('div[data-index]');
+  if(!el) return;
+  el.classList.remove('border-brand-blue', 'border-2');
+  
+  const dropIndex = parseInt(el.getAttribute('data-index'));
+  if (heroBgDragSourceIndex !== null && heroBgDragSourceIndex !== dropIndex) {
+    const draggedItem = heroBackgrounds.splice(heroBgDragSourceIndex, 1)[0];
+    heroBackgrounds.splice(dropIndex, 0, draggedItem);
+    renderHeroBackgrounds();
+  }
+  return false;
+}
+
+function heroBgDragEnd(e) {
+  const el = e.target.closest('div[data-index]');
+  if(el) el.classList.remove('opacity-50');
+  renderHeroBackgrounds();
 }
 
 function removeHeroBackground(index) {
