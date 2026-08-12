@@ -219,6 +219,24 @@ async function loadDashboardStats() {
     setText('stat-visitors', stats.visitors ? (stats.visitors.Total || stats.visitors.Tahunan) : 0);
     visitorStatsDetails = stats.visitor_details || { summary: stats.visitors || {}, daily: [], recent: [], user_agents: [], countries: [] };
     
+    // --- Update Navbar Notification Stats ---
+    setText('nav-stat-today', stats.visitors ? (stats.visitors.Harian || 0) : 0);
+    setText('nav-stat-week', stats.visitors ? (stats.visitors.Mingguan || 0) : 0);
+    const navCountriesEl = document.getElementById('nav-stat-countries');
+    if (navCountriesEl) {
+       if (visitorStatsDetails.countries && visitorStatsDetails.countries.length > 0) {
+           navCountriesEl.innerHTML = visitorStatsDetails.countries.slice(0, 5).map(c => `
+             <div class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+               <span class="text-xs font-medium text-slate-700 dark:text-slate-300">${c.country}</span>
+               <span class="text-xs font-bold text-slate-900 dark:text-white bg-slate-100 dark:bg-white/10 px-2 py-0.5 rounded-full">${c.total}</span>
+             </div>
+           `).join('');
+       } else {
+           navCountriesEl.innerHTML = '<div class="text-[11px] text-slate-500 text-center py-2">Belum ada data negara.</div>';
+       }
+    }
+    // ----------------------------------------
+
     // Calculate total revenue from ordersData
     let totalRevenue = 0;
     if (ordersData && Array.isArray(ordersData)) {
