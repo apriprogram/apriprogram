@@ -69,8 +69,11 @@ apriprogram/
 | email      | VARCHAR(100) UNIQUE   |                                        |
 | password   | VARCHAR(255)          | bcrypt hash                            |
 | whatsapp   | VARCHAR(20)           |                                        |
+| company    | VARCHAR(100)          | Nama perusahaan                        |
+| country    | VARCHAR(255)          | Asal negara                            |
 | role       | ENUM                  | `client`, `admin`, `super admin`       |
-| google_id  | VARCHAR(100)          | Untuk OAuth                            |
+| google_id  | VARCHAR(255)          | Untuk OAuth                            |
+| avatar     | VARCHAR(255)          | Path URL avatar profil                 |
 | created_at | TIMESTAMP             |                                        |
 
 ### Tabel `orders`
@@ -95,8 +98,11 @@ apriprogram/
 | payment_proof    | VARCHAR(255)          | Path bukti bayar        |
 | status           | VARCHAR(50)           | Default: `Pending DP`   |
 | notes            | TEXT                  | Catatan admin           |
-| start_date       | DATE                  | Tanggal mulai           |
-| target_date      | DATE                  | Estimasi selesai        |
+| start_date       | VARCHAR(50)           | Tanggal mulai           |
+| target_date      | VARCHAR(50)           | Estimasi selesai        |
+| invoice_data     | LONGTEXT              | Data JSON untuk invoice |
+| discount         | DECIMAL(15,2)         | Diskon pesanan          |
+| tax_pct          | DECIMAL(5,2)          | Persentase pajak        |
 | created_at       | TIMESTAMP             |                         |
 | updated_at       | TIMESTAMP             |                         |
 
@@ -122,6 +128,7 @@ Catatan: item service disimpan di tabel `settings` dengan `section = 'service_it
 | id         | INT PK      |            |
 | ip_address | VARCHAR(50) |            |
 | user_agent | TEXT        |            |
+| country    | VARCHAR(100)|            |
 | visited_at | TIMESTAMP   |            |
 
 ### Tabel `contacts`
@@ -133,6 +140,37 @@ Catatan: item service disimpan di tabel `settings` dengan `section = 'service_it
 | email      | VARCHAR(100) |            |
 | message    | TEXT         |            |
 | created_at | TIMESTAMP    |            |
+
+### Tabel `pricelists`
+
+| Kolom        | Tipe         | Keterangan |
+| ------------ | ------------ | ---------- |
+| id           | INT PK       |            |
+| name         | VARCHAR(100) |            |
+| service_type | VARCHAR(100) |            |
+| price        | VARCHAR(50)  |            |
+| target       | TEXT         |            |
+| duration     | VARCHAR(120) |            |
+| features     | TEXT         | Format JSON |
+| is_popular   | TINYINT(1)   | 1/0        |
+| sort_order   | INT          |            |
+| status       | ENUM         | `Active`, `Inactive` |
+| created_at   | TIMESTAMP    |            |
+| updated_at   | TIMESTAMP    |            |
+
+### Tabel `contents`
+
+| Kolom          | Tipe         | Keterangan |
+| -------------- | ------------ | ---------- |
+| id             | INT PK       |            |
+| title          | VARCHAR(255) |            |
+| idea_summary   | TEXT         |            |
+| content_body   | LONGTEXT     |            |
+| sort_order     | INT          |            |
+| is_completed   | TINYINT(1)   |            |
+| created_at     | TIMESTAMP    |            |
+| updated_at     | TIMESTAMP    |            |
+| (kolom lainnya)| TEXT         | background, problem, objective, target_audience, dll. |
 
 ---
 
@@ -154,8 +192,12 @@ Catatan: item service disimpan di tabel `settings` dengan `section = 'service_it
 | ------ | ----------------- | ------ | --------------------------------------- |
 | POST   | `/api/orders`     | Login  | Buat pesanan baru                       |
 | GET    | `/api/orders`     | Login  | Admin semua order, client order sendiri |
-| PUT    | `/api/orders/:id` | Admin  | Update pesanan                          |
+| GET    | `/api/orders/:id` | Login  | Detail order                            |
+| PUT    | `/api/orders/:id/client` | Login | Update pesanan oleh client       |
+| PATCH  | `/api/orders/:id/cancel` | Login | Batalkan pesanan oleh client     |
+| PUT    | `/api/orders/:id` | Admin  | Update pesanan oleh admin               |
 | DELETE | `/api/orders/:id` | Admin  | Hapus pesanan                           |
+| POST   | `/api/orders/:id/invoice`| Admin | Simpan data invoice              |
 
 ### 4.3 Admin
 
@@ -168,9 +210,13 @@ Catatan: item service disimpan di tabel `settings` dengan `section = 'service_it
 | DELETE | `/api/admin/users/:id`       | Admin  | Hapus pengguna         |
 | GET    | `/api/settings`              | Public | Ambil semua pengaturan |
 | POST   | `/api/admin/settings`        | Admin  | Update pengaturan      |
-| GET    | `/api/admin/services`        | Admin  | Ambil item service     |
-| POST   | `/api/admin/services`        | Admin  | Simpan item service    |
-| DELETE | `/api/admin/services/:slug`  | Admin  | Hapus item service     |
+| GET/POST/DELETE | `/api/admin/services` | Admin  | Kelola item service |
+| GET/POST/DELETE | `/api/admin/projects` | Admin  | Kelola item project |
+| GET/POST/DELETE | `/api/admin/timeline` | Admin  | Kelola item timeline |
+| GET/POST/DELETE | `/api/admin/hero`     | Admin  | Kelola background hero |
+| GET/POST/DELETE | `/api/admin/faq`      | Admin  | Kelola item FAQ |
+| GET/POST/PUT/DELETE | `/api/admin/contents`| Admin | Kelola konten / brief |
+| GET/POST/PUT/DELETE | `/api/admin/pricelists`| Admin | Kelola daftar harga |
 | POST   | `/api/admin/upload`          | Admin  | Upload gambar umum     |
 
 ### 4.4 Upload
@@ -179,7 +225,13 @@ Catatan: item service disimpan di tabel `settings` dengan `section = 'service_it
 | ------ | ---------------------- | ----- | ------------------------------ |
 | POST   | `/api/upload/document` | Login | Upload dokumen project client  |
 | POST   | `/api/upload/payment`  | Login | Upload bukti pembayaran        |
+| POST   | `/api/upload/avatar`   | Login | Upload foto profil / avatar    |
 | POST   | `/api/upload`          | Login | Compatibility route dokumen    |
+
+### 4.5 Client
+| Method | Endpoint               | Auth  | Keterangan                     |
+| ------ | ---------------------- | ----- | ------------------------------ |
+| PUT    | `/api/client/profile`  | Login | Update profil (nama, hp, perusahaan, foto, dll.) |
 
 ### 4.5 Response: `GET /api/admin/dashboard-stats`
 

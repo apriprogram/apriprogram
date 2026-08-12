@@ -39,6 +39,7 @@ function resolveVisitorCountry(req, ip) {
   if (!value || value === '::1' || value === '127.0.0.1' || value === '::ffff:127.0.0.1' || value.startsWith('192.168.') || value.startsWith('10.') || value.startsWith('172.16.')) return 'Local';
   return 'Unknown';
 }
+
 // Visitor Tracking Middleware
 app.use(async (req, res, next) => {
   if (!req.session.visited_today) {
@@ -54,6 +55,7 @@ app.use(async (req, res, next) => {
   }
   next();
 });
+
 // API Contact
 app.post("/api/contact", async (req, res) => {
   const { name, email, message } = req.body;
@@ -197,6 +199,15 @@ app.post("/api/admin/upload", requireAdmin, upload.single("image"), (req, res) =
   res.json({ success: true, url: fileUrl });
 });
 
+app.post("/api/admin/upload-media", requireAdmin, upload.single("media"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ success: false, message: "No file uploaded" });
+  }
+  const fileUrl = `/uploads/${req.file.filename}`;
+  const type = String(req.file.mimetype || "").startsWith("video/") ? "video" : "image";
+  res.json({ success: true, url: fileUrl, type });
+});
+
 // Avatar Upload Route
 app.post("/api/upload/avatar", requireLogin, avatarUpload.single("avatar"), (req, res) => {
   if (!req.file) {
@@ -245,7 +256,6 @@ app.get("/api/admin/users", requireAdmin, adminController.getUsers);
 app.post("/api/admin/users", requireAdmin, adminController.createUser);
 app.put("/api/admin/users/:id", requireAdmin, adminController.updateUser);
 app.delete("/api/admin/users/:id", requireAdmin, adminController.deleteUser);
-app.get("/api/admin/dashboard-stats", requireAdmin, adminController.getDashboardStats);
 
 // Order API Routes
 app.post("/api/orders", requireLogin, orderController.createOrder);
@@ -258,24 +268,6 @@ app.delete("/api/orders/:id", requireAdmin, orderController.deleteOrder);
 
 // Invoice Route
 app.post("/api/orders/:id/invoice", requireAdmin, orderController.saveInvoice);
-
-// Views Routes
-app.get("/order", requireLogin, (req, res) => {
-  res.render("client/order", { user: req.session, initialDetailOrderId: null });
-});
-app.get("/order/detail/:id", requireLogin, (req, res) => {
-  res.render("client/order", { user: req.session, initialDetailOrderId: req.params.id });
-});
-
-// Client Profile Page
-app.get("/client/profile", requireLogin, (req, res) => {
-  res.render("client/profile", { user: req.session });
-});
-
-// Bantuan Page
-app.get("/bantuan", requireLogin, (req, res) => {
-  res.render("client/bantuan", { user: req.session });
-});
 
 // API: Update Client Profile
 app.put("/api/client/profile", requireLogin, async (req, res) => {
@@ -318,6 +310,164 @@ app.put("/api/client/profile", requireLogin, async (req, res) => {
     console.error("Update profile error:", error);
     res.status(500).json({ success: false, message: "Terjadi kesalahan server." });
   }
+});
+
+// Services Pages
+app.get("/services", async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      "SELECT setting_key, setting_value FROM settings WHERE section = 'service_items'"
+    );
+
+    const services = rows
+      .map((row) => {
+        try {
+          const service = JSON.parse(row.setting_value || "{}");
+          return { ...service, slug: service.slug || row.setting_key };
+        } catch (error) {
+          return null;
+        }
+      })
+      .filter((service) => service && String(service.status || "active").toLowerCase() === "active")
+      .sort((a, b) => {
+        const orderA = Number(a.sort_order || 0);
+        const orderB = Number(b.sort_order || 0);
+        if (orderA !== orderB) return orderA - orderB;
+        return String(a.title || "").localeCompare(String(b.title || ""));
+      });
+
+    res.render("services", { user: req.session || null, services });
+  } catch (error) {
+    console.error("Services page error:", error);
+    res.status(500).render("services", { user: req.session || null, services: [] });
+  }
+});
+
+app.get("/services/:slug", async (req, res) => {
+  try {
+    const slug = String(req.params.slug || "").trim().toLowerCase().replace(/[^a-z0-9-]/g, "");
+    if (!slug) return res.redirect("/#services");
+
+    const [[row]] = await pool.query(
+      "SELECT setting_value FROM settings WHERE section = 'service_items' AND setting_key = ? LIMIT 1",
+      [slug]
+    );
+
+    if (!row) {
+      return res.status(404).render("service-detail", { user: req.session || null, service: null });
+    }
+
+    let service = null;
+    try {
+      service = JSON.parse(row.setting_value || "{}");
+    } catch (error) {
+      service = null;
+    }
+
+    if (!service || String(service.status || "active").toLowerCase() !== "active") {
+      return res.status(404).render("service-detail", { user: req.session || null, service: null });
+    }
+
+    res.render("service-detail", { user: req.session || null, service });
+  } catch (error) {
+    console.error("Service detail error:", error);
+    res.status(500).render("service-detail", { user: req.session || null, service: null });
+  }
+});
+
+// Portfolio Pages
+app.get("/portfolio", async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      "SELECT setting_key, setting_value FROM settings WHERE section = 'project_items'"
+    );
+
+    const projects = rows
+      .map((row) => {
+        try {
+          const project = JSON.parse(row.setting_value || "{}");
+          return { ...project, slug: project.slug || row.setting_key };
+        } catch (error) {
+          return null;
+        }
+      })
+      .filter((p) => p && String(p.status || "active").toLowerCase() === "active")
+      .sort((a, b) => {
+        const orderA = Number(a.sort_order || 0);
+        const orderB = Number(b.sort_order || 0);
+        if (orderA !== orderB) return orderA - orderB;
+        return String(a.title || "").localeCompare(String(b.title || ""));
+      });
+
+    res.render("portfolio", { user: req.session || null, projects });
+  } catch (error) {
+    console.error("Portfolio page error:", error);
+    res.status(500).render("portfolio", { user: req.session || null, projects: [] });
+  }
+});
+
+app.get("/portfolio/:slug", async (req, res) => {
+  try {
+    const slug = String(req.params.slug || "").trim().toLowerCase().replace(/[^a-z0-9-]/g, "");
+    if (!slug) return res.redirect("/portfolio");
+
+    const [[row]] = await pool.query(
+      "SELECT setting_value FROM settings WHERE section = 'project_items' AND setting_key = ? LIMIT 1",
+      [slug]
+    );
+
+    if (!row) {
+      return res.status(404).render("portfolio-detail", { user: req.session || null, project: null });
+    }
+
+    let project = null;
+    try {
+      project = JSON.parse(row.setting_value || "{}");
+    } catch (error) {
+      project = null;
+    }
+
+    if (!project || String(project.status || "active").toLowerCase() !== "active") {
+      return res.status(404).render("portfolio-detail", { user: req.session || null, project: null });
+    }
+
+    // Fetch related projects (other active projects, max 3)
+    const [allRows] = await pool.query(
+      "SELECT setting_key, setting_value FROM settings WHERE section = 'project_items' AND setting_key != ?",
+      [slug]
+    );
+    const related = allRows
+      .map((r) => { try { const p = JSON.parse(r.setting_value || "{}"); return { ...p, slug: p.slug || r.setting_key }; } catch { return null; } })
+      .filter((p) => p && String(p.status || "active").toLowerCase() === "active")
+      .slice(0, 3);
+
+    res.render("portfolio-detail", { user: req.session || null, project: { ...project, slug }, related });
+  } catch (error) {
+    console.error("Portfolio detail error:", error);
+    res.status(500).render("portfolio-detail", { user: req.session || null, project: null, related: [] });
+  }
+});
+
+// Views Routes
+app.get("/company-profile", (req, res) => {
+  res.render("company-profile", { user: req.session || null });
+});
+
+app.get("/order", requireLogin, (req, res) => {
+  res.render("client/order", { user: req.session, initialDetailOrderId: null });
+});
+app.get("/order/detail/:id", requireLogin, (req, res) => {
+  res.render("client/order", { user: req.session, initialDetailOrderId: req.params.id });
+});
+
+// Client Profile Page
+app.get("/client/profile", requireLogin, (req, res) => {
+  res.render("client/profile", { user: req.session });
+});
+
+// Bantuan Page
+app.get("/bantuan", requireLogin, (req, res) => {
+  res.render("client/bantuan", { user: req.session });
 });
 
 app.get("/login", (req, res) => {

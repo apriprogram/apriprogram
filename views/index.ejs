@@ -179,7 +179,7 @@
           Membantu Anda membangun landing page, toko online, hingga sistem operasional custom. Desain responsif, SEO-friendly, dan dikembangkan khusus untuk pertumbuhan bisnis Anda.
         </p>
         <div class="mt-6 flex justify-center">
-          <a href="/login" id="dyn-hero-cta" class="rounded-lg bg-brand-blue px-5 py-2.5 sm:px-6 sm:py-2.5 text-xs sm:text-sm font-semibold text-white hover:bg-blue-600 transition-all w-full sm:w-auto text-center">
+          <a href="/login?type=register" id="dyn-hero-cta" class="rounded-lg bg-brand-blue px-5 py-2.5 sm:px-6 sm:py-2.5 text-xs sm:text-sm font-semibold text-white hover:bg-blue-600 transition-all w-full sm:w-auto text-center">
             Pesan Sekarang
           </a>
         </div>
@@ -189,7 +189,7 @@
       <div class="mx-auto mt-12 w-full max-w-[85%] px-4 relative z-10">
          <!-- Mockup container -->
          <div class="relative w-full rounded-xl sm:rounded-3xl p-0 overflow-hidden flex justify-center">
-           <img src="/assets/hero/hero_konten.jpg" alt="Dashboard Mockup" class="w-full h-auto max-w-none rounded-xl sm:rounded-3xl shadow-2xl border-[3px] border-white/20" />
+           <img id="dyn-hero-content-image" src="/assets/hero/hero_konten.jpg" alt="Dashboard Mockup" class="w-full h-auto max-w-none rounded-xl sm:rounded-3xl shadow-2xl border-[3px] border-white/20" />
          </div>
       </div>
     </section>
@@ -207,7 +207,7 @@
              <p class="text-sm sm:text-base text-slate-600 dark:text-[#a0a0a0] leading-relaxed md:text-right">
                Kami menyediakan berbagai layanan digital profesional, mulai dari desain antarmuka hingga pengembangan sistem yang dirancang khusus untuk pertumbuhan bisnis Anda.
              </p>
-             <a href="#contact" id="dyn-services-button" class="px-5 py-2.5 rounded-full border border-slate-200 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-white/5 text-sm font-medium transition-colors hidden sm:block text-slate-900 dark:text-white">View all services</a>
+             <a href="/services" id="dyn-services-button" class="px-5 py-2.5 rounded-full border border-slate-200 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-white/5 text-sm font-medium transition-colors hidden sm:block text-slate-900 dark:text-white">View all services</a>
           </div>
         </div>
         
@@ -220,7 +220,7 @@
             <div class="flex flex-col gap-1.5">
               <h3 class="text-lg sm:text-[1.35rem] font-normal text-slate-900 dark:text-white leading-snug">Website Company Profile</h3>
               <p class="text-xs sm:text-[13px] text-slate-500 dark:text-[#a0a0a0] mt-1 sm:mt-2 tracking-wide">May 19, 2026 &nbsp;&nbsp; Web Design</p>
-              <a href="#" class="text-xs sm:text-sm font-medium text-slate-900 dark:text-white group-hover:underline mt-1 flex items-center gap-1">Read details &gt;</a>
+              <a href="/company-profile" class="text-xs sm:text-sm font-medium text-slate-900 dark:text-white group-hover:underline mt-1 flex items-center gap-1">Read details &gt;</a>
             </div>
           </div>
           <!-- Card 2 -->
@@ -231,7 +231,7 @@
             <div class="flex flex-col gap-1.5">
               <h3 class="text-lg sm:text-[1.35rem] font-normal text-slate-900 dark:text-white leading-snug">Aplikasi Web & Dashboard</h3>
               <p class="text-xs sm:text-[13px] text-slate-500 dark:text-[#a0a0a0] mt-1 sm:mt-2 tracking-wide">May 20, 2026 &nbsp;&nbsp; Web App</p>
-              <a href="#" class="text-xs sm:text-sm font-medium text-slate-900 dark:text-white group-hover:underline mt-1 flex items-center gap-1">Read details &gt;</a>
+              <a href="/services/aplikasi-web-dashboard" class="text-xs sm:text-sm font-medium text-slate-900 dark:text-white group-hover:underline mt-1 flex items-center gap-1">Read details &gt;</a>
             </div>
           </div>
           <!-- Card 3 -->
@@ -242,7 +242,7 @@
             <div class="flex flex-col gap-1.5">
               <h3 class="text-lg sm:text-[1.35rem] font-normal text-slate-900 dark:text-white leading-snug">Toko Online Custom</h3>
               <p class="text-xs sm:text-[13px] text-slate-500 dark:text-[#a0a0a0] mt-1 sm:mt-2 tracking-wide">May 21, 2026 &nbsp;&nbsp; E-Commerce</p>
-              <a href="#" class="text-xs sm:text-sm font-medium text-slate-900 dark:text-white group-hover:underline mt-1 flex items-center gap-1">Read details &gt;</a>
+              <a href="/services/toko-online-custom" class="text-xs sm:text-sm font-medium text-slate-900 dark:text-white group-hover:underline mt-1 flex items-center gap-1">Read details &gt;</a>
             </div>
           </div>
           <!-- Card 4 -->
@@ -253,7 +253,7 @@
             <div class="flex flex-col gap-1.5">
               <h3 class="text-lg sm:text-[1.35rem] font-normal text-slate-900 dark:text-white leading-snug">SEO Optimization</h3>
               <p class="text-xs sm:text-[13px] text-slate-500 dark:text-[#a0a0a0] mt-1 sm:mt-2 tracking-wide">May 22, 2026 &nbsp;&nbsp; Marketing</p>
-              <a href="#" class="text-xs sm:text-sm font-medium text-slate-900 dark:text-white group-hover:underline mt-1 flex items-center gap-1">Read details &gt;</a>
+              <a href="/services/seo-optimization" class="text-xs sm:text-sm font-medium text-slate-900 dark:text-white group-hover:underline mt-1 flex items-center gap-1">Read details &gt;</a>
             </div>
           </div>
           <!-- Spacer -->
@@ -556,7 +556,7 @@
           <div class="flex flex-col gap-1.5">
             <h3 class="text-lg sm:text-[1.35rem] font-normal text-slate-900 dark:text-white leading-snug">${escapeServiceHtml(service.title)}</h3>
             <p class="text-xs sm:text-[13px] text-slate-500 dark:text-[#a0a0a0] mt-1 sm:mt-2 tracking-wide">${escapeServiceHtml(formatServicePublishDate(service.publish_date))} &nbsp;&nbsp; ${escapeServiceHtml(service.category)}</p>
-            <a href="${escapeServiceHtml(service.button_link || '#contact')}" class="text-xs sm:text-sm font-medium text-slate-900 dark:text-white group-hover:underline mt-1 flex items-center gap-1">${escapeServiceHtml(service.button_text || 'Read details')} &gt;</a>
+            <a href="/services/${encodeURIComponent(service.slug || '')}" class="text-xs sm:text-sm font-medium text-slate-900 dark:text-white group-hover:underline mt-1 flex items-center gap-1">${escapeServiceHtml(service.button_text || 'Read details')} &gt;</a>
           </div>
         </div>
       `).join('') + '<div class="shrink-0 w-1"></div>';
@@ -584,7 +584,7 @@
             <p class="text-slate-600 dark:text-[#a0a0a0] text-sm max-w-sm leading-relaxed fade-element translate-y-4 transition-all duration-700 delay-150">
               ${escapeServiceHtml(project.short_description)}
             </p>
-            <a href="${escapeServiceHtml(project.detail_url || project.project_url || '#')}" class="text-sm font-semibold text-slate-900 dark:text-white hover:text-brand-blue transition-colors mt-2 flex items-center gap-1 fade-element translate-y-4 transition-all duration-700 delay-300">
+            <a href="/portfolio/${encodeURIComponent(project.slug || '')}" class="text-sm font-semibold text-slate-900 dark:text-white hover:text-brand-blue transition-colors mt-2 flex items-center gap-1 fade-element translate-y-4 transition-all duration-700 delay-300">
               ${escapeServiceHtml(project.button_text || 'Lihat detail')} <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </a>
           </div>
@@ -627,7 +627,7 @@
         return `
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
             <div class="${isLeft ? 'order-2 lg:order-1' : 'order-2 lg:order-2'} flex items-center justify-center relative">
-               <img src="${escapeServiceHtml(t.image)}" alt="${escapeServiceHtml(t.image_alt || t.title)}" class="w-full h-auto object-cover rounded-2xl border border-slate-200 dark:border-[#222222]" onerror="this.style.display='none'"/>
+               <img src="${escapeServiceHtml(t.image)}" alt="${escapeServiceHtml(t.image_alt || t.title)}" class="w-full h-auto object-cover rounded-2xl" onerror="this.style.display='none'"/>
             </div>
             <div class="${isLeft ? 'order-1 lg:order-2 lg:ml-auto' : 'order-1 lg:order-1 lg:mr-auto'} flex flex-col gap-3 sm:gap-5 max-w-lg mx-auto lg:mx-0">
               <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-500 dark:text-[#a0a0a0]">
@@ -712,8 +712,18 @@
               const btn = document.getElementById('dyn-hero-cta');
               if (btn) {
                 btn.innerHTML = data.settings.hero.cta_text;
-                if (data.settings.hero.cta_link) btn.href = data.settings.hero.cta_link;
+                if (data.settings.hero.cta_link) {
+                  // If admin set /login, upgrade to register tab
+                  const link = data.settings.hero.cta_link.trim();
+                  btn.href = (link === '/login') ? '/login?type=register' : link;
+                } else {
+                  btn.href = '/login?type=register';
+                }
               }
+            }
+            if (data.settings.hero.content_image) {
+              const heroContentImage = document.getElementById('dyn-hero-content-image');
+              if (heroContentImage) heroContentImage.src = data.settings.hero.content_image;
             }
             if (data.settings.hero.backgrounds_data) {
               try {
@@ -821,7 +831,7 @@
             if(srvTitle && data.settings.services.title) srvTitle.innerHTML = data.settings.services.title;
             if(srvDesc && data.settings.services.subtitle) srvDesc.innerHTML = data.settings.services.subtitle;
             if(srvButton && data.settings.services.button_text) srvButton.innerHTML = data.settings.services.button_text;
-            if(srvButton && data.settings.services.button_link) srvButton.href = data.settings.services.button_link;
+            if(srvButton) srvButton.href = '/services';
           } catch(e) { console.error('Error applying services settings:', e); }
         }
         if (data.settings.service_items) {
@@ -872,5 +882,6 @@
   </script>
 </body>
 </html>
+
 
 

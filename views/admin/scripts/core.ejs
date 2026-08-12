@@ -84,7 +84,7 @@ function switchTab(tabId) {
   if (tabId === 'orders') loadOrders();
   if (tabId === 'settings') {
     loadSettings();
-    loadHeroes();
+    if (typeof loadHeroes === 'function') loadHeroes();
     loadServices();
     loadProjects();
     loadTimelines();

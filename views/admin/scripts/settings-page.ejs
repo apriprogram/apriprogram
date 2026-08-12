@@ -1,7 +1,10 @@
 <script>
+const HERO_DEFAULT_BACKGROUND = '/assets/hero/bg_herosetion.png';
+const HERO_DEFAULT_CONTENT_IMAGE = '/assets/hero/hero_konten.jpg';
+
 const settingFields = {
   navbar: ['logo_text', 'logo_image', 'link1_text', 'link2_text', 'link3_text', 'link4_text', 'link5_text'],
-  hero: ['title_main', 'title_gradient', 'subtitle', 'cta_text', 'cta_link', 'backgrounds_data'],
+  hero: ['title_main', 'title_gradient', 'subtitle', 'cta_text', 'cta_link', 'backgrounds_data', 'content_image'],
   services: ['title', 'subtitle', 'button_text', 'button_link'],
   projects: ['title', 'subtitle'],
   timeline: ['title', 'subtitle'],
@@ -10,6 +13,15 @@ const settingFields = {
   footer: ['description', 'copyright']
 };
 
+function escapeSettingsHtml(value) {
+  return String(value ?? '').replace(/[&<>'"]/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    "'": '&#39;',
+    '"': '&quot;'
+  }[char]));
+}
 function updateImagePreview(prefix) {
   let url = '';
   if (prefix === 'navbar-logo') {
@@ -33,6 +45,7 @@ function updateImagePreview(prefix) {
 }
 
 let servicesData = [];
+let serviceMediaItems = [];
 let navbarLinks = [];
 
 function renderNavbarLinks() {
@@ -128,7 +141,11 @@ async function loadSettings() {
         }
       });
     });
+    applyHeroFrontendDefaults();
+
     updateImagePreview('navbar-logo');
+
+    updateHeroContentImagePreview();
   } catch (err) {
     console.error('Failed to load settings', err);
   }
@@ -184,6 +201,99 @@ async function loadServices() {
   }
 }
 
+function syncServiceDescriptionEditor() {
+  const editor = document.getElementById('service-description-editor');
+  const input = document.getElementById('service-description');
+  if (editor && input) input.value = editor.innerHTML.trim();
+}
+
+function setServiceDescriptionEditor(value = '') {
+  const editor = document.getElementById('service-description-editor');
+  const input = document.getElementById('service-description');
+  if (editor) editor.innerHTML = value || '';
+  if (input) input.value = value || '';
+}
+
+function formatServiceDescription(command, value = null) {
+  const editor = document.getElementById('service-description-editor');
+  if (!editor) return;
+  editor.focus();
+  document.execCommand(command, false, value);
+  syncServiceDescriptionEditor();
+}
+
+function insertServiceDescriptionLink() {
+  const url = prompt('Masukkan URL link');
+  if (!url) return;
+  formatServiceDescription('createLink', url);
+}
+
+function syncServiceMediaInput() {
+  const input = document.getElementById('service-media_items');
+  if (input) input.value = JSON.stringify(serviceMediaItems);
+}
+
+function renderServiceMediaItems() {
+  const container = document.getElementById('service-media-list');
+  if (!container) return;
+  syncServiceMediaInput();
+
+  if (!serviceMediaItems.length) {
+    container.innerHTML = '<div class="sm:col-span-2 rounded-xl border border-dashed border-slate-200 dark:border-brand-border px-4 py-6 text-center text-xs text-slate-500">Belum ada media detail.</div>';
+    return;
+  }
+
+  container.innerHTML = serviceMediaItems.map((item, index) => `
+    <div class="rounded-xl border border-slate-200 dark:border-brand-border overflow-hidden bg-slate-50 dark:bg-[#14151a]">
+      <div class="aspect-video bg-slate-100 dark:bg-slate-900 overflow-hidden">
+        ${item.type === 'video'
+          ? `<video src="${escapeSettingsHtml(item.url)}" class="w-full h-full object-cover" controls></video>`
+          : `<img src="${escapeSettingsHtml(item.url)}" class="w-full h-full object-cover" alt="Media service">`}
+      </div>
+      <div class="p-3 space-y-2">
+        <div class="flex items-center justify-between gap-3">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">${item.type === 'video' ? 'Video' : 'Foto'}</span>
+          <button type="button" onclick="removeServiceMediaItem(${index})" class="text-[10px] font-bold text-red-500 hover:text-red-600">Hapus</button>
+        </div>
+        <input type="text" value="${escapeSettingsHtml(item.title || '')}" oninput="updateServiceMediaItem(${index}, 'title', this.value)" placeholder="Judul media" class="w-full px-3 py-2 bg-white dark:bg-[#1C1E26] border border-slate-200 dark:border-brand-border rounded-lg text-xs text-slate-900 dark:text-white outline-none focus:border-brand-blue">
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateServiceMediaItem(index, field, value) {
+  if (!serviceMediaItems[index]) return;
+  serviceMediaItems[index][field] = value;
+  syncServiceMediaInput();
+}
+
+function removeServiceMediaItem(index) {
+  serviceMediaItems.splice(index, 1);
+  renderServiceMediaItems();
+}
+
+async function uploadServiceMediaItem(input) {
+  if (!input.files || input.files.length === 0) return;
+  const file = input.files[0];
+  const formData = new FormData();
+  formData.append('media', file);
+
+  try {
+    const res = await fetch('/api/admin/upload-media', { method: 'POST', body: formData });
+    const data = await res.json();
+    if (data.success && data.url) {
+      serviceMediaItems.push({ url: data.url, type: data.type || (file.type.startsWith('video/') ? 'video' : 'image'), title: file.name.replace(/\.[^/.]+$/, '') });
+      renderServiceMediaItems();
+      showToast('Media service berhasil diupload.', 'green');
+    } else {
+      showToast(data.message || 'Gagal upload media.', 'red');
+    }
+  } catch (err) {
+    showToast('Terjadi kesalahan saat upload media.', 'red');
+  } finally {
+    input.value = '';
+  }
+}
 function renderServicesTable() {
   const tbody = document.getElementById('services-table-body');
   if (!tbody) return;
@@ -217,13 +327,15 @@ function openServiceModal(slug = '') {
   const content = document.getElementById('service-modal-content');
   document.getElementById('service-modal-title').textContent = slug ? 'Edit Service' : 'Tambah Service';
 
-  ['title', 'slug', 'category', 'short_description', 'description', 'image', 'button_text', 'button_link', 'sort_order', 'meta_title', 'meta_description', 'publish_date'].forEach(field => {
+  ['title', 'slug', 'category', 'short_description', 'description', 'image', 'media_items', 'button_text', 'button_link', 'sort_order', 'meta_title', 'meta_description', 'publish_date'].forEach(field => {
     const el = document.getElementById(`service-${field}`);
     if (el) el.value = field === 'button_text' ? 'Read details' : field === 'button_link' ? '#contact' : field === 'sort_order' ? '1' : '';
   });
   document.getElementById('service-status').value = 'active';
   document.getElementById('service-featured').value = 'featured';
   document.getElementById('service-original-key').value = '';
+  serviceMediaItems = [];
+  setServiceDescriptionEditor('');
 
   if (slug) {
     const svc = servicesData.find(s => s.slug === slug);
@@ -235,6 +347,9 @@ function openServiceModal(slug = '') {
       });
       document.getElementById('service-status').value = svc.status || 'active';
       document.getElementById('service-featured').value = svc.featured || 'featured';
+      setServiceDescriptionEditor(svc.description || '');
+      serviceMediaItems = Array.isArray(svc.media_items) ? svc.media_items : [];
+      renderServiceMediaItems();
     }
   }
 
@@ -250,6 +365,7 @@ function openServiceModal(slug = '') {
     content.classList.remove('translate-x-full');
   }, 10);
   updateImagePreview('service');
+  renderServiceMediaItems();
 }
 
 function closeServiceModal() {
@@ -261,6 +377,8 @@ function closeServiceModal() {
 }
 
 async function saveServiceItem() {
+  syncServiceDescriptionEditor();
+  syncServiceMediaInput();
   const value = id => document.getElementById(`service-${id}`).value;
   const payload = {
     original_key: document.getElementById('service-original-key').value,
@@ -270,6 +388,7 @@ async function saveServiceItem() {
     short_description: value('short_description'),
     description: value('description'),
     image: value('image'),
+    media_items: value('media_items'),
     button_text: value('button_text'),
     button_link: value('button_link'),
     sort_order: value('sort_order'),
@@ -541,6 +660,65 @@ async function uploadProjectImage(input) {
   } finally {
     input.value = '';
   }
+}
+
+// --- Hero Content Image Logic ---
+
+function applyHeroFrontendDefaults() {
+  const contentInput = document.getElementById('hero-content_image');
+  if (contentInput && !contentInput.value.trim()) {
+    contentInput.value = HERO_DEFAULT_CONTENT_IMAGE;
+  }
+
+  if (!Array.isArray(heroBackgrounds) || heroBackgrounds.length === 0) {
+    heroBackgrounds = [HERO_DEFAULT_BACKGROUND];
+    renderHeroBackgrounds();
+  }
+}
+
+function updateHeroContentImagePreview() {
+  const input = document.getElementById('hero-content_image');
+  const container = document.getElementById('hero-content-image-preview-container');
+  const preview = document.getElementById('hero-content-image-preview');
+  if (!input || !container || !preview) return;
+
+  const url = (input.value || '').trim();
+  if (url) {
+    preview.src = url;
+    container.classList.remove('hidden');
+  } else {
+    preview.src = '';
+    container.classList.add('hidden');
+  }
+}
+
+async function uploadHeroContentImage(input) {
+  if (!input.files || input.files.length === 0) return;
+  const file = input.files[0];
+  const formData = new FormData();
+  formData.append('image', file);
+
+  try {
+    const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
+    const data = await res.json();
+    if (data.success && data.url) {
+      document.getElementById('hero-content_image').value = data.url;
+      updateHeroContentImagePreview();
+      showToast('Gambar konten hero berhasil diupload.', 'green');
+    } else {
+      showToast(data.message || 'Gagal upload gambar konten hero.', 'red');
+    }
+  } catch (err) {
+    showToast('Terjadi kesalahan saat upload gambar konten hero.', 'red');
+  } finally {
+    input.value = '';
+  }
+}
+
+function clearHeroContentImage() {
+  const input = document.getElementById('hero-content_image');
+  if (input) input.value = '';
+  updateHeroContentImagePreview();
 }
 
 // --- Hero Backgrounds Logic ---

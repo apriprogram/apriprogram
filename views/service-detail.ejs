@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= service ? ((service.meta_title || service.title) + ' - Apriprogram') : 'Layanan Tidak Ditemukan - Apriprogram' %></title>
+  <meta name="description" content="<%= service ? (service.meta_description || service.short_description || service.description || 'Detail layanan Apriprogram').replace(/<[^>]+>/g, '') : 'Layanan Apriprogram tidak ditemukan' %>">
+  <link rel="icon" href="/assets/logo/favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Poppins', 'sans-serif'] },
+          colors: { brand: { blue: '#243CFF', ink: '#050b14' } }
+        }
+      }
+    };
+  </script>
+  <script id="apriprogram-theme-init">
+    if (localStorage.theme === 'light') document.documentElement.classList.remove('dark');
+    else document.documentElement.classList.add('dark');
+  </script>
+  <style>
+    .service-copy h3 { margin-top: 1.5rem; margin-bottom: .5rem; font-size: 1.25rem; font-weight: 600; }
+    .service-copy p { margin-bottom: 1rem; }
+    .service-copy ul { margin: 1rem 0; padding-left: 1.25rem; list-style: disc; }
+    .service-copy a { color: #243CFF; text-decoration: underline; }
+  </style>
+</head>
+<body class="bg-white text-slate-950 dark:bg-[#0a0a0a] dark:text-white font-sans antialiased selection:bg-brand-blue selection:text-white transition-colors duration-300">
+    <header class="fixed inset-x-0 top-0 z-50 border-b border-slate-200 bg-white/85 backdrop-blur-lg transition-all duration-300 dark:border-white/5 dark:bg-[#050b14]/60" id="mainHeader">
+    <nav class="mx-auto flex h-16 max-w-[85%] items-center justify-between px-4 sm:px-6">
+      <a href="/#home" class="flex items-center gap-3" aria-label="Apriprogram">
+        <img src="/assets/logo/apriprogram.png" alt="Apriprogram Logo" class="h-6 sm:h-8 w-auto" />
+        <span class="nav-text text-base sm:text-lg font-medium tracking-tight text-slate-950 transition-colors duration-300 dark:text-white">Apriprogram</span>
+      </a>
+
+      <div id="dyn-desktop-menu" class="hidden items-center gap-8 text-sm font-semibold text-slate-600 dark:text-slate-300 lg:flex">
+        <a data-nav-link href="/#home" class="nav-link hover:text-slate-950 dark:hover:text-white transition-colors">Home</a>
+        <a data-nav-link href="/#services" class="nav-link text-slate-950 dark:text-white hover:text-slate-950 dark:hover:text-white transition-colors">Layanan</a>
+        <a data-nav-link href="/#project" class="nav-link hover:text-slate-950 dark:hover:text-white transition-colors">Project</a>
+        <a data-nav-link href="/#faq" class="nav-link hover:text-slate-950 dark:hover:text-white transition-colors">FAQ</a>
+        <a data-nav-link href="/#contact" class="nav-link hover:text-slate-950 dark:hover:text-white transition-colors">Kontak</a>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <button id="darkModeToggle" class="p-1 sm:p-2 text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white transition-colors" aria-label="Toggle Dark Mode">
+          <svg id="moonIcon" class="w-4 h-4 sm:w-5 sm:h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+          <svg id="sunIcon" class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+        </button>
+
+        <div class="hidden items-center gap-3 lg:flex">
+          <% if (user && user.userId) { %>
+            <a href="<%= (user.role === 'admin' || user.role === 'super admin') ? '/admin/dashboard' : '/order' %>" class="nav-link text-sm font-semibold text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white transition-colors mr-2">Dasbor</a>
+            <a href="/logout" class="nav-link text-sm font-semibold text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white transition-colors mr-2">Logout</a>
+          <% } else { %>
+            <a href="/login" class="nav-link text-sm font-semibold text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white transition-colors mr-2">Login</a>
+          <% } %>
+        </div>
+
+        <button id="mobileMenuButton" type="button" class="inline-flex p-1 sm:p-2 flex-col items-center justify-center gap-[3px] sm:gap-1.5 lg:hidden text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white transition-colors" aria-label="Buka menu">
+          <span class="h-[2px] w-4 sm:w-5 rounded bg-slate-950 transition-colors dark:bg-white"></span>
+          <span class="h-[2px] w-4 sm:w-5 rounded bg-slate-950 transition-colors dark:bg-white"></span>
+          <span class="h-[2px] w-4 sm:w-5 rounded bg-slate-950 transition-colors dark:bg-white"></span>
+        </button>
+      </div>
+    </nav>
+
+    <div id="mobileMenu" class="absolute top-[72px] inset-x-4 z-40 flex flex-col bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 p-6 rounded-2xl shadow-2xl lg:hidden opacity-0 scale-95 pointer-events-none transition-all duration-300 origin-top">
+      <div class="flex flex-col gap-4 text-sm font-medium text-slate-900 dark:text-slate-300">
+        <div id="dyn-mobile-links" class="flex flex-col gap-4">
+          <a data-nav-link href="/#home" class="hover:text-brand-blue dark:hover:text-white transition-colors">Home</a>
+          <a data-nav-link href="/#services" class="hover:text-brand-blue dark:hover:text-white transition-colors">Layanan</a>
+          <a data-nav-link href="/#project" class="hover:text-brand-blue dark:hover:text-white transition-colors">Project</a>
+          <a data-nav-link href="/#faq" class="hover:text-brand-blue dark:hover:text-white transition-colors">FAQ</a>
+          <a data-nav-link href="/#contact" class="hover:text-brand-blue dark:hover:text-white transition-colors">Kontak</a>
+        </div>
+        <div class="h-px w-full bg-slate-200 dark:bg-white/10 my-2"></div>
+        <% if (user && user.userId) { %>
+          <a href="<%= (user.role === 'admin' || user.role === 'super admin') ? '/admin/dashboard' : '/order' %>" class="hover:text-brand-blue dark:hover:text-white transition-colors">Dasbor</a>
+          <a href="/logout" class="text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 transition-colors">Logout</a>
+        <% } else { %>
+          <a href="/login" class="hover:text-brand-blue dark:hover:text-white transition-colors">Login</a>
+        <% } %>
+      </div>
+    </div>
+  </header>
+
+  <% if (!service) { %>
+    <main class="mx-auto max-w-3xl px-6 py-24 text-center">
+      <p class="text-xs font-semibold uppercase tracking-[0.24em] text-brand-blue">404</p>
+      <h1 class="mt-4 text-4xl font-semibold tracking-tight text-slate-950 dark:text-white sm:text-6xl">Layanan tidak ditemukan</h1>
+      <p class="mt-5 text-sm leading-relaxed text-slate-500 dark:text-slate-400 sm:text-base">Service yang Anda buka tidak tersedia atau sedang tidak aktif.</p>
+      <a href="/#services" class="mt-8 inline-flex rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">Kembali ke layanan</a>
+    </main>
+  <% } else { %>
+    <% const mediaItems = Array.isArray(service.media_items) && service.media_items.length ? service.media_items : ((service.image_url || service.image) ? [{ url: service.image_url || service.image, type: 'image', title: service.title }] : []); %>
+    <% const plainDescription = service.description || service.short_description || ''; %>
+    <main class="pt-16 bg-white transition-colors duration-300 dark:bg-[#0a0a0a]">
+      <section class="mx-auto max-w-[85%] px-4 py-14 sm:px-6 sm:py-20">
+        <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+          <div class="max-w-2xl">
+            <p class="text-sm font-semibold text-slate-500 dark:text-slate-400"><%= service.category || 'Layanan Digital' %></p>
+            <h1 class="mt-4 max-w-3xl text-4xl font-normal leading-[1.05] tracking-tight text-slate-950 dark:text-white sm:text-5xl lg:text-6xl"><%= service.title %></h1>
+            <p class="mt-7 max-w-2xl text-base leading-relaxed text-slate-600 dark:text-slate-400"><%= service.short_description || plainDescription.replace(/<[^>]+>/g, '').slice(0, 180) %></p>
+          </div>
+          <a href="/services" class="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand-blue hover:text-brand-blue hover:shadow-lg dark:border-white/10 dark:bg-transparent dark:text-white dark:hover:border-brand-blue dark:hover:text-white"><svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>Kembali</a>
+        </div>
+        <% if (mediaItems.length) { %>
+          <div class="mt-14 grid grid-cols-1 gap-8 <%= mediaItems.length === 1 ? 'md:grid-cols-1 lg:max-w-3xl' : (mediaItems.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-2 xl:grid-cols-3') %>">
+            <% mediaItems.forEach((item) => { %>
+              <article class="overflow-hidden rounded-[1.75rem] border border-slate-200 bg-slate-50 dark:border-white/10 dark:bg-white/[0.04]">
+                <div class="aspect-[5/5.85] bg-slate-100 dark:bg-white/[0.06]">
+                  <% if (item.type === 'video') { %>
+                    <video src="<%= item.url %>" class="h-full w-full object-cover" controls playsinline></video>
+                  <% } else { %>
+                    <img src="<%= item.url %>" alt="<%= item.title || service.title %>" class="h-full w-full object-cover" onerror="this.closest('article').remove()">
+                  <% } %>
+                </div>
+              </article>
+            <% }) %>
+          </div>
+        <% } %>
+      </section>
+
+      <section class="mx-auto max-w-[85%] border-t border-slate-200 px-4 py-14 dark:border-white/10 sm:px-6 sm:py-20">
+        <div class="grid grid-cols-1 gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+          <div>
+            <p class="text-sm font-semibold text-brand-blue">Deskripsi lengkap</p>
+            <h2 class="mt-3 text-3xl font-normal tracking-tight text-slate-950 dark:text-white sm:text-5xl">Detail layanan</h2>
+          </div>
+          <div class="service-copy text-base leading-8 text-slate-600 dark:text-slate-400">
+            <% if (plainDescription && /<[^>]+>/.test(plainDescription)) { %>
+              <%- plainDescription %>
+            <% } else if (plainDescription) { %>
+              <% plainDescription.split('\n').filter(Boolean).forEach(paragraph => { %>
+                <p><%= paragraph %></p>
+              <% }) %>
+            <% } else { %>
+              <p>Tim Apriprogram akan membantu merancang, membangun, dan menyiapkan layanan ini sesuai kebutuhan bisnis Anda.</p>
+            <% } %>
+          </div>
+        </div>
+      </section>
+    </main>
+  <% } %>
+  <script>
+    const html = document.documentElement;
+    const toggleBtn = document.getElementById('darkModeToggle');
+    const moonIcon = document.getElementById('moonIcon');
+    const sunIcon = document.getElementById('sunIcon');
+    const applyThemeIcons = () => {
+      if (!moonIcon || !sunIcon) return;
+      if (html.classList.contains('dark')) {
+        moonIcon.classList.add('hidden');
+        sunIcon.classList.remove('hidden');
+      } else {
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+      }
+    };
+    if (localStorage.theme === 'light') html.classList.remove('dark');
+    else html.classList.add('dark');
+    applyThemeIcons();
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', () => {
+        if (html.classList.contains('dark')) {
+          html.classList.remove('dark');
+          localStorage.theme = 'light';
+        } else {
+          html.classList.add('dark');
+          localStorage.theme = 'dark';
+        }
+        applyThemeIcons();
+      });
+    }
+
+    const mobileMenuButton = document.getElementById('mobileMenuButton');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (mobileMenuButton && mobileMenu) {
+      const mobileNavLinks = mobileMenu.querySelectorAll('a');
+      mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('opacity-0');
+        mobileMenu.classList.toggle('scale-95');
+        mobileMenu.classList.toggle('pointer-events-none');
+        mobileMenu.classList.toggle('opacity-100');
+        mobileMenu.classList.toggle('scale-100');
+        mobileMenu.classList.toggle('pointer-events-auto');
+      });
+      mobileNavLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+          mobileMenu.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto');
+        });
+      });
+    }
+  </script>
+</body>
+</html>

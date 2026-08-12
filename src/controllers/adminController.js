@@ -58,6 +58,29 @@ exports.updateSettings = async (req, res) => {
 };
 
 
+function normalizeServiceMediaItems(value) {
+  let items = [];
+  if (Array.isArray(value)) {
+    items = value;
+  } else if (typeof value === "string" && value.trim()) {
+    try {
+      items = JSON.parse(value);
+    } catch (error) {
+      items = [];
+    }
+  }
+
+  return items
+    .filter(item => item && typeof item === "object" && item.url)
+    .map(item => ({
+      url: String(item.url || "").trim(),
+      type: item.type === "video" ? "video" : "image",
+      title: String(item.title || "").trim(),
+      description: String(item.description || "").trim()
+    }))
+    .filter(item => item.url);
+}
+
 function normalizeServicePayload(body) {
   const slug = (body.slug || "").trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
   return {
@@ -67,6 +90,7 @@ function normalizeServicePayload(body) {
     short_description: (body.short_description || "").trim(),
     description: (body.description || "").trim(),
     image: (body.image || "").trim(),
+    media_items: normalizeServiceMediaItems(body.media_items),
     publish_date: body.publish_date || null,
     button_text: (body.button_text || "Read details").trim(),
     button_link: (body.button_link || "#").trim(),
