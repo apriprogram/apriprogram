@@ -724,7 +724,7 @@
         img.style.transition = 'opacity 1.5s ease-in-out, transform 6.5s ease-out';
         img.style.opacity = i === 0 ? '1' : '0';
         img.style.transform = i === 0 ? 'scale(1.05)' : 'scale(1)';
-        img.style.zIndex = '0';
+        img.style.zIndex = i === 0 ? '1' : '0';
         slider.insertBefore(img, gradientOverlay || null);
       });
 
@@ -746,21 +746,32 @@
       }, 100);
 
       _heroBgInterval = setInterval(() => {
-        // fade out and reset zoom of current
-        slides[current].style.opacity = '0';
-        
+        const prev = current;
         current = (current + 1) % slides.length;
         
-        // fade in and start zooming next
-        slides[current].style.transition = 'none'; // reset without transition
+        // Prepare next slide (fade in from 0)
+        slides[current].style.transition = 'none';
         slides[current].style.transform = 'scale(1)';
+        slides[current].style.opacity = '0';
+        slides[current].style.zIndex = '1';
+        
+        // Put previous slide behind
+        slides[prev].style.zIndex = '0';
         
         // force reflow
         void slides[current].offsetWidth;
         
+        // Execute fade in and zoom on next slide
         slides[current].style.transition = 'opacity 1.5s ease-in-out, transform 6.5s ease-out';
         slides[current].style.opacity = '1';
         slides[current].style.transform = 'scale(1.05)';
+        
+        // Clean up previous slide after fade transition finishes (1.5s)
+        setTimeout(() => {
+          slides[prev].style.transition = 'none';
+          slides[prev].style.opacity = '0';
+          slides[prev].style.transform = 'scale(1)';
+        }, 1500);
       }, 6000);
     }
 
