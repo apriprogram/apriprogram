@@ -720,22 +720,48 @@
         const img = document.createElement('img');
         img.src = url;
         img.alt = 'Hero Background';
-        img.className = 'absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-1000 no-reveal bg-slide';
+        img.className = 'absolute inset-0 w-full h-full object-cover object-top no-reveal bg-slide';
+        img.style.transition = 'opacity 1.5s ease-in-out, transform 6.5s ease-out';
         img.style.opacity = i === 0 ? '1' : '0';
+        img.style.transform = i === 0 ? 'scale(1.05)' : 'scale(1)';
         img.style.zIndex = '0';
         slider.insertBefore(img, gradientOverlay || null);
       });
 
-      if (bgArray.length === 1) return; // No rotation needed
+      if (bgArray.length === 1) {
+         // trigger zoom for single image
+         setTimeout(() => {
+           const singleImg = slider.querySelector('.bg-slide');
+           if (singleImg) singleImg.style.transform = 'scale(1.05)';
+         }, 100);
+         return;
+      }
 
       let current = 0;
       const slides = slider.querySelectorAll('.bg-slide');
 
+      // trigger zoom for first image
+      setTimeout(() => {
+        if (slides[0]) slides[0].style.transform = 'scale(1.05)';
+      }, 100);
+
       _heroBgInterval = setInterval(() => {
+        // fade out and reset zoom of current
         slides[current].style.opacity = '0';
+        
         current = (current + 1) % slides.length;
+        
+        // fade in and start zooming next
+        slides[current].style.transition = 'none'; // reset without transition
+        slides[current].style.transform = 'scale(1)';
+        
+        // force reflow
+        void slides[current].offsetWidth;
+        
+        slides[current].style.transition = 'opacity 1.5s ease-in-out, transform 6.5s ease-out';
         slides[current].style.opacity = '1';
-      }, 4000);
+        slides[current].style.transform = 'scale(1.05)';
+      }, 6000);
     }
 
     // Fetch Settings and Apply
