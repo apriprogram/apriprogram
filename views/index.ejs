@@ -549,7 +549,7 @@
         .sort((a, b) => (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0));
       if (activeServices.length === 0) return;
       carousel.innerHTML = activeServices.map(service => `
-        <div class="shrink-0 w-[85vw] md:w-[45vw] lg:w-[23vw] snap-start flex flex-col gap-4 sm:gap-6 cursor-pointer group">
+        <div class="shrink-0 w-[85vw] md:w-[45vw] lg:w-[23vw] snap-start flex flex-col gap-4 sm:gap-6 cursor-pointer group" onclick="window.location.href='/services/${encodeURIComponent(service.slug || '')}'">
           <div class="relative w-full aspect-[4/3] sm:aspect-square rounded-xl sm:rounded-2xl overflow-hidden bg-slate-100 dark:bg-[#1a1a1a]">
             <img src="${escapeServiceHtml(service.image)}" alt="${escapeServiceHtml(service.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 no-reveal" />
           </div>
@@ -571,7 +571,7 @@
       if (activeProjects.length === 0) return;
       
       carousel.innerHTML = activeProjects.map(project => `
-        <div class="shrink-0 w-[85vw] md:w-[50vw] lg:w-[45vw] snap-start flex flex-col gap-6 carousel-card">
+        <div class="shrink-0 w-[85vw] md:w-[50vw] lg:w-[45vw] snap-start flex flex-col gap-6 carousel-card cursor-pointer group" onclick="window.location.href='/portfolio/${encodeURIComponent(project.slug || '')}'">
           <div class="relative w-full aspect-[4/3] sm:aspect-video rounded-xl sm:rounded-[2rem] overflow-hidden bg-slate-100 dark:bg-[#1a1a1a]">
             <img src="${escapeServiceHtml(project.image)}" alt="${escapeServiceHtml(project.image_alt || project.title)}" class="w-full h-full object-cover" />
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
