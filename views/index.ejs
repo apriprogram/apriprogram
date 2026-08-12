@@ -700,6 +700,44 @@
       });
     }
 
+    // ─── Hero Background Slider ───────────────────────────────────────────
+    let _heroBgInterval = null;
+
+    function initHeroBackgroundSlider(bgArray) {
+      const slider = document.getElementById('hero-bg-slider');
+      if (!slider || !Array.isArray(bgArray) || bgArray.length === 0) return;
+
+      // Clear any previous interval
+      if (_heroBgInterval) clearInterval(_heroBgInterval);
+
+      // Remove fallback static image (first child), keep the gradient overlay
+      const gradientOverlay = slider.querySelector('.bg-gradient-to-b');
+      slider.innerHTML = '';
+      if (gradientOverlay) slider.appendChild(gradientOverlay);
+
+      // Create slide <img> elements for each uploaded background
+      bgArray.forEach((url, i) => {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = 'Hero Background';
+        img.className = 'absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-1000 no-reveal bg-slide';
+        img.style.opacity = i === 0 ? '1' : '0';
+        img.style.zIndex = '0';
+        slider.insertBefore(img, gradientOverlay || null);
+      });
+
+      if (bgArray.length === 1) return; // No rotation needed
+
+      let current = 0;
+      const slides = slider.querySelectorAll('.bg-slide');
+
+      _heroBgInterval = setInterval(() => {
+        slides[current].style.opacity = '0';
+        current = (current + 1) % slides.length;
+        slides[current].style.opacity = '1';
+      }, 4000);
+    }
+
     // Fetch Settings and Apply
     fetch('/api/settings').then(r => r.json()).then(data => {
       if (data.success && data.settings) {
