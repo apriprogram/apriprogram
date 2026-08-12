@@ -4,3 +4,6 @@ update-env.js
 public/assets/bukti_pembayaran/
 public/assets/dokumen_client/
 public/uploads/
+tmp/
+*.log
+.DS_Store
