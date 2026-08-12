@@ -750,13 +750,8 @@
               const btn = document.getElementById('dyn-hero-cta');
               if (btn) {
                 btn.innerHTML = data.settings.hero.cta_text;
-                if (data.settings.hero.cta_link) {
-                  // If admin set /login, upgrade to register tab
-                  const link = data.settings.hero.cta_link.trim();
-                  btn.href = (link === '/login') ? '/login?type=register' : link;
-                } else {
-                  btn.href = '/login?type=register';
-                }
+                // Always direct to register page — cta_link from admin is ignored for href
+                btn.href = '/login?type=register';
               }
             }
             if (data.settings.hero.content_image) {

@@ -8,13 +8,17 @@ const mysql = require('mysql2/promise');
     database: process.env.DB_NAME || 'apriprogram',
     waitForConnections: true
   });
+  // Update cta_link to register URL
+  const [result] = await pool.query(
+    "UPDATE settings SET setting_value = ? WHERE section = 'hero' AND setting_key = 'cta_link'",
+    ['/login?type=register']
+  );
+  console.log('Updated rows:', result.affectedRows);
+
+  // Also check current value
   const [rows] = await pool.query(
-    "SELECT section, COUNT(*) as cnt FROM settings WHERE section IN ('project_items','timeline_items','faq_items') GROUP BY section"
+    "SELECT setting_value FROM settings WHERE section = 'hero' AND setting_key = 'cta_link'"
   );
-  console.log('DB data counts:', JSON.stringify(rows));
-  const [sample] = await pool.query(
-    "SELECT section, setting_key, SUBSTRING(setting_value,1,100) as val FROM settings WHERE section IN ('project_items','timeline_items','faq_items') LIMIT 5"
-  );
-  console.log('Sample rows:', JSON.stringify(sample));
+  console.log('Current cta_link:', rows[0]?.setting_value);
   process.exit(0);
 })().catch(e => { console.error('Error:', e.message); process.exit(1); });
