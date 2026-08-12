@@ -32,11 +32,17 @@ app.use(session({
   cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 } // 1 day
 }));
 
+const geoip = require('geoip-lite');
+
 function resolveVisitorCountry(req, ip) {
   const headerCountry = req.headers['cf-ipcountry'] || req.headers['x-vercel-ip-country'] || req.headers['x-country-code'] || req.headers['x-appengine-country'];
   if (headerCountry && headerCountry !== 'XX') return String(headerCountry).toUpperCase();
   const value = String(ip || '').split(',')[0].trim();
   if (!value || value === '::1' || value === '127.0.0.1' || value === '::ffff:127.0.0.1' || value.startsWith('192.168.') || value.startsWith('10.') || value.startsWith('172.16.')) return 'Local';
+  
+  const geo = geoip.lookup(value);
+  if (geo && geo.country) return geo.country;
+
   return 'Unknown';
 }
 
