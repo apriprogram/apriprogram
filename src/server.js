@@ -318,6 +318,11 @@ app.put("/api/client/profile", requireLogin, async (req, res) => {
   }
 });
 
+// About Page
+app.get("/about", (req, res) => {
+  res.render("about", { user: req.session || null });
+});
+
 // Services Pages
 app.get("/services", async (req, res) => {
   try {
@@ -342,10 +347,15 @@ app.get("/services", async (req, res) => {
         return String(a.title || "").localeCompare(String(b.title || ""));
       });
 
-    res.render("services", { user: req.session || null, services });
+    const page = parseInt(req.query.page) || 1;
+    const limit = 9;
+    const totalPages = Math.ceil(services.length / limit);
+    const paginatedServices = services.slice((page - 1) * limit, page * limit);
+
+    res.render("services", { user: req.session || null, services: paginatedServices, currentPage: page, totalPages });
   } catch (error) {
     console.error("Services page error:", error);
-    res.status(500).render("services", { user: req.session || null, services: [] });
+    res.status(500).render("services", { user: req.session || null, services: [], currentPage: 1, totalPages: 0 });
   }
 });
 
@@ -405,10 +415,15 @@ app.get("/portfolio", async (req, res) => {
         return String(a.title || "").localeCompare(String(b.title || ""));
       });
 
-    res.render("portfolio", { user: req.session || null, projects });
+    const page = parseInt(req.query.page) || 1;
+    const limit = 9;
+    const totalPages = Math.ceil(projects.length / limit);
+    const paginatedProjects = projects.slice((page - 1) * limit, page * limit);
+
+    res.render("portfolio", { user: req.session || null, projects: paginatedProjects, currentPage: page, totalPages });
   } catch (error) {
     console.error("Portfolio page error:", error);
-    res.status(500).render("portfolio", { user: req.session || null, projects: [] });
+    res.status(500).render("portfolio", { user: req.session || null, projects: [], currentPage: 1, totalPages: 0 });
   }
 });
 

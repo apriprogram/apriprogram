@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id" class="scroll-smooth dark">
 <head>
   <meta charset="UTF-8">
@@ -85,6 +85,7 @@
 
       <div id="dyn-desktop-menu" class="hidden items-center gap-8 text-sm font-semibold text-slate-600 dark:text-slate-300 lg:flex">
         <a data-nav-link href="/#home" class="nav-link hover:text-slate-950 dark:hover:text-white transition-colors">Home</a>
+        <a data-nav-link href="/about" class="nav-link hover:text-slate-950 dark:hover:text-white transition-colors">Tentang</a>
         <a data-nav-link href="/#services" class="nav-link text-slate-950 dark:text-white hover:text-slate-950 dark:hover:text-white transition-colors">Layanan</a>
         <a data-nav-link href="/#project" class="nav-link hover:text-slate-950 dark:hover:text-white transition-colors">Project</a>
         <a data-nav-link href="/#faq" class="nav-link hover:text-slate-950 dark:hover:text-white transition-colors notranslate" translate="no">FAQ</a>
@@ -93,7 +94,7 @@
 
       <div class="flex items-center gap-3 sm:gap-4">
         <!-- Language Switcher -->
-        <button type="button" id="languageToggle" class="language-toggle-btn group relative inline-flex items-center gap-2 rounded-full border border-slate-300 dark:border-white/20 bg-slate-100/90 dark:bg-white/10 px-3 py-1.5 text-xs font-semibold text-slate-800 dark:text-white backdrop-blur-md shadow-none transition-colors duration-200 hover:border-slate-400 dark:hover:border-white/40 hover:bg-slate-200/90 dark:hover:bg-white/20" aria-label="Ganti Bahasa" title="Ganti Bahasa (ID / EN)">
+        <button type="button" id="languageToggle" class="language-toggle-btn group relative inline-flex items-center gap-2 rounded-full border border-slate-300 dark:border-white/20 bg-transparent px-3 py-1.5 text-xs font-semibold text-slate-800 dark:text-white backdrop-blur-md shadow-none transition-colors duration-200 hover:border-slate-400 dark:hover:border-white/40 hover:bg-transparent " aria-label="Ganti Bahasa" title="Ganti Bahasa (ID / EN)">
           <svg class="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
           </svg>
@@ -130,7 +131,7 @@
       <div class="flex flex-col gap-4 text-sm font-medium text-slate-900 dark:text-slate-300">
         <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-white/10">
           <span class="text-sm font-medium text-slate-900 dark:text-slate-300 lang-mobile-label">Bahasa</span>
-          <button type="button" class="language-toggle-btn inline-flex items-center gap-2 rounded-full border border-slate-300 dark:border-white/10 bg-slate-100 dark:bg-white/10 px-3 py-1.5 text-xs font-semibold text-slate-800 dark:text-white shadow-none transition-colors duration-200 hover:bg-slate-200 dark:hover:bg-white/20">
+          <button type="button" class="language-toggle-btn inline-flex items-center gap-2 rounded-full border border-slate-300 dark:border-white/10 bg-transparent px-3 py-1.5 text-xs font-semibold text-slate-800 dark:text-white shadow-none transition-colors duration-200 hover:border-slate-400 dark:hover:border-white/40">
             <svg class="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
             </svg>
@@ -140,12 +141,13 @@
         </div>
         <div id="dyn-mobile-links" class="flex flex-col gap-4">
           <a data-nav-link href="/#home" class="hover:text-brand-blue dark:hover:text-white transition-colors">Home</a>
+          <a data-nav-link href="/about" class="hover:text-brand-blue dark:hover:text-white transition-colors">Tentang</a>
           <a data-nav-link href="/#services" class="hover:text-brand-blue dark:hover:text-white transition-colors">Layanan</a>
           <a data-nav-link href="/#project" class="hover:text-brand-blue dark:hover:text-white transition-colors">Project</a>
           <a data-nav-link href="/#faq" class="hover:text-brand-blue dark:hover:text-white transition-colors notranslate" translate="no">FAQ</a>
           <a data-nav-link href="/#contact" class="hover:text-brand-blue dark:hover:text-white transition-colors">Kontak</a>
         </div>
-        <div class="h-px w-full bg-slate-200 dark:bg-white/10 my-2"></div>
+        <div class="h-px w-full bg-slate-200 bg-transparent my-2"></div>
         <% if (user && user.userId) { %>
           <a href="<%= (user.role === 'admin' || user.role === 'super admin') ? '/admin/dashboard' : '/order' %>" class="hover:text-brand-blue dark:hover:text-white transition-colors">Dasbor</a>
           <a href="/logout" class="text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 transition-colors">Logout</a>
@@ -164,7 +166,10 @@
           <h1 class="mt-4 max-w-4xl text-4xl font-normal leading-[1.05] tracking-tight text-slate-950 dark:text-white sm:text-5xl lg:text-6xl">Semua layanan digital untuk membangun bisnis Anda.</h1>
           <p class="mt-7 max-w-2xl text-base leading-relaxed text-slate-600 dark:text-slate-400">Pilih layanan yang sesuai dengan kebutuhan bisnis Anda. Setiap layanan dapat dibuka untuk melihat deskripsi lengkap dan media pendukung.</p>
         </div>
-        <a href="/#services" class="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand-blue hover:text-brand-blue hover:shadow-lg dark:border-white/10 dark:bg-transparent dark:text-white dark:hover:border-brand-blue dark:hover:text-white"><svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>Kembali ke beranda</a>
+        <div class="flex flex-row gap-2 sm:gap-3 w-full lg:w-fit mt-6 lg:mt-0 items-center">
+          <a href="/#services" class="flex-1 lg:flex-none inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 sm:px-5 sm:py-3 text-[11px] sm:text-sm font-semibold text-slate-700 shadow-sm transition-all hover:border-brand-blue hover:text-brand-blue dark:border-white/10 dark:bg-transparent dark:text-white dark:hover:border-brand-blue dark:hover:text-white"><svg class="h-3 w-3 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>Kembali</a>
+          <a href="/login?type=register" class="flex-1 lg:flex-none inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded-full bg-brand-blue px-3 py-2 sm:px-6 sm:py-3 text-[11px] sm:text-sm font-semibold text-white transition-colors hover:bg-brand-blue/80 dark:bg-brand-blue/90 dark:hover:bg-brand-blue/70">Pesan Sekarang</a>
+        </div>
       </div>
 
       <% const getServiceImage = (service) => { const media = Array.isArray(service.media_items) ? service.media_items.find((item) => item && item.type !== 'video' && item.url) : null; return service.image_url || service.image || (media && media.url) || '/assets/hero/hero_konten.jpg'; }; %>
@@ -191,6 +196,28 @@
             </article>
           <% }) %>
         </div>
+
+        <% if (totalPages > 1) { %>
+          <div class="mt-12 flex items-center justify-center gap-2">
+            <% if (currentPage > 1) { %>
+              <a href="?page=<%= currentPage - 1 %>" class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 dark:border-white/10 text-slate-600 hover:bg-slate-50 hover:text-brand-blue dark:text-slate-400 hover:bg-transparent dark:hover:text-white transition-colors">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+              </a>
+            <% } %>
+            
+            <% for (let i = 1; i <= totalPages; i++) { %>
+              <a href="?page=<%= i %>" class="flex h-10 w-10 items-center justify-center rounded-full text-sm font-medium transition-colors <%= currentPage === i ? 'bg-brand-blue text-white' : 'border border-slate-200 dark:border-white/10 text-slate-600 hover:bg-slate-50 hover:text-brand-blue dark:text-slate-400 hover:bg-transparent dark:hover:text-white' %>">
+                <%= i %>
+              </a>
+            <% } %>
+            
+            <% if (currentPage < totalPages) { %>
+              <a href="?page=<%= currentPage + 1 %>" class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 dark:border-white/10 text-slate-600 hover:bg-slate-50 hover:text-brand-blue dark:text-slate-400 hover:bg-transparent dark:hover:text-white transition-colors">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              </a>
+            <% } %>
+          </div>
+        <% } %>
       <% } else { %>
         <div class="service-reveal mt-14 rounded-[1.75rem] border border-slate-200 bg-slate-50 p-10 text-center dark:border-white/10 dark:bg-white/[0.04]">
           <h2 class="text-2xl font-semibold text-slate-950 dark:text-white">Belum ada layanan aktif.</h2>
@@ -212,7 +239,10 @@
     </div>
     <div class="mx-auto mt-16 max-w-[85%] px-4 text-sm text-[#a0a0a0] sm:px-6 lg:px-8 border-t border-white/5 pt-8 text-center sm:text-left flex flex-col sm:flex-row justify-between items-center gap-4">
       <p id="dyn-footer-copyright">2026 &copy; Apriprogram. All rights reserved.</p>
-      <div class="flex gap-4">
+      <div class="flex items-center gap-4">
+        <a href="https://www.instagram.com/apriprogram/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors" aria-label="Instagram">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.7-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
         <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
         <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
       </div>

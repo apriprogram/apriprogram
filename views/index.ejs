@@ -141,6 +141,7 @@
 
       <div id="dyn-desktop-menu" class="hidden items-center gap-8 text-sm font-semibold text-slate-300 lg:flex">
         <a data-nav-link href="#home" class="nav-link hover:text-white transition-colors">Home</a>
+        <a data-nav-link href="/about" class="nav-link hover:text-white transition-colors">Tentang</a>
         <a data-nav-link href="#services" class="nav-link hover:text-white transition-colors">Layanan</a>
         <a data-nav-link href="#project" class="nav-link hover:text-white transition-colors">Project</a>
         <a data-nav-link href="#faq" class="nav-link hover:text-white transition-colors notranslate" translate="no">FAQ</a>
@@ -149,7 +150,7 @@
 
       <div class="flex items-center gap-3 sm:gap-4">
         <!-- Language Switcher -->
-        <button type="button" id="languageToggle" class="language-toggle-btn group relative inline-flex items-center gap-2 rounded-full border border-slate-300 dark:border-white/20 bg-slate-100/90 dark:bg-white/10 px-3 py-1.5 text-xs font-semibold text-slate-800 dark:text-white backdrop-blur-md shadow-none transition-colors duration-200 hover:border-slate-400 dark:hover:border-white/40 hover:bg-slate-200/90 dark:hover:bg-white/20" aria-label="Ganti Bahasa" title="Ganti Bahasa (ID / EN)">
+        <button type="button" id="languageToggle" class="language-toggle-btn group relative inline-flex items-center gap-2 rounded-full border border-slate-300 dark:border-white/20 bg-transparent px-3 py-1.5 text-xs font-semibold text-slate-800 dark:text-white shadow-none transition-colors duration-200 hover:border-slate-400 dark:hover:border-white/40" aria-label="Ganti Bahasa" title="Ganti Bahasa (ID / EN)">
           <svg class="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
           </svg>
@@ -189,7 +190,7 @@
       <div class="flex flex-col gap-4 text-sm font-medium text-slate-900 dark:text-slate-300">
         <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-white/10">
           <span class="text-sm font-medium text-slate-900 dark:text-slate-300 lang-mobile-label">Bahasa</span>
-          <button type="button" class="language-toggle-btn inline-flex items-center gap-2 rounded-full border border-slate-300 dark:border-white/10 bg-slate-100 dark:bg-white/10 px-3 py-1.5 text-xs font-semibold text-slate-800 dark:text-white shadow-none transition-colors duration-200 hover:bg-slate-200 dark:hover:bg-white/20">
+          <button type="button" class="language-toggle-btn inline-flex items-center gap-2 rounded-full border border-slate-300 dark:border-white/10 bg-transparent px-3 py-1.5 text-xs font-semibold text-slate-800 dark:text-white shadow-none transition-colors duration-200 hover:border-slate-400 dark:hover:border-white/40">
             <svg class="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
             </svg>
@@ -199,12 +200,13 @@
         </div>
         <div id="dyn-mobile-links" class="flex flex-col gap-4">
           <a data-nav-link href="#home" class="hover:text-brand-blue dark:hover:text-white transition-colors">Home</a>
+          <a data-nav-link href="/about" class="hover:text-brand-blue dark:hover:text-white transition-colors">Tentang</a>
           <a data-nav-link href="#services" class="hover:text-brand-blue dark:hover:text-white transition-colors">Layanan</a>
           <a data-nav-link href="#project" class="hover:text-brand-blue dark:hover:text-white transition-colors">Project</a>
           <a data-nav-link href="#faq" class="hover:text-brand-blue dark:hover:text-white transition-colors notranslate" translate="no">FAQ</a>
           <a data-nav-link href="#contact" class="hover:text-brand-blue dark:hover:text-white transition-colors">Kontak</a>
         </div>
-        <div class="h-px w-full bg-slate-200 dark:bg-white/10 my-2"></div>
+        <div class="h-px w-full bg-slate-200 bg-transparent my-2"></div>
         <% if (user && user.userId) { %>
           <a href="<%= (user.role === 'admin' || user.role === 'super admin') ? '/admin/dashboard' : '/order' %>" class="hover:text-brand-blue dark:hover:text-white transition-colors">Dasbor</a>
           <a href="/logout" class="text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 transition-colors">Logout</a>
@@ -236,7 +238,7 @@
           Membantu Anda membangun landing page, toko online, hingga sistem operasional custom. Desain responsif, SEO-friendly, dan dikembangkan khusus untuk pertumbuhan bisnis Anda.
         </p>
         <div class="mt-6 flex justify-center">
-          <a href="/login?type=register" id="dyn-hero-cta" class="rounded-lg bg-brand-blue px-5 py-2.5 sm:px-6 sm:py-2.5 text-xs sm:text-sm font-semibold text-white hover:bg-blue-600 transition-all w-full sm:w-auto text-center">
+          <a href="/login?type=register" id="dyn-hero-cta" class="rounded-full bg-brand-blue px-5 py-2.5 sm:px-6 sm:py-2.5 text-xs sm:text-sm font-semibold text-white hover:bg-blue-600 transition-all w-full sm:w-auto text-center">
             Pesan Sekarang
           </a>
         </div>
@@ -267,20 +269,20 @@
         
         <div class="flex flex-col md:flex-row gap-8 lg:gap-20 justify-between items-start mb-16">
           <h2 class="text-3xl sm:text-5xl lg:text-[4.5rem] tracking-tight font-normal text-slate-900 dark:text-white max-w-2xl leading-[1.05]">
-            Our services<br>to help you
+            <span id="dyn-our-services">Layanan kami<br>untuk Anda</span>
           </h2>
           <div class="flex flex-col items-start md:items-end gap-4 sm:gap-6 max-w-md pt-2">
              <p class="text-sm sm:text-base text-slate-600 dark:text-[#a0a0a0] leading-relaxed md:text-right">
                Kami menyediakan berbagai layanan digital profesional, mulai dari desain antarmuka hingga pengembangan sistem yang dirancang khusus untuk pertumbuhan bisnis Anda.
              </p>
              <div class="flex items-center gap-4 w-full justify-between md:justify-end">
-               <a href="/services" id="dyn-services-button" class="px-5 py-2.5 rounded-full border border-slate-200 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-white/5 text-sm font-medium transition-colors hidden sm:block text-slate-900 dark:text-white">View all services</a>
+               <a href="/services" id="dyn-services-button" class="px-5 py-2.5 rounded-full border border-slate-200 dark:border-white/5 hover:bg-slate-50 hover:bg-transparent text-sm font-medium transition-colors inline-block text-slate-900 dark:text-white"><span id="dyn-view-all-services">Lihat semua layanan</span></a>
                <!-- Navigation Arrows -->
                <div class="flex gap-4">
-                 <button onclick="document.getElementById('newServiceCarousel').scrollBy({left: -300, behavior: 'smooth'})" class="w-12 h-12 rounded-full border border-slate-200 dark:border-white/5 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">
+                 <button onclick="document.getElementById('newServiceCarousel').scrollBy({left: -300, behavior: 'smooth'})" class="w-12 h-12 rounded-full border border-slate-200 dark:border-white/5 flex items-center justify-center hover:bg-slate-100 hover:bg-transparent transition-colors">
                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-slate-900 dark:text-white"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                  </button>
-                 <button onclick="document.getElementById('newServiceCarousel').scrollBy({left: 300, behavior: 'smooth'})" class="w-12 h-12 rounded-full border border-slate-200 dark:border-white/5 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">
+                 <button onclick="document.getElementById('newServiceCarousel').scrollBy({left: 300, behavior: 'smooth'})" class="w-12 h-12 rounded-full border border-slate-200 dark:border-white/5 flex items-center justify-center hover:bg-slate-100 hover:bg-transparent transition-colors">
                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-slate-900 dark:text-white"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                  </button>
                </div>
@@ -348,20 +350,20 @@
         <!-- Header Section -->
         <div class="flex flex-col md:flex-row gap-6 sm:gap-8 lg:gap-20 justify-between items-start mb-10 sm:mb-16">
           <h2 class="text-3xl sm:text-5xl lg:text-[4.5rem] tracking-tight font-normal text-slate-900 dark:text-white max-w-2xl leading-[1.05]">
-            Our projects
+            <span id="dyn-our-projects">Portofolio proyek kami</span>
           </h2>
           <div class="flex flex-col items-start md:items-end gap-4 sm:gap-6 max-w-md pt-2">
              <p class="text-sm sm:text-base text-slate-600 dark:text-[#a0a0a0] leading-relaxed md:text-right">
                Apriprogram is built for user trust, whether you're a growing startup building a new digital presence, a large enterprise, or anyone in between.
              </p>
              <div class="flex items-center gap-4 w-full justify-between md:justify-end">
-               <a href="/portfolio" id="dyn-projects-button" class="px-5 py-2.5 rounded-full border border-slate-200 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-white/5 text-sm font-medium transition-colors hidden sm:block text-slate-900 dark:text-white">View all projects</a>
+               <a href="/portfolio" id="dyn-projects-button" class="px-5 py-2.5 rounded-full border border-slate-200 dark:border-white/5 hover:bg-slate-50 hover:bg-transparent text-sm font-medium transition-colors inline-block text-slate-900 dark:text-white"><span id="dyn-view-all-projects">Lihat semua proyek</span></a>
                <!-- Global Navigation Arrows -->
                <div class="flex gap-4">
-                 <button onclick="document.getElementById('productCarousel').scrollBy({left: -400, behavior: 'smooth'})" class="w-12 h-12 rounded-full border border-slate-200 dark:border-white/5 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">
+                 <button onclick="document.getElementById('productCarousel').scrollBy({left: -400, behavior: 'smooth'})" class="w-12 h-12 rounded-full border border-slate-200 dark:border-white/5 flex items-center justify-center hover:bg-slate-100 hover:bg-transparent transition-colors">
                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-slate-900 dark:text-white"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                  </button>
-                 <button onclick="document.getElementById('productCarousel').scrollBy({left: 400, behavior: 'smooth'})" class="w-12 h-12 rounded-full border border-slate-200 dark:border-white/5 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">
+                 <button onclick="document.getElementById('productCarousel').scrollBy({left: 400, behavior: 'smooth'})" class="w-12 h-12 rounded-full border border-slate-200 dark:border-white/5 flex items-center justify-center hover:bg-slate-100 hover:bg-transparent transition-colors">
                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-slate-900 dark:text-white"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                  </button>
                </div>
@@ -383,12 +385,12 @@
 
 
     <!-- Timeline Developments -->
-    <section class="py-24 relative overflow-hidden bg-white dark:bg-[#0a0a0a] border-t border-slate-200 dark:border-white/5">
+    <section id="cta" class="py-24 relative overflow-hidden bg-white dark:bg-[#0a0a0a] border-t border-slate-200 dark:border-white/5">
       <div class="mx-auto max-w-[85%] px-4 sm:px-6 lg:px-8">
         
         <div class="text-center max-w-2xl mx-auto mb-16 sm:mb-24">
           <h2 class="text-3xl sm:text-5xl lg:text-[4.5rem] tracking-tight font-normal text-slate-900 dark:text-white leading-[1.05] mb-4 sm:mb-6">Timeline<br>Developments</h2>
-          <p class="text-sm sm:text-base text-slate-600 dark:text-[#a0a0a0]">Step-by-step process of our general website development to ensure your project is delivered on time with high quality.</p>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-[#a0a0a0]"><span id="dyn-step-by-step">Langkah demi langkah proses pengembangan website kami untuk memastikan proyek Anda selesai tepat waktu dengan kualitas tinggi.</span></p>
         </div>
 
         <div id="timelineContainer" class="flex flex-col gap-16 sm:gap-24 lg:gap-32">
@@ -401,7 +403,7 @@
     <section id="faq" class="py-24 bg-white dark:bg-[#0a0a0a]">
       <div class="mx-auto grid max-w-[85%] gap-16 px-4 sm:px-6 lg:grid-cols-[1fr_1.5fr] lg:px-8">
         <div>
-          <h2 class="text-3xl sm:text-5xl lg:text-[4.5rem] tracking-tight font-normal text-slate-900 dark:text-white leading-[1.05] mb-4" id="dyn-faq-title">Answers to your<br>top questions</h2>
+          <h2 class="text-3xl sm:text-5xl lg:text-[4.5rem] tracking-tight font-normal text-slate-900 dark:text-white leading-[1.05] mb-4" id="dyn-faq-title"><span id="dyn-answers-to">Jawaban untuk<br>pertanyaan Anda</span></h2>
           <p class="text-sm sm:text-lg text-slate-600 dark:text-[#a0a0a0] leading-relaxed mb-6 sm:mb-8" id="dyn-faq-subtitle">Pelajari lebih lanjut mengenai layanan kami, proses pengerjaan, dan apa yang bisa kami bantu untuk mengembangkan bisnis Anda secara digital.</p>
 
         </div>
@@ -446,7 +448,10 @@
     </div>
     <div class="mx-auto mt-16 max-w-[85%] px-4 text-sm text-[#a0a0a0] sm:px-6 lg:px-8 border-t border-white/5 pt-8 text-center sm:text-left flex flex-col sm:flex-row justify-between items-center gap-4">
       <p id="dyn-footer-copyright">2026 &copy; Apriprogram. All rights reserved.</p>
-      <div class="flex gap-4">
+      <div class="flex items-center gap-4">
+        <a href="https://www.instagram.com/apriprogram/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors" aria-label="Instagram">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.7-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
         <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
         <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
       </div>
@@ -910,6 +915,14 @@
         }
         if (data.settings.cta) {
           try {
+            const ctaSection = document.getElementById('contact');
+            if (ctaSection) {
+               if (data.settings.cta.is_active === 'false' || data.settings.cta.is_active === false) {
+                  ctaSection.style.display = 'none';
+               } else {
+                  ctaSection.style.display = '';
+               }
+            }
             if (data.settings.cta.title) document.getElementById('dyn-cta-title').innerHTML = data.settings.cta.title;
             if (data.settings.cta.subtitle) document.getElementById('dyn-cta-subtitle').innerHTML = data.settings.cta.subtitle;
             if (data.settings.cta.button_text) {
@@ -998,6 +1011,14 @@
         }
         if (data.settings.services) {
           try {
+            const servicesSection = document.getElementById('services');
+            if (servicesSection) {
+               if (data.settings.services.is_active === 'false' || data.settings.services.is_active === false) {
+                  servicesSection.style.display = 'none';
+               } else {
+                  servicesSection.style.display = '';
+               }
+            }
             const srvTitle = document.querySelector('#services h2');
             const srvDesc = document.querySelector('#services p');
             const srvButton = document.getElementById('dyn-services-button');
@@ -1012,6 +1033,14 @@
         }
         if (data.settings.projects) {
           try {
+            const projectSection = document.getElementById('project');
+            if (projectSection) {
+               if (data.settings.projects.is_active === 'false' || data.settings.projects.is_active === false) {
+                  projectSection.style.display = 'none';
+               } else {
+                  projectSection.style.display = '';
+               }
+            }
             const prjTitle = document.querySelector('#project h2');
             const prjDesc = document.querySelector('#project p');
             if(prjTitle && data.settings.projects.title) prjTitle.innerHTML = data.settings.projects.title;
@@ -1024,6 +1053,14 @@
         if (data.settings.timeline) {
           try {
             const tmTitle = document.querySelector('.timeline-section h2') || document.querySelectorAll('main section')[3]?.querySelector('h2');
+            const timelineSection = tmTitle ? tmTitle.closest('section') : null;
+            if (timelineSection) {
+               if (data.settings.timeline.is_active === 'false' || data.settings.timeline.is_active === false) {
+                  timelineSection.style.display = 'none';
+               } else {
+                  timelineSection.style.display = '';
+               }
+            }
             const tmDesc = document.querySelector('.timeline-section p') || document.querySelectorAll('main section')[3]?.querySelector('p');
             if(tmTitle && data.settings.timeline.title) tmTitle.innerHTML = data.settings.timeline.title;
             if(tmDesc && data.settings.timeline.subtitle) tmDesc.innerHTML = data.settings.timeline.subtitle;
@@ -1034,6 +1071,14 @@
         }
         if (data.settings.faq) {
           try {
+            const faqSection = document.getElementById('faq');
+            if (faqSection) {
+               if (data.settings.faq.is_active === 'false' || data.settings.faq.is_active === false) {
+                  faqSection.style.display = 'none';
+               } else {
+                  faqSection.style.display = '';
+               }
+            }
             const faqTitle = document.getElementById('dyn-faq-title');
             const faqDesc = document.getElementById('dyn-faq-subtitle');
             const faqBtn = document.getElementById('dyn-faq-button');

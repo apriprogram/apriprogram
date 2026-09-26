@@ -5,12 +5,13 @@ const HERO_DEFAULT_CONTENT_IMAGE = '/assets/hero/hero_konten.jpg';
 const settingFields = {
   navbar: ['logo_text', 'logo_image', 'link1_text', 'link2_text', 'link3_text', 'link4_text', 'link5_text'],
   hero: ['title_main', 'title_gradient', 'subtitle', 'cta_text', 'cta_link', 'backgrounds_data', 'content_image'],
-  services: ['title', 'subtitle', 'button_text', 'button_link'],
-  projects: ['title', 'subtitle'],
-  timeline: ['title', 'subtitle'],
-  faq: ['title', 'subtitle', 'button_text', 'button_link'],
-  cta: ['title', 'subtitle', 'button_text', 'button_link'],
-  footer: ['description', 'copyright']
+  services: ['is_active', 'title', 'subtitle', 'button_text', 'button_link'],
+  projects: ['is_active', 'title', 'subtitle'],
+  timeline: ['is_active', 'title', 'subtitle'],
+  faq: ['is_active', 'title', 'subtitle', 'button_text', 'button_link'],
+  cta: ['is_active', 'title', 'subtitle', 'button_text', 'button_link'],
+  footer: ['description', 'copyright'],
+  about: ['is_active', 'title', 'subtitle', 'developer_name', 'developer_location', 'developer_description', 'profile_image']
 };
 
 function escapeSettingsHtml(value) {
@@ -189,6 +190,7 @@ async function loadSettings() {
         const el = document.getElementById(`${section}-${key}`);
         if (!el) return;
         if (el.tagName === 'IMG') el.src = sectionData[key];
+        else if (el.type === 'checkbox') el.checked = (sectionData[key] === 'true' || sectionData[key] === true);
         else el.value = sectionData[key] || '';
 
         if (section === 'hero' && key === 'backgrounds_data' && sectionData[key]) {
@@ -243,7 +245,11 @@ async function saveSection(section, settings) {
 function collectSettings(section) {
   return (settingFields[section] || []).reduce((result, key) => {
     const el = document.getElementById(`${section}-${key}`);
-    result[key] = el ? el.value : '';
+    if (el) {
+      result[key] = el.type === 'checkbox' ? (el.checked ? 'true' : 'false') : el.value;
+    } else {
+      result[key] = '';
+    }
     return result;
   }, {});
 }
@@ -1253,6 +1259,30 @@ async function uploadTimelineImage(input) {
     }
   } catch (err) {
     showToast('Gagal upload.', 'red');
+  } finally {
+    input.value = '';
+  }
+}
+
+async function uploadAboutImage(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  const fd = new FormData();
+  fd.append('image', file);
+  try {
+    const res = await fetch('/api/admin/upload', { method: 'POST', body: fd });
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById('about-profile_image').value = data.url;
+      const preview = document.getElementById('about-profile_image-preview');
+      if (preview) preview.src = data.url;
+      showToast('Foto profil diupload!', 'green');
+    } else {
+      showToast(data.message || 'Gagal upload foto.', 'red');
+    }
+  } catch (err) {
+    showToast('Gagal upload foto.', 'red');
   } finally {
     input.value = '';
   }
