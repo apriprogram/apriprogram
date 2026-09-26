@@ -178,6 +178,7 @@ function normalizeProjectPayload(body) {
     description: (body.description || "").trim(),
     image: (body.image || "").trim(),
     image_alt: (body.image_alt || "").trim(),
+    media_items: Array.isArray(body.media_items) ? body.media_items : [],
     client_name: (body.client_name || "").trim(),
     technology_stack: (body.technology_stack || "").trim(),
     project_url: (body.project_url || "").trim(),

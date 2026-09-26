@@ -93,3 +93,131 @@ html:not(.dark) .header-scrolled #mobileMenuButton {
 html:not(.dark) .header-scrolled #mobileMenuButton span {
   background-color: #0f172a !important;
 }
+
+/* Language Toggle Button styling */
+#languageToggle,
+.language-toggle-btn {
+  box-shadow: none !important;
+}
+
+/* 1. On index.ejs at top: Header is dark navy #050b14/60, so button has white text and white outline */
+#mainHeader:not(.header-scrolled) #languageToggle,
+#mainHeader:not(.header-scrolled) .language-toggle-btn {
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+#mainHeader:not(.header-scrolled) #languageToggle:hover,
+#mainHeader:not(.header-scrolled) .language-toggle-btn:hover {
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+#mainHeader:not(.header-scrolled) #languageToggle svg,
+#mainHeader:not(.header-scrolled) .language-toggle-btn svg,
+#mainHeader:not(.header-scrolled) #languageToggle .lang-text,
+#mainHeader:not(.header-scrolled) #languageToggle .lang-code {
+  color: #ffffff !important;
+}
+
+/* 2. When background is white:
+   - On index.ejs when scrolled in light mode (.header-scrolled on html:not(.dark))
+   - On other pages in light mode (html:not(.dark) header)
+   - On mobile menu in light mode
+   Outline and text MUST be dark! */
+html:not(.dark) .header-scrolled #languageToggle,
+html:not(.dark) .header-scrolled .language-toggle-btn,
+html:not(.dark) header.bg-white\/85 #languageToggle,
+html:not(.dark) header.bg-white\/85 .language-toggle-btn,
+html:not(.dark) header.bg-white #languageToggle,
+html:not(.dark) header.bg-white .language-toggle-btn,
+html:not(.dark) #mobileMenu #languageToggle,
+html:not(.dark) #mobileMenu .language-toggle-btn,
+html:not(.dark) .client-navbar #languageToggle,
+html:not(.dark) .client-navbar .language-toggle-btn,
+html:not(.dark) .admin-navbar #languageToggle,
+html:not(.dark) .admin-navbar .language-toggle-btn {
+  border-color: #cbd5e1 !important; /* outline gelap */
+  background-color: rgba(241, 245, 249, 0.9) !important; /* bg slate */
+  color: #0f172a !important; /* text gelap */
+  box-shadow: none !important;
+}
+
+html:not(.dark) .header-scrolled #languageToggle:hover,
+html:not(.dark) .header-scrolled .language-toggle-btn:hover,
+html:not(.dark) header.bg-white\/85 #languageToggle:hover,
+html:not(.dark) header.bg-white\/85 .language-toggle-btn:hover,
+html:not(.dark) header.bg-white #languageToggle:hover,
+html:not(.dark) header.bg-white .language-toggle-btn:hover,
+html:not(.dark) #mobileMenu #languageToggle:hover,
+html:not(.dark) #mobileMenu .language-toggle-btn:hover,
+html:not(.dark) .client-navbar #languageToggle:hover,
+html:not(.dark) .client-navbar .language-toggle-btn:hover,
+html:not(.dark) .admin-navbar #languageToggle:hover,
+html:not(.dark) .admin-navbar .language-toggle-btn:hover {
+  border-color: #94a3b8 !important; /* outline gelap hover */
+  background-color: rgba(226, 232, 240, 0.95) !important;
+  color: #0f172a !important;
+}
+
+html:not(.dark) .header-scrolled #languageToggle svg,
+html:not(.dark) .header-scrolled .language-toggle-btn svg,
+html:not(.dark) header.bg-white\/85 #languageToggle svg,
+html:not(.dark) header.bg-white\/85 .language-toggle-btn svg,
+html:not(.dark) header.bg-white #languageToggle svg,
+html:not(.dark) header.bg-white .language-toggle-btn svg,
+html:not(.dark) #mobileMenu #languageToggle svg,
+html:not(.dark) #mobileMenu .language-toggle-btn svg,
+html:not(.dark) .client-navbar #languageToggle svg,
+html:not(.dark) .client-navbar .language-toggle-btn svg,
+html:not(.dark) .admin-navbar #languageToggle svg,
+html:not(.dark) .admin-navbar .language-toggle-btn svg {
+  color: #334155 !important; /* icon gelap */
+}
+
+html:not(.dark) .header-scrolled #languageToggle .lang-text,
+html:not(.dark) .header-scrolled .language-toggle-btn .lang-text,
+html:not(.dark) header.bg-white\/85 #languageToggle .lang-text,
+html:not(.dark) header.bg-white\/85 .language-toggle-btn .lang-text,
+html:not(.dark) header.bg-white #languageToggle .lang-text,
+html:not(.dark) header.bg-white .language-toggle-btn .lang-text,
+html:not(.dark) #mobileMenu #languageToggle .lang-text,
+html:not(.dark) #mobileMenu .language-toggle-btn .lang-text,
+html:not(.dark) .client-navbar #languageToggle .lang-text,
+html:not(.dark) .client-navbar .language-toggle-btn .lang-text,
+html:not(.dark) .admin-navbar #languageToggle .lang-text,
+html:not(.dark) .admin-navbar .language-toggle-btn .lang-text,
+html:not(.dark) .header-scrolled #languageToggle .lang-code,
+html:not(.dark) .header-scrolled .language-toggle-btn .lang-code,
+html:not(.dark) header.bg-white\/85 #languageToggle .lang-code,
+html:not(.dark) header.bg-white\/85 .language-toggle-btn .lang-code,
+html:not(.dark) header.bg-white #languageToggle .lang-code,
+html:not(.dark) header.bg-white .language-toggle-btn .lang-code,
+html:not(.dark) #mobileMenu #languageToggle .lang-code,
+html:not(.dark) #mobileMenu .language-toggle-btn .lang-code,
+html:not(.dark) .client-navbar #languageToggle .lang-code,
+html:not(.dark) .client-navbar .language-toggle-btn .lang-code,
+html:not(.dark) .admin-navbar #languageToggle .lang-code,
+html:not(.dark) .admin-navbar .language-toggle-btn .lang-code {
+  color: #0f172a !important; /* text & code gelap */
+}
+
+/* 3. In Dark Mode: Always white text, white outline, subtle glass background */
+html.dark #languageToggle,
+html.dark .language-toggle-btn {
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+html.dark #languageToggle:hover,
+html.dark .language-toggle-btn:hover {
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+html.dark #languageToggle svg,
+html.dark .language-toggle-btn svg,
+html.dark #languageToggle .lang-text,
+html.dark #languageToggle .lang-code {
+  color: #ffffff !important;
+}
