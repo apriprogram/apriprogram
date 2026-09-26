@@ -1,0 +1,4 @@
+PassengerEnabled on
+PassengerStartupFile server.js
+PassengerAppType node
+PassengerAppRoot /home/tanjunak/public/apriprogram.web.id
