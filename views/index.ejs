@@ -243,11 +243,19 @@
       </div>
       
       <!-- Space for Image below button -->
-      <div class="mx-auto mt-12 w-full max-w-[85%] px-4 relative z-10">
+      <div class="mx-auto mt-12 w-full max-w-5xl px-4 relative z-10">
          <!-- Mockup container -->
-         <div class="relative w-full rounded-xl sm:rounded-3xl p-0 overflow-hidden flex justify-center">
-           <img id="dyn-hero-content-image" src="/assets/hero/hero_konten.jpg" alt="Dashboard Mockup" class="w-full h-auto max-w-none rounded-xl sm:rounded-3xl shadow-2xl border-[3px] border-white/20" />
-           <video id="dyn-hero-content-video" src="" class="w-full h-auto max-w-none rounded-xl sm:rounded-3xl shadow-2xl border-[3px] border-white/20 hidden" autoplay loop muted playsinline></video>
+         <div id="dyn-hero-media-container" class="relative mx-auto w-full rounded-xl sm:rounded-3xl p-0 flex justify-center group">
+           <img id="dyn-hero-content-image" src="/assets/hero/hero_konten.jpg" alt="Dashboard Mockup" class="w-full h-auto rounded-xl sm:rounded-3xl shadow-2xl border-[3px] border-white/20" />
+           
+           <div id="dyn-hero-video-wrapper" class="relative w-full hidden rounded-xl sm:rounded-3xl shadow-2xl border-[3px] border-white/20 overflow-hidden cursor-pointer" onclick="openVideoModal()">
+             <video id="dyn-hero-content-video" src="" class="w-full h-auto block object-cover" autoplay loop muted playsinline></video>
+             <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+               <button type="button" class="w-16 h-16 sm:w-20 sm:h-20 bg-brand-blue/90 text-white rounded-full flex items-center justify-center shadow-xl transform scale-90 group-hover:scale-100 transition-all duration-300">
+                 <svg class="w-8 h-8 sm:w-10 sm:h-10 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+               </button>
+             </div>
+           </div>
          </div>
       </div>
     </section>
@@ -448,7 +456,47 @@
     </div>
   </footer>
 
+  <!-- Video Modal -->
+  <div id="videoModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/90 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+    <div class="relative w-full max-w-6xl mx-auto px-4 sm:px-6">
+      <button onclick="closeVideoModal()" class="absolute -top-12 right-4 sm:right-6 text-white/70 hover:text-white transition-colors">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+      <div class="relative w-full rounded-2xl overflow-hidden shadow-2xl bg-black aspect-video">
+        <video id="modalVideo" src="" class="w-full h-full object-contain" controls controlsList="nodownload"></video>
+      </div>
+    </div>
+  </div>
+
   <script>
+    function openVideoModal() {
+      const modal = document.getElementById('videoModal');
+      const modalVid = document.getElementById('modalVideo');
+      const heroVid = document.getElementById('dyn-hero-content-video');
+      if (modal && modalVid && heroVid) {
+        modalVid.src = heroVid.src;
+        modal.classList.remove('hidden');
+        void modal.offsetWidth;
+        modal.classList.remove('opacity-0');
+        modal.classList.add('opacity-100');
+        modalVid.play();
+      }
+    }
+
+    function closeVideoModal() {
+      const modal = document.getElementById('videoModal');
+      const modalVid = document.getElementById('modalVideo');
+      if (modal && modalVid) {
+        modal.classList.remove('opacity-100');
+        modal.classList.add('opacity-0');
+        setTimeout(() => {
+          modal.classList.add('hidden');
+          modalVid.pause();
+          modalVid.currentTime = 0;
+        }, 300);
+      }
+    }
+
     const html = document.documentElement;
     const toggleBtn = document.getElementById('darkModeToggle');
     const moonIcon = document.getElementById('moonIcon');
@@ -825,26 +873,23 @@
             }
             if (data.settings.hero.content_image) {
               const heroImg = document.getElementById('dyn-hero-content-image');
+              const heroVidWrapper = document.getElementById('dyn-hero-video-wrapper');
               const heroVid = document.getElementById('dyn-hero-content-video');
               const src = data.settings.hero.content_image;
               
               if (src.match(/\.(mp4|webm|ogg|mov)$/i)) {
                 if (heroVid) {
                   heroVid.src = src;
-                  heroVid.classList.remove('hidden');
                 }
-                if (heroImg) {
-                  heroImg.classList.add('hidden');
-                }
+                if (heroVidWrapper) heroVidWrapper.classList.remove('hidden');
+                if (heroImg) heroImg.classList.add('hidden');
               } else {
                 if (heroImg) {
                   heroImg.src = src;
                   heroImg.classList.remove('hidden');
                 }
-                if (heroVid) {
-                  heroVid.classList.add('hidden');
-                  heroVid.pause();
-                }
+                if (heroVidWrapper) heroVidWrapper.classList.add('hidden');
+                if (heroVid) heroVid.pause();
               }
             }
             if (data.settings.hero.backgrounds_data) {
@@ -1038,6 +1083,7 @@
   <script src="/js/i18n.js"></script>
 </body>
 </html>
+
 
 
 
