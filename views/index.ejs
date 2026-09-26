@@ -824,8 +824,28 @@
               }
             }
             if (data.settings.hero.content_image) {
-              const heroContentImage = document.getElementById('dyn-hero-content-image');
-              if (heroContentImage) heroContentImage.src = data.settings.hero.content_image;
+              const heroImg = document.getElementById('dyn-hero-content-image');
+              const heroVid = document.getElementById('dyn-hero-content-video');
+              const src = data.settings.hero.content_image;
+              
+              if (src.match(/\.(mp4|webm|ogg|mov)$/i)) {
+                if (heroVid) {
+                  heroVid.src = src;
+                  heroVid.classList.remove('hidden');
+                }
+                if (heroImg) {
+                  heroImg.classList.add('hidden');
+                }
+              } else {
+                if (heroImg) {
+                  heroImg.src = src;
+                  heroImg.classList.remove('hidden');
+                }
+                if (heroVid) {
+                  heroVid.classList.add('hidden');
+                  heroVid.pause();
+                }
+              }
             }
             if (data.settings.hero.backgrounds_data) {
               try {
@@ -1018,6 +1038,7 @@
   <script src="/js/i18n.js"></script>
 </body>
 </html>
+
 
 
 
