@@ -257,7 +257,17 @@
     const mobileMenu = document.getElementById('mobileMenu');
     if (mobileMenuButton && mobileMenu) {
       const mobileNavLinks = mobileMenu.querySelectorAll('a');
-      mobileMenuButton.addEventListener('click', () => {
+
+      // Tutup menu jika klik di luar area
+      document.addEventListener('click', (e) => {
+        if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
+          mobileMenu.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+          mobileMenu.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto');
+        }
+      });
+
+      mobileMenuButton.addEventListener('click', (e) => {
+        e.stopPropagation();
         mobileMenu.classList.toggle('opacity-0');
         mobileMenu.classList.toggle('scale-95');
         mobileMenu.classList.toggle('pointer-events-none');
@@ -345,3 +355,4 @@
   <script src="/js/i18n.js"></script>
 </body>
 </html>
+
