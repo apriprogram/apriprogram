@@ -1,8 +1,7 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/tanjunak/public/apriprogram.web.id
-    - /bin/cp -R . $DEPLOYPATH
-    - cd $DEPLOYPATH && npm install --production
+    - cd /home/tanjunak/public/apriprogram.web.id
+    - npm install --production
     - mkdir -p tmp
     - touch tmp/restart.txt
