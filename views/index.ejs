@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id" class="scroll-smooth dark">
 <head>
   <meta charset="UTF-8">
@@ -218,7 +218,7 @@
       background-color: #ffffff !important;
     }
 
-    /* Hero light mode (slider off) — adaptive text colors */
+    /* Hero light mode (slider off) â€” adaptive text colors */
     .hero-light .hero-checklist,
     .hero-light .hero-checklist li {
       color: #1e293b !important;
@@ -301,7 +301,7 @@
     .dark .navbar-adaptive #mobileMenuButton {
       color: #f8fafc !important;
     }
-    /* Language button adaptive — light hero (non-dark) */
+    /* Language button adaptive â€” light hero (non-dark) */
     #mainHeader.navbar-adaptive #languageToggle {
       border-color: #94a3b8 !important;
       color: #0f172a !important;
@@ -312,7 +312,7 @@
       color: #0f172a !important;
       stroke: #0f172a !important;
     }
-    /* Language button adaptive — dark hero */
+    /* Language button adaptive â€” dark hero */
     .dark #mainHeader.navbar-adaptive #languageToggle {
       border-color: rgba(255,255,255,0.25) !important;
       color: #f8fafc !important;
@@ -526,6 +526,22 @@
       @media (min-width: 640px) { .grid-mode { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1.5rem; } }
       @media (min-width: 1024px) { .grid-mode { grid-template-columns: repeat(4, minmax(0,1fr)); gap: 2rem; } }
       .grid-mode .carousel-spacer { display: none; }
+
+      /* Arrow fade animation */
+      .carousel-arrows {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        max-width: 120px;
+        opacity: 1;
+        overflow: hidden;
+        transition: max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+      }
+      .carousel-arrows.hidden-arrows {
+        max-width: 0;
+        opacity: 0;
+        pointer-events: none;
+      }
     </style>
     <section id="services" class="pt-8 pb-10 sm:py-24 bg-white dark:bg-[#0a0a0a] transition-colors border-b border-slate-200 dark:border-white/5">
       <div class="mx-auto w-full px-4 sm:px-6 lg:px-[6%]">
@@ -546,7 +562,7 @@
                    <svg id="servicesExpandIcon" class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"/></svg>
                    <span id="servicesExpandText">Expand</span>
                  </button>
-                 <div id="newServiceArrows" class="flex items-center gap-2">
+                 <div id="newServiceArrows" class="carousel-arrows">
                    <button onclick="document.getElementById('newServiceCarousel').scrollBy({left: -300, behavior: 'smooth'})" class="inline-flex items-center justify-center w-[34px] h-[34px] sm:w-10 sm:h-10 rounded-full border border-slate-200 dark:border-white/10 hover:border-brand-blue transition-all group">
                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-900 dark:text-white group-hover:text-brand-blue transition-colors"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                    </button>
@@ -641,7 +657,7 @@
                    <svg id="projectsExpandIcon" class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"/></svg>
                    <span id="projectsExpandText">Expand</span>
                  </button>
-                 <div id="projectsArrows" class="flex items-center gap-2">
+                 <div id="projectsArrows" class="carousel-arrows">
                    <button onclick="document.getElementById('productCarousel').scrollBy({left: -400, behavior: 'smooth'})" class="inline-flex items-center justify-center w-[34px] h-[34px] sm:w-10 sm:h-10 rounded-full border border-slate-200 dark:border-white/10 hover:border-brand-blue transition-all group">
                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-900 dark:text-white group-hover:text-brand-blue transition-colors"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                    </button>
@@ -950,19 +966,26 @@
       const isExpanded = carousel.classList.contains('grid-mode');
 
       if (!isExpanded) {
-        // Switch to grid
-        carousel.classList.remove('carousel-mode');
-        carousel.classList.add('grid-mode');
-        if (arrows) arrows.style.display = 'none';
+        // Fade out arrows first, then switch to grid
+        if (arrows) arrows.classList.add('hidden-arrows');
+        setTimeout(function() {
+          carousel.classList.remove('carousel-mode');
+          carousel.classList.add('grid-mode');
+        }, 300);
         if (textEl) textEl.textContent = 'Collapse';
         if (iconEl) iconEl.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>';
       } else {
-        // Switch back to carousel
+        // Switch back to carousel then fade in arrows
         carousel.classList.remove('grid-mode');
         carousel.classList.add('carousel-mode');
-        if (arrows) arrows.style.display = '';
         if (textEl) textEl.textContent = 'Expand';
         if (iconEl) iconEl.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"/>';
+        if (arrows) {
+          // Small delay so layout settles before fading in
+          setTimeout(function() {
+            arrows.classList.remove('hidden-arrows');
+          }, 50);
+        }
       }
     }
 
@@ -1104,7 +1127,7 @@
       });
     }
 
-    // ─── Hero Background Slider ───────────────────────────────────────────
+    // â”€â”€â”€ Hero Background Slider â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     let _heroBgInterval = null;
 
     function initHeroBackgroundSlider(bgArray) {
@@ -1274,7 +1297,7 @@
               const btn = document.getElementById('dyn-hero-cta');
               if (btn) {
                 btn.innerHTML = data.settings.hero.cta_text;
-                // Always direct to register page — cta_link from admin is ignored for href
+                // Always direct to register page â€” cta_link from admin is ignored for href
                 btn.href = '/login?type=register';
               }
             }
