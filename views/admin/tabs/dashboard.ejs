@@ -14,79 +14,57 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-slate-50 dark:bg-[#14151a] p-3 sm:p-4 rounded-[2rem] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           
           <!-- Stat Card 1 (Visitors) -->
-          <div class="bg-white dark:bg-brand-card p-5 rounded-2xl border border-slate-200 dark:border-brand-border hover:border-brand-blue dark:hover:border-brand-blue transition-colors flex flex-col justify-between h-[140px]">
+          <div class="bg-white dark:bg-brand-card p-5 sm:p-6 rounded-2xl sm:rounded-[1.5rem] shadow-sm flex flex-col justify-between h-[130px] border border-slate-100 dark:border-brand-border">
             <div class="flex items-start justify-between">
-              <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-500/10 text-blue-500 flex items-center justify-center">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-              </div>
+              <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Total Visitors</p>
               <div class="flex items-center gap-2">
-                <button type="button" onclick="openVisitorStatsModal()" class="inline-flex items-center gap-1.5 rounded-lg border border-blue-200 dark:border-blue-500/25 bg-blue-50 dark:bg-blue-500/10 px-2.5 py-1.5 text-[10px] font-bold text-blue-600 dark:text-blue-300 hover:border-blue-400 dark:hover:border-blue-400 transition-colors">
-                  <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3v18h18M7 15l3-3 3 2 5-6"></path></svg>
-                  Detail
-                </button>
-                <button type="button" onclick="resetVisitorStats()" class="inline-flex items-center gap-1.5 rounded-lg border border-red-200 dark:border-red-500/25 bg-red-50 dark:bg-red-500/10 px-2.5 py-1.5 text-[10px] font-bold text-red-600 dark:text-red-300 hover:border-red-400 dark:hover:border-red-400 transition-colors">
-                  <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m2 0H7m3 0V5a2 2 0 012-2h0a2 2 0 012 2v2"></path></svg>
-                  Reset
-                </button>
+                <button type="button" onclick="openVisitorStatsModal()" class="text-xs font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400">Detail</button>
+                <button type="button" onclick="resetVisitorStats()" class="text-xs font-medium text-red-600 hover:text-red-700 dark:text-red-400">Reset</button>
               </div>
             </div>
-            <div>
-              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">TOTAL VISITORS</p>
-              <h3 class="text-2xl font-bold text-slate-900 dark:text-white leading-none" id="stat-visitors">0</h3>
+            <div class="flex items-end justify-between mt-4">
+              <h3 class="text-3xl font-bold text-slate-900 dark:text-white leading-none" id="stat-visitors">0</h3>
             </div>
           </div>
 
           <!-- Stat Card 2 (Project Orders) -->
-          <div class="bg-white dark:bg-brand-card p-5 rounded-2xl border border-slate-200 dark:border-brand-border hover:border-brand-blue dark:hover:border-brand-blue transition-colors flex flex-col justify-between h-[140px]">
-            <div class="flex items-start justify-between">
-              <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-              </div>
-              <div class="px-2 py-1 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 rounded-md text-[10px] font-bold">
+          <div class="bg-white dark:bg-brand-card p-5 sm:p-6 rounded-2xl sm:rounded-[1.5rem] shadow-sm flex flex-col justify-between h-[130px] border border-slate-100 dark:border-brand-border">
+            <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Project Orders</p>
+            <div class="flex items-end justify-between mt-4">
+              <h3 class="text-3xl font-bold text-slate-900 dark:text-white leading-none" id="stat-orders">0</h3>
+              <div class="inline-flex items-center gap-1 rounded bg-green-100/80 dark:bg-green-500/20 px-2 py-1 text-xs font-medium text-green-700 dark:text-green-400 border border-green-200 dark:border-green-500/30">
                 +18.2%
+                <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" /></svg>
               </div>
-            </div>
-            <div>
-              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">PROJECT ORDERS</p>
-              <h3 class="text-2xl font-bold text-slate-900 dark:text-white leading-none" id="stat-orders">0</h3>
             </div>
           </div>
 
           <!-- Stat Card 3 (Total Users) -->
-          <div class="bg-white dark:bg-brand-card p-5 rounded-2xl border border-slate-200 dark:border-brand-border hover:border-brand-blue dark:hover:border-brand-blue transition-colors flex flex-col justify-between h-[140px]">
-            <div class="flex items-start justify-between">
-              <div class="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-500/10 text-purple-500 flex items-center justify-center">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-              </div>
-              <div class="px-2 py-1 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 rounded-md text-[10px] font-bold">
+          <div class="bg-white dark:bg-brand-card p-5 sm:p-6 rounded-2xl sm:rounded-[1.5rem] shadow-sm flex flex-col justify-between h-[130px] border border-slate-100 dark:border-brand-border">
+            <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Total Users</p>
+            <div class="flex items-end justify-between mt-4">
+              <h3 class="text-3xl font-bold text-slate-900 dark:text-white leading-none" id="stat-users">0</h3>
+              <div class="inline-flex items-center gap-1 rounded bg-green-100/80 dark:bg-green-500/20 px-2 py-1 text-xs font-medium text-green-700 dark:text-green-400 border border-green-200 dark:border-green-500/30">
                 +5.4%
+                <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" /></svg>
               </div>
-            </div>
-            <div>
-              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">TOTAL USERS</p>
-              <h3 class="text-2xl font-bold text-slate-900 dark:text-white leading-none" id="stat-users">0</h3>
             </div>
           </div>
 
           <!-- Stat Card 4 (Total Revenue) -->
-          <div class="bg-white dark:bg-brand-card p-5 rounded-2xl border border-slate-200 dark:border-brand-border hover:border-brand-blue dark:hover:border-brand-blue transition-colors flex flex-col justify-between h-[140px]">
-            <div class="flex items-start justify-between">
-              <div class="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-500/10 text-amber-500 flex items-center justify-center">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-              </div>
-              <div class="px-2 py-1 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 rounded-md text-[10px] font-bold">
-                +2.1%
-              </div>
-            </div>
-            <div>
-              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">TOTAL REVENUE</p>
+          <div class="bg-white dark:bg-brand-card p-5 sm:p-6 rounded-2xl sm:rounded-[1.5rem] shadow-sm flex flex-col justify-between h-[130px] border border-slate-100 dark:border-brand-border">
+            <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Total Revenue</p>
+            <div class="flex items-end justify-between mt-4">
               <h3 class="text-2xl font-bold text-slate-900 dark:text-white leading-none" id="stat-revenue">IDR 0</h3>
+              <div class="inline-flex items-center gap-1 rounded bg-green-100/80 dark:bg-green-500/20 px-2 py-1 text-xs font-medium text-green-700 dark:text-green-400 border border-green-200 dark:border-green-500/30">
+                +2.1%
+                <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" /></svg>
+              </div>
             </div>
           </div>
-
 
         </div>
         

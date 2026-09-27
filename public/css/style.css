@@ -42,6 +42,18 @@ body {
   transform: translateY(-6px);
 }
 
+/* Global card border-radius override — subtle like Dribbble reference (~12px) */
+.rounded-2xl,
+.rounded-3xl {
+  border-radius: 12px !important;
+}
+.rounded-xl {
+  border-radius: 10px !important;
+}
+.rounded-lg {
+  border-radius: 8px !important;
+}
+
 .faq-content {
   max-height: 0;
   overflow: hidden;
@@ -101,22 +113,22 @@ html:not(.dark) .header-scrolled #mobileMenuButton span {
 }
 
 /* 1. On index.ejs at top: Header is dark navy #050b14/60, so button has white text and white outline */
-#mainHeader:not(.header-scrolled) #languageToggle,
-#mainHeader:not(.header-scrolled) .language-toggle-btn {
+.home-header:not(.header-scrolled):not(.navbar-adaptive) #languageToggle,
+.home-header:not(.header-scrolled):not(.navbar-adaptive) .language-toggle-btn {
   border-color: rgba(255, 255, 255, 0.2) !important;
   background-color: rgba(255, 255, 255, 0.1) !important;
   color: #ffffff !important;
   box-shadow: none !important;
 }
-#mainHeader:not(.header-scrolled) #languageToggle:hover,
-#mainHeader:not(.header-scrolled) .language-toggle-btn:hover {
+.home-header:not(.header-scrolled):not(.navbar-adaptive) #languageToggle:hover,
+.home-header:not(.header-scrolled):not(.navbar-adaptive) .language-toggle-btn:hover {
   border-color: rgba(255, 255, 255, 0.4) !important;
   background-color: rgba(255, 255, 255, 0.2) !important;
 }
-#mainHeader:not(.header-scrolled) #languageToggle svg,
-#mainHeader:not(.header-scrolled) .language-toggle-btn svg,
-#mainHeader:not(.header-scrolled) #languageToggle .lang-text,
-#mainHeader:not(.header-scrolled) #languageToggle .lang-code {
+.home-header:not(.header-scrolled):not(.navbar-adaptive) #languageToggle svg,
+.home-header:not(.header-scrolled):not(.navbar-adaptive) .language-toggle-btn svg,
+.home-header:not(.header-scrolled):not(.navbar-adaptive) #languageToggle .lang-text,
+.home-header:not(.header-scrolled):not(.navbar-adaptive) #languageToggle .lang-code {
   color: #ffffff !important;
 }
 

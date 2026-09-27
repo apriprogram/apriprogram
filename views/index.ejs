@@ -45,6 +45,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -72,51 +73,200 @@
     .hero-glow {
       position: absolute;
       top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100vw;
-      height: 100vh;
-      background: radial-gradient(circle at 50% -20%, rgba(36, 60, 255, 0.4), transparent 70%);
-      z-index: -1;
-      pointer-events: none;
-    }
-    .hero-lines {
-      position: absolute;
-      top: 0;
       left: 0;
-      right: 0;
-      bottom: 0;
-      background-image: 
-        radial-gradient(circle at top left, transparent 20%, rgba(255,255,255,0.03) 21%, transparent 22%),
-        radial-gradient(circle at top right, transparent 20%, rgba(255,255,255,0.03) 21%, transparent 22%);
-      background-size: 100% 100%;
+      width: 60vw;
+      height: 100vh;
+      background: radial-gradient(ellipse at 20% -10%, rgba(36, 60, 255, 0.45), transparent 65%);
       z-index: -1;
       pointer-events: none;
     }
     
     .reveal-element {
       opacity: 0;
-      filter: blur(10px);
-      transform: translateY(40px) scale(0.95);
-      transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: opacity, transform, filter;
+      transform: translateY(30px);
+      transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
     }
     .reveal-element.active {
       opacity: 1;
-      filter: blur(0);
-      transform: translateY(0) scale(1);
+      transform: translateY(0);
+    }
+
+    /* Hero Split Layout */
+    .hero-split {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      min-height: 100vh;
+      padding: 0;
+      gap: 0;
+    }
+    .hero-left {
+      flex: 0 0 50%;
+      max-width: 50%;
+      padding: 120px 4% 80px 5%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      text-align: left;
+    }
+    .hero-right {
+      flex: 0 0 50%;
+      max-width: 50%;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 100px 4% 60px 3%;
+    }
+    .hero-media-wrap {
+      position: relative;
+      width: 100%;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.05);
+      padding: 6px 18px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #fff;
+      backdrop-filter: blur(12px);
+      margin-bottom: 22px;
+    }
+    .hero-checklist {
+      list-style: none;
+      padding: 0;
+      margin: 18px 0 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .hero-checklist li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14.5px;
+      color: inherit;
+    }
+    .hero-checklist li::before {
+      content: '';
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='12' fill='%23eff6ff'/%3E%3Cpath fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M7 13l3 3 7-7'/%3E%3C/svg%3E");
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+    .dark .hero-checklist li::before {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='12' fill='%231e3a8a'/%3E%3Cpath fill='none' stroke='%2393c5fd' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M7 13l3 3 7-7'/%3E%3C/svg%3E");
+    }
+    .hero-right-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 80% 50%, rgba(36,60,255,0.18), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* Hero gradient background when slider is off */
+    .hero-gradient-bg {
+      background: linear-gradient(180deg, #dbeafe 0%, #eff6ff 30%, #ffffff 100%) !important;
+    }
+    .dark .hero-gradient-bg {
+      background: linear-gradient(180deg, #0f172a 0%, #0a0a0a 60%, #0a0a0a 100%) !important;
+    }
+
+    @media (max-width: 900px) {
+      .hero-split {
+        flex-direction: column;
+        min-height: auto;
+        padding-top: 80px;
+      }
+      .hero-left, .hero-right {
+        flex: none;
+        max-width: 100%;
+        width: 100%;
+        height: auto;
+      }
+      .hero-left {
+        padding: 100px 6% 30px;
+        text-align: center;
+        align-items: center;
+      }
+      .hero-right {
+        padding: 0px 4% 50px;
+        height: auto;
+      }
+      .hero-checklist { align-items: flex-start; gap: 8px; margin: 8px 0 12px; }
+      .hero-checklist li { font-size: 11px; gap: 8px; }
+      .hero-checklist li::before { width: 16px; height: 16px; }
+    }
+
+    /* Hamburger open state: always white */
+    #mobileMenuButton.menu-open .hamburger-bar {
+      background-color: #ffffff !important;
+    }
+
+    /* Hero light mode (slider off) — adaptive text colors */
+    .hero-light .hero-checklist,
+    .hero-light .hero-checklist li {
+      color: #1e293b !important;
+    }
+    .hero-light .hero-checklist li::before {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='12' fill='%23dbeafe'/%3E%3Cpath fill='none' stroke='%231d4ed8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M7 13l3 3 7-7'/%3E%3C/svg%3E") !important;
+    }
+    /* Portfolio button in light hero */
+    #home.hero-light a[href="#project"] {
+      color: #1e293b !important;
+      border-color: #64748b !important;
+      background-color: transparent !important;
+    }
+    #home.hero-light a[href="#project"]:hover {
+      background-color: rgba(0,0,0,0.06) !important;
+    }
+
+    /* Dark mode + slider off: checklist text bright, icon dark-mode style */
+    .dark .hero-light .hero-checklist,
+    .dark .hero-light .hero-checklist li {
+      color: #f1f5f9 !important;
+    }
+    .dark .hero-light .hero-checklist li::before {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='12' fill='%231e3a8a'/%3E%3Cpath fill='none' stroke='%2393c5fd' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M7 13l3 3 7-7'/%3E%3C/svg%3E") !important;
+    }
+    /* Portfolio button in dark + hero-light */
+    .dark #home.hero-light a[href="#project"] {
+      color: #f1f5f9 !important;
+      border-color: rgba(255,255,255,0.3) !important;
+      background-color: transparent !important;
+    }
+    .dark #home.hero-light a[href="#project"]:hover {
+      background-color: rgba(255,255,255,0.08) !important;
     }
 
     /* Premium Hover Interactions */
     #dyn-hero-cta {
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      transition: background-color 0.2s ease !important;
+      box-shadow: none !important;
     }
     #dyn-hero-cta:hover {
-      transform: translateY(-4px) scale(1.03);
-      box-shadow: 0 20px 40px -10px rgba(56, 189, 248, 0.4) !important;
+      background-color: #1a2ecc !important;
+      transform: none !important;
+      box-shadow: none !important;
     }
     #dyn-hero-cta:active {
-      transform: translateY(0) scale(0.97);
+      background-color: #1226bb !important;
+      transform: none !important;
     }
 
     .rounded-2xl, .faq-item {
@@ -127,13 +277,59 @@
       box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
       z-index: 10;
     }
+
+    /* Adaptive Navbar Classes when Slider is Disabled */
+    .navbar-adaptive {
+      background-color: rgba(255, 255, 255, 0.8) !important;
+      border-color: #e2e8f0 !important;
+    }
+    .dark .navbar-adaptive {
+      background-color: rgba(10, 10, 10, 0.8) !important;
+      border-color: rgba(255, 255, 255, 0.05) !important;
+    }
+    .navbar-adaptive .nav-text,
+    .navbar-adaptive .nav-link,
+    .navbar-adaptive .language-toggle-btn,
+    .navbar-adaptive #darkModeToggle,
+    .navbar-adaptive #mobileMenuButton {
+      color: #0f172a !important;
+    }
+    .dark .navbar-adaptive .nav-text,
+    .dark .navbar-adaptive .nav-link,
+    .dark .navbar-adaptive .language-toggle-btn,
+    .dark .navbar-adaptive #darkModeToggle,
+    .dark .navbar-adaptive #mobileMenuButton {
+      color: #f8fafc !important;
+    }
+    /* Language button adaptive — light hero (non-dark) */
+    #mainHeader.navbar-adaptive #languageToggle {
+      border-color: #94a3b8 !important;
+      color: #0f172a !important;
+      background-color: transparent !important;
+    }
+    #mainHeader.navbar-adaptive #languageToggle *,
+    #mainHeader.navbar-adaptive #languageToggle svg {
+      color: #0f172a !important;
+      stroke: #0f172a !important;
+    }
+    /* Language button adaptive — dark hero */
+    .dark #mainHeader.navbar-adaptive #languageToggle {
+      border-color: rgba(255,255,255,0.25) !important;
+      color: #f8fafc !important;
+      background-color: transparent !important;
+    }
+    .dark #mainHeader.navbar-adaptive #languageToggle *,
+    .dark #mainHeader.navbar-adaptive #languageToggle svg {
+      color: #f8fafc !important;
+      stroke: #f8fafc !important;
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-50 dark:bg-[#0a0a0a] dark:text-slate-50 antialiased selection:bg-brand-blue selection:text-white">
   <!-- Removed hero-glow and hero-lines as background image is used in hero section -->
 
-  <header class="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-[#050b14]/60 backdrop-blur-lg transition-all duration-300" id="mainHeader">
-    <nav class="mx-auto flex h-16 max-w-[85%] items-center justify-between px-4 sm:px-6">
+  <header class="home-header fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-[#050b14]/60 backdrop-blur-lg transition-all duration-300" id="mainHeader">
+    <nav class="mx-auto flex h-16 w-full items-center justify-between px-4 sm:px-6 lg:px-[6%]">
       <a href="#home" class="flex items-center gap-3" aria-label="Apriprogram">
         <img src="/assets/logo/apriprogram.png" alt="Apriprogram Logo" class="h-6 sm:h-8 w-auto" />
         <span class="nav-text text-base sm:text-lg font-medium tracking-tight text-white transition-colors duration-300 notranslate" translate="no">Apriprogram</span>
@@ -177,10 +373,10 @@
           <% } %>
         </div>
 
-        <button id="mobileMenuButton" type="button" class="inline-flex p-1 sm:p-2 flex-col items-center justify-center gap-[3px] sm:gap-1.5 lg:hidden text-slate-300 hover:text-white transition-colors" aria-label="Buka menu">
-          <span class="h-[2px] w-4 sm:w-5 rounded bg-white transition-colors"></span>
-          <span class="h-[2px] w-4 sm:w-5 rounded bg-white transition-colors"></span>
-          <span class="h-[2px] w-4 sm:w-5 rounded bg-white transition-colors"></span>
+        <button id="mobileMenuButton" type="button" class="inline-flex p-1 sm:p-2 flex-col items-center justify-center gap-[3px] sm:gap-1.5 lg:hidden transition-colors" aria-label="Buka menu">
+          <span class="hamburger-bar h-[2px] w-4 sm:w-5 rounded bg-slate-800 dark:bg-white transition-colors"></span>
+          <span class="hamburger-bar h-[2px] w-4 sm:w-5 rounded bg-slate-800 dark:bg-white transition-colors"></span>
+          <span class="hamburger-bar h-[2px] w-4 sm:w-5 rounded bg-slate-800 dark:bg-white transition-colors"></span>
         </button>
       </div>
     </nav>
@@ -218,72 +414,106 @@
   </header>
 
   <main>
-    <section id="home" class="relative flex min-h-screen flex-col items-center justify-center text-center pt-24 sm:pt-32 pb-20 overflow-hidden">
-      <!-- Dynamic Background Carousel Container -->
-      <div id="hero-bg-slider" class="absolute inset-0 z-[-1]">
-        <!-- Fallback static background -->
-        <img src="/assets/hero/bg_herosetion.png" alt="Hero Background" class="absolute inset-0 w-full h-full object-cover object-top opacity-100 no-reveal transition-opacity duration-1000 bg-slide active" />
-        <div class="absolute inset-0 bg-gradient-to-b from-slate-900/10 via-transparent to-slate-900/60 z-10"></div>
+    <section id="home" class="relative overflow-hidden bg-[#050b14]" style="min-height:100vh;">
+      <!-- Background Image -->
+      <div id="hero-bg-slider" class="absolute inset-0 z-0">
+        <img src="/assets/hero/bg_herosetion.png" alt="Hero Background" class="absolute inset-0 w-full h-full object-cover object-top opacity-40 no-reveal transition-opacity duration-1000 bg-slide active" />
+        <div class="absolute inset-0 bg-gradient-to-r from-[#050b14] via-[#050b14]/80 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050b14]/80"></div>
       </div>
+      <div class="hero-glow"></div>
 
-      <div class="mx-auto w-full px-4 sm:px-6 lg:px-8 flex flex-col items-center relative z-10 font-sans">
-        <div class="mb-4 sm:mb-5 inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 sm:px-5 sm:py-2 text-[9px] sm:text-xs font-medium uppercase tracking-[0.15em] text-white backdrop-blur-md">
-          Jasa Pembuatan Website Custom
+      <!-- Two-column split layout -->
+      <div class="hero-split relative z-10 font-sans">
+
+        <!-- LEFT: Text & CTA -->
+        <div class="hero-left">
+
+          <!-- Heading -->
+          <h1 class="text-[19px] sm:text-3xl lg:text-4xl xl:text-5xl font-semibold leading-tight tracking-tight text-white" style="margin-bottom:0; font-family: 'Zalando Sans Expanded', sans-serif;">
+            <span id="dyn-hero-title_main" class="block sm:inline">Website Profesional Untuk</span>
+            <span class="block sm:inline whitespace-nowrap text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-brand-cyan" id="dyn-hero-title_gradient">Meningkatkan Bisnis Anda</span>
+          </h1>
+
+          <!-- Checklist Benefits -->
+          <ul class="hero-checklist text-white" id="dyn-hero-subtitle">
+            <li>Membantu membangun landing page &amp; toko online</li>
+            <li>Desain responsif &amp; SEO-friendly</li>
+            <li>Dikembangkan khusus untuk pertumbuhan bisnis</li>
+          </ul>
+
+          <!-- CTA Button -->
+          <div class="flex flex-wrap items-center justify-center sm:justify-start gap-3 sm:gap-4 mt-2">
+            <a href="/login?type=register" id="dyn-hero-cta"
+               class="inline-flex items-center rounded-full bg-brand-blue px-4 py-1.5 sm:px-8 sm:py-3.5 text-[11px] sm:text-base font-semibold text-white shadow-lg hover:bg-blue-600 transition-colors duration-200">
+              Start Your Project Now
+            </a>
+            <a href="#project"
+               class="inline-flex items-center rounded-full border border-white/40 dark:border-white/20 hover:bg-white/10 dark:hover:bg-white/5 px-4 py-1.5 sm:px-8 sm:py-3.5 text-[11px] sm:text-base font-semibold transition-colors text-white">
+              <span class="lang-portfolio-btn">Portofolio</span>
+            </a>
+          </div>
         </div>
-        <h1 class="mx-auto w-full text-2xl font-normal leading-tight tracking-tight sm:text-5xl lg:text-6xl mb-3 text-white">
-          <span class="inline-block" id="dyn-hero-title_main">Website Profesional Untuk</span> <br>
-          <span class="inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-brand-cyan" id="dyn-hero-title_gradient">Meningkatkan Bisnis Anda</span>
-        </h1>
-        <p class="mt-2 max-w-3xl text-xs sm:text-lg leading-relaxed text-[#a0a0a0]" id="dyn-hero-subtitle">
-          Membantu Anda membangun landing page, toko online, hingga sistem operasional custom. Desain responsif, SEO-friendly, dan dikembangkan khusus untuk pertumbuhan bisnis Anda.
-        </p>
-        <div class="mt-6 flex justify-center">
-          <a href="/login?type=register" id="dyn-hero-cta" class="rounded-full bg-brand-blue px-5 py-2.5 sm:px-6 sm:py-2.5 text-xs sm:text-sm font-semibold text-white hover:bg-blue-600 transition-all w-full sm:w-auto text-center">
-            Pesan Sekarang
-          </a>
+
+        <!-- RIGHT: Media (Video / Image) -->
+        <div class="hero-right">
+          
+          <div id="dyn-hero-media-container" class="hero-media-wrap relative z-10 w-full">
+            <!-- Placeholder (shown when no media) -->
+            <div id="dyn-hero-placeholder" class="hidden w-full aspect-[4/3] sm:aspect-video bg-white rounded-2xl flex items-center justify-center">
+              <svg class="w-16 h-16 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            </div>
+
+            <!-- Image (default, shown when no video) -->
+            <img id="dyn-hero-content-image"
+                 src="/assets/hero/hero_konten.jpg"
+                 alt="Dashboard Mockup"
+                 class="w-full h-auto block" />
+
+            <!-- Video wrapper (shown by JS when video is set, plays inline autoplay) -->
+            <div id="dyn-hero-video-wrapper"
+                 class="relative w-full hidden overflow-hidden cursor-pointer group" onclick="openVideoModal()">
+              <video id="dyn-hero-content-video" src="" class="w-full h-auto block object-cover group-hover:scale-105 transition-transform duration-700" autoplay loop muted playsinline></video>
+              <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center shadow-2xl transition-transform scale-90 group-hover:scale-110">
+                  <svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Floating label -->
+            <div class="absolute bottom-4 right-4 flex items-center gap-2 bg-[#0a0a0a]/80 backdrop-blur border border-white/10 rounded-full px-3 py-1.5" style="z-index:20;">
+              <img src="/assets/logo/favicon.png" alt="Apriprogram" class="w-5 h-5 rounded-full" />
+              <span class="text-white text-xs font-medium">Let's build yours.</span>
+            </div>
+          </div>
         </div>
-      </div>
-      
-      <!-- Space for Image below button -->
-      <div class="mx-auto mt-12 w-full max-w-5xl px-4 relative z-10">
-         <!-- Mockup container -->
-         <div id="dyn-hero-media-container" class="relative mx-auto w-full rounded-xl sm:rounded-3xl p-0 flex justify-center group">
-           <img id="dyn-hero-content-image" src="/assets/hero/hero_konten.jpg" alt="Dashboard Mockup" class="w-full h-auto rounded-xl sm:rounded-3xl shadow-2xl border-[3px] border-white/20" />
-           
-           <div id="dyn-hero-video-wrapper" class="relative w-full hidden rounded-xl sm:rounded-3xl shadow-2xl border-[3px] border-white/20 overflow-hidden cursor-pointer" onclick="openVideoModal()">
-             <video id="dyn-hero-content-video" src="" class="w-full h-auto block object-cover" autoplay loop muted playsinline></video>
-             <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-               <button type="button" class="w-16 h-16 sm:w-20 sm:h-20 bg-brand-blue/90 text-white rounded-full flex items-center justify-center shadow-xl transform scale-90 group-hover:scale-100 transition-all duration-300">
-                 <svg class="w-8 h-8 sm:w-10 sm:h-10 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-               </button>
-             </div>
-           </div>
-         </div>
+
       </div>
     </section>
 
     <!-- New Service Section (Google Blog Style) -->
     <style>#newServiceCarousel::-webkit-scrollbar { display: none; }</style>
-    <section id="services" class="py-24 bg-white dark:bg-[#0a0a0a] transition-colors border-b border-slate-200 dark:border-white/5">
-      <div class="mx-auto max-w-[85%] px-4 sm:px-6 lg:px-8">
+    <section id="services" class="pt-8 pb-10 sm:py-24 bg-white dark:bg-[#0a0a0a] transition-colors border-b border-slate-200 dark:border-white/5">
+      <div class="mx-auto w-full px-4 sm:px-6 lg:px-[6%]">
         
-        <div class="flex flex-col md:flex-row gap-8 lg:gap-20 justify-between items-start mb-16">
-          <h2 class="text-3xl sm:text-5xl lg:text-[4.5rem] tracking-tight font-normal text-slate-900 dark:text-white max-w-2xl leading-[1.05]">
+        <div class="flex flex-col md:flex-row gap-1 sm:gap-8 lg:gap-20 justify-between items-start mb-8 sm:mb-16">
+          <h2 class="text-2xl sm:text-4xl lg:text-5xl tracking-tight font-semibold text-slate-900 dark:text-white max-w-2xl leading-[1.05]">
             <span id="dyn-our-services">Layanan kami<br>untuk Anda</span>
           </h2>
-          <div class="flex flex-col items-start md:items-end gap-4 sm:gap-6 max-w-md pt-2">
-             <p class="text-sm sm:text-base text-slate-600 dark:text-[#a0a0a0] leading-relaxed md:text-right">
+          <div class="flex flex-col items-start md:items-end gap-3 sm:gap-6 max-w-md pt-0 sm:pt-2">
+             <p class="text-[13px] sm:text-base text-slate-600 dark:text-[#a0a0a0] leading-relaxed md:text-right">
                Kami menyediakan berbagai layanan digital profesional, mulai dari desain antarmuka hingga pengembangan sistem yang dirancang khusus untuk pertumbuhan bisnis Anda.
              </p>
              <div class="flex items-center gap-4 w-full justify-between md:justify-end">
-               <a href="/services" id="dyn-services-button" class="px-5 py-2.5 rounded-full border border-slate-200 dark:border-white/5 hover:bg-slate-50 hover:bg-transparent text-sm font-medium transition-colors inline-block text-slate-900 dark:text-white"><span id="dyn-view-all-services">Lihat semua layanan</span></a>
+               <a href="/services" id="dyn-services-button" class="group inline-flex items-center gap-1.5 sm:gap-2 px-3.5 py-1.5 sm:px-5 sm:py-2.5 rounded-full border border-slate-200 dark:border-white/10 hover:border-brand-blue dark:hover:border-brand-blue text-[11px] sm:text-sm font-medium transition-all text-slate-900 dark:text-white hover:text-brand-blue dark:hover:text-brand-blue"><span id="dyn-view-all-services">Lihat semua layanan</span><svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></a>
                <!-- Navigation Arrows -->
-               <div class="flex gap-4">
-                 <button onclick="document.getElementById('newServiceCarousel').scrollBy({left: -300, behavior: 'smooth'})" class="w-12 h-12 rounded-full border border-slate-200 dark:border-white/5 flex items-center justify-center hover:bg-slate-100 hover:bg-transparent transition-colors">
-                   <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-slate-900 dark:text-white"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+               <div class="flex gap-2 sm:gap-4">
+                 <button onclick="document.getElementById('newServiceCarousel').scrollBy({left: -300, behavior: 'smooth'})" class="w-8 h-8 sm:w-12 sm:h-12 rounded-full border border-slate-200 dark:border-white/10 flex items-center justify-center hover:border-brand-blue transition-all group">
+                   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-3.5 h-3.5 sm:w-5 sm:h-5 text-slate-900 dark:text-white group-hover:text-brand-blue transition-colors"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                  </button>
-                 <button onclick="document.getElementById('newServiceCarousel').scrollBy({left: 300, behavior: 'smooth'})" class="w-12 h-12 rounded-full border border-slate-200 dark:border-white/5 flex items-center justify-center hover:bg-slate-100 hover:bg-transparent transition-colors">
-                   <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-slate-900 dark:text-white"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                 <button onclick="document.getElementById('newServiceCarousel').scrollBy({left: 300, behavior: 'smooth'})" class="w-8 h-8 sm:w-12 sm:h-12 rounded-full border border-slate-200 dark:border-white/10 flex items-center justify-center hover:border-brand-blue transition-all group">
+                   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-3.5 h-3.5 sm:w-5 sm:h-5 text-slate-900 dark:text-white group-hover:text-brand-blue transition-colors"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                  </button>
                </div>
              </div>
@@ -344,27 +574,27 @@
     </section>
 
     <!-- Solusi Produk Kami (Now Projects) -->
-    <section id="project" class="relative py-24 z-10 bg-slate-50 dark:bg-[#0a0a0a] transition-colors">
-      <div class="mx-auto max-w-[85%] px-4 sm:px-6 lg:px-8">
+    <section id="project" class="relative pt-8 pb-10 sm:py-24 z-10 bg-slate-50 dark:bg-[#0a0a0a] transition-colors">
+      <div class="mx-auto w-full px-4 sm:px-6 lg:px-[6%]">
         
         <!-- Header Section -->
-        <div class="flex flex-col md:flex-row gap-6 sm:gap-8 lg:gap-20 justify-between items-start mb-10 sm:mb-16">
-          <h2 class="text-3xl sm:text-5xl lg:text-[4.5rem] tracking-tight font-normal text-slate-900 dark:text-white max-w-2xl leading-[1.05]">
+        <div class="flex flex-col md:flex-row gap-1 sm:gap-8 lg:gap-20 justify-between items-start mb-8 sm:mb-16">
+          <h2 class="text-2xl sm:text-4xl lg:text-5xl tracking-tight font-semibold text-slate-900 dark:text-white max-w-2xl leading-[1.05]">
             <span id="dyn-our-projects">Portofolio proyek kami</span>
           </h2>
-          <div class="flex flex-col items-start md:items-end gap-4 sm:gap-6 max-w-md pt-2">
-             <p class="text-sm sm:text-base text-slate-600 dark:text-[#a0a0a0] leading-relaxed md:text-right">
+          <div class="flex flex-col items-start md:items-end gap-3 sm:gap-6 max-w-md pt-0 sm:pt-2">
+             <p class="text-[13px] sm:text-base text-slate-600 dark:text-[#a0a0a0] leading-relaxed md:text-right">
                Apriprogram is built for user trust, whether you're a growing startup building a new digital presence, a large enterprise, or anyone in between.
              </p>
              <div class="flex items-center gap-4 w-full justify-between md:justify-end">
-               <a href="/portfolio" id="dyn-projects-button" class="px-5 py-2.5 rounded-full border border-slate-200 dark:border-white/5 hover:bg-slate-50 hover:bg-transparent text-sm font-medium transition-colors inline-block text-slate-900 dark:text-white"><span id="dyn-view-all-projects">Lihat semua proyek</span></a>
+               <a href="/portfolio" id="dyn-projects-button" class="group inline-flex items-center gap-1.5 sm:gap-2 px-3.5 py-1.5 sm:px-5 sm:py-2.5 rounded-full border border-slate-200 dark:border-white/10 hover:border-brand-blue dark:hover:border-brand-blue text-[11px] sm:text-sm font-medium transition-all text-slate-900 dark:text-white hover:text-brand-blue dark:hover:text-brand-blue"><span id="dyn-view-all-projects">Lihat semua proyek</span><svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></a>
                <!-- Global Navigation Arrows -->
-               <div class="flex gap-4">
-                 <button onclick="document.getElementById('productCarousel').scrollBy({left: -400, behavior: 'smooth'})" class="w-12 h-12 rounded-full border border-slate-200 dark:border-white/5 flex items-center justify-center hover:bg-slate-100 hover:bg-transparent transition-colors">
-                   <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-slate-900 dark:text-white"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+               <div class="flex gap-2 sm:gap-4">
+                 <button onclick="document.getElementById('productCarousel').scrollBy({left: -400, behavior: 'smooth'})" class="w-8 h-8 sm:w-12 sm:h-12 rounded-full border border-slate-200 dark:border-white/10 flex items-center justify-center hover:border-brand-blue transition-all group">
+                   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-3.5 h-3.5 sm:w-5 sm:h-5 text-slate-900 dark:text-white group-hover:text-brand-blue transition-colors"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                  </button>
-                 <button onclick="document.getElementById('productCarousel').scrollBy({left: 400, behavior: 'smooth'})" class="w-12 h-12 rounded-full border border-slate-200 dark:border-white/5 flex items-center justify-center hover:bg-slate-100 hover:bg-transparent transition-colors">
-                   <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-slate-900 dark:text-white"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                 <button onclick="document.getElementById('productCarousel').scrollBy({left: 400, behavior: 'smooth'})" class="w-8 h-8 sm:w-12 sm:h-12 rounded-full border border-slate-200 dark:border-white/10 flex items-center justify-center hover:border-brand-blue transition-all group">
+                   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-3.5 h-3.5 sm:w-5 sm:h-5 text-slate-900 dark:text-white group-hover:text-brand-blue transition-colors"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                  </button>
                </div>
              </div>
@@ -372,25 +602,21 @@
         </div>
 
         <!-- Carousel Container -->
-        <div class="relative w-full -mx-4 sm:-mx-6 lg:-mx-8">
-          <style>#productCarousel::-webkit-scrollbar { display: none; }</style>
-          
-          <!-- Scrollable Row -->
-          <div id="productCarousel" class="flex overflow-x-auto gap-4 sm:gap-6 lg:gap-8 snap-x snap-mandatory pb-10 px-4 sm:px-6 lg:px-8" style="-ms-overflow-style: none; scrollbar-width: none;">
-          </div>
+        <div id="productCarousel" class="flex overflow-x-auto gap-4 sm:gap-6 lg:gap-8 snap-x snap-mandatory pb-10" style="-ms-overflow-style: none; scrollbar-width: none;">
         </div>
+        <style>#productCarousel::-webkit-scrollbar { display: none; }</style>
       </div>
     </section>
 
 
 
     <!-- Timeline Developments -->
-    <section id="cta" class="py-24 relative overflow-hidden bg-white dark:bg-[#0a0a0a] border-t border-slate-200 dark:border-white/5">
-      <div class="mx-auto max-w-[85%] px-4 sm:px-6 lg:px-8">
+    <section id="cta" class="pt-8 pb-10 sm:py-24 relative overflow-hidden bg-white dark:bg-[#0a0a0a] border-t border-slate-200 dark:border-white/5">
+      <div class="mx-auto w-full px-4 sm:px-6 lg:px-[6%]">
         
-        <div class="text-center max-w-2xl mx-auto mb-16 sm:mb-24">
-          <h2 class="text-3xl sm:text-5xl lg:text-[4.5rem] tracking-tight font-normal text-slate-900 dark:text-white leading-[1.05] mb-4 sm:mb-6">Timeline<br>Developments</h2>
-          <p class="text-sm sm:text-base text-slate-600 dark:text-[#a0a0a0]"><span id="dyn-step-by-step">Langkah demi langkah proses pengembangan website kami untuk memastikan proyek Anda selesai tepat waktu dengan kualitas tinggi.</span></p>
+        <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-24">
+          <h2 class="text-2xl sm:text-4xl lg:text-5xl tracking-tight font-semibold text-slate-900 dark:text-white leading-[1.05] mb-1 sm:mb-6">Timeline<br>Developments</h2>
+          <p class="text-xs sm:text-base text-slate-600 dark:text-[#a0a0a0]"><span id="dyn-step-by-step">Langkah demi langkah proses pengembangan website kami untuk memastikan proyek Anda selesai tepat waktu dengan kualitas tinggi.</span></p>
         </div>
 
         <div id="timelineContainer" class="flex flex-col gap-16 sm:gap-24 lg:gap-32">
@@ -400,11 +626,11 @@
     </section>
 
     <!-- FAQ Section -->
-    <section id="faq" class="py-24 bg-white dark:bg-[#0a0a0a]">
-      <div class="mx-auto grid max-w-[85%] gap-16 px-4 sm:px-6 lg:grid-cols-[1fr_1.5fr] lg:px-8">
+    <section id="faq" class="pt-8 pb-10 sm:py-24 bg-white dark:bg-[#0a0a0a]">
+      <div class="mx-auto grid w-full gap-8 sm:gap-16 px-4 sm:px-6 lg:grid-cols-[1fr_1.5fr] lg:px-[6%]">
         <div>
-          <h2 class="text-3xl sm:text-5xl lg:text-[4.5rem] tracking-tight font-normal text-slate-900 dark:text-white leading-[1.05] mb-4" id="dyn-faq-title"><span id="dyn-answers-to">Jawaban untuk<br>pertanyaan Anda</span></h2>
-          <p class="text-sm sm:text-lg text-slate-600 dark:text-[#a0a0a0] leading-relaxed mb-6 sm:mb-8" id="dyn-faq-subtitle">Pelajari lebih lanjut mengenai layanan kami, proses pengerjaan, dan apa yang bisa kami bantu untuk mengembangkan bisnis Anda secara digital.</p>
+          <h2 class="text-2xl sm:text-4xl lg:text-5xl tracking-tight font-semibold text-slate-900 dark:text-white leading-[1.05] mb-1 sm:mb-4" id="dyn-faq-title"><span id="dyn-answers-to">Jawaban untuk<br>pertanyaan Anda</span></h2>
+          <p class="text-[13px] sm:text-lg text-slate-600 dark:text-[#a0a0a0] leading-relaxed mb-6 sm:mb-8" id="dyn-faq-subtitle">Pelajari lebih lanjut mengenai layanan kami, proses pengerjaan, dan apa yang bisa kami bantu untuk mengembangkan bisnis Anda secara digital.</p>
 
         </div>
         <div class="space-y-4" id="faqContainer">
@@ -414,14 +640,14 @@
     </section>
 
     <!-- CTA Section -->
-    <section id="contact" class="py-32 bg-white dark:bg-[#0a0a0a] border-t border-slate-200 dark:border-white/5">
-      <div class="mx-auto max-w-[85%] px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+    <section id="contact" class="pt-10 pb-12 sm:py-32 bg-white dark:bg-[#0a0a0a] border-t border-slate-200 dark:border-white/5">
+      <div class="mx-auto w-full px-4 sm:px-6 lg:px-[6%]">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-12 lg:gap-24 items-center">
           <div>
-             <h2 class="text-3xl sm:text-5xl lg:text-[4.5rem] tracking-tight font-normal text-slate-900 dark:text-white leading-[1.05]" id="dyn-cta-title">Siap Membangun<br>Sistem Digital?</h2>
+             <h2 class="text-2xl sm:text-4xl lg:text-5xl tracking-tight font-semibold text-slate-900 dark:text-white leading-[1.05] mb-1 sm:mb-0" id="dyn-cta-title">Siap Membangun<br>Sistem Digital?</h2>
           </div>
-          <div class="flex flex-col gap-6 sm:gap-8 max-w-lg">
-             <p class="text-sm sm:text-lg text-slate-600 dark:text-[#a0a0a0] leading-relaxed" id="dyn-cta-subtitle">
+          <div class="flex flex-col gap-4 sm:gap-8 max-w-lg">
+             <p class="text-[13px] sm:text-lg text-slate-600 dark:text-[#a0a0a0] leading-relaxed" id="dyn-cta-subtitle">
                Konsultasikan kebutuhan teknologi Anda sekarang juga. Kami siap merancang solusi digital terbaik yang dibentuk dari eksekusi cepat, fokus, dan komitmen pada kualitas.
              </p>
               <div>
@@ -442,11 +668,11 @@
         <img src="/assets/logo/apriprogram.png" alt="Apriprogram Logo" class="h-6 sm:h-8 w-auto" />
         <span class="text-lg sm:text-xl font-medium tracking-tight text-white">Apriprogram</span>
       </a>
-      <p class="text-sm leading-relaxed text-[#a0a0a0]" id="dyn-footer-description">
+      <p class="text-[13px] sm:text-sm leading-relaxed text-[#a0a0a0]" id="dyn-footer-description">
         Membantu perusahaan, agensi, dan startup menciptakan ekosistem digital terbaik yang modern dan fungsional.
       </p>
     </div>
-    <div class="mx-auto mt-16 max-w-[85%] px-4 text-sm text-[#a0a0a0] sm:px-6 lg:px-8 border-t border-white/5 pt-8 text-center sm:text-left flex flex-col sm:flex-row justify-between items-center gap-4">
+    <div class="mx-auto mt-16 w-full px-4 text-sm text-[#a0a0a0] sm:px-6 lg:px-[6%] border-t border-white/5 pt-8 text-center sm:text-left flex flex-col sm:flex-row justify-between items-center gap-4">
       <p id="dyn-footer-copyright">2026 &copy; Apriprogram. All rights reserved.</p>
       <div class="flex items-center gap-4">
         <a href="https://www.instagram.com/apriprogram/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors" aria-label="Instagram">
@@ -548,6 +774,7 @@
         if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
           mobileMenu.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
           mobileMenu.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto');
+          mobileMenuButton.classList.remove('menu-open');
         }
       });
 
@@ -560,12 +787,14 @@
         mobileMenu.classList.toggle('opacity-100');
         mobileMenu.classList.toggle('scale-100');
         mobileMenu.classList.toggle('pointer-events-auto');
+        mobileMenuButton.classList.toggle('menu-open');
       });
 
       mobileNavLinks.forEach(link => {
         link.addEventListener('click', () => {
           mobileMenu.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
           mobileMenu.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto');
+          mobileMenuButton.classList.remove('menu-open');
         });
       });
     }
@@ -625,21 +854,23 @@
 
     // Content Reveal Animation
     const revealObserver = new IntersectionObserver((entries) => {
+      let delay = 0;
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          // revealObserver.unobserve(entry.target); // Optional: animate only once
+          setTimeout(() => {
+            entry.target.classList.add('active');
+          }, delay);
+          delay += 100; // Natural stagger for elements appearing together
+          revealObserver.unobserve(entry.target); // Animate once for a professional feel
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
 
     const contentElements = document.querySelectorAll('main h1, main h2, main h3, main p, main img, main .rounded-2xl, main a, footer img, footer p, footer a, footer span, footer h3');
     
-    let delayCounter = 0;
-    contentElements.forEach((el, index) => {
+    contentElements.forEach((el) => {
       if (!el.classList.contains('fade-element') && !el.closest('header') && !el.classList.contains('no-reveal')) {
         el.classList.add('reveal-element');
-        el.style.transitionDelay = `${(index % 6) * 100}ms`;
         revealObserver.observe(el);
       }
     });
@@ -720,17 +951,17 @@
             <div class="${isLeft ? 'order-2 lg:order-1' : 'order-2 lg:order-2'} flex items-center justify-center relative">
                <img src="${escapeServiceHtml(t.image)}" alt="${escapeServiceHtml(t.image_alt || t.title)}" class="w-full h-auto object-cover rounded-2xl" onerror="this.style.display='none'"/>
             </div>
-            <div class="${isLeft ? 'order-1 lg:order-2 lg:ml-auto' : 'order-1 lg:order-1 lg:mr-auto'} flex flex-col gap-3 sm:gap-5 max-w-lg mx-auto lg:mx-0">
-              <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-500 dark:text-[#a0a0a0]">
+            <div class="${isLeft ? 'order-1 lg:order-2 lg:ml-auto' : 'order-1 lg:order-1 lg:mr-auto'} flex flex-col gap-1 sm:gap-5 max-w-lg mx-auto lg:mx-0">
+              <div class="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-sm font-semibold text-slate-500 dark:text-[#a0a0a0]">
                 ${t.icon || ''}
                 ${formatTimelineLabel(t.step_label || `Step ${t.step_number}`)}
               </div>
-              <h3 class="text-2xl sm:text-3xl lg:text-4xl font-semibold text-slate-900 dark:text-white leading-tight">${escapeServiceHtml(t.title)}</h3>
-              <p class="text-sm sm:text-base text-slate-600 dark:text-[#a0a0a0] leading-relaxed">
+              <h3 class="text-xl sm:text-3xl lg:text-4xl font-semibold text-slate-900 dark:text-white leading-tight">${escapeServiceHtml(t.title)}</h3>
+              <p class="text-xs sm:text-base text-slate-600 dark:text-[#a0a0a0] leading-relaxed">
                 ${escapeServiceHtml(t.description || t.short_description)}
               </p>
               ${t.button_link ? `
-              <a href="${escapeServiceHtml(t.button_link)}" class="text-xs sm:text-sm font-medium text-brand-blue hover:text-blue-600 mt-1 sm:mt-2 flex items-center gap-1 transition-colors">${escapeServiceHtml(t.button_text || 'Learn More')} <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+              <a href="${escapeServiceHtml(t.button_link)}" class="text-[11px] sm:text-sm font-medium text-brand-blue hover:text-blue-600 mt-1 sm:mt-2 flex items-center gap-1 transition-colors">${escapeServiceHtml(t.button_text || 'Learn More')} <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
               ` : ''}
             </div>
           </div>
@@ -748,13 +979,13 @@
       activeItems.forEach(item => {
         html += `
           <div class="faq-item rounded-2xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-[#0a0a0a]">
-            <button type="button" class="flex w-full items-center justify-between gap-3 sm:gap-4 p-4 sm:p-6 text-left font-medium text-base sm:text-xl text-slate-900 dark:text-white">
+            <button type="button" class="flex w-full items-center justify-between gap-3 sm:gap-4 p-4 sm:p-6 text-left font-medium text-[13px] sm:text-xl text-slate-900 dark:text-white">
               ${escapeServiceHtml(item.question)}
               <svg class="w-5 h-5 text-slate-600 dark:text-[#a0a0a0] transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </button>
             <div class="faq-content grid transition-all duration-300 grid-rows-[0fr] opacity-0">
               <div class="overflow-hidden">
-                <div class="px-4 pb-4 sm:px-6 sm:pb-6 text-sm sm:text-lg leading-relaxed text-slate-600 dark:text-[#a0a0a0]">
+                <div class="px-4 pb-4 sm:px-6 sm:pb-6 text-[13px] sm:text-lg leading-relaxed text-slate-600 dark:text-[#a0a0a0]">
                   ${escapeServiceHtml(item.answer).replace(/\n/g, '<br>')}
                 </div>
               </div>
@@ -872,8 +1103,96 @@
         if (data.settings.hero) {
           try {
             if (data.settings.hero.title_main) document.getElementById('dyn-hero-title_main').innerHTML = data.settings.hero.title_main;
-            if (data.settings.hero.title_gradient) document.getElementById('dyn-hero-title_gradient').innerHTML = data.settings.hero.title_gradient;
-            if (data.settings.hero.subtitle) document.getElementById('dyn-hero-subtitle').innerHTML = data.settings.hero.subtitle;
+            if (data.settings.hero.title_gradient) {
+              const gradEl = document.getElementById('dyn-hero-title_gradient');
+              if (gradEl) {
+                const texts = data.settings.hero.title_gradient.split(',').map(s => s.trim()).filter(s => s);
+                if (texts.length > 0) {
+                  gradEl.style.display = 'inline-block';
+                  gradEl.style.overflow = 'hidden';
+                  gradEl.style.verticalAlign = 'bottom';
+                  
+                  // Get classes to move to children so background-clip works
+                  const classes = gradEl.className + ' pb-2 sm:pb-3';
+                  gradEl.className = 'inline-block overflow-hidden whitespace-nowrap -mb-2 sm:-mb-3';
+                  
+                  const initialSpan = document.createElement('span');
+                  initialSpan.textContent = texts[0];
+                  initialSpan.className = classes;
+                  initialSpan.style.display = 'block';
+                  initialSpan.style.transform = 'translateY(0)';
+                  gradEl.innerHTML = '';
+                  gradEl.appendChild(initialSpan);
+
+                  if (texts.length > 1) {
+                    let idx = 0;
+                    setInterval(() => {
+                      const currentSpan = gradEl.children[0];
+                      const nextSpan = document.createElement('span');
+                      idx = (idx + 1) % texts.length;
+                      nextSpan.textContent = texts[idx];
+                      nextSpan.className = classes;
+                      nextSpan.style.display = 'block';
+                      nextSpan.style.transform = 'translateY(100%)';
+                      nextSpan.style.transition = 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
+                      
+                      // Absolute position next span to overlap and measure
+                      nextSpan.style.position = 'absolute';
+                      nextSpan.style.left = '0';
+                      nextSpan.style.bottom = '0';
+                      
+                      gradEl.style.position = 'relative';
+                      gradEl.appendChild(nextSpan);
+                      
+                      currentSpan.style.transition = 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
+                      
+                      // Force reflow
+                      void gradEl.offsetWidth;
+                      
+                      currentSpan.style.transform = 'translateY(-100%)';
+                      nextSpan.style.transform = 'translateY(0)';
+                      
+                      setTimeout(() => {
+                        if (currentSpan.parentNode === gradEl) {
+                          gradEl.removeChild(currentSpan);
+                          nextSpan.style.position = 'relative';
+                        }
+                      }, 600);
+                    }, 3000);
+                  }
+                }
+              }
+            }
+            if (data.settings.hero.subtitle) {
+              const subEl = document.getElementById('dyn-hero-subtitle');
+              if (subEl) {
+                const lines = data.settings.hero.subtitle.split(/<br\s*\/?>|\n/i).filter(line => line.trim().length > 0);
+                subEl.innerHTML = lines.map(line => `<li>${line.trim()}</li>`).join('');
+                // Check color theme
+                const titleMain = document.getElementById('dyn-hero-title_main');
+                const titleParent = titleMain.parentElement;
+                
+                if (data.settings.hero.text_theme === 'dark') {
+                  // For light mode it's dark text, for dark mode it adapts to white
+                  titleMain.classList.remove('text-white');
+                  titleMain.classList.add('text-slate-900', 'dark:text-white');
+                  titleParent.classList.remove('text-white');
+                  titleParent.classList.add('text-slate-900', 'dark:text-white');
+                  subEl.classList.remove('text-white/70');
+                  subEl.classList.add('text-slate-800', 'dark:text-slate-300');
+                  subEl.style.color = ''; // clear inline style
+                } else {
+                  // Always white text regardless of theme (suitable for dark backgrounds)
+                  titleMain.classList.remove('text-slate-900', 'dark:text-white');
+                  titleMain.classList.add('text-white');
+                  titleParent.classList.remove('text-slate-900', 'dark:text-white');
+                  titleParent.classList.add('text-white');
+                  subEl.classList.remove('text-slate-800', 'dark:text-slate-300');
+                  subEl.classList.add('text-white/70');
+                  subEl.style.color = ''; // clear inline style
+                }
+              }
+            }
             if (data.settings.hero.cta_text) {
               const btn = document.getElementById('dyn-hero-cta');
               if (btn) {
@@ -882,34 +1201,74 @@
                 btn.href = '/login?type=register';
               }
             }
-            if (data.settings.hero.content_image) {
+            if (typeof data.settings.hero.content_image !== 'undefined') {
               const heroImg = document.getElementById('dyn-hero-content-image');
               const heroVidWrapper = document.getElementById('dyn-hero-video-wrapper');
               const heroVid = document.getElementById('dyn-hero-content-video');
+              const heroPlaceholder = document.getElementById('dyn-hero-placeholder');
               const src = data.settings.hero.content_image;
               
-              if (src.match(/\.(mp4|webm|ogg|mov)$/i)) {
-                if (heroVid) {
-                  heroVid.src = src;
+              if (src && src.trim() !== '') {
+                if (heroPlaceholder) heroPlaceholder.classList.add('hidden');
+                if (src.match(/\.(mp4|webm|ogg|mov)$/i)) {
+                  if (heroVid) heroVid.src = src;
+                  if (heroVidWrapper) heroVidWrapper.classList.remove('hidden');
+                  if (heroImg) heroImg.classList.add('hidden');
+                } else {
+                  if (heroImg) {
+                    heroImg.src = src;
+                    heroImg.classList.remove('hidden');
+                  }
+                  if (heroVidWrapper) heroVidWrapper.classList.add('hidden');
+                  if (heroVid) heroVid.pause();
                 }
-                if (heroVidWrapper) heroVidWrapper.classList.remove('hidden');
-                if (heroImg) heroImg.classList.add('hidden');
               } else {
-                if (heroImg) {
-                  heroImg.src = src;
-                  heroImg.classList.remove('hidden');
-                }
+                if (heroImg) heroImg.classList.add('hidden');
                 if (heroVidWrapper) heroVidWrapper.classList.add('hidden');
+                if (heroPlaceholder) heroPlaceholder.classList.remove('hidden');
                 if (heroVid) heroVid.pause();
               }
             }
-            if (data.settings.hero.backgrounds_data) {
-              try {
-                const bgArr = JSON.parse(data.settings.hero.backgrounds_data);
-                if (Array.isArray(bgArr) && bgArr.length > 0) {
-                  initHeroBackgroundSlider(bgArr);
+            const sliderActive = !(data.settings.hero.slider_active === 'false' || data.settings.hero.slider_active === false);
+            
+            const heroBgSlider = document.getElementById('hero-bg-slider');
+            const homeSection = document.getElementById('home');
+            const mainHeader = document.getElementById('mainHeader');
+
+            if (!sliderActive) {
+              if (heroBgSlider) heroBgSlider.classList.add('hidden');
+              if (homeSection) {
+                homeSection.classList.remove('bg-[#050b14]', 'bg-white');
+                homeSection.classList.add('hero-gradient-bg', 'hero-light');
+              }
+              if (mainHeader) {
+                mainHeader.classList.add('navbar-adaptive');
+                // Force language button dark text via inline style (override dark: Tailwind)
+                const langBtn = document.getElementById('languageToggle');
+                if (langBtn) {
+                  langBtn.style.color = '#0f172a';
+                  langBtn.style.borderColor = '#94a3b8';
+                  langBtn.querySelectorAll('*').forEach(el => { el.style.color = '#0f172a'; });
+                  langBtn.querySelectorAll('svg').forEach(el => { el.style.stroke = '#0f172a'; });
                 }
-              } catch(e) {}
+              }
+            } else {
+              if (heroBgSlider) heroBgSlider.classList.remove('hidden');
+              if (homeSection) {
+                homeSection.classList.add('bg-[#050b14]');
+                homeSection.classList.remove('bg-white', 'dark:bg-[#0a0a0a]', 'hero-light');
+              }
+              if (mainHeader) {
+                mainHeader.classList.remove('navbar-adaptive');
+              }
+              if (data.settings.hero.backgrounds_data) {
+                try {
+                  const bgArr = JSON.parse(data.settings.hero.backgrounds_data);
+                  if (Array.isArray(bgArr) && bgArr.length > 0) {
+                    initHeroBackgroundSlider(bgArr);
+                  }
+                } catch(e) {}
+              }
             }
           } catch(e) { console.error('Error applying hero settings:', e); }
         }
@@ -1024,7 +1383,15 @@
             const srvButton = document.getElementById('dyn-services-button');
             if(srvTitle && data.settings.services.title) srvTitle.innerHTML = data.settings.services.title;
             if(srvDesc && data.settings.services.subtitle) srvDesc.innerHTML = data.settings.services.subtitle;
-            if(srvButton && data.settings.services.button_text) srvButton.innerHTML = data.settings.services.button_text;
+            if(srvButton && data.settings.services.button_text) {
+              const srvSpan = document.getElementById('dyn-view-all-services');
+              if (srvSpan) {
+                srvSpan.textContent = data.settings.services.button_text;
+              } else {
+                const arrowSVG = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>';
+                srvButton.innerHTML = '<span id="dyn-view-all-services">' + data.settings.services.button_text + '</span>' + arrowSVG;
+              }
+            }
             if(srvButton) srvButton.href = '/services';
           } catch(e) { console.error('Error applying services settings:', e); }
         }
@@ -1118,6 +1485,58 @@
       </svg>
     </a>
   </div>
+
+  <!-- Video Modal -->
+  <div id="videoModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/90 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+    <div class="relative w-full max-w-5xl mx-4 aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300" id="videoModalContent">
+      <button onclick="closeVideoModal()" class="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 hover:bg-white/20 backdrop-blur text-white rounded-full flex items-center justify-center transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+      <video id="modalVideoPlayer" class="w-full h-full object-contain" controls playsinline></video>
+    </div>
+  </div>
+
+  <script>
+    function openVideoModal() {
+      const src = document.getElementById('dyn-hero-content-video').src;
+      if (!src) return;
+      const modal = document.getElementById('videoModal');
+      const player = document.getElementById('modalVideoPlayer');
+      const content = document.getElementById('videoModalContent');
+      
+      player.src = src;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      // small delay to allow display:flex to apply before opacity transition
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        content.classList.remove('scale-95');
+        player.play().catch(e => console.log('Auto-play prevented'));
+      }, 10);
+    }
+
+    function closeVideoModal() {
+      const modal = document.getElementById('videoModal');
+      const player = document.getElementById('modalVideoPlayer');
+      const content = document.getElementById('videoModalContent');
+      
+      modal.classList.add('opacity-0');
+      content.classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        player.pause();
+        player.src = '';
+      }, 300);
+    }
+    
+    // Close modal on outside click
+    document.getElementById('videoModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeVideoModal();
+      }
+    });
+  </script>
 
   <script>
     window.addEventListener('scroll', () => {

@@ -330,7 +330,7 @@ app.get("/services", async (req, res) => {
       "SELECT setting_key, setting_value FROM settings WHERE section = 'service_items'"
     );
 
-    const services = rows
+    let services = rows
       .map((row) => {
         try {
           const service = JSON.parse(row.setting_value || "{}");
@@ -347,15 +347,36 @@ app.get("/services", async (req, res) => {
         return String(a.title || "").localeCompare(String(b.title || ""));
       });
 
+    const categories = [...new Set(services.map(s => s.category).filter(Boolean))].sort();
+    const activeCategory = req.query.category || "";
+
+    if (activeCategory) {
+      services = services.filter(s => s.category === activeCategory);
+    }
+
     const page = parseInt(req.query.page) || 1;
     const limit = 9;
-    const totalPages = Math.ceil(services.length / limit);
+    const totalPages = Math.ceil(services.length / limit) || 1;
     const paginatedServices = services.slice((page - 1) * limit, page * limit);
 
-    res.render("services", { user: req.session || null, services: paginatedServices, currentPage: page, totalPages });
+    res.render("services", { 
+      user: req.session || null, 
+      services: paginatedServices, 
+      currentPage: page, 
+      totalPages,
+      categories,
+      activeCategory 
+    });
   } catch (error) {
     console.error("Services page error:", error);
-    res.status(500).render("services", { user: req.session || null, services: [], currentPage: 1, totalPages: 0 });
+    res.status(500).render("services", { 
+      user: req.session || null, 
+      services: [], 
+      currentPage: 1, 
+      totalPages: 0,
+      categories: [],
+      activeCategory: "" 
+    });
   }
 });
 
@@ -398,7 +419,7 @@ app.get("/portfolio", async (req, res) => {
       "SELECT setting_key, setting_value FROM settings WHERE section = 'project_items'"
     );
 
-    const projects = rows
+    let projects = rows
       .map((row) => {
         try {
           const project = JSON.parse(row.setting_value || "{}");
@@ -415,15 +436,36 @@ app.get("/portfolio", async (req, res) => {
         return String(a.title || "").localeCompare(String(b.title || ""));
       });
 
+    const categories = [...new Set(projects.map(p => p.category).filter(Boolean))].sort();
+    const activeCategory = req.query.category || "";
+
+    if (activeCategory) {
+      projects = projects.filter(p => p.category === activeCategory);
+    }
+
     const page = parseInt(req.query.page) || 1;
     const limit = 9;
-    const totalPages = Math.ceil(projects.length / limit);
+    const totalPages = Math.ceil(projects.length / limit) || 1;
     const paginatedProjects = projects.slice((page - 1) * limit, page * limit);
 
-    res.render("portfolio", { user: req.session || null, projects: paginatedProjects, currentPage: page, totalPages });
+    res.render("portfolio", { 
+      user: req.session || null, 
+      projects: paginatedProjects, 
+      currentPage: page, 
+      totalPages,
+      categories,
+      activeCategory 
+    });
   } catch (error) {
     console.error("Portfolio page error:", error);
-    res.status(500).render("portfolio", { user: req.session || null, projects: [], currentPage: 1, totalPages: 0 });
+    res.status(500).render("portfolio", { 
+      user: req.session || null, 
+      projects: [], 
+      currentPage: 1, 
+      totalPages: 0,
+      categories: [],
+      activeCategory: "" 
+    });
   }
 });
 
