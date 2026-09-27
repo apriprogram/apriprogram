@@ -269,10 +269,10 @@
       transform: none !important;
     }
 
-    .rounded-2xl, .faq-item {
+    .faq-item {
       transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .rounded-2xl:hover, .faq-item:hover {
+    .faq-item:hover {
       transform: translateY(-8px);
       box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
       z-index: 10;
@@ -422,6 +422,14 @@
         <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050b14]/80"></div>
       </div>
       <div class="hero-glow"></div>
+      
+      <!-- Grid pattern for light mode -->
+      <style>
+        .hero-light .hero-light-grid { opacity: 0.03 !important; }
+        .dark .hero-light .hero-light-grid { opacity: 0.05 !important; }
+      </style>
+      <div class="hero-light-grid absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-500" style="background-image: linear-gradient(rgba(36,60,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(36,60,255,1) 1px, transparent 1px); background-size: 50px 50px; z-index: 1;"></div>
+
 
       <!-- Two-column split layout -->
       <div class="hero-split relative z-10 font-sans">
@@ -481,19 +489,30 @@
               </div>
             </div>
 
-            <!-- Floating label -->
-            <div class="absolute bottom-4 right-4 flex items-center gap-2 bg-[#0a0a0a]/80 backdrop-blur border border-white/10 rounded-full px-3 py-1.5" style="z-index:20;">
-              <img src="/assets/logo/favicon.png" alt="Apriprogram" class="w-5 h-5 rounded-full" />
-              <span class="text-white text-xs font-medium">Let's build yours.</span>
-            </div>
           </div>
         </div>
 
       </div>
     </section>
 
-    <!-- New Service Section (Google Blog Style) -->
-    <style>#newServiceCarousel::-webkit-scrollbar { display: none; }</style>
+    <style>
+      /* Carousel / Grid toggle */
+      .carousel-mode { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 1rem; padding-bottom: 1rem; scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
+      @media (min-width: 640px) { .carousel-mode { gap: 1.5rem; } }
+      .carousel-mode::-webkit-scrollbar { height: 4px; }
+      .carousel-mode::-webkit-scrollbar-track { background: transparent; }
+      .carousel-mode::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+      .dark .carousel-mode::-webkit-scrollbar-thumb { background: #444; }
+      .carousel-mode .carousel-card { flex-shrink: 0; width: 85vw; scroll-snap-align: start; }
+      @media (min-width: 768px) { .carousel-mode .carousel-card { width: 45vw; } }
+      @media (min-width: 1024px) { .carousel-mode .carousel-card { width: 23vw; } }
+      .carousel-mode .carousel-spacer { flex-shrink: 0; width: 4px; }
+
+      .grid-mode { display: grid; grid-template-columns: repeat(1, minmax(0,1fr)); gap: 2.5rem; padding-bottom: 1.5rem; }
+      @media (min-width: 640px) { .grid-mode { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1.5rem; } }
+      @media (min-width: 1024px) { .grid-mode { grid-template-columns: repeat(4, minmax(0,1fr)); gap: 2rem; } }
+      .grid-mode .carousel-spacer { display: none; }
+    </style>
     <section id="services" class="pt-8 pb-10 sm:py-24 bg-white dark:bg-[#0a0a0a] transition-colors border-b border-slate-200 dark:border-white/5">
       <div class="mx-auto w-full px-4 sm:px-6 lg:px-[6%]">
         
@@ -505,68 +524,82 @@
              <p class="text-[13px] sm:text-base text-slate-600 dark:text-[#a0a0a0] leading-relaxed md:text-right">
                Kami menyediakan berbagai layanan digital profesional, mulai dari desain antarmuka hingga pengembangan sistem yang dirancang khusus untuk pertumbuhan bisnis Anda.
              </p>
-             <div class="flex items-center gap-4 w-full justify-between md:justify-end">
-               <a href="/services" id="dyn-services-button" class="group inline-flex items-center gap-1.5 sm:gap-2 px-3.5 py-1.5 sm:px-5 sm:py-2.5 rounded-full border border-slate-200 dark:border-white/10 hover:border-brand-blue dark:hover:border-brand-blue text-[11px] sm:text-sm font-medium transition-all text-slate-900 dark:text-white hover:text-brand-blue dark:hover:text-brand-blue"><span id="dyn-view-all-services">Lihat semua layanan</span><svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></a>
-               <!-- Navigation Arrows -->
-               <div class="flex gap-2 sm:gap-4">
-                 <button onclick="document.getElementById('newServiceCarousel').scrollBy({left: -300, behavior: 'smooth'})" class="w-8 h-8 sm:w-12 sm:h-12 rounded-full border border-slate-200 dark:border-white/10 flex items-center justify-center hover:border-brand-blue transition-all group">
-                   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-3.5 h-3.5 sm:w-5 sm:h-5 text-slate-900 dark:text-white group-hover:text-brand-blue transition-colors"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+             <div class="flex items-center gap-2 w-full justify-between md:justify-end">
+               <a href="/services" id="dyn-services-button" class="group inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-slate-200 dark:border-white/10 hover:border-brand-blue dark:hover:border-brand-blue text-[11px] sm:text-sm font-medium transition-all text-slate-900 dark:text-white hover:text-brand-blue dark:hover:text-brand-blue"><span id="dyn-view-all-services">Lihat semua layanan</span><svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></a>
+               <!-- Expand + Arrows in same row -->
+               <div class="flex items-center gap-2">
+                 <button id="servicesExpandBtn" onclick="toggleCarouselExpand('newServiceCarousel','servicesExpandBtn','newServiceArrows')" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-slate-200 dark:border-white/10 hover:border-brand-blue dark:hover:border-brand-blue text-[11px] sm:text-sm font-medium transition-all text-slate-900 dark:text-white hover:text-brand-blue dark:hover:text-brand-blue">
+                   <svg id="servicesExpandIcon" class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"/></svg>
+                   <span id="servicesExpandText">Expand</span>
                  </button>
-                 <button onclick="document.getElementById('newServiceCarousel').scrollBy({left: 300, behavior: 'smooth'})" class="w-8 h-8 sm:w-12 sm:h-12 rounded-full border border-slate-200 dark:border-white/10 flex items-center justify-center hover:border-brand-blue transition-all group">
-                   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-3.5 h-3.5 sm:w-5 sm:h-5 text-slate-900 dark:text-white group-hover:text-brand-blue transition-colors"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                 </button>
+                 <div id="newServiceArrows" class="flex items-center gap-2">
+                   <button onclick="document.getElementById('newServiceCarousel').scrollBy({left: -300, behavior: 'smooth'})" class="inline-flex items-center justify-center w-[34px] h-[34px] sm:w-10 sm:h-10 rounded-full border border-slate-200 dark:border-white/10 hover:border-brand-blue transition-all group">
+                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-900 dark:text-white group-hover:text-brand-blue transition-colors"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                   </button>
+                   <button onclick="document.getElementById('newServiceCarousel').scrollBy({left: 300, behavior: 'smooth'})" class="inline-flex items-center justify-center w-[34px] h-[34px] sm:w-10 sm:h-10 rounded-full border border-slate-200 dark:border-white/10 hover:border-brand-blue transition-all group">
+                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-900 dark:text-white group-hover:text-brand-blue transition-colors"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                   </button>
+                 </div>
                </div>
              </div>
           </div>
         </div>
         
-        <div id="newServiceCarousel" class="flex overflow-x-auto gap-4 sm:gap-6 lg:gap-6 snap-x snap-mandatory pb-6" style="-ms-overflow-style: none; scrollbar-width: none;">
+        <div id="newServiceCarousel" class="carousel-mode">
           <!-- Card 1 -->
-          <div class="shrink-0 w-[85vw] md:w-[45vw] lg:w-[23vw] snap-start flex flex-col gap-6 cursor-pointer group">
+          <div class="carousel-card flex flex-col gap-2 sm:gap-3 cursor-pointer group">
             <div class="relative w-full aspect-[4/3] sm:aspect-square rounded-2xl overflow-hidden bg-slate-100 dark:bg-[#1a1a1a]">
                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80" alt="Website Company Profile" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
             </div>
-            <div class="flex flex-col gap-1.5">
-              <h3 class="text-lg sm:text-[1.35rem] font-normal text-slate-900 dark:text-white leading-snug">Website Company Profile</h3>
-              <p class="text-xs sm:text-[13px] text-slate-500 dark:text-[#a0a0a0] mt-1 sm:mt-2 tracking-wide">May 19, 2026 &nbsp;&nbsp; Web Design</p>
-              <a href="/company-profile" class="text-xs sm:text-sm font-medium text-slate-900 dark:text-white group-hover:underline mt-1 flex items-center gap-1">Read details &gt;</a>
+            <div class="flex flex-col gap-1">
+              <div class="flex items-start justify-between gap-2">
+                <h3 class="text-base sm:text-[1rem] font-semibold text-slate-900 dark:text-white leading-snug">Website Company Profile</h3>
+                <p class="text-xs sm:text-[13px] text-slate-500 dark:text-[#a0a0a0] tracking-wide shrink-0 pt-0.5">Web Design</p>
+              </div>
+              <a href="/company-profile" class="text-xs sm:text-sm font-medium text-slate-900 dark:text-white group-hover:underline flex items-center gap-1">Lihat detail &gt;</a>
             </div>
           </div>
           <!-- Card 2 -->
-          <div class="shrink-0 w-[85vw] md:w-[45vw] lg:w-[23vw] snap-start flex flex-col gap-4 sm:gap-6 cursor-pointer group">
+          <div class="carousel-card flex flex-col gap-2 sm:gap-3 cursor-pointer group">
             <div class="relative w-full aspect-[4/3] sm:aspect-square rounded-xl sm:rounded-2xl overflow-hidden bg-slate-100 dark:bg-[#1a1a1a]">
                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80" alt="Web App Dashboard" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
             </div>
-            <div class="flex flex-col gap-1.5">
-              <h3 class="text-lg sm:text-[1.35rem] font-normal text-slate-900 dark:text-white leading-snug">Aplikasi Web & Dashboard</h3>
-              <p class="text-xs sm:text-[13px] text-slate-500 dark:text-[#a0a0a0] mt-1 sm:mt-2 tracking-wide">May 20, 2026 &nbsp;&nbsp; Web App</p>
-              <a href="/services/aplikasi-web-dashboard" class="text-xs sm:text-sm font-medium text-slate-900 dark:text-white group-hover:underline mt-1 flex items-center gap-1">Read details &gt;</a>
+            <div class="flex flex-col gap-1">
+              <div class="flex items-start justify-between gap-2">
+                <h3 class="text-base sm:text-[1rem] font-semibold text-slate-900 dark:text-white leading-snug">Aplikasi Web & Dashboard</h3>
+                <p class="text-xs sm:text-[13px] text-slate-500 dark:text-[#a0a0a0] tracking-wide shrink-0 pt-0.5">Web App</p>
+              </div>
+              <a href="/services/aplikasi-web-dashboard" class="text-xs sm:text-sm font-medium text-slate-900 dark:text-white group-hover:underline flex items-center gap-1">Lihat detail &gt;</a>
             </div>
           </div>
           <!-- Card 3 -->
-          <div class="shrink-0 w-[85vw] md:w-[45vw] lg:w-[23vw] snap-start flex flex-col gap-4 sm:gap-6 cursor-pointer group">
+          <div class="carousel-card flex flex-col gap-2 sm:gap-3 cursor-pointer group">
             <div class="relative w-full aspect-[4/3] sm:aspect-square rounded-xl sm:rounded-2xl overflow-hidden bg-slate-100 dark:bg-[#1a1a1a]">
                <img src="https://images.unsplash.com/photo-1522199755839-a2bacb67c546?auto=format&fit=crop&w=600&q=80" alt="Toko Online" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
             </div>
-            <div class="flex flex-col gap-1.5">
-              <h3 class="text-lg sm:text-[1.35rem] font-normal text-slate-900 dark:text-white leading-snug">Toko Online Custom</h3>
-              <p class="text-xs sm:text-[13px] text-slate-500 dark:text-[#a0a0a0] mt-1 sm:mt-2 tracking-wide">May 21, 2026 &nbsp;&nbsp; E-Commerce</p>
-              <a href="/services/toko-online-custom" class="text-xs sm:text-sm font-medium text-slate-900 dark:text-white group-hover:underline mt-1 flex items-center gap-1">Read details &gt;</a>
+            <div class="flex flex-col gap-1">
+              <div class="flex items-start justify-between gap-2">
+                <h3 class="text-base sm:text-[1rem] font-semibold text-slate-900 dark:text-white leading-snug">Toko Online Custom</h3>
+                <p class="text-xs sm:text-[13px] text-slate-500 dark:text-[#a0a0a0] tracking-wide shrink-0 pt-0.5">E-Commerce</p>
+              </div>
+              <a href="/services/toko-online-custom" class="text-xs sm:text-sm font-medium text-slate-900 dark:text-white group-hover:underline flex items-center gap-1">Lihat detail &gt;</a>
             </div>
           </div>
           <!-- Card 4 -->
-          <div class="shrink-0 w-[85vw] md:w-[45vw] lg:w-[23vw] snap-start flex flex-col gap-4 sm:gap-6 cursor-pointer group">
+          <div class="carousel-card flex flex-col gap-2 sm:gap-3 cursor-pointer group">
             <div class="relative w-full aspect-[4/3] sm:aspect-square rounded-xl sm:rounded-2xl overflow-hidden bg-slate-100 dark:bg-[#1a1a1a]">
                <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=80" alt="SEO Optimization" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
             </div>
-            <div class="flex flex-col gap-1.5">
-              <h3 class="text-lg sm:text-[1.35rem] font-normal text-slate-900 dark:text-white leading-snug">SEO Optimization</h3>
-              <p class="text-xs sm:text-[13px] text-slate-500 dark:text-[#a0a0a0] mt-1 sm:mt-2 tracking-wide">May 22, 2026 &nbsp;&nbsp; Marketing</p>
-              <a href="/services/seo-optimization" class="text-xs sm:text-sm font-medium text-slate-900 dark:text-white group-hover:underline mt-1 flex items-center gap-1">Read details &gt;</a>
+            <div class="flex flex-col gap-1">
+              <div class="flex items-start justify-between gap-2">
+                <h3 class="text-base sm:text-[1rem] font-semibold text-slate-900 dark:text-white leading-snug">SEO Optimization</h3>
+                <p class="text-xs sm:text-[13px] text-slate-500 dark:text-[#a0a0a0] tracking-wide shrink-0 pt-0.5">Marketing</p>
+              </div>
+              <a href="/services/seo-optimization" class="text-xs sm:text-sm font-medium text-slate-900 dark:text-white group-hover:underline flex items-center gap-1">Lihat detail &gt;</a>
             </div>
           </div>
           <!-- Spacer -->
-          <div class="shrink-0 w-1"></div>
+          <div class="carousel-spacer"></div>
         </div>
 
 
@@ -586,25 +619,30 @@
              <p class="text-[13px] sm:text-base text-slate-600 dark:text-[#a0a0a0] leading-relaxed md:text-right">
                Apriprogram is built for user trust, whether you're a growing startup building a new digital presence, a large enterprise, or anyone in between.
              </p>
-             <div class="flex items-center gap-4 w-full justify-between md:justify-end">
-               <a href="/portfolio" id="dyn-projects-button" class="group inline-flex items-center gap-1.5 sm:gap-2 px-3.5 py-1.5 sm:px-5 sm:py-2.5 rounded-full border border-slate-200 dark:border-white/10 hover:border-brand-blue dark:hover:border-brand-blue text-[11px] sm:text-sm font-medium transition-all text-slate-900 dark:text-white hover:text-brand-blue dark:hover:text-brand-blue"><span id="dyn-view-all-projects">Lihat semua proyek</span><svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></a>
-               <!-- Global Navigation Arrows -->
-               <div class="flex gap-2 sm:gap-4">
-                 <button onclick="document.getElementById('productCarousel').scrollBy({left: -400, behavior: 'smooth'})" class="w-8 h-8 sm:w-12 sm:h-12 rounded-full border border-slate-200 dark:border-white/10 flex items-center justify-center hover:border-brand-blue transition-all group">
-                   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-3.5 h-3.5 sm:w-5 sm:h-5 text-slate-900 dark:text-white group-hover:text-brand-blue transition-colors"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+             <div class="flex items-center gap-2 w-full justify-between md:justify-end">
+               <a href="/portfolio" id="dyn-projects-button" class="group inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-slate-200 dark:border-white/10 hover:border-brand-blue dark:hover:border-brand-blue text-[11px] sm:text-sm font-medium transition-all text-slate-900 dark:text-white hover:text-brand-blue dark:hover:text-brand-blue"><span id="dyn-view-all-projects">Lihat semua proyek</span><svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></a>
+               <!-- Expand + Arrows in same row -->
+               <div class="flex items-center gap-2">
+                 <button id="projectsExpandBtn" onclick="toggleCarouselExpand('productCarousel','projectsExpandBtn','projectsArrows')" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-slate-200 dark:border-white/10 hover:border-brand-blue dark:hover:border-brand-blue text-[11px] sm:text-sm font-medium transition-all text-slate-900 dark:text-white hover:text-brand-blue dark:hover:text-brand-blue">
+                   <svg id="projectsExpandIcon" class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"/></svg>
+                   <span id="projectsExpandText">Expand</span>
                  </button>
-                 <button onclick="document.getElementById('productCarousel').scrollBy({left: 400, behavior: 'smooth'})" class="w-8 h-8 sm:w-12 sm:h-12 rounded-full border border-slate-200 dark:border-white/10 flex items-center justify-center hover:border-brand-blue transition-all group">
-                   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-3.5 h-3.5 sm:w-5 sm:h-5 text-slate-900 dark:text-white group-hover:text-brand-blue transition-colors"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                 </button>
+                 <div id="projectsArrows" class="flex items-center gap-2">
+                   <button onclick="document.getElementById('productCarousel').scrollBy({left: -400, behavior: 'smooth'})" class="inline-flex items-center justify-center w-[34px] h-[34px] sm:w-10 sm:h-10 rounded-full border border-slate-200 dark:border-white/10 hover:border-brand-blue transition-all group">
+                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-900 dark:text-white group-hover:text-brand-blue transition-colors"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                   </button>
+                   <button onclick="document.getElementById('productCarousel').scrollBy({left: 400, behavior: 'smooth'})" class="inline-flex items-center justify-center w-[34px] h-[34px] sm:w-10 sm:h-10 rounded-full border border-slate-200 dark:border-white/10 hover:border-brand-blue transition-all group">
+                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-900 dark:text-white group-hover:text-brand-blue transition-colors"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                   </button>
+                 </div>
                </div>
              </div>
           </div>
         </div>
 
         <!-- Carousel Container -->
-        <div id="productCarousel" class="flex overflow-x-auto gap-4 sm:gap-6 lg:gap-8 snap-x snap-mandatory pb-10" style="-ms-overflow-style: none; scrollbar-width: none;">
+        <div id="productCarousel" class="carousel-mode">
         </div>
-        <style>#productCarousel::-webkit-scrollbar { display: none; }</style>
       </div>
     </section>
 
@@ -612,14 +650,14 @@
 
     <!-- Timeline Developments -->
     <section id="cta" class="pt-8 pb-10 sm:py-24 relative overflow-hidden bg-white dark:bg-[#0a0a0a] border-t border-slate-200 dark:border-white/5">
-      <div class="mx-auto w-full px-4 sm:px-6 lg:px-[6%]">
+      <div class="mx-auto w-full lg:w-10/12 2xl:w-9/12 px-4 sm:px-6">
         
         <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-24">
           <h2 class="text-2xl sm:text-4xl lg:text-5xl tracking-tight font-semibold text-slate-900 dark:text-white leading-[1.05] mb-1 sm:mb-6">Timeline<br>Developments</h2>
           <p class="text-xs sm:text-base text-slate-600 dark:text-[#a0a0a0]"><span id="dyn-step-by-step">Langkah demi langkah proses pengembangan website kami untuk memastikan proyek Anda selesai tepat waktu dengan kualitas tinggi.</span></p>
         </div>
 
-        <div id="timelineContainer" class="flex flex-col gap-16 sm:gap-24 lg:gap-32">
+        <div id="timelineContainer" class="flex flex-col gap-12 sm:gap-16 lg:gap-20">
           <!-- Timeline items will be rendered here via JS -->
         </div>
       </div>
@@ -888,6 +926,32 @@
       return escapeServiceHtml(value).replace(/&amp;bull;/g, '&bull;');
     }
 
+    function toggleCarouselExpand(carouselId, btnId, arrowsId) {
+      const carousel = document.getElementById(carouselId);
+      const btn = document.getElementById(btnId);
+      const arrows = document.getElementById(arrowsId);
+      const textEl = btn ? btn.querySelector('span') : null;
+      const iconEl = btn ? btn.querySelector('svg') : null;
+
+      const isExpanded = carousel.classList.contains('grid-mode');
+
+      if (!isExpanded) {
+        // Switch to grid
+        carousel.classList.remove('carousel-mode');
+        carousel.classList.add('grid-mode');
+        if (arrows) arrows.style.display = 'none';
+        if (textEl) textEl.textContent = 'Collapse';
+        if (iconEl) iconEl.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>';
+      } else {
+        // Switch back to carousel
+        carousel.classList.remove('grid-mode');
+        carousel.classList.add('carousel-mode');
+        if (arrows) arrows.style.display = '';
+        if (textEl) textEl.textContent = 'Expand';
+        if (iconEl) iconEl.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"/>';
+      }
+    }
+
     function formatServicePublishDate(value) {
       if (!value) return '';
       const parsed = new Date(value);
@@ -904,17 +968,19 @@
         .sort((a, b) => (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0));
       if (activeServices.length === 0) return;
       carousel.innerHTML = activeServices.map(service => `
-        <div class="shrink-0 w-[85vw] md:w-[45vw] lg:w-[23vw] snap-start flex flex-col gap-4 sm:gap-6 cursor-pointer group" onclick="window.location.href='/services/${encodeURIComponent(service.slug || '')}'">
+        <div class="carousel-card flex flex-col gap-2 sm:gap-3 cursor-pointer group" onclick="window.location.href='/services/${encodeURIComponent(service.slug || '')}'">
           <div class="relative w-full aspect-[4/3] sm:aspect-square rounded-xl sm:rounded-2xl overflow-hidden bg-slate-100 dark:bg-[#1a1a1a]">
             <img src="${escapeServiceHtml(service.image)}" alt="${escapeServiceHtml(service.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 no-reveal" />
           </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-lg sm:text-[1.35rem] font-normal text-slate-900 dark:text-white leading-snug">${escapeServiceHtml(service.title)}</h3>
-            <p class="text-xs sm:text-[13px] text-slate-500 dark:text-[#a0a0a0] mt-1 sm:mt-2 tracking-wide">${escapeServiceHtml(formatServicePublishDate(service.publish_date))} &nbsp;&nbsp; ${escapeServiceHtml(service.category)}</p>
-            <a href="/services/${encodeURIComponent(service.slug || '')}" class="text-xs sm:text-sm font-medium text-slate-900 dark:text-white group-hover:underline mt-1 flex items-center gap-1">${escapeServiceHtml(service.button_text || 'Read details')} &gt;</a>
+          <div class="flex flex-col gap-1">
+            <div class="flex items-start justify-between gap-2">
+              <h3 class="text-base sm:text-[1rem] font-semibold text-slate-900 dark:text-white leading-snug">${escapeServiceHtml(service.title)}</h3>
+              <p class="text-xs sm:text-[13px] text-slate-500 dark:text-[#a0a0a0] tracking-wide shrink-0 pt-0.5">${escapeServiceHtml(service.category)}</p>
+            </div>
+            <a href="/services/${encodeURIComponent(service.slug || '')}" class="text-xs sm:text-sm font-medium text-slate-900 dark:text-white group-hover:underline flex items-center gap-1">${escapeServiceHtml(service.button_text || 'Lihat detail')} &gt;</a>
           </div>
         </div>
-      `).join('') + '<div class="shrink-0 w-1"></div>';
+      `).join('') + '<div class="carousel-spacer"></div>';
     }
 
     function renderProjectCarousel(projectItems) {
@@ -926,17 +992,19 @@
       if (activeProjects.length === 0) return;
       
       carousel.innerHTML = activeProjects.map(project => `
-        <div class="shrink-0 w-[85vw] md:w-[45vw] lg:w-[23vw] snap-start flex flex-col gap-4 sm:gap-6 cursor-pointer group" onclick="window.location.href='/portfolio/${encodeURIComponent(project.slug || '')}'">
+        <div class="carousel-card flex flex-col gap-2 sm:gap-3 cursor-pointer group" onclick="window.location.href='/portfolio/${encodeURIComponent(project.slug || '')}'">
           <div class="relative w-full aspect-[4/3] sm:aspect-square rounded-xl sm:rounded-2xl overflow-hidden bg-slate-100 dark:bg-[#1a1a1a]">
             <img src="${escapeServiceHtml(project.image)}" alt="${escapeServiceHtml(project.image_alt || project.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 no-reveal" />
           </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-lg sm:text-[1.35rem] font-normal text-slate-900 dark:text-white leading-snug">${escapeServiceHtml(project.title)}</h3>
-            <p class="text-xs sm:text-[13px] text-slate-500 dark:text-[#a0a0a0] mt-1 sm:mt-2 tracking-wide">${escapeServiceHtml(formatServicePublishDate(project.publish_date || ''))} &nbsp;&nbsp; ${escapeServiceHtml(project.category || 'Portfolio')}</p>
-            <a href="/portfolio/${encodeURIComponent(project.slug || '')}" class="text-xs sm:text-sm font-medium text-slate-900 dark:text-white group-hover:underline mt-1 flex items-center gap-1">${escapeServiceHtml(project.button_text || 'Read details')} &gt;</a>
+          <div class="flex flex-col gap-1">
+            <div class="flex items-start justify-between gap-2">
+              <h3 class="text-base sm:text-[1rem] font-semibold text-slate-900 dark:text-white leading-snug">${escapeServiceHtml(project.title)}</h3>
+              <p class="text-xs sm:text-[13px] text-slate-500 dark:text-[#a0a0a0] tracking-wide shrink-0 pt-0.5">${escapeServiceHtml(project.category || 'Portfolio')}</p>
+            </div>
+            <a href="/portfolio/${encodeURIComponent(project.slug || '')}" class="text-xs sm:text-sm font-medium text-slate-900 dark:text-white group-hover:underline flex items-center gap-1">${escapeServiceHtml(project.button_text || 'Lihat detail')} &gt;</a>
           </div>
         </div>
-      `).join('') + '<div class="shrink-0 w-1"></div>';
+      `).join('') + '<div class="carousel-spacer"></div>';
     }
 
     function renderTimeline(timelineItems) {
@@ -947,9 +1015,9 @@
       container.innerHTML = activeItems.map((t, index) => {
         const isLeft = index % 2 === 0;
         return `
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-            <div class="${isLeft ? 'order-2 lg:order-1' : 'order-2 lg:order-2'} flex items-center justify-center relative">
-               <img src="${escapeServiceHtml(t.image)}" alt="${escapeServiceHtml(t.image_alt || t.title)}" class="w-full h-auto object-cover rounded-2xl" onerror="this.style.display='none'"/>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div class="${isLeft ? 'order-2 lg:order-1' : 'order-2 lg:order-2'} flex items-center justify-center relative overflow-hidden rounded-2xl group w-full">
+               <img src="${escapeServiceHtml(t.image)}" alt="${escapeServiceHtml(t.image_alt || t.title)}" class="w-full h-auto object-cover rounded-2xl group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'"/>
             </div>
             <div class="${isLeft ? 'order-1 lg:order-2 lg:ml-auto' : 'order-1 lg:order-1 lg:mr-auto'} flex flex-col gap-1 sm:gap-5 max-w-lg mx-auto lg:mx-0">
               <div class="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-sm font-semibold text-slate-500 dark:text-[#a0a0a0]">
