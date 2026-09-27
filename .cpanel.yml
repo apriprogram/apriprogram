@@ -1,6 +1,6 @@
 ---
 deployment:
   tasks:
-    - npm install --production
+    - source ~/nodevenv/public/apriprogram.web.id/20/bin/activate && npm install --production
     - mkdir -p tmp
     - touch tmp/restart.txt
