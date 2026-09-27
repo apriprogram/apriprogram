@@ -1,7 +1,6 @@
 ---
 deployment:
   tasks:
-    - cd /home/tanjunak/public/apriprogram.web.id
     - npm install --production
     - mkdir -p tmp
     - touch tmp/restart.txt
