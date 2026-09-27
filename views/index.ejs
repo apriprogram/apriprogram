@@ -425,8 +425,22 @@
       
       <!-- Grid pattern for light mode -->
       <style>
-        .hero-light .hero-light-grid { opacity: 0.03 !important; }
-        .dark .hero-light .hero-light-grid { opacity: 0.05 !important; }
+        .hero-light .hero-light-grid { opacity: 0.08 !important; }
+        .dark .hero-light .hero-light-grid { opacity: 0.1 !important; }
+        .hero-light .hero-glow { background: radial-gradient(ellipse at 20% -10%, rgba(36, 60, 255, 0.65), transparent 70%) !important; }
+        .dark .hero-light .hero-glow { background: radial-gradient(ellipse at 20% -10%, rgba(36, 60, 255, 0.45), transparent 70%) !important; }
+        .hero-light #dyn-hero-title_gradient { 
+            background-image: linear-gradient(to right, #1d4ed8, #0ea5e9) !important; 
+            -webkit-background-clip: text !important;
+            background-clip: text !important;
+            color: transparent !important;
+        }
+        .dark .hero-light #dyn-hero-title_gradient { 
+            background-image: linear-gradient(to right, #60a5fa, #22d3ee) !important; 
+            -webkit-background-clip: text !important;
+            background-clip: text !important;
+            color: transparent !important;
+        }
       </style>
       <div class="hero-light-grid absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-500" style="background-image: linear-gradient(rgba(36,60,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(36,60,255,1) 1px, transparent 1px); background-size: 50px 50px; z-index: 1;"></div>
 
@@ -1176,18 +1190,19 @@
               if (gradEl) {
                 const texts = data.settings.hero.title_gradient.split(',').map(s => s.trim()).filter(s => s);
                 if (texts.length > 0) {
-                  gradEl.style.display = 'inline-block';
+                  gradEl.style.display = 'inline-grid';
                   gradEl.style.overflow = 'hidden';
                   gradEl.style.verticalAlign = 'bottom';
                   
                   // Get classes to move to children so background-clip works
                   const classes = gradEl.className + ' pb-2 sm:pb-3';
-                  gradEl.className = 'inline-block overflow-hidden whitespace-nowrap -mb-2 sm:-mb-3';
+                  gradEl.className = 'inline-grid overflow-hidden whitespace-nowrap -mb-2 sm:-mb-3';
                   
                   const initialSpan = document.createElement('span');
                   initialSpan.textContent = texts[0];
                   initialSpan.className = classes;
                   initialSpan.style.display = 'block';
+                  initialSpan.style.gridArea = '1 / 1';
                   initialSpan.style.transform = 'translateY(0)';
                   gradEl.innerHTML = '';
                   gradEl.appendChild(initialSpan);
@@ -1201,15 +1216,10 @@
                       nextSpan.textContent = texts[idx];
                       nextSpan.className = classes;
                       nextSpan.style.display = 'block';
+                      nextSpan.style.gridArea = '1 / 1';
                       nextSpan.style.transform = 'translateY(100%)';
                       nextSpan.style.transition = 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
                       
-                      // Absolute position next span to overlap and measure
-                      nextSpan.style.position = 'absolute';
-                      nextSpan.style.left = '0';
-                      nextSpan.style.bottom = '0';
-                      
-                      gradEl.style.position = 'relative';
                       gradEl.appendChild(nextSpan);
                       
                       currentSpan.style.transition = 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
@@ -1223,7 +1233,6 @@
                       setTimeout(() => {
                         if (currentSpan.parentNode === gradEl) {
                           gradEl.removeChild(currentSpan);
-                          nextSpan.style.position = 'relative';
                         }
                       }, 600);
                     }, 3000);
