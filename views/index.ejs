@@ -999,6 +999,7 @@
       let startScrollLeft = 0;
       let dragged = false;
       let isPointerDragging = false;
+      let pendingCardLink = null;
 
       carousel.addEventListener('pointerdown', event => {
         if (event.pointerType !== 'mouse' || event.button !== 0 || !carousel.classList.contains('carousel-mode')) return;
@@ -1006,6 +1007,7 @@
         startScrollLeft = carousel.scrollLeft;
         dragged = false;
         isPointerDragging = true;
+        pendingCardLink = event.target.closest('a.carousel-card');
         carousel.classList.add('is-dragging');
         carousel.setPointerCapture(event.pointerId);
       });
@@ -1020,10 +1022,12 @@
       const stopDragging = event => {
         if (carousel.hasPointerCapture(event.pointerId)) carousel.releasePointerCapture(event.pointerId);
         carousel.classList.remove('is-dragging');
-        if (isPointerDragging && !dragged) {
-          dragged = false;
+        if (isPointerDragging && !dragged && pendingCardLink && pendingCardLink.href) {
+          window.location.href = pendingCardLink.href;
         }
+        dragged = false;
         isPointerDragging = false;
+        pendingCardLink = null;
       };
       carousel.addEventListener('pointerup', stopDragging);
       carousel.addEventListener('pointercancel', stopDragging);
