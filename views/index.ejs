@@ -69,7 +69,6 @@
   </script>
   <link rel="stylesheet" href="/css/style.css">
   <style>
-    
     .hero-glow {
       position: absolute;
       top: 0;
@@ -512,16 +511,18 @@
 
     <style>
       /* Carousel / Grid toggle */
-      .carousel-mode { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 1rem; padding-bottom: 1rem; scrollbar-width: none; scrollbar-color: #cbd5e1 transparent; cursor: grab; user-select: none; }
+      .carousel-mode { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 1rem; padding-bottom: 1rem; scrollbar-width: none; scrollbar-color: #243cff #e2e8f0; cursor: grab; user-select: none; }
       .carousel-mode:hover { scrollbar-width: thin; }
       .carousel-mode.is-dragging { cursor: grabbing; scroll-snap-type: none; }
       .carousel-mode img { -webkit-user-drag: none; }
       @media (min-width: 640px) { .carousel-mode { gap: 1.5rem; } }
       .carousel-mode::-webkit-scrollbar { height: 0; }
-      .carousel-mode:hover::-webkit-scrollbar { height: 4px; }
-      .carousel-mode::-webkit-scrollbar-track { background: transparent; }
-      .carousel-mode::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-      .dark .carousel-mode::-webkit-scrollbar-thumb { background: #444; }
+      .carousel-mode:hover::-webkit-scrollbar { height: 6px; }
+      .carousel-mode::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 999px; }
+      .carousel-mode::-webkit-scrollbar-thumb { background: #243cff; border-radius: 999px; }
+      .dark .carousel-mode { scrollbar-color: #60a5fa #1e293b; }
+      .dark .carousel-mode::-webkit-scrollbar-track { background: #1e293b; }
+      .dark .carousel-mode::-webkit-scrollbar-thumb { background: #60a5fa; }
       .carousel-mode .carousel-card { flex-shrink: 0; width: 85vw; scroll-snap-align: start; }
       @media (min-width: 768px) { .carousel-mode .carousel-card { width: 45vw; } }
       @media (min-width: 1024px) { .carousel-mode .carousel-card { width: calc((100% - 4.5rem) / 4); } }
@@ -551,7 +552,7 @@
         font-family: 'Zalando Sans Expanded', sans-serif;
       }
     </style>
-    <section id="services" class="pt-8 pb-10 sm:py-24 bg-white dark:bg-[#0a0a0a] transition-colors">
+    <section id="services" class="pt-8 pb-6 sm:pt-24 sm:pb-10 bg-white dark:bg-[#0a0a0a] transition-colors">
       <div class="mx-auto w-full px-4 sm:px-6 lg:px-[3.75%]">
         
         <div class="flex flex-col md:flex-row gap-1 sm:gap-8 lg:gap-20 justify-between items-start mb-5 sm:mb-8">
@@ -645,7 +646,7 @@
     </section>
 
     <!-- Solusi Produk Kami (Now Projects) -->
-    <section id="project" class="relative pt-8 pb-10 sm:py-24 z-10 bg-white dark:bg-[#0a0a0a] transition-colors">
+    <section id="project" class="relative pt-6 pb-10 sm:pt-10 sm:pb-24 z-10 bg-white dark:bg-[#0a0a0a] transition-colors">
       <div class="mx-auto w-full px-4 sm:px-6 lg:px-[3.75%]">
         
         <!-- Header Section -->
