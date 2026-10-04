@@ -1028,6 +1028,10 @@
       carousel.addEventListener('pointerup', stopDragging);
       carousel.addEventListener('pointercancel', stopDragging);
       carousel.addEventListener('click', event => {
+        if (event.target.closest('a.carousel-card')) {
+          dragged = false;
+          return;
+        }
         if (!dragged) return;
         event.preventDefault();
         event.stopPropagation();
