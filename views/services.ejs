@@ -193,7 +193,7 @@
           <% services.forEach((service, index) => { %>
             <% const serviceImage = getServiceImage(service); %>
             <article class="service-reveal group relative overflow-hidden rounded-xl sm:rounded-2xl <%= serviceImage ? 'bg-transparent' : 'bg-slate-100 dark:bg-[#1a1a1a]' %> cursor-pointer" style="--delay: <%= Math.min(index * 90, 450) %>ms">
-              <a href="/services/<%= encodeURIComponent(service.slug || '') %>" class="block w-full h-full relative aspect-[4/3] lg:aspect-square">
+              <a href="/services/<%= encodeURIComponent(service.slug || '') %>" class="block w-full h-full relative aspect-video">
                 <!-- Image -->
                 <% if (serviceImage) { %>
                   <img src="<%= serviceImage %>" alt="<%= service.title || 'Layanan Apriprogram' %>" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden')">
