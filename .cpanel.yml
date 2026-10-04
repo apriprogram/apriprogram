@@ -1,6 +1,6 @@
 ---
 deployment:
   tasks:
-    - source ~/nodevenv/public/apriprogram.web.id/20/bin/activate && npm install --production
-    - mkdir -p tmp
-    - touch tmp/restart.txt
+    - /bin/bash -lc "cd /home/tanjunak/public/apriprogram.web.id && source /home/tanjunak/nodevenv/public/apriprogram.web.id/20/bin/activate && npm ci --omit=dev --no-audit --no-fund"
+    - /bin/mkdir -p /home/tanjunak/public/apriprogram.web.id/tmp
+    - /usr/bin/touch /home/tanjunak/public/apriprogram.web.id/tmp/restart.txt
