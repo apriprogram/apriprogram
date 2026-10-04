@@ -597,7 +597,6 @@
                 <h3 class="text-[13px] sm:text-sm font-semibold text-slate-900 dark:text-white leading-snug">Website Company Profile</h3>
                 <p class="text-[10px] sm:text-xs font-normal text-slate-500 dark:text-[#a0a0a0] tracking-wide shrink-0 pt-0.5">Web Design</p>
               </div>
-              <a href="/company-profile" class="text-[11px] sm:text-xs font-normal text-slate-900 dark:text-white group-hover:underline flex items-center gap-1">Lihat detail &gt;</a>
             </div>
           </div>
           <!-- Card 2 -->
@@ -610,7 +609,6 @@
                 <h3 class="text-[13px] sm:text-sm font-semibold text-slate-900 dark:text-white leading-snug">Aplikasi Web & Dashboard</h3>
                 <p class="text-[10px] sm:text-xs font-normal text-slate-500 dark:text-[#a0a0a0] tracking-wide shrink-0 pt-0.5">Web App</p>
               </div>
-              <a href="/services/aplikasi-web-dashboard" class="text-[11px] sm:text-xs font-normal text-slate-900 dark:text-white group-hover:underline flex items-center gap-1">Lihat detail &gt;</a>
             </div>
           </div>
           <!-- Card 3 -->
@@ -623,7 +621,6 @@
                 <h3 class="text-[13px] sm:text-sm font-semibold text-slate-900 dark:text-white leading-snug">Toko Online Custom</h3>
                 <p class="text-[10px] sm:text-xs font-normal text-slate-500 dark:text-[#a0a0a0] tracking-wide shrink-0 pt-0.5">E-Commerce</p>
               </div>
-              <a href="/services/toko-online-custom" class="text-[11px] sm:text-xs font-normal text-slate-900 dark:text-white group-hover:underline flex items-center gap-1">Lihat detail &gt;</a>
             </div>
           </div>
           <!-- Card 4 -->
@@ -636,7 +633,6 @@
                 <h3 class="text-[13px] sm:text-sm font-semibold text-slate-900 dark:text-white leading-snug">SEO Optimization</h3>
                 <p class="text-[10px] sm:text-xs font-normal text-slate-500 dark:text-[#a0a0a0] tracking-wide shrink-0 pt-0.5">Marketing</p>
               </div>
-              <a href="/services/seo-optimization" class="text-[11px] sm:text-xs font-normal text-slate-900 dark:text-white group-hover:underline flex items-center gap-1">Lihat detail &gt;</a>
             </div>
           </div>
           <!-- Spacer -->
@@ -1082,7 +1078,6 @@
               <h3 class="text-[13px] sm:text-sm font-semibold text-slate-900 dark:text-white leading-snug">${escapeServiceHtml(service.title)}</h3>
               <p class="text-[10px] sm:text-xs font-normal text-slate-500 dark:text-[#a0a0a0] tracking-wide shrink-0 pt-0.5">${escapeServiceHtml(service.category)}</p>
             </div>
-            <a href="/services/${encodeURIComponent(service.slug || '')}" class="text-[11px] sm:text-xs font-normal text-slate-900 dark:text-white group-hover:underline flex items-center gap-1">${escapeServiceHtml(service.button_text || 'Lihat detail')} &gt;</a>
           </div>
         </div>
       `).join('') + '<div class="carousel-spacer"></div>';
@@ -1107,7 +1102,6 @@
               <h3 class="text-[13px] sm:text-sm font-semibold text-slate-900 dark:text-white leading-snug">${escapeServiceHtml(project.title)}</h3>
               <p class="text-[10px] sm:text-xs font-normal text-slate-500 dark:text-[#a0a0a0] tracking-wide shrink-0 pt-0.5">${escapeServiceHtml(project.category || 'Portfolio')}</p>
             </div>
-            <a href="/portfolio/${encodeURIComponent(project.slug || '')}" class="text-[11px] sm:text-xs font-normal text-slate-900 dark:text-white group-hover:underline flex items-center gap-1">${escapeServiceHtml(project.button_text || 'Lihat detail')} &gt;</a>
           </div>
         </div>
       `).join('') + '<div class="carousel-spacer"></div>';
