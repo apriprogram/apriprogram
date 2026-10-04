@@ -36,8 +36,6 @@
     .project-copy li { margin-bottom: .5rem; }
     .project-copy a { color: #243CFF; text-decoration: underline; }
     .project-copy img { max-width: 100%; border-radius: 1rem; margin: 1.5rem 0; }
-    .related-card { transition: transform 0.4s ease; }
-    .related-card:hover { transform: translateY(-6px); }
     .related-card:hover .related-image { transform: scale(1.05); }
     .related-image { transition: transform 0.6s cubic-bezier(.16,1,.3,1); }
     .breadcrumb-sep::before { content: '/'; margin: 0 .4rem; color: currentColor; opacity: .4; }
@@ -349,7 +347,7 @@
                         </div>
                     </div>
                     <div class="mt-3 flex items-start justify-between gap-3">
-                      <h3 class="text-[13px] sm:text-sm font-semibold text-slate-900 dark:text-white leading-snug group-hover:text-brand-blue transition-colors"><%= rp.title %></h3>
+                      <h3 class="text-[13px] sm:text-sm font-semibold text-slate-900 dark:text-white leading-snug"><%= rp.title %></h3>
                       <% if (rp.category) { %>
                         <span class="shrink-0 pt-0.5 text-[10px] sm:text-xs font-normal text-slate-500 dark:text-[#a0a0a0] tracking-wide"><%= rp.category %></span>
                       <% } %>
