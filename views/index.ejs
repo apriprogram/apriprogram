@@ -998,12 +998,14 @@
       let startX = 0;
       let startScrollLeft = 0;
       let dragged = false;
+      let isPointerDragging = false;
 
       carousel.addEventListener('pointerdown', event => {
         if (event.pointerType !== 'mouse' || event.button !== 0 || !carousel.classList.contains('carousel-mode')) return;
         startX = event.clientX;
         startScrollLeft = carousel.scrollLeft;
         dragged = false;
+        isPointerDragging = true;
         carousel.classList.add('is-dragging');
         carousel.setPointerCapture(event.pointerId);
       });
@@ -1011,13 +1013,17 @@
       carousel.addEventListener('pointermove', event => {
         if (!carousel.hasPointerCapture(event.pointerId)) return;
         const distance = event.clientX - startX;
-        if (Math.abs(distance) > 4) dragged = true;
+        if (Math.abs(distance) > 8) dragged = true;
         carousel.scrollLeft = startScrollLeft - distance;
       });
 
       const stopDragging = event => {
         if (carousel.hasPointerCapture(event.pointerId)) carousel.releasePointerCapture(event.pointerId);
         carousel.classList.remove('is-dragging');
+        if (isPointerDragging && !dragged) {
+          dragged = false;
+        }
+        isPointerDragging = false;
       };
       carousel.addEventListener('pointerup', stopDragging);
       carousel.addEventListener('pointercancel', stopDragging);
@@ -1080,7 +1086,7 @@
         .sort((a, b) => (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0));
       if (activeServices.length === 0) return;
       carousel.innerHTML = activeServices.map(service => `
-        <div class="carousel-card flex flex-col gap-2 sm:gap-3 cursor-pointer group" onclick="window.location.href='/services/${encodeURIComponent(service.slug || '')}'">
+        <a href="/services/${encodeURIComponent(service.slug || '')}" class="carousel-card flex flex-col gap-2 sm:gap-3 cursor-pointer group">
           <div class="relative w-full aspect-[4/3] rounded-xl sm:rounded-2xl overflow-hidden bg-transparent">
             ${carouselImageMarkup(service.image, service.title)}
           </div>
@@ -1090,7 +1096,7 @@
               <p class="text-[10px] sm:text-xs font-normal text-slate-500 dark:text-[#a0a0a0] tracking-wide shrink-0 pt-0.5">${escapeServiceHtml(service.category)}</p>
             </div>
           </div>
-        </div>
+        </a>
       `).join('') + '<div class="carousel-spacer"></div>';
       enableDragScroll(carousel);
     }
@@ -1104,7 +1110,7 @@
       if (activeProjects.length === 0) return;
       
       carousel.innerHTML = activeProjects.map(project => `
-        <div class="carousel-card flex flex-col gap-2 sm:gap-3 cursor-pointer group" onclick="window.location.href='/portfolio/${encodeURIComponent(project.slug || '')}'">
+        <a href="/portfolio/${encodeURIComponent(project.slug || '')}" class="carousel-card flex flex-col gap-2 sm:gap-3 cursor-pointer group">
           <div class="relative w-full aspect-[4/3] rounded-xl sm:rounded-2xl overflow-hidden bg-transparent">
             ${carouselImageMarkup(project.image, project.image_alt || project.title)}
           </div>
@@ -1114,7 +1120,7 @@
               <p class="text-[10px] sm:text-xs font-normal text-slate-500 dark:text-[#a0a0a0] tracking-wide shrink-0 pt-0.5">${escapeServiceHtml(project.category || 'Portfolio')}</p>
             </div>
           </div>
-        </div>
+        </a>
       `).join('') + '<div class="carousel-spacer"></div>';
       enableDragScroll(carousel);
     }
