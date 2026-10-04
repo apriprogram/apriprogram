@@ -511,7 +511,7 @@
 
     <style>
       /* Carousel / Grid toggle */
-      .carousel-mode { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 1rem; padding-bottom: 1rem; scrollbar-width: none; scrollbar-color: #243cff #e2e8f0; cursor: grab; user-select: none; }
+      .carousel-mode { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 1rem; padding-bottom: 1rem; scrollbar-width: none; scrollbar-color: #94a3b8 #e2e8f0; cursor: grab; user-select: none; }
       .carousel-mode:hover { scrollbar-width: thin; }
       .carousel-mode.is-dragging { cursor: grabbing; scroll-snap-type: none; }
       .carousel-mode img { -webkit-user-drag: none; }
@@ -519,10 +519,12 @@
       .carousel-mode::-webkit-scrollbar { height: 0; }
       .carousel-mode:hover::-webkit-scrollbar { height: 6px; }
       .carousel-mode::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 999px; }
-      .carousel-mode::-webkit-scrollbar-thumb { background: #243cff; border-radius: 999px; }
-      .dark .carousel-mode { scrollbar-color: #60a5fa #1e293b; }
-      .dark .carousel-mode::-webkit-scrollbar-track { background: #1e293b; }
-      .dark .carousel-mode::-webkit-scrollbar-thumb { background: #60a5fa; }
+      .carousel-mode::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 999px; }
+      .carousel-mode::-webkit-scrollbar-thumb:hover { background: #64748b; }
+      .dark .carousel-mode { scrollbar-color: #64748b #1f2937; }
+      .dark .carousel-mode::-webkit-scrollbar-track { background: #1f2937; }
+      .dark .carousel-mode::-webkit-scrollbar-thumb { background: #64748b; }
+      .dark .carousel-mode::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
       .carousel-mode .carousel-card { flex-shrink: 0; width: 85vw; scroll-snap-align: start; }
       @media (min-width: 768px) { .carousel-mode .carousel-card { width: 45vw; } }
       @media (min-width: 1024px) { .carousel-mode .carousel-card { width: calc((100% - 4.5rem) / 4); } }
