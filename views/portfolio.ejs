@@ -54,19 +54,32 @@
     .card-arrow { transition: transform 0.3s ease; }
     .filter-btn { transition: all 0.3s ease; }
     .filter-btn.active { background: #243CFF; color: white; border-color: #243CFF; }
+    #mainHeader { border: 0; outline: 0; box-shadow: none; }
+    #mainHeader:not(.header-scrolled) { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; }
+    #mainHeader.header-scrolled { background: rgba(255,255,255,.68); backdrop-filter: blur(22px) saturate(180%); -webkit-backdrop-filter: blur(22px) saturate(180%); }
+    .dark #mainHeader.header-scrolled { background: rgba(5,11,20,.62); backdrop-filter: blur(22px) saturate(170%); -webkit-backdrop-filter: blur(22px) saturate(170%); }
+    #mainHeader a:not([aria-label="Apriprogram"]), #mainHeader button { font-weight: 400 !important; }
+    #mainHeader #languageToggle, #mainHeader #languageToggle:hover { background: transparent !important; }
+    html:not(.dark) body > #mobileMenu { position:fixed!important; background:linear-gradient(145deg,rgba(255,255,255,.86),rgba(248,250,252,.78))!important; background-color:transparent!important; border-color:rgba(255,255,255,.72)!important; box-shadow:0 18px 50px rgba(15,23,42,.14),inset 0 1px 0 rgba(255,255,255,.9)!important; backdrop-filter:blur(28px) saturate(190%)!important; -webkit-backdrop-filter:blur(28px) saturate(190%)!important; }
+    html.dark body > #mobileMenu { position:fixed!important; background:linear-gradient(145deg,rgba(15,23,42,.84),rgba(5,11,20,.76))!important; background-color:transparent!important; border-color:rgba(255,255,255,.12)!important; box-shadow:0 18px 50px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.08)!important; backdrop-filter:blur(28px) saturate(180%)!important; -webkit-backdrop-filter:blur(28px) saturate(180%)!important; }
+    @media (max-width: 1023px) {
+      html:not(.dark) #mainHeader #mobileMenuButton span { background: #0f172a !important; }
+      .portfolio-mobile-copy { font-size: 11px; line-height: 1.65; }
+    }
   </style>
+  <style>html:not(#language-bg):not(#language-bg-override) #languageToggle,html:not(#language-bg):not(#language-bg-override) .language-toggle-btn,html:not(#language-bg):not(#language-bg-override) #languageToggle:hover,html:not(#language-bg):not(#language-bg-override) .language-toggle-btn:hover{background:transparent!important;background-color:transparent!important;background-image:none!important}</style>
 </head>
 <body class="bg-white text-slate-900 dark:bg-[#0a0a0a] dark:text-white font-sans antialiased selection:bg-brand-blue selection:text-white">
 
   <!-- Navbar -->
-  <header class="fixed inset-x-0 top-0 z-50 border-b border-slate-200 bg-white/85 backdrop-blur-lg transition-all duration-300 dark:border-white/5 dark:bg-[#050b14]/80" id="mainHeader">
-    <nav class="mx-auto flex h-16 w-full lg:px-[3.75%] items-center justify-between px-4 sm:px-6">
+  <header class="fixed inset-x-0 top-0 z-50 transition-all duration-300" id="mainHeader">
+    <nav class="mx-auto flex h-14 sm:h-16 w-full lg:px-[3.75%] items-center justify-between px-4 sm:px-6">
 
       <a href="/#home" class="flex items-center gap-3" aria-label="Apriprogram">
-        <img src="/assets/logo/apriprogram.png" alt="Apriprogram Logo" class="h-6 sm:h-8 w-auto" />
-        <span class="text-base sm:text-lg font-medium tracking-tight text-slate-900 dark:text-white notranslate" translate="no">Apriprogram</span>
+        <img src="/assets/logo/apriprogram.png" alt="Apriprogram Logo" class="h-5 sm:h-8 w-auto" />
+        <span class="text-sm sm:text-lg font-medium tracking-tight text-slate-900 dark:text-white notranslate" translate="no">Apriprogram</span>
       </a>
-      <div class="hidden items-center gap-8 text-sm font-semibold text-slate-600 dark:text-slate-300 lg:flex">
+      <div class="hidden items-center gap-8 text-sm font-normal text-slate-600 dark:text-slate-300 lg:flex">
         <a href="/#home" class="hover:text-slate-900 dark:hover:text-white transition-colors">Home</a>
         <a href="/about" class="text-brand-blue font-semibold">Tentang</a>
         <a href="/#services" class="hover:text-slate-900 dark:hover:text-white transition-colors">Layanan</a>
@@ -76,11 +89,11 @@
       </div>
       <div class="flex items-center gap-4">
                 <!-- Language Switcher -->
-        <button type="button" id="languageToggle" class="language-toggle-btn group relative inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-slate-300 dark:border-white/20 bg-transparent px-3 py-1.5 text-xs font-semibold text-slate-800 dark:text-white backdrop-blur-md shadow-none transition-colors duration-200 hover:border-slate-400 dark:hover:border-white/40 hover:bg-transparent " aria-label="Ganti Bahasa" title="Ganti Bahasa (ID / EN)">
-          <svg class="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button type="button" id="languageToggle" class="language-toggle-btn group relative inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-slate-300 dark:border-white/20 bg-transparent px-2.5 sm:px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs font-normal text-slate-800 dark:text-white shadow-none transition-colors duration-200" aria-label="Ganti Bahasa" title="Ganti Bahasa (ID / EN)">
+          <svg class="h-3 w-3 sm:h-3.5 sm:w-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
           </svg>
-          <span class="lang-code inline-flex items-center justify-center font-bold text-xs uppercase leading-none select-none">ID</span>
+          <span class="lang-code inline-flex items-center justify-center font-normal text-[10px] sm:text-xs uppercase leading-none select-none">ID</span>
           <span class="lang-text hidden sm:inline font-medium tracking-wide">Indonesia</span>
           <svg class="h-3 w-3 shrink-0 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
@@ -107,7 +120,7 @@
       </div>
     </nav>
     <!-- Mobile Menu -->
-    <div id="mobileMenu" class="absolute top-[72px] inset-x-4 z-40 flex flex-col bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 p-6 rounded-2xl shadow-2xl lg:hidden opacity-0 scale-95 pointer-events-none transition-all duration-300 origin-top">
+    <div id="mobileMenu" class="absolute top-[64px] sm:top-[72px] inset-x-4 z-40 flex flex-col bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 p-5 sm:p-6 rounded-2xl shadow-2xl lg:hidden opacity-0 scale-95 pointer-events-none transition-all duration-300 origin-top">
       <div class="flex flex-col gap-4 text-sm font-medium text-slate-700 dark:text-slate-300">
             <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-white/10">
           <span class="text-sm font-medium text-slate-900 dark:text-slate-300 lang-mobile-label">Bahasa</span>
@@ -137,7 +150,7 @@
     </div>
   </header>
 
-  <main class="pt-16">
+  <main class="pt-14 sm:pt-16">
 
     <!-- HERO -->
     <section class="relative pt-3 pb-5 sm:pt-16 sm:pb-14 bg-white dark:bg-[#0a0a0a] border-b border-slate-200 dark:border-white/5 overflow-hidden">
@@ -146,12 +159,12 @@
       <div class="relative z-10 mx-auto w-full lg:px-[3.75%] px-4 sm:px-6">
         <div class="flex flex-col md:flex-row gap-1 md:gap-10 lg:gap-20 justify-between items-start">
           <div class="reveal">
-            <h1 class="text-2xl sm:text-6xl lg:text-7xl font-normal tracking-tight text-slate-900 dark:text-white leading-[1.05]">
+            <h1 class="text-xl sm:text-6xl lg:text-7xl font-normal tracking-tight text-slate-900 dark:text-white leading-[1.05]">
               Our projects<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-cyan">portfolio</span>
             </h1>
           </div>
           <div class="reveal max-w-md md:pt-6 md:text-right flex flex-col md:items-end">
-            <p class="mt-1 sm:mt-4 text-[13px] sm:text-lg text-slate-500 dark:text-[#a0a0a0] leading-relaxed">
+            <p class="portfolio-mobile-copy mt-1 sm:mt-4 text-[11px] sm:text-lg text-slate-500 dark:text-[#a0a0a0] leading-relaxed">
               Lihat beberapa karya terbaik kami yang telah membantu berbagai bisnis mencapai tujuannya dengan solusi digital modern.
             </p>
             <div class="flex flex-row gap-2 sm:gap-3 w-full lg:w-fit mt-4 sm:mt-7 items-center md:justify-end">
@@ -229,16 +242,13 @@
                             <div class="pt-2 sm:pt-3">
                               <!-- Description -->
                               <% if (project.short_description) { %>
-                                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed line-clamp-2 mb-3"><%= project.short_description %></p>
+                                <p class="text-[10px] sm:text-sm text-slate-300 leading-relaxed line-clamp-2 mb-3"><%= project.short_description %></p>
                               <% } %>
 
                               <!-- Tags -->
                               <div class="flex flex-wrap gap-2">
                                 <% if (project.category) { %>
                                   <span class="inline-flex items-center rounded-full bg-white/20 px-2.5 py-1 text-[10px] sm:text-[11px] font-normal text-white"><%= project.category %></span>
-                                <% } %>
-                                <% if (project.tech_stack) { %>
-                                  <span class="inline-flex items-center rounded-full bg-white/10 px-2.5 py-1 text-[10px] sm:text-[11px] font-normal text-slate-300"><%= project.tech_stack %></span>
                                 <% } %>
                               </div>
                             </div>
@@ -285,15 +295,15 @@
     </section>
 
     <!-- CTA SECTION -->
-    <section class="py-24 bg-white dark:bg-[#060606] border-t border-slate-200 dark:border-white/5">
+    <section class="py-10 sm:py-24 bg-white dark:bg-[#060606] border-t border-slate-200 dark:border-white/5">
       <div class="mx-auto w-full lg:px-[3.75%] px-4 sm:px-6">
-        <div class="reveal rounded-3xl bg-gradient-to-br from-brand-blue via-[#1e30cc] to-[#1a2aaa] p-10 sm:p-16 text-center relative overflow-hidden">
+        <div class="reveal rounded-3xl bg-gradient-to-br from-brand-blue via-[#1e30cc] to-[#1a2aaa] p-6 sm:p-16 text-center relative overflow-hidden">
           <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle, white 1px, transparent 1px); background-size: 28px 28px;"></div>
           <div class="relative z-10">
-            <h2 class="text-3xl sm:text-5xl lg:text-[3.5rem] font-normal text-white tracking-tight leading-[1.05] mb-5">
+            <h2 class="text-xl sm:text-5xl lg:text-[3.5rem] font-normal text-white tracking-tight leading-[1.05] mb-3 sm:mb-5">
               Siap memulai<br>proyek Anda?
             </h2>
-            <p class="text-base sm:text-lg text-blue-100 max-w-xl mx-auto leading-relaxed mb-10">
+            <p class="px-4 sm:px-0 text-[11px] sm:text-lg text-blue-100 max-w-xl mx-auto leading-relaxed mb-6 sm:mb-10">
               Konsultasikan kebutuhan digital Anda bersama kami. Kami siap merancang solusi terbaik yang sesuai dengan target dan anggaran bisnis Anda.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
@@ -313,17 +323,17 @@
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-slate-200 dark:border-white/5 bg-white dark:bg-[#0a0a0a] py-14">
+  <footer class="border-t border-slate-200 dark:border-white/5 bg-white dark:bg-[#0a0a0a] py-12 sm:py-14">
     <div class="mx-auto flex flex-col items-center text-center gap-5 max-w-lg px-4 sm:px-6">
       <a href="/#home" class="flex items-center justify-center gap-2 sm:gap-3">
-        <img src="/assets/logo/apriprogram.png" alt="Apriprogram Logo" class="h-7 w-auto" />
-        <span class="text-lg font-medium tracking-tight text-slate-900 dark:text-white notranslate" translate="no">Apriprogram</span>
+        <img src="/assets/logo/apriprogram.png" alt="Apriprogram Logo" class="h-4 sm:h-7 w-auto" />
+        <span class="text-sm sm:text-lg font-medium tracking-tight text-slate-900 dark:text-white notranslate" translate="no">Apriprogram</span>
       </a>
-      <p class="text-sm leading-relaxed text-slate-500 dark:text-[#a0a0a0]">
+      <p class="px-8 sm:px-0 text-[10px] sm:text-sm leading-relaxed text-slate-500 dark:text-[#a0a0a0]">
         Membantu perusahaan, agensi, dan startup menciptakan ekosistem digital terbaik.
       </p>
     </div>
-    <div class="mx-auto mt-10 w-full lg:px-[3.75%] px-4 text-sm text-slate-400 dark:text-[#a0a0a0] sm:px-6 border-t border-slate-200 dark:border-white/5 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+    <div class="mx-auto mt-10 w-full lg:px-[3.75%] px-4 text-[10px] sm:text-sm text-slate-400 dark:text-[#a0a0a0] sm:px-6 border-t border-slate-200 dark:border-white/5 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
       <p>2026 &copy; Apriprogram. All rights reserved.</p>
       <div class="flex items-center gap-4">
         <a href="https://www.instagram.com/apriprogram/" target="_blank" rel="noopener noreferrer" class="hover:text-slate-900 dark:hover:text-white transition-colors" aria-label="Instagram">
@@ -360,6 +370,7 @@
     // Mobile menu
     const mobileMenuButton = document.getElementById('mobileMenuButton');
     const mobileMenu = document.getElementById('mobileMenu');
+    if (mobileMenu && mobileMenu.parentElement !== document.body) document.body.appendChild(mobileMenu);
     if (mobileMenuButton && mobileMenu) {
       mobileMenuButton.addEventListener('click', () => {
         mobileMenu.classList.toggle('opacity-0'); mobileMenu.classList.toggle('scale-95'); mobileMenu.classList.toggle('pointer-events-none');
@@ -385,10 +396,13 @@
       revealObs.observe(el);
     });
 
-    // Header shadow on scroll
-    window.addEventListener('scroll', () => {
-      document.getElementById('mainHeader').classList.toggle('shadow-sm', window.scrollY > 60);
-    });
+    // Match the home navbar: transparent at the top, liquid glass after scroll.
+    const updateHeaderScrollState = () => {
+      const header = document.getElementById('mainHeader');
+      if (header) header.classList.toggle('header-scrolled', window.scrollY > 60);
+    };
+    window.addEventListener('scroll', updateHeaderScrollState, { passive: true });
+    updateHeaderScrollState();
   </script>
   <script src="/js/i18n.js"></script>
 </body>

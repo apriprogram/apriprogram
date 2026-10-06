@@ -647,6 +647,9 @@ function openProjectModal(slug = '') {
   document.getElementById('project-status').value = 'active';
   document.getElementById('project-featured').value = 'featured';
   document.getElementById('project-original-key').value = '';
+  setProjectDescriptionEditor('');
+  projectMediaItems = [];
+  renderProjectMediaItems();
 
   if (slug) {
     const proj = projectsData.find(p => p.slug === slug);
@@ -658,6 +661,9 @@ function openProjectModal(slug = '') {
       });
       document.getElementById('project-status').value = proj.status || 'active';
       document.getElementById('project-featured').value = proj.featured || 'featured';
+      setProjectDescriptionEditor(proj.description || '');
+      projectMediaItems = Array.isArray(proj.media_items) ? proj.media_items : [];
+      renderProjectMediaItems();
     }
   }
 
@@ -684,6 +690,7 @@ function closeProjectModal() {
 }
 
 async function saveProjectItem() {
+  syncProjectDescriptionEditor();
   const value = id => document.getElementById(`project-${id}`).value;
   const payload = {
     original_key: document.getElementById('project-original-key').value,

@@ -62,17 +62,30 @@
     .service-copy p { margin-bottom: 1rem; }
     .service-copy ul { margin: 1rem 0; padding-left: 1.25rem; list-style: disc; }
     .service-copy a { color: #243CFF; text-decoration: underline; }
+    #mainHeader { border: 0; outline: 0; box-shadow: none; }
+    #mainHeader:not(.header-scrolled) { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; }
+    #mainHeader.header-scrolled { background: rgba(255,255,255,.68); backdrop-filter: blur(22px) saturate(180%); -webkit-backdrop-filter: blur(22px) saturate(180%); }
+    .dark #mainHeader.header-scrolled { background: rgba(5,11,20,.62); backdrop-filter: blur(22px) saturate(170%); -webkit-backdrop-filter: blur(22px) saturate(170%); }
+    #mainHeader a:not([aria-label="Apriprogram"]), #mainHeader button { font-weight: 400 !important; }
+    #mainHeader #languageToggle, #mainHeader #languageToggle:hover { background: transparent !important; }
+    html:not(.dark) body > #mobileMenu { position:fixed!important; background:linear-gradient(145deg,rgba(255,255,255,.86),rgba(248,250,252,.78))!important; background-color:transparent!important; border-color:rgba(255,255,255,.72)!important; box-shadow:0 18px 50px rgba(15,23,42,.14),inset 0 1px 0 rgba(255,255,255,.9)!important; backdrop-filter:blur(28px) saturate(190%)!important; -webkit-backdrop-filter:blur(28px) saturate(190%)!important; }
+    html.dark body > #mobileMenu { position:fixed!important; background:linear-gradient(145deg,rgba(15,23,42,.84),rgba(5,11,20,.76))!important; background-color:transparent!important; border-color:rgba(255,255,255,.12)!important; box-shadow:0 18px 50px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.08)!important; backdrop-filter:blur(28px) saturate(180%)!important; -webkit-backdrop-filter:blur(28px) saturate(180%)!important; }
+    @media (max-width: 1023px) {
+      .service-copy { font-size: 11px; line-height: 1.7; }
+      .service-copy h3 { font-size: 1rem; margin-top: 1rem; }
+    }
   </style>
+  <style>html:not(#language-bg):not(#language-bg-override) #languageToggle,html:not(#language-bg):not(#language-bg-override) .language-toggle-btn,html:not(#language-bg):not(#language-bg-override) #languageToggle:hover,html:not(#language-bg):not(#language-bg-override) .language-toggle-btn:hover{background:transparent!important;background-color:transparent!important;background-image:none!important}</style>
 </head>
 <body class="bg-white text-slate-950 dark:bg-[#0a0a0a] dark:text-white font-sans antialiased selection:bg-brand-blue selection:text-white transition-colors duration-300">
-    <header class="fixed inset-x-0 top-0 z-50 border-b border-slate-200 bg-white/85 backdrop-blur-lg transition-all duration-300 dark:border-white/5 dark:bg-[#050b14]/60" id="mainHeader">
-    <nav class="mx-auto flex h-16 w-full lg:px-[6%] items-center justify-between px-4 sm:px-6">
+    <header class="fixed inset-x-0 top-0 z-50 transition-all duration-300" id="mainHeader">
+    <nav class="mx-auto flex h-14 sm:h-16 w-full lg:px-[3.75%] items-center justify-between px-4 sm:px-6">
       <a href="/#home" class="flex items-center gap-3" aria-label="Apriprogram">
-        <img src="/assets/logo/apriprogram.png" alt="Apriprogram Logo" class="h-6 sm:h-8 w-auto" />
-        <span class="nav-text text-base sm:text-lg font-medium tracking-tight text-slate-950 transition-colors duration-300 dark:text-white notranslate" translate="no">Apriprogram</span>
+        <img src="/assets/logo/apriprogram.png" alt="Apriprogram Logo" class="h-5 sm:h-8 w-auto" />
+        <span class="nav-text text-sm sm:text-lg font-medium tracking-tight text-slate-950 transition-colors duration-300 dark:text-white notranslate" translate="no">Apriprogram</span>
       </a>
 
-      <div id="dyn-desktop-menu" class="hidden items-center gap-8 text-sm font-semibold text-slate-600 dark:text-slate-300 lg:flex">
+      <div id="dyn-desktop-menu" class="hidden items-center gap-8 text-sm font-normal text-slate-600 dark:text-slate-300 lg:flex">
         <a data-nav-link href="/#home" class="nav-link hover:text-slate-950 dark:hover:text-white transition-colors">Home</a>
         <a data-nav-link href="/about" class="nav-link hover:text-slate-950 dark:hover:text-white transition-colors">Tentang</a>
         <a data-nav-link href="/#services" class="nav-link text-slate-950 dark:text-white hover:text-slate-950 dark:hover:text-white transition-colors">Layanan</a>
@@ -83,7 +96,7 @@
 
       <div class="flex items-center gap-3 sm:gap-4">
         <!-- Language Switcher -->
-        <button type="button" id="languageToggle" class="language-toggle-btn group relative inline-flex items-center gap-2 rounded-full border border-slate-300 dark:border-white/20 bg-slate-100/90 dark:bg-white/10 px-3 py-1.5 text-xs font-semibold text-slate-800 dark:text-white backdrop-blur-md shadow-none transition-colors duration-200 hover:border-slate-400 dark:hover:border-white/40 hover:bg-slate-200/90 dark:hover:bg-white/20" aria-label="Ganti Bahasa" title="Ganti Bahasa (ID / EN)">
+        <button type="button" id="languageToggle" style="background:transparent!important;background-color:transparent!important;background-image:none!important" class="language-toggle-btn group relative inline-flex items-center gap-2 rounded-full border border-slate-300 dark:border-white/20 bg-transparent px-3 py-1.5 text-xs font-semibold text-slate-800 dark:text-white shadow-none transition-colors duration-200 hover:border-slate-400 dark:hover:border-white/40 hover:bg-transparent" aria-label="Ganti Bahasa" title="Ganti Bahasa (ID / EN)">
           <svg class="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
           </svg>
@@ -116,11 +129,11 @@
       </div>
     </nav>
 
-    <div id="mobileMenu" class="absolute top-[72px] inset-x-4 z-40 flex flex-col bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 p-6 rounded-2xl shadow-2xl lg:hidden opacity-0 scale-95 pointer-events-none transition-all duration-300 origin-top">
+    <div id="mobileMenu" class="absolute top-[64px] sm:top-[72px] inset-x-4 z-40 flex flex-col bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 p-5 sm:p-6 rounded-2xl shadow-2xl lg:hidden opacity-0 scale-95 pointer-events-none transition-all duration-300 origin-top">
       <div class="flex flex-col gap-4 text-sm font-medium text-slate-900 dark:text-slate-300">
         <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-white/10">
           <span class="text-sm font-medium text-slate-900 dark:text-slate-300 lang-mobile-label">Bahasa</span>
-          <button type="button" class="language-toggle-btn inline-flex items-center gap-2 rounded-full border border-slate-300 dark:border-white/10 bg-transparent px-3 py-1.5 text-xs font-semibold text-slate-800 dark:text-white shadow-none transition-colors duration-200 hover:border-slate-400 dark:hover:border-white/40">
+          <button type="button" style="background:transparent!important;background-color:transparent!important;background-image:none!important" class="language-toggle-btn inline-flex items-center gap-2 rounded-full border border-slate-300 dark:border-white/10 bg-transparent px-3 py-1.5 text-xs font-semibold text-slate-800 dark:text-white shadow-none transition-colors duration-200 hover:border-slate-400 dark:hover:border-white/40 hover:bg-transparent">
             <svg class="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
             </svg>
@@ -157,13 +170,13 @@
   <% } else { %>
     <% const mediaItems = Array.isArray(service.media_items) && service.media_items.length ? service.media_items : ((service.image_url || service.image) ? [{ url: service.image_url || service.image, type: 'image', title: service.title }] : []); %>
     <% const plainDescription = service.description || service.short_description || ''; %>
-    <main class="pt-16 bg-white transition-colors duration-300 dark:bg-[#0a0a0a]">
+    <main class="pt-14 sm:pt-16 bg-white transition-colors duration-300 dark:bg-[#0a0a0a]">
       <section class="mx-auto w-full lg:px-[6%] px-4 pt-6 pb-14 sm:px-6 sm:py-20">
         <div class="flex flex-col gap-1 sm:gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div class="max-w-2xl">
-            <p class="text-sm font-semibold text-slate-500 dark:text-slate-400"><%= service.category || 'Layanan Digital' %></p>
-            <h1 class="mt-2 sm:mt-4 max-w-3xl text-2xl font-normal leading-[1.05] tracking-tight text-slate-950 dark:text-white sm:text-5xl lg:text-6xl"><%= service.title %></h1>
-            <p class="mt-1 sm:mt-7 max-w-2xl text-[13px] sm:text-base leading-relaxed text-slate-600 dark:text-slate-400"><%= service.short_description || plainDescription.replace(/<[^>]+>/g, '').slice(0, 180) %></p>
+            <p class="text-[10px] sm:text-sm font-semibold text-slate-500 dark:text-slate-400"><%= service.category || 'Layanan Digital' %></p>
+            <h1 class="mt-2 sm:mt-4 max-w-3xl text-xl font-normal leading-[1.05] tracking-tight text-slate-950 dark:text-white sm:text-5xl lg:text-6xl"><%= service.title %></h1>
+            <p class="mt-1 sm:mt-7 max-w-2xl text-[11px] sm:text-base leading-relaxed text-slate-600 dark:text-slate-400"><%= service.short_description || plainDescription.replace(/<[^>]+>/g, '').slice(0, 180) %></p>
           </div>
           <div class="flex flex-row gap-2 sm:gap-3 w-full lg:w-fit mt-3 sm:mt-0 items-center lg:mt-0">
             <a href="/services" class="flex-1 lg:flex-none inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 sm:px-5 sm:py-3 text-[11px] sm:text-sm font-semibold text-slate-700 shadow-none transition-all hover:border-brand-blue hover:text-brand-blue dark:border-white/10 dark:bg-transparent dark:text-white dark:hover:border-brand-blue dark:hover:text-white"><svg class="h-3 w-3 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>Kembali</a>
@@ -171,19 +184,19 @@
           </div>
         </div>
         <% if (mediaItems.length) { %>
-          <div class="mt-8 sm:mt-14 grid grid-cols-1 gap-4 sm:gap-8 <%= mediaItems.length === 1 ? 'md:grid-cols-1 lg:max-w-3xl' : (mediaItems.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-2 xl:grid-cols-3') %>">
+          <div class="mt-8 sm:mt-14 grid grid-cols-1 gap-4 sm:gap-8">
             <% mediaItems.forEach((item) => { %>
               <article class="group relative overflow-hidden rounded-2xl sm:rounded-[1.75rem] border border-slate-200 bg-slate-50 dark:border-white/10 dark:bg-white/[0.04] cursor-pointer" onclick="openMediaModal('<%= item.url %>', '<%= item.type %>')">
-                <div class="aspect-[4/3] h-full w-full bg-slate-100 dark:bg-white/[0.06] relative">
+                <div class="w-full bg-slate-100 dark:bg-white/[0.06] relative">
                   <% if (item.type === 'video') { %>
-                    <video src="<%= item.url %>" class="h-full w-full object-cover"></video>
+                    <video src="<%= item.url %>" class="block h-auto w-full"></video>
                     <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors">
                       <div class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
                         <svg class="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                       </div>
                     </div>
                   <% } else { %>
-                    <img src="<%= item.url %>" alt="<%= item.title || service.title %>" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.closest('article').remove()">
+                    <img src="<%= item.url %>" alt="<%= item.title || service.title %>" class="block h-auto w-full" loading="lazy" onerror="this.closest('article').remove()">
                     <div class="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-colors opacity-0 group-hover:opacity-100">
                        <div class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
                           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
@@ -200,10 +213,10 @@
       <section class="mx-auto w-full lg:px-[6%] border-t border-slate-200 px-4 py-14 dark:border-white/10 sm:px-6 sm:py-20">
         <div class="grid grid-cols-1 gap-10 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
-            <p class="text-sm font-semibold text-brand-blue">Deskripsi lengkap</p>
-            <h2 class="mt-3 text-3xl font-normal tracking-tight text-slate-950 dark:text-white sm:text-5xl">Detail layanan</h2>
+            <p class="text-[9px] sm:text-sm font-semibold text-brand-blue">Deskripsi lengkap</p>
+            <h2 class="mt-2 sm:mt-3 text-xl sm:text-5xl font-normal tracking-tight text-slate-950 dark:text-white">Detail layanan</h2>
           </div>
-          <div class="service-copy text-base leading-8 text-slate-600 dark:text-slate-400">
+          <div class="service-copy text-[11px] sm:text-base leading-relaxed sm:leading-8 text-slate-600 dark:text-slate-400">
             <% if (plainDescription && /<[^>]+>/.test(plainDescription)) { %>
               <%- plainDescription %>
             <% } else if (plainDescription) { %>
@@ -223,6 +236,9 @@
     const toggleBtn = document.getElementById('darkModeToggle');
     const moonIcon = document.getElementById('moonIcon');
     const sunIcon = document.getElementById('sunIcon');
+    const updateHeaderScrollState = () => document.getElementById('mainHeader')?.classList.toggle('header-scrolled', window.scrollY > 60);
+    window.addEventListener('scroll', updateHeaderScrollState, { passive: true });
+    updateHeaderScrollState();
     const applyThemeIcons = () => {
       if (!moonIcon || !sunIcon) return;
       if (html.classList.contains('dark')) {
@@ -251,6 +267,7 @@
 
     const mobileMenuButton = document.getElementById('mobileMenuButton');
     const mobileMenu = document.getElementById('mobileMenu');
+    if (mobileMenu && mobileMenu.parentElement !== document.body) document.body.appendChild(mobileMenu);
     if (mobileMenuButton && mobileMenu) {
       const mobileNavLinks = mobileMenu.querySelectorAll('a');
 

@@ -270,3 +270,13 @@ html.dark #languageToggle .lang-text,
 html.dark #languageToggle .lang-code {
   color: #ffffff !important;
 }
+
+/* Keep every language control background transparent at all breakpoints. */
+html:not(#language-bg):not(#language-bg-override) #languageToggle,
+html:not(#language-bg):not(#language-bg-override) .language-toggle-btn,
+html:not(#language-bg):not(#language-bg-override) #languageToggle:hover,
+html:not(#language-bg):not(#language-bg-override) .language-toggle-btn:hover {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}

@@ -39,19 +39,39 @@
     .related-card:hover .related-image { transform: scale(1.05); }
     .related-image { transition: transform 0.6s cubic-bezier(.16,1,.3,1); }
     .breadcrumb-sep::before { content: '/'; margin: 0 .4rem; color: currentColor; opacity: .4; }
+    #mainHeader { border: 0; outline: 0; box-shadow: none; }
+    #mainHeader:not(.header-scrolled) { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; }
+    #mainHeader.header-scrolled { background: rgba(255,255,255,.68); backdrop-filter: blur(22px) saturate(180%); -webkit-backdrop-filter: blur(22px) saturate(180%); }
+    .dark #mainHeader.header-scrolled { background: rgba(5,11,20,.62); backdrop-filter: blur(22px) saturate(170%); -webkit-backdrop-filter: blur(22px) saturate(170%); }
+    #mainHeader a:not([aria-label="Apriprogram"]), #mainHeader button { font-weight: 400 !important; }
+    #mainHeader:not(.header-scrolled) .navbar-text, #mainHeader:not(.header-scrolled) nav a:not([aria-label="Apriprogram"]), #mainHeader:not(.header-scrolled) #darkModeToggle, #mainHeader:not(.header-scrolled) #languageToggle { color: white !important; }
+    #mainHeader:not(.header-scrolled) #languageToggle { background: transparent !important; border-color: rgba(255,255,255,.25) !important; }
+    #mainHeader.header-scrolled #languageToggle { background: transparent !important; }
+    html:not(.dark) body > #mobileMenu { position:fixed!important; background:linear-gradient(145deg,rgba(255,255,255,.86),rgba(248,250,252,.78))!important; background-color:transparent!important; border-color:rgba(255,255,255,.72)!important; box-shadow:0 18px 50px rgba(15,23,42,.14),inset 0 1px 0 rgba(255,255,255,.9)!important; backdrop-filter:blur(28px) saturate(190%)!important; -webkit-backdrop-filter:blur(28px) saturate(190%)!important; }
+    html.dark body > #mobileMenu { position:fixed!important; background:linear-gradient(145deg,rgba(15,23,42,.84),rgba(5,11,20,.76))!important; background-color:transparent!important; border-color:rgba(255,255,255,.12)!important; box-shadow:0 18px 50px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.08)!important; backdrop-filter:blur(28px) saturate(180%)!important; -webkit-backdrop-filter:blur(28px) saturate(180%)!important; }
+    @media (max-width: 1023px) {
+      #mainHeader:not(.header-scrolled) #mobileMenuButton span { background: white !important; }
+      html:not(.dark) #mainHeader.header-scrolled #mobileMenuButton span { background: #0f172a !important; }
+      .project-copy { font-size: 11px; line-height: 1.65; }
+      .project-copy p { margin-bottom: .75rem; line-height: 1.7; }
+      .project-copy h2, .project-copy h3 { margin-top: 1.15rem; margin-bottom: .5rem; font-size: 1rem; }
+      .detail-meta p { font-size: 11px; }
+      .detail-meta p:first-child { font-size: 9px; }
+    }
   </style>
+  <style>html:not(#language-bg):not(#language-bg-override) #languageToggle,html:not(#language-bg):not(#language-bg-override) .language-toggle-btn,html:not(#language-bg):not(#language-bg-override) #languageToggle:hover,html:not(#language-bg):not(#language-bg-override) .language-toggle-btn:hover{background:transparent!important;background-color:transparent!important;background-image:none!important}</style>
 </head>
 <body class="bg-white text-slate-900 dark:bg-[#0a0a0a] dark:text-white font-sans antialiased selection:bg-brand-blue selection:text-white">
 
   <!-- Navbar -->
-  <header class="fixed inset-x-0 top-0 z-50 border-b border-slate-200 bg-white/85 backdrop-blur-lg transition-all duration-300 dark:border-white/5 dark:bg-[#050b14]/80" id="mainHeader">
-    <nav class="mx-auto flex h-16 w-full lg:px-[6%] items-center justify-between px-4 sm:px-6">
+  <header class="fixed inset-x-0 top-0 z-50 transition-all duration-300" id="mainHeader">
+    <nav class="mx-auto flex h-14 sm:h-16 w-full lg:px-[3.75%] items-center justify-between px-4 sm:px-6">
 
       <a href="/#home" class="flex items-center gap-3" aria-label="Apriprogram">
-        <img src="/assets/logo/apriprogram.png" alt="Apriprogram Logo" class="h-6 sm:h-8 w-auto" />
-        <span class="text-base sm:text-lg font-medium tracking-tight text-slate-900 dark:text-white notranslate" translate="no">Apriprogram</span>
+        <img src="/assets/logo/apriprogram.png" alt="Apriprogram Logo" class="h-5 sm:h-8 w-auto" />
+        <span class="navbar-text text-sm sm:text-lg font-medium tracking-tight text-slate-900 dark:text-white notranslate" translate="no">Apriprogram</span>
       </a>
-      <div class="hidden items-center gap-8 text-sm font-semibold text-slate-600 dark:text-slate-300 lg:flex">
+      <div class="hidden items-center gap-8 text-sm font-normal text-slate-600 dark:text-slate-300 lg:flex">
         <a href="/#home" class="hover:text-slate-900 dark:hover:text-white transition-colors">Home</a>
         <a href="/about" class="hover:text-slate-900 dark:hover:text-white transition-colors">Tentang</a>
         <a href="/#services" class="hover:text-slate-900 dark:hover:text-white transition-colors">Layanan</a>
@@ -61,11 +81,11 @@
       </div>
       <div class="flex items-center gap-4">
                 <!-- Language Switcher -->
-        <button type="button" id="languageToggle" class="language-toggle-btn group relative inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-slate-300 dark:border-white/20 bg-slate-100/90 dark:bg-white/10 px-3 py-1.5 text-xs font-semibold text-slate-800 dark:text-white backdrop-blur-md shadow-none transition-colors duration-200 hover:border-slate-400 dark:hover:border-white/40 hover:bg-slate-200/90 dark:hover:bg-white/20" aria-label="Ganti Bahasa" title="Ganti Bahasa (ID / EN)">
-          <svg class="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button type="button" id="languageToggle" class="language-toggle-btn group relative inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-slate-300 dark:border-white/20 bg-transparent px-2.5 sm:px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs font-normal text-slate-800 dark:text-white shadow-none transition-colors duration-200" aria-label="Ganti Bahasa" title="Ganti Bahasa (ID / EN)">
+          <svg class="h-3 w-3 sm:h-3.5 sm:w-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
           </svg>
-          <span class="lang-code inline-flex items-center justify-center font-bold text-xs uppercase leading-none select-none">ID</span>
+          <span class="lang-code inline-flex items-center justify-center font-normal text-[10px] sm:text-xs uppercase leading-none select-none">ID</span>
           <span class="lang-text hidden sm:inline font-medium tracking-wide">Indonesia</span>
           <svg class="h-3 w-3 shrink-0 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
@@ -92,7 +112,7 @@
       </div>
     </nav>
     <!-- Mobile Menu -->
-    <div id="mobileMenu" class="absolute top-[72px] inset-x-4 z-40 flex flex-col bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 p-6 rounded-2xl shadow-2xl lg:hidden opacity-0 scale-95 pointer-events-none transition-all duration-300 origin-top">
+    <div id="mobileMenu" class="absolute top-[64px] sm:top-[72px] inset-x-4 z-40 flex flex-col bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 p-5 sm:p-6 rounded-2xl shadow-2xl lg:hidden opacity-0 scale-95 pointer-events-none transition-all duration-300 origin-top">
       <div class="flex flex-col gap-4 text-sm font-medium text-slate-700 dark:text-slate-300">
             <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-white/10">
           <span class="text-sm font-medium text-slate-900 dark:text-slate-300 lang-mobile-label">Bahasa</span>
@@ -141,8 +161,10 @@
       const rawHeroImg = project.image || project.image_url || '';
       const heroImg = /^https:\/\/images\.unsplash\.com\/photo-(1460925895917|1551288049|1522199755839|1517245386807)-/i.test(rawHeroImg) ? '' : rawHeroImg;
       const projectUrl = project.project_url || project.detail_url || '';
+      const projectTechnology = project.technology_stack || project.tech_stack || '';
+      const technologyItems = projectTechnology.split(/[,;|]/).map(item => item.trim()).filter(Boolean);
     %>
-    <main class="pt-16 bg-white dark:bg-[#0a0a0a]">
+    <main class="bg-white dark:bg-[#0a0a0a]">
 
       <!-- HERO IMAGE SECTION -->
       <section class="relative bg-slate-900 dark:bg-black overflow-hidden min-h-[50vh] sm:min-h-[65vh] flex items-end">
@@ -156,20 +178,20 @@
 
         <div class="relative z-10 mx-auto w-full lg:px-[6%] px-4 sm:px-6 pb-12 sm:pb-16">
           <!-- Breadcrumb -->
-          <nav class="flex items-center text-xs text-white/60 mb-6" aria-label="Breadcrumb">
+          <nav class="flex items-center text-[10px] sm:text-xs text-white/60 mb-4 sm:mb-6" aria-label="Breadcrumb">
             <a href="/" class="hover:text-white transition-colors">Home</a>
             <span class="breadcrumb-sep">Portfolio</span>
             <a href="/portfolio" class="hover:text-white transition-colors breadcrumb-sep"><%= project.title %></a>
           </nav>
 
-          <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-8 w-full">
-            <div class="flex flex-col gap-4 min-w-0">
+          <div class="flex flex-col gap-4 sm:gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-8 w-full">
+            <div class="flex flex-col gap-3 sm:gap-4 min-w-0">
               <% if (project.category) { %>
-                <span class="inline-flex w-fit items-center rounded-full bg-brand-blue/80 backdrop-blur px-3 py-1 text-xs font-semibold text-white"><%= project.category %></span>
+                <span class="inline-flex w-fit items-center rounded-full bg-brand-blue/80 backdrop-blur px-2.5 py-1 text-[10px] sm:text-xs font-semibold text-white"><%= project.category %></span>
               <% } %>
-              <h1 class="text-xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-tight max-w-3xl"><%= project.title %></h1>
+              <h1 class="text-lg sm:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-tight max-w-3xl"><%= project.title %></h1>
               <% if (project.short_description) { %>
-                <p class="text-sm sm:text-lg text-white/75 max-w-2xl leading-relaxed"><%= project.short_description %></p>
+                <p class="text-[11px] sm:text-lg text-white/75 max-w-2xl leading-relaxed"><%= project.short_description %></p>
               <% } %>
             </div>
             <div class="flex w-full flex-row items-center gap-2 sm:gap-3 lg:w-fit lg:flex-none lg:justify-end">
@@ -183,7 +205,7 @@
       <!-- META INFO BAR -->
       <section class="bg-slate-50 dark:bg-[#0f0f0f] border-b border-slate-200 dark:border-white/5">
         <div class="mx-auto w-full lg:px-[6%] px-4 sm:px-6 py-6">
-          <div class="reveal flex flex-wrap gap-6 sm:gap-10 items-center">
+          <div class="detail-meta reveal flex flex-wrap gap-5 sm:gap-10 items-center">
             <% if (project.publish_date || project.date) { %>
               <div>
                 <p class="text-xs font-semibold uppercase tracking-[0.15em] text-slate-400 dark:text-[#606060] mb-1">Tanggal</p>
@@ -196,10 +218,14 @@
                 <p class="text-sm font-medium text-slate-700 dark:text-slate-300"><%= project.category %></p>
               </div>
             <% } %>
-            <% if (project.tech_stack) { %>
+            <% if (technologyItems.length) { %>
               <div>
                 <p class="text-xs font-semibold uppercase tracking-[0.15em] text-slate-400 dark:text-[#606060] mb-1">Teknologi</p>
-                <p class="text-sm font-medium text-slate-700 dark:text-slate-300"><%= project.tech_stack %></p>
+                <div class="flex flex-wrap gap-1.5">
+                  <% technologyItems.forEach(technology => { %>
+                    <span class="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-2.5 py-1 text-xs font-semibold text-brand-blue dark:border-brand-blue/30 dark:bg-brand-blue/10 dark:text-blue-300"><%= technology %></span>
+                  <% }) %>
+                </div>
               </div>
             <% } %>
             <% if (project.client_name) { %>
@@ -214,15 +240,15 @@
       </section>
 
       <!-- MAIN CONTENT SECTION -->
-      <section class="py-16 sm:py-24 bg-white dark:bg-[#0a0a0a]">
+      <section class="py-10 sm:py-24 bg-white dark:bg-[#0a0a0a]">
         <div class="mx-auto w-full lg:px-[6%] px-4 sm:px-6 lg:px-8">
-          <div class="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-12 lg:gap-16 items-start">
+          <div class="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8 lg:gap-16 items-start">
 
             <!-- Description -->
             <div class="reveal">
-              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brand-blue mb-4">Deskripsi Proyek</p>
-              <h2 class="text-2xl sm:text-4xl font-normal tracking-tight text-slate-900 dark:text-white leading-[1.1] mb-4 sm:mb-8">Detail proyek</h2>
-              <div class="project-copy text-base leading-relaxed text-slate-600 dark:text-slate-400">
+              <p class="text-[9px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-brand-blue mb-2 sm:mb-4">Deskripsi Proyek</p>
+              <h2 class="text-xl sm:text-4xl font-normal tracking-tight text-slate-900 dark:text-white leading-[1.1] mb-3 sm:mb-8">Detail proyek</h2>
+              <div class="project-copy text-[11px] sm:text-base leading-relaxed text-slate-600 dark:text-slate-400">
                 <% if (isHtml) { %>
                   <%- plainDescription %>
                 <% } else if (plainDescription) { %>
@@ -235,20 +261,22 @@
               </div>
 
               <% if (project.media_items && project.media_items.length) { %>
-                <div class="mt-8 sm:mt-14 grid grid-cols-1 gap-4 sm:gap-8 <%= project.media_items.length === 1 ? 'md:grid-cols-1' : 'md:grid-cols-2' %>">
+                <div class="mt-8 sm:mt-14">
+                  <p class="mb-3 sm:mb-4 text-sm sm:text-base font-semibold text-slate-900 dark:text-white">Preview</p>
+                  <div class="grid grid-cols-1 gap-4 sm:gap-8">
                   <% project.media_items.forEach((item) => { %>
                     <article class="group relative overflow-hidden rounded-2xl sm:rounded-[1.75rem] border border-slate-200 bg-slate-50 dark:border-white/10 dark:bg-white/[0.04] cursor-pointer" onclick="openMediaModal('<%= item.url %>', '<%= item.type %>')">
-                <div class="aspect-[4/3] h-full w-full bg-slate-100 dark:bg-white/[0.06] relative">
+                <div class="w-full bg-slate-100 dark:bg-white/[0.06] relative">
                   <% if (item.type === 'video') { %>
-                    <video src="<%= item.url %>" class="h-full w-full object-cover"></video>
+                    <video src="<%= item.url %>" class="block h-auto w-full"></video>
                     <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors">
                       <div class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
                         <svg class="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                       </div>
                     </div>
                   <% } else { %>
-                    <img src="<%= item.url %>" alt="<%= item.title || project.title %>" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden')">
-                    <div class="hidden absolute inset-0 items-center justify-center bg-slate-100 text-slate-400 dark:bg-[#1a1a1a] dark:text-slate-600 [&:not(.hidden)]:flex">
+                    <img src="<%= item.url %>" alt="<%= item.title || project.title %>" class="block h-auto w-full" loading="lazy" onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden')">
+                    <div class="hidden min-h-64 w-full items-center justify-center bg-slate-100 text-slate-400 dark:bg-[#1a1a1a] dark:text-slate-600 [&:not(.hidden)]:flex">
                       <svg class="w-14 h-14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-label="Foto belum tersedia"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 16.5V6.75A2.25 2.25 0 0 1 5.25 4.5h13.5A2.25 2.25 0 0 1 21 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 17.25v-.75Zm0 0 4.72-4.72a2.25 2.25 0 0 1 3.182 0l2.348 2.348m0 0 1.06-1.06a2.25 2.25 0 0 1 3.182 0L21 16.575M14.25 8.25h.008v.008h-.008V8.25Z"/></svg>
                     </div>
                     <div class="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-colors opacity-0 group-hover:opacity-100">
@@ -260,6 +288,7 @@
                 </div>
               </article>
                   <% }) %>
+                  </div>
                 </div>
               <% } %>
 
@@ -268,12 +297,12 @@
             <!-- Sidebar -->
             <aside class="reveal lg:sticky lg:top-24 flex flex-col gap-5">
               <!-- CTA Card -->
-              <div class="rounded-2xl bg-gradient-to-br from-brand-blue to-[#1a2aaa] p-7 text-white relative overflow-hidden">
+              <div class="rounded-2xl bg-gradient-to-br from-brand-blue to-[#1a2aaa] p-5 sm:p-7 text-white relative overflow-hidden">
                 <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle, white 1px, transparent 1px); background-size: 20px 20px;"></div>
                 <div class="relative z-10">
-                  <h3 class="text-lg font-semibold mb-3">Tertarik dengan proyek serupa?</h3>
-                  <p class="text-sm text-blue-100 leading-relaxed mb-5">Konsultasikan kebutuhan Anda sekarang dan dapatkan penawaran terbaik dari tim kami.</p>
-                  <a href="https://wa.me/6282181361433?text=Halo%2C%20saya%20tertarik%20dengan%20proyek%20seperti%20<%= encodeURIComponent(project.title || '') %>%20di%20Apriprogram" target="_blank" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-brand-blue hover:bg-blue-50 transition-all">
+                  <h3 class="text-sm sm:text-lg font-semibold mb-2 sm:mb-3">Tertarik dengan proyek serupa?</h3>
+                  <p class="text-[11px] sm:text-sm text-blue-100 leading-relaxed mb-4 sm:mb-5">Konsultasikan kebutuhan Anda sekarang dan dapatkan penawaran terbaik dari tim kami.</p>
+                  <a href="https://wa.me/6282181361433?text=Halo%2C%20saya%20tertarik%20dengan%20proyek%20seperti%20<%= encodeURIComponent(project.title || '') %>%20di%20Apriprogram" target="_blank" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-[11px] sm:text-sm font-semibold text-brand-blue hover:bg-blue-50 transition-all">
                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                     Hubungi via WhatsApp
                   </a>
@@ -281,19 +310,23 @@
               </div>
 
               <!-- Project Info Card -->
-              <div class="rounded-2xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-[#111] p-6">
-                <h3 class="text-sm font-semibold text-slate-900 dark:text-white mb-4">Info Proyek</h3>
-                <dl class="space-y-3 text-sm">
+              <div class="rounded-2xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-[#111] p-5 sm:p-6">
+                <h3 class="text-xs sm:text-sm font-semibold text-slate-900 dark:text-white mb-3 sm:mb-4">Info Proyek</h3>
+                <dl class="space-y-3 text-[11px] sm:text-sm">
                   <% if (project.category) { %>
                     <div class="flex items-start justify-between gap-4">
                       <dt class="text-slate-500 dark:text-[#606060]">Kategori</dt>
                       <dd class="font-medium text-slate-700 dark:text-slate-300 text-right"><%= project.category %></dd>
                     </div>
                   <% } %>
-                  <% if (project.tech_stack) { %>
-                    <div class="flex items-start justify-between gap-4">
-                      <dt class="text-slate-500 dark:text-[#606060]">Teknologi</dt>
-                      <dd class="font-medium text-slate-700 dark:text-slate-300 text-right"><%= project.tech_stack %></dd>
+                  <% if (technologyItems.length) { %>
+                    <div class="space-y-2">
+                      <dt class="text-slate-500 dark:text-[#606060]">Technology Stack</dt>
+                      <dd class="flex flex-wrap gap-1.5">
+                        <% technologyItems.forEach(technology => { %>
+                          <span class="inline-flex items-center rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-semibold text-slate-700 dark:border-white/10 dark:bg-white/5 dark:text-slate-300"><%= technology %></span>
+                        <% }) %>
+                      </dd>
                     </div>
                   <% } %>
                   <% if (project.duration) { %>
@@ -409,6 +442,7 @@
     // Mobile menu
     const mobileMenuButton = document.getElementById('mobileMenuButton');
     const mobileMenu = document.getElementById('mobileMenu');
+    if (mobileMenu && mobileMenu.parentElement !== document.body) document.body.appendChild(mobileMenu);
     if (mobileMenuButton && mobileMenu) {
       mobileMenuButton.addEventListener('click', () => {
         mobileMenu.classList.toggle('opacity-0'); mobileMenu.classList.toggle('scale-95'); mobileMenu.classList.toggle('pointer-events-none');
@@ -434,10 +468,13 @@
       revealObs.observe(el);
     });
 
-    // Header shadow
-    window.addEventListener('scroll', () => {
-      document.getElementById('mainHeader').classList.toggle('shadow-sm', window.scrollY > 60);
-    });
+    // Match the home navbar: transparent at the top, liquid glass after scroll.
+    const updateHeaderScrollState = () => {
+      const header = document.getElementById('mainHeader');
+      if (header) header.classList.toggle('header-scrolled', window.scrollY > 60);
+    };
+    window.addEventListener('scroll', updateHeaderScrollState, { passive: true });
+    updateHeaderScrollState();
   </script>
   <script src="/js/i18n.js"></script>
 

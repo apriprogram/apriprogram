@@ -217,6 +217,32 @@
       background-color: #ffffff !important;
     }
 
+    /* Clean navbar surface and transparent language control */
+    #mainHeader {
+      border: 0 !important;
+      outline: 0 !important;
+      box-shadow: none !important;
+    }
+    #mainHeader #languageToggle,
+    #mainHeader #languageToggle:hover,
+    #mainHeader.header-scrolled #languageToggle,
+    #mainHeader.navbar-adaptive #languageToggle {
+      background-color: transparent !important;
+    }
+
+    /* Mobile hamburger follows the navbar contrast while scrolling */
+    @media (max-width: 1023px) {
+      #mainHeader:not(.header-scrolled) #mobileMenuButton .hamburger-bar {
+        background-color: #ffffff !important;
+      }
+      html:not(.dark) #mainHeader.header-scrolled #mobileMenuButton .hamburger-bar {
+        background-color: #0f172a !important;
+      }
+      #mainHeader #mobileMenuButton.menu-open .hamburger-bar {
+        background-color: #ffffff !important;
+      }
+    }
+
     /* Hero light mode (slider off) â€” adaptive text colors */
     .hero-light .hero-checklist,
     .hero-light .hero-checklist li {
@@ -322,12 +348,107 @@
       color: #f8fafc !important;
       stroke: #f8fafc !important;
     }
+
+    /* Navbar is invisible at the top, then becomes outline-free liquid glass. */
+    #mainHeader:not(.header-scrolled) {
+      background: transparent !important;
+      border: 0 !important;
+      outline: 0 !important;
+      box-shadow: none !important;
+      -webkit-backdrop-filter: none !important;
+      backdrop-filter: none !important;
+    }
+    html:not(.dark) #mainHeader.header-scrolled {
+      background: rgba(255, 255, 255, 0.68) !important;
+      border: 0 !important;
+      outline: 0 !important;
+      box-shadow: none !important;
+      -webkit-backdrop-filter: blur(22px) saturate(180%) !important;
+      backdrop-filter: blur(22px) saturate(180%) !important;
+    }
+    html.dark #mainHeader.header-scrolled {
+      background: rgba(5, 11, 20, 0.62) !important;
+      border: 0 !important;
+      outline: 0 !important;
+      box-shadow: none !important;
+      -webkit-backdrop-filter: blur(22px) saturate(170%) !important;
+      backdrop-filter: blur(22px) saturate(170%) !important;
+    }
+
+    /* Keep all navbar controls regular; preserve the Apriprogram logo text. */
+    #mainHeader a:not([aria-label="Apriprogram"]),
+    #mainHeader button,
+    #mainHeader a:not([aria-label="Apriprogram"]):hover,
+    #mainHeader button:hover,
+    #mainHeader a:not([aria-label="Apriprogram"]):focus-visible,
+    #mainHeader button:focus-visible {
+      font-weight: 400 !important;
+    }
+
+    /* Liquid-glass mobile navigation panel. */
+    html:not(.dark) body > #mobileMenu {
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.86), rgba(248, 250, 252, 0.78)) !important;
+      background-color: transparent !important;
+      border-color: rgba(255, 255, 255, 0.72) !important;
+      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+      -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+      backdrop-filter: blur(28px) saturate(190%) !important;
+    }
+    html.dark body > #mobileMenu {
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.84), rgba(5, 11, 20, 0.76)) !important;
+      background-color: transparent !important;
+      border-color: rgba(255, 255, 255, 0.12) !important;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+      -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
+      backdrop-filter: blur(28px) saturate(180%) !important;
+    }
+    /* Keep the navbar liquid glass visible while the mobile panel is open. */
+    html:not(.dark) #mainHeader:has(#mobileMenuButton.menu-open) {
+      background: rgba(255, 255, 255, 0.72) !important;
+      border: 0 !important;
+      box-shadow: none !important;
+      -webkit-backdrop-filter: blur(22px) saturate(180%) !important;
+      backdrop-filter: blur(22px) saturate(180%) !important;
+    }
+    html:not(.dark) #mainHeader:has(#mobileMenuButton.menu-open) .nav-text,
+    html:not(.dark) #mainHeader:has(#mobileMenuButton.menu-open) .nav-link,
+    html:not(.dark) #mainHeader:has(#mobileMenuButton.menu-open) #darkModeToggle,
+    html:not(.dark) #mainHeader:has(#mobileMenuButton.menu-open) #languageToggle,
+    html:not(.dark) #mainHeader:has(#mobileMenuButton.menu-open) #languageToggle * {
+      color: #0f172a !important;
+      stroke: currentColor !important;
+    }
+    html:not(.dark) #mainHeader:has(#mobileMenuButton.menu-open) #mobileMenuButton .hamburger-bar {
+      background-color: #0f172a !important;
+    }
+    html.dark #mainHeader:has(#mobileMenuButton.menu-open) {
+      background: rgba(5, 11, 20, 0.68) !important;
+      border: 0 !important;
+      box-shadow: none !important;
+      -webkit-backdrop-filter: blur(22px) saturate(170%) !important;
+      backdrop-filter: blur(22px) saturate(170%) !important;
+    }
+    html:not(.dark) #mobileMenu .language-toggle-btn,
+    html:not(.dark) #mobileMenu .language-toggle-btn:hover,
+    html.dark #mobileMenu .language-toggle-btn,
+    html.dark #mobileMenu .language-toggle-btn:hover {
+      background: transparent !important;
+      background-color: transparent !important;
+      background-image: none !important;
+      box-shadow: none !important;
+    }
+    #mobileMenu a,
+    #mobileMenu button,
+    #mobileMenu a:hover,
+    #mobileMenu button:hover {
+      font-weight: 400 !important;
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-50 dark:bg-[#0a0a0a] dark:text-slate-50 antialiased selection:bg-brand-blue selection:text-white">
   <!-- Removed hero-glow and hero-lines as background image is used in hero section -->
 
-  <header class="home-header fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-[#050b14]/60 backdrop-blur-lg transition-all duration-300" id="mainHeader">
+  <header class="home-header fixed inset-x-0 top-0 z-50 bg-[#050b14]/60 backdrop-blur-lg transition-all duration-300" id="mainHeader">
     <nav class="mx-auto flex h-14 sm:h-16 w-full items-center justify-between px-4 sm:px-6 lg:px-[3.75%]">
       <a href="#home" class="flex items-center gap-3" aria-label="Apriprogram">
         <img src="/assets/logo/apriprogram.png" alt="Apriprogram Logo" class="h-5 sm:h-8 w-auto" />
@@ -380,8 +501,10 @@
       </div>
     </nav>
 
-    <!-- Mobile Menu Dropdown -->
-    <div id="mobileMenu" class="absolute top-[64px] sm:top-[72px] inset-x-4 z-40 flex flex-col bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 p-5 sm:p-6 rounded-2xl shadow-2xl lg:hidden opacity-0 scale-95 pointer-events-none transition-all duration-300 origin-top">
+  </header>
+
+    <!-- Mobile Menu Dropdown (outside the navbar backdrop context so both glass layers remain visible) -->
+    <div id="mobileMenu" class="fixed top-[64px] sm:top-[72px] inset-x-4 z-40 flex flex-col bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 p-5 sm:p-6 rounded-2xl shadow-2xl lg:hidden opacity-0 scale-95 pointer-events-none transition-all duration-300 origin-top">
       <div class="flex flex-col gap-4 text-sm font-medium text-slate-900 dark:text-slate-300">
         <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-white/10">
           <span class="text-sm font-medium text-slate-900 dark:text-slate-300 lang-mobile-label">Bahasa</span>
@@ -410,7 +533,6 @@
         <% } %>
       </div>
     </div>
-  </header>
 
   <main>
     <section id="home" class="relative overflow-hidden bg-[#050b14]" style="min-height:100vh;">
@@ -698,9 +820,9 @@
     <section id="cta" class="pt-8 pb-10 sm:py-24 relative overflow-hidden bg-white dark:bg-[#0a0a0a]">
       <div class="mx-auto w-full px-4 sm:px-6 lg:px-[3.75%]">
         
-        <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-24">
+        <div class="text-center max-w-2xl mx-auto mb-16 sm:mb-24">
           <h2 class="section-display-title text-xl sm:text-4xl lg:text-5xl tracking-tight font-semibold text-slate-900 dark:text-white leading-[1.05] mb-1 sm:mb-6">Timeline<br>Developments</h2>
-          <p class="text-[11px] sm:text-base text-slate-600 dark:text-[#a0a0a0]"><span id="dyn-step-by-step">Langkah demi langkah proses pengembangan website kami untuk memastikan proyek Anda selesai tepat waktu dengan kualitas tinggi.</span></p>
+          <p class="px-14 sm:px-0 text-[11px] sm:text-base text-slate-600 dark:text-[#a0a0a0]"><span id="dyn-step-by-step">Langkah demi langkah proses pengembangan website kami untuk memastikan proyek Anda selesai tepat waktu dengan kualitas tinggi.</span></p>
         </div>
 
         <div id="timelineContainer" class="mx-auto flex w-full max-w-7xl flex-col gap-10 sm:gap-14 lg:gap-16">
@@ -715,10 +837,10 @@
 
     <!-- FAQ Section -->
     <section id="faq" class="pt-8 pb-10 sm:py-24 bg-white dark:bg-[#0a0a0a]">
-      <div class="mx-auto grid w-full gap-8 sm:gap-16 px-4 sm:px-6 lg:grid-cols-[1fr_1.5fr] lg:px-[3.75%]">
+      <div class="mx-auto grid w-full gap-3 sm:gap-16 px-4 sm:px-6 lg:grid-cols-[1fr_1.5fr] lg:px-[3.75%]">
         <div>
           <h2 class="section-display-title text-xl sm:text-4xl lg:text-5xl tracking-tight font-semibold text-slate-900 dark:text-white leading-[1.05] mb-1 sm:mb-4" id="dyn-faq-title"><span id="dyn-answers-to">Jawaban untuk<br>pertanyaan Anda</span></h2>
-          <p class="text-[11px] sm:text-lg text-slate-600 dark:text-[#a0a0a0] leading-relaxed mb-6 sm:mb-8" id="dyn-faq-subtitle">Pelajari lebih lanjut mengenai layanan kami, proses pengerjaan, dan apa yang bisa kami bantu untuk mengembangkan bisnis Anda secara digital.</p>
+          <p class="text-[11px] sm:text-lg text-slate-600 dark:text-[#a0a0a0] leading-relaxed mb-0 sm:mb-8" id="dyn-faq-subtitle">Pelajari lebih lanjut mengenai layanan kami, proses pengerjaan, dan apa yang bisa kami bantu untuk mengembangkan bisnis Anda secara digital.</p>
 
         </div>
         <div class="space-y-4" id="faqContainer">
@@ -730,11 +852,11 @@
     <!-- CTA Section -->
     <section id="contact" class="pt-10 pb-12 sm:py-32 bg-white dark:bg-[#0a0a0a]">
       <div class="mx-auto w-full px-4 sm:px-6 lg:px-[3.75%]">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-12 lg:gap-24 items-center">
-          <div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-12 lg:gap-24 items-center text-center lg:text-left">
+          <div class="flex justify-center lg:justify-start">
              <h2 class="section-display-title text-xl sm:text-4xl lg:text-5xl tracking-tight font-semibold text-slate-900 dark:text-white leading-[1.05] mb-1 sm:mb-0" id="dyn-cta-title">Siap Membangun<br>Sistem Digital?</h2>
           </div>
-          <div class="flex flex-col gap-4 sm:gap-8 max-w-lg">
+          <div class="flex flex-col items-center lg:items-start gap-3 sm:gap-8 max-w-lg mx-auto lg:mx-0">
              <p class="text-[11px] sm:text-lg text-slate-600 dark:text-[#a0a0a0] leading-relaxed" id="dyn-cta-subtitle">
                Konsultasikan kebutuhan teknologi Anda sekarang juga. Kami siap merancang solusi digital terbaik yang dibentuk dari eksekusi cepat, fokus, dan komitmen pada kualitas.
              </p>
@@ -756,7 +878,7 @@
         <img src="/assets/logo/apriprogram.png" alt="Apriprogram Logo" class="h-4 sm:h-8 w-auto" />
         <span class="text-sm sm:text-xl font-medium tracking-tight text-white">Apriprogram</span>
       </a>
-      <p class="text-[10px] sm:text-sm leading-relaxed text-[#a0a0a0]" id="dyn-footer-description">
+      <p class="px-8 sm:px-0 text-[10px] sm:text-sm leading-relaxed text-[#a0a0a0]" id="dyn-footer-description">
         Membantu perusahaan, agensi, dan startup menciptakan ekosistem digital terbaik yang modern dan fungsional.
       </p>
     </div>
@@ -820,13 +942,15 @@
     const mainHeader = document.getElementById('mainHeader');
 
     // Header scroll effect
-    window.addEventListener('scroll', () => {
+    function updateHeaderScrollState() {
       if (window.scrollY > 60) {
         mainHeader.classList.add('header-scrolled');
       } else {
         mainHeader.classList.remove('header-scrolled');
       }
-    });
+    }
+    window.addEventListener('scroll', updateHeaderScrollState, { passive: true });
+    updateHeaderScrollState();
 
     // Init theme based on localstorage
     if (localStorage.theme === 'light') {
@@ -1176,8 +1300,8 @@
       let html = '';
       activeItems.forEach(item => {
         html += `
-          <div class="faq-item rounded-2xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-[#0a0a0a]">
-            <button type="button" class="flex w-full items-center justify-between gap-3 sm:gap-4 p-3 sm:p-6 text-left font-medium text-[11px] sm:text-xl text-slate-900 dark:text-white">
+          <div class="faq-item rounded-2xl border border-slate-200 dark:border-white/5 bg-transparent">
+            <button type="button" class="flex w-full items-center justify-between gap-3 sm:gap-4 p-3 sm:p-6 text-left font-medium text-[11px] sm:text-base text-slate-900 dark:text-white">
               ${escapeServiceHtml(item.question)}
               <svg class="w-3.5 h-3.5 sm:w-5 sm:h-5 shrink-0 text-slate-600 dark:text-[#a0a0a0] transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </button>
@@ -1670,7 +1794,7 @@
     </button>
     
     <!-- WhatsApp Widget -->
-    <a href="https://wa.me/6282181361433?text=Halo%2C%20saya%20tertarik%20untuk%20memesan%20website%20custom%20di%20Apriprogram.%20Bisa%20dibantu%3F" target="_blank" rel="noopener noreferrer" 
+    <a id="whatsappWidgetLink" href="https://wa.me/6282181361433?text=Halo%2C%20saya%20tertarik%20untuk%20memesan%20website%20custom%20di%20Apriprogram.%20Bisa%20dibantu%3F" target="_blank" rel="noopener noreferrer"
        class="w-10 h-10 sm:w-12 sm:h-12 bg-[#25D366] hover:bg-[#1DA851] text-white rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110"
        aria-label="Chat via WhatsApp">
       <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -1690,6 +1814,28 @@
   </div>
 
   <script>
+    function getActiveSiteLanguage() {
+      const cookie = document.cookie.split('; ').find(row => row.startsWith('googtrans='));
+      if (cookie && cookie.includes('/en')) return 'en';
+      return document.documentElement.lang === 'en' ? 'en' : 'id';
+    }
+
+    function updateWhatsAppWidgetMessage() {
+      const link = document.getElementById('whatsappWidgetLink');
+      if (!link) return;
+      const message = getActiveSiteLanguage() === 'en'
+        ? 'Hello, I am interested in ordering a custom website at Apriprogram. Can you help me?'
+        : 'Halo, saya tertarik untuk memesan website custom di Apriprogram. Bisa dibantu?';
+      link.href = `https://wa.me/6282181361433?text=${encodeURIComponent(message)}`;
+    }
+
+    document.addEventListener('DOMContentLoaded', updateWhatsAppWidgetMessage);
+    document.addEventListener('click', event => {
+      if (event.target.closest('#languageToggle, .language-toggle-btn, [data-lang-toggle]')) {
+        setTimeout(updateWhatsAppWidgetMessage, 250);
+      }
+    });
+
     function openVideoModal() {
       const src = document.getElementById('dyn-hero-content-video').src;
       if (!src) return;
