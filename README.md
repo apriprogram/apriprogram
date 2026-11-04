@@ -42,4 +42,4 @@ I'm a fullstack developer based in Metro, Lampung, Indonesia. I build:
 
 Need a website, web app or mobile app? Reach me through [apriprogram.web.id](https://apriprogram.web.id) or [LinkedIn](https://www.linkedin.com/in/dedeapriyansah/).
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:2563eb,100:0f172a&height=100&section=footer" width="100%" alt="" />
+<img src="./footer.svg" width="100%" alt="" />

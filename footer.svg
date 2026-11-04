@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="140" viewBox="0 0 1200 140" role="img" aria-label="apriprogram, apriprogram.web.id">
+  <defs>
+    <style>
+      @font-face{font-family:'PJS';font-weight:800;src:url(data:font/woff2;base64,d09GMgABAAAAAAXUABAAAAAAC1AAAAV4AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGhwbgT4cgRgGYD9TVEFURAB8EQgKh2SGAgsiAAE2AiQDQAQgBYU8ByAMBxs4CcgEHvjvtD93JimSLp2mULSsEBRgaiyY7rrtQulaT0DbB+ALnj/2c3Uiel1LXi3b2/xN1BGTUIkkImuoRvHE/UqjhcIqbjexsTS9GDAaAfiguCQxKZDlpBpvGdrv1+DPMiSbI6OAye3O/k42hGqg/YsxrK2htxOv1OIbqpDwQqQlkkad4nYKUKPGSgs8oYxV44EnXnDQGyAQRRVMrxx6PesoMHhl4PIcWulRF1pQJ5bZdeiteQW8OD2xLFSQmIsL8tItuLwSkkUob5Yae511zGzvqmtnMlaQgVZ2Ph7YAXfaQ/m/bYtP3QIYILZU0iZZtxVqaUgq8aTH+4gqgkUKSzqvVRKo2fDsguz0bJ5ER69qsqIH9VRRr0Mc3rekXvqeQx1m68anYWZI8h+0pqm5X8jsDS39znahRTBz2yKSOHav8LsIjay7BiYW5fnWTYTR328GZjMVGQ90mIkhDidNtNBBN72KQn2ZNkrXq5QflY+Vt5U3lHPKSeWEclw5poxu3QqOiW0LRWEKT50KYObOAjEHxPqraoVsP2gYbUttOCyuSyWojP5TVQ+GTp06a+oUlcrLS1UtptCv0jt/p3BofFwMTkwUF1Nw6UFcD2mHX7lHiMHXNUOvLiw6OzGhHR4bQ9KI8FuvvuscGh9fVnx6rL9qvPWuZual2uExo0FoVa533y2TOYN3X/4krqde06q1qiqhJWZp1aH5F0fGfVcQPVAevP1hzdCDt7JNTi04hqIqGn5jgjJOejc19lohEf8dXf1phsZNYVL5AMunSBPEadEMvYukadM2F27Qri0WddQKJ121oo4a4awWWqIvOLwcngHjs385n2qjCwOMjqWmEEeROcH7yvzO4bm/LVwwr3xhwJZvfPct8Q4NfuWdNRH/2ROdflH2lqVRJdHNIyWz+s4kzybpw/i2kIw0achy2RpmDih7xm/TM48VG6Iz1tisazMzrasHrOnRxaZf/daMqFPs3Wvj8zcHbvk+KOjv7oDAc5qgQO9zhOvd+qN5brcbg96tJ1w/suPrx8ujE2yNtpcuzk+qi7dGly1fXhFX7Y7XdRxfvOh6hy4++0Hs2tztqVmuvPysLdtTc3O3pWZtyc/Lcm1LzdkZ8pzeajDok54PCRnXJwnEWsdY9cIPI82vXaswxGRtSk915WSnDG5Kz4moCn5hs2FPUuhvflaDwS/p99Dgr+eFrF+D+RPbDk2z5VkidVvN4dak2EBue+w752PfMWPNzIuRF2ZejKRHHq3cv6LywOgHzxxhufzB00c+eGa08sCKyv24trjdbqTAb0zZgyk3k1kYgKfl2V+cR6Ybzx+Y0VQ9JeY3L1n+Tip9fJdhbnzlZ1cPVygZ//+l3q+ePNcnPWPbt6H/T5WM/+zq/Y/saVMlFzFSMr7SbnyFinB+weDfI58nXBrGVzpPuNjKDOJlJZ972SnSTGZKV+hl26XAILHDTaUeTypQk7Z+K1I+uNOgyluWPytqNYJVwqCRmCwWa2RSGN+s6teoieKUxoNltJIm81gxRsj4EMxqNExntkaLDxqQHoI8uujASSep9EtEtNNCHXbW0k8vTpLoop16immghSaa6fen9tNNH1GYpYf6qKOXFrrppw8Tm2yhnf9MF700YSYbBxnk0M4AfaThpI3FXlqYT3enPoz0yEXYS+j5XXSiYxkmLISzlGiaaKSfrlFT+yjHgolIbu9yLFSyp7uAbNLJJpo6Oa/dxADtI+1zt9PJfp1sTDfSShfdrNsc69YBCrT4J6+jgGYa0JG9KodeumilgToC6UQGDgK2GPq2Dz4U+NdA78gBajFRd8xo3jJXm3wy/ayjmwbMm4IhfzyzuqvSQPCvafiDQtlxp2ovAA==) format('woff2');}
+      @font-face{font-family:'PJS';font-weight:600;src:url(data:font/woff2;base64,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) format('woff2');}
+      .mark{font-family:'PJS',system-ui,sans-serif;font-weight:800;font-size:34px;letter-spacing:-.5px}
+      .site{font-family:'PJS',system-ui,sans-serif;font-weight:600;font-size:15px;letter-spacing:3px;fill:#94A3B8}
+      .deco{font-family:'PJS',system-ui,sans-serif;font-weight:800;font-size:96px;fill:#FFFFFF;fill-opacity:.045}
+      .glow-a{animation:pulse 7s ease-in-out infinite}
+      .glow-b{animation:pulse 7s ease-in-out 3.5s infinite}
+      @keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+      @media (prefers-reduced-motion: reduce){.glow-a,.glow-b{animation:none}}
+    </style>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#050A18"/>
+      <stop offset=".55" stop-color="#0A1633"/>
+      <stop offset="1" stop-color="#112B6E"/>
+    </linearGradient>
+    <radialGradient id="glow-blue">
+      <stop offset="0" stop-color="#3B82F6" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#3B82F6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow-violet">
+      <stop offset="0" stop-color="#8B5CF6" stop-opacity=".45"/>
+      <stop offset="1" stop-color="#8B5CF6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow-cyan">
+      <stop offset="0" stop-color="#22D3EE" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#22D3EE" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#FFFFFF" stroke-opacity=".11" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="grid-fade" cx=".5" cy=".45" r=".65">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="grid-mask"><rect width="1200" height="140" fill="url(#grid-fade)"/></mask>
+    <linearGradient id="name" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#60A5FA"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <linearGradient id="divider" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#60A5FA" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#60A5FA"/>
+      <stop offset="1" stop-color="#22D3EE" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="card"><rect width="1200" height="140" rx="24"/></clipPath>
+  </defs>
+  <g clip-path="url(#card)">
+    <rect width="1200" height="140" fill="url(#bg)"/>
+    <rect width="1200" height="140" fill="url(#grid)" mask="url(#grid-mask)"/>
+    <circle class="glow-b" cx="1080" cy="150" r="220" fill="url(#glow-violet)"/>
+    <circle class="glow-a" cx="110" cy="-20" r="220" fill="url(#glow-blue)"/>
+    <circle cx="600" cy="170" r="160" fill="url(#glow-cyan)"/>
+    <text class="deco" x="50" y="112">&lt;/&gt;</text>
+    <text class="mark" x="600" y="70" text-anchor="middle" fill="url(#name)">apriprogram</text>
+    <rect x="560" y="86" width="80" height="2" rx="1" fill="url(#divider)"/>
+    <text class="site" x="600" y="114" text-anchor="middle">apriprogram.web.id</text>
+    <rect x=".5" y=".5" width="1199" height="139" rx="23.5" fill="none" stroke="#FFFFFF" stroke-opacity=".08"/>
+  </g>
+</svg>
