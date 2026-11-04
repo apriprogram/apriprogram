@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" role="img" aria-label="Hi, I'm apriprogram. Fullstack Developer, Web and Mobile.">
+  <defs>
+    <style>
+      @font-face{font-family:'PJS';font-weight:800;src:url(data:font/woff2;base64,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) format('woff2');}
+      @font-face{font-family:'PJS';font-weight:600;src:url(data:font/woff2;base64,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) format('woff2');}
+      .title{font-family:'PJS',system-ui,sans-serif;font-weight:800;font-size:68px;letter-spacing:-1.5px;fill:#F8FAFC}
+      .sub{font-family:'PJS',system-ui,sans-serif;font-weight:600;font-size:26px;fill:#CBD5E1}
+      .tech{font-family:'PJS',system-ui,sans-serif;font-weight:600;font-size:17px;letter-spacing:4px;fill:#7DD3FC}
+      .deco{font-family:'PJS',system-ui,sans-serif;font-weight:800;font-size:150px;fill:#FFFFFF;fill-opacity:.045}
+      .glow-a{animation:pulse 7s ease-in-out infinite}
+      .glow-b{animation:pulse 7s ease-in-out 3.5s infinite}
+      @keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+      @media (prefers-reduced-motion: reduce){.glow-a,.glow-b{animation:none}}
+    </style>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#050A18"/>
+      <stop offset=".55" stop-color="#0A1633"/>
+      <stop offset="1" stop-color="#112B6E"/>
+    </linearGradient>
+    <radialGradient id="glow-blue">
+      <stop offset="0" stop-color="#3B82F6" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#3B82F6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow-violet">
+      <stop offset="0" stop-color="#8B5CF6" stop-opacity=".45"/>
+      <stop offset="1" stop-color="#8B5CF6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow-cyan">
+      <stop offset="0" stop-color="#22D3EE" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#22D3EE" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#FFFFFF" stroke-opacity=".11" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="grid-fade" cx=".5" cy=".45" r=".65">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="grid-mask"><rect width="1200" height="320" fill="url(#grid-fade)"/></mask>
+    <linearGradient id="name" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#60A5FA"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <linearGradient id="divider" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#60A5FA" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#60A5FA"/>
+      <stop offset="1" stop-color="#22D3EE" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="card"><rect width="1200" height="320" rx="24"/></clipPath>
+  </defs>
+  <g clip-path="url(#card)">
+    <rect width="1200" height="320" fill="url(#bg)"/>
+    <rect width="1200" height="320" fill="url(#grid)" mask="url(#grid-mask)"/>
+    <circle class="glow-a" cx="1030" cy="30" r="280" fill="url(#glow-blue)"/>
+    <circle class="glow-b" cx="150" cy="310" r="260" fill="url(#glow-violet)"/>
+    <circle cx="640" cy="-60" r="200" fill="url(#glow-cyan)"/>
+    <text class="deco" x="1150" y="300" text-anchor="end">&lt;/&gt;</text>
+    <text class="title" x="600" y="150" text-anchor="middle">Hi, I’m <tspan fill="url(#name)">apriprogram</tspan></text>
+    <text class="sub" x="600" y="200" text-anchor="middle">Fullstack Developer · Web &amp; Mobile</text>
+    <rect x="540" y="226" width="120" height="2" rx="1" fill="url(#divider)"/>
+    <text class="tech" x="600" y="268" text-anchor="middle">NEXT.JS · TYPESCRIPT · REACT NATIVE · LARAVEL · NODE.JS</text>
+    <rect x=".5" y=".5" width="1199" height="319" rx="23.5" fill="none" stroke="#FFFFFF" stroke-opacity=".08"/>
+  </g>
+</svg>
