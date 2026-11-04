@@ -1,4 +1,4 @@
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f172a,100:2563eb&height=180&section=header&text=Hi,%20I'm%20apriprogram&fontSize=40&fontColor=ffffff&fontAlignY=38&desc=Fullstack%20Developer%20%C2%B7%20Web%20%26%20Mobile&descAlignY=58&descSize=18" width="100%" alt="Hi, I'm apriprogram - Fullstack Developer" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f172a,100:2563eb&height=180&section=header&text=Hi,%20I'm%20apriprogram&fontSize=40&fontColor=ffffff&fontAlignY=38&desc=Fullstack%20Developer%20%C2%B7%20Web%20and%20Mobile&descAlignY=58&descSize=18" width="100%" alt="Hi, I'm apriprogram - Fullstack Developer" />
 
 <p align="center">
   <a href="https://apriprogram.web.id"><img src="https://img.shields.io/badge/Website-apriprogram.web.id-2563eb?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Website" /></a>
