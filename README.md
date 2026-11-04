@@ -1,9 +1,9 @@
 <img src="./banner.svg" width="100%" alt="Hi, I'm apriprogram - Fullstack Developer, Web and Mobile" />
 
 <p align="center">
-  <a href="https://apriprogram.web.id"><img src="https://img.shields.io/badge/Website-apriprogram.web.id-2563eb?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Website" /></a>
-  <a href="https://www.linkedin.com/in/dedeapriyansah/"><img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
-  <a href="https://www.instagram.com/apriprogram/"><img src="https://img.shields.io/badge/Instagram-@apriprogram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram" /></a>
+  <a href="https://apriprogram.web.id"><img src="./assets/badge-website.svg" alt="Website" /></a>
+  <a href="https://www.linkedin.com/in/dedeapriyansah/"><img src="./assets/badge-linkedin.svg" alt="LinkedIn" /></a>
+  <a href="https://www.instagram.com/apriprogram/"><img src="./assets/badge-instagram.svg" alt="Instagram" /></a>
 </p>
 
 ## About me
@@ -17,14 +17,14 @@ I'm a fullstack developer based in Metro, Lampung, Indonesia. I build:
 ## Tech stack
 
 <p>
-  <img src="https://skillicons.dev/icons?i=nextjs,react,ts,js,tailwind,vite,laravel,php,nodejs,express,prisma,supabase,mysql,postgres,python,git&perline=8" alt="Next.js, React, TypeScript, JavaScript, Tailwind CSS, Vite, Laravel, PHP, Node.js, Express, Prisma, Supabase, MySQL, PostgreSQL, Python, Git" />
+  <img src="./assets/tech-stack.svg" alt="Next.js, React, TypeScript, JavaScript, Tailwind CSS, Vite, Laravel, PHP, Node.js, Express, Prisma, Supabase, MySQL, PostgreSQL, Python, Git" />
 </p>
 
 <p>
-  <img src="https://img.shields.io/badge/React_Native-20232A?style=flat-square&logo=react&logoColor=61DAFB" alt="React Native" />
-  <img src="https://img.shields.io/badge/Expo-000020?style=flat-square&logo=expo&logoColor=white" alt="Expo" />
-  <img src="https://img.shields.io/badge/Inertia.js-9553E9?style=flat-square&logo=inertia&logoColor=white" alt="Inertia.js" />
-  <img src="https://img.shields.io/badge/Framer_Motion-0055FF?style=flat-square&logo=framer&logoColor=white" alt="Framer Motion" />
+  <img src="./assets/badge-react-native.svg" alt="React Native" />
+  <img src="./assets/badge-expo.svg" alt="Expo" />
+  <img src="./assets/badge-inertia.svg" alt="Inertia.js" />
+  <img src="./assets/badge-framer-motion.svg" alt="Framer Motion" />
 </p>
 
 ## Featured projects
